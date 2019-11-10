@@ -22,7 +22,7 @@ import os,re
 # f_fore_path = os.path.abspath(os.path.dirname(fore_realp))
 # sys.path.append(os.path.join(f_fore_path,"GUIs")) #
 import tooltk
-print "name:GSTrename"
+# print "name:GSTrename"
 
 
 def gst_rename(txt_path, jpg_path):
@@ -61,8 +61,7 @@ def gst_rename(txt_path, jpg_path):
 # 继承
 class App(tooltk.Tooltk):
 	def __init__(self):
-		super(App, self).__init__()
-		self.window.title(u"公示图命名")
+		super(App, self).__init__(u"两区公示图命名规范化")
 		self.button_confirm["command"] = self.confirm_method
 		# self.window.grab_set()
 		# block1
@@ -77,10 +76,11 @@ class App(tooltk.Tooltk):
 	def confirm_method(self):
 		"""按下确认button时可以同时获取Entry的值，然后赋值，运行主方法"""
 		try:
-			self.get_Entry_fromblock()
-			# 不知道为什么Entry.grt()获取的 粘贴地址 不是unicode，会出错，
-			# gst_rename(self.block_list[0],
-			# 		   self.block_list[1])
+			# 过去single_file_block和single_dir_block的Entry数据
+			self.get_Entry_fromblock(self.input_sfb,self.input_sdb)
+			#　开始重命名
+			gst_rename(self.block_list[0],
+					   self.block_list[1])
 			for i in self.block_list:
 				print i," type: ",type(i)
 			print "---------------"

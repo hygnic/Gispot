@@ -116,7 +116,7 @@ class AppEntrance(object):
 # 	app = AppEntrance()
 # 	app.root.mainloop()
 
-if __name__ == '__main__':
-	app = AppEntrance()
-	app.menu()
-	app.rootwindow.mainloop()
+# if __name__ == '__main__':
+app = AppEntrance()
+app.menu()
+app.rootwindow.mainloop()

@@ -22,16 +22,16 @@ class Tooltk(object):
 	block_list = []
 	file_path_ = "23"
 	
-	def __init__(self):
+	def __init__(self, window_name):
 		# 效果未知
 		# self.frame_ma.bell(displayof=self.window)
 		self.window = tk.Toplevel()
+		self.window.title(window_name)
 		# 给Toplevel窗口设置透明度
 		# self.window.attributes('-alpha',0.5)
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		self.window.title("Tools")
 		self.window.geometry("800x660")
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
@@ -202,28 +202,33 @@ class Tooltk(object):
 		# input_msg.set(one_file_path)
 		return 1
 
-	def get_Entry_fromblock(self,a,b):
+	def get_Entry_fromblock(self,*arg):
 		"""
-		获取Entry值
-		:param a:
-		:param b:
+		获取Entry值，组成列表
+		:param arg: 各个block的Entry模块组成的元组
 		:return:
 		"""
-		got_msg1 = a.get()
-		# .decode("cp936")
-		got_msg2 = b.get()
-		self.block_list.append(got_msg1)
-		self.block_list.append(got_msg2)
-	
-
-
+		for i in arg:
+			# 由于Entry输出纯英文数字时是str格式，为方便后续进行，
+				# 将str转换为unicode
+			msg = i.get()
+			if type(msg) == type("str"):
+				msg = msg.decode("cp936")
+				self.block_list.append(msg)
+			else:
+				# unicode格式的直接加进去
+				self.block_list.append(msg)
+		# got_msg1 = arg[0].get()
+		# # .decode("cp936")
+		# got_msg2 = arg[1].get()
+		# self.block_list.append(got_msg1)
+		# self.block_list.append(got_msg2)
 
 
 if __name__ == '__main__':
 	class App(Tooltk):
 		def __init__(self):
-			super(App, self).__init__()
-			self.window.title(u"两区公示图命名规范化")
+			super(App, self).__init__(u"本地实验")
 			self.button_confirm["command"] = self.confirm_method
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
