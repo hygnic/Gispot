@@ -6,5 +6,4 @@ import os,sys
 real = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(real,"bin"))
 # apppath = r"bin\appenter.py"
-print real
 import appenter

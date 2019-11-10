@@ -76,17 +76,14 @@ if __name__ == '__main__':
 """
 
 
-class Multip_exp(tooltk.Tooltk):
+class MultipExp(tooltk.Tooltk):
 	def __init__(self):
-		super(Multip_exp, self).__init__()
-		self.window.title(u"多进程导出jpeg")
-		self.single_dir_block()
-		self.label_2["text"] = u"mxd文档文件夹"
-		self.single_int_block()
+		super(MultipExp, self).__init__(u"多进程导出jpeg")
+		self.single_dir_block(u"mxd文档文件夹")
+		self.single_int_block(u"出图分辨率")
 		self.input_sib["state"] = "normal"
-		self.label_3['text'] = u"出图分辨率"
 		self.addfile_button.config(text = u"——", state = "disabled")
 		
 if __name__ == '__main__':
-	app_Multip = Multip_exp()
+	app_Multip = MultipExp()
 	app_Multip.window.mainloop()

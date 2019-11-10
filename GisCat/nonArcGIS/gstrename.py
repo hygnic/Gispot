@@ -12,15 +12,6 @@ GST_rename(path1, path2)
 """
 
 import os,re
-# 文件导入，已经集成进APPenter.py
-# sys.path.append("../../GUIs")
-# realp = os.path.dirname(__file__) # E:\move on move on\GisCat\GisCat\nonArcGIS
-# # 上级
-# fore_realp = os.path.abspath(os.path.dirname(realp))
-# 											# E:\move on move on\GisCat\GisCat
-# # 上上级目录
-# f_fore_path = os.path.abspath(os.path.dirname(fore_realp))
-# sys.path.append(os.path.join(f_fore_path,"GUIs")) #
 import tooltk
 # print "name:GSTrename"
 
@@ -58,21 +49,23 @@ def gst_rename(txt_path, jpg_path):
 						print "Done!"
 
 
-# 继承
+# 继承u
 class App(tooltk.Tooltk):
+	# msg_help = "文本格式：代码在前：510304107218牛佛镇鞍山村"
 	def __init__(self):
 		super(App, self).__init__(u"两区公示图命名规范化")
 		self.button_confirm["command"] = self.confirm_method
 		# self.window.grab_set()
 		# block1
 		self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
-							   u"文本文档")
+							   u"TXT文本")
 		# block2
 		self.single_dir_block(u"图片文件夹")
 		# 绑定回车键 ，传递的方法必须要传入一个参数（不知道为什么），所以
 		# 在下面的confirm_method方法中随便加入了一个无用的形参
 		# self.window.bind('<Return>', self.confirm_method)
-	
+		self.read_help(r"docs\gstrename")
+
 	def confirm_method(self):
 		"""按下确认button时可以同时获取Entry的值，然后赋值，运行主方法"""
 		try:

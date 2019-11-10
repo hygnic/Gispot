@@ -17,11 +17,12 @@ rb_GisCat = os.path.join(root_base, "GisCat")
 rb_GUIs = os.path.join(root_base, "GUIs")
 # E:\move on move on\GisCat\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
-giscat_paths = [root_base,rb_GisCat,rb_GUIs,rbg_Icons]
+rbdoc = os.path.join(root_base, "docs")
+giscat_paths = [root_base,rb_GisCat,rb_GUIs,rbg_Icons,rbdoc]
 for giscat_path in giscat_paths:
 	sys.path.append(giscat_path)
 from nonArcGIS import gstrename
-from HyMap import multip_export_jpeg
+from HyMap import multip_ejpg
 # from threading import Thread
 
 
@@ -105,7 +106,7 @@ class AppEntrance(object):
 	
 	@staticmethod
 	def open_Multip_exp():
-		mul_app = multip_export_jpeg.Multip_exp()
+		mul_app = multip_ejpg.MultipExp()
 		mul_app.window.mainloop()
 	
 # if __name__ == '__main__':

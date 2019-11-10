@@ -42,38 +42,60 @@ class Tooltk(object):
 		# self.input_str_2 = tk.StringVar()
 		# self.input_int = tk.IntVar()
 		self.color_mylife() # 颜色
+		self.icon_set()  # 配置图片
 		self.create_frames() # 配置框架
 		self.create_button() # 配置按钮
 		
+		
 	def color_mylife(self):
-		self.color1 = "Silver"
-		self.color2 = "LemonChiffon"
-		self.color3 = "Wheat"
-		self.color4 = "Cornsilk"
-		self.color5 = "Tea"
+		self.color1 = "#FFE4B5" # 帮助栏颜色
+		self.color3 = "Wheat" # 主框的上半部分颜色 侧栏颜色
+		# self.color4 = "Cornsilk" # 侧栏颜色
+		self.color2 = "Tan" # 茶色 较深
+		self.color6 = 'Beige' # 底栏颜色
 	
+	def icon_set(self):
+		self.gif_text16 = tk.PhotoImage(file=r'GUIs\Icons\Text_File16.gif')
+		self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
+		self.gif_folder16 = tk.PhotoImage(file=r'GUIs\Icons\Folder16.gif')
+		self.gif_folder32 = tk.PhotoImage(file=r'GUIs\Icons\Folder32.gif')
+		self.gif_close16 = tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
+		self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
+		self.gif_quit =  tk.PhotoImage(file=r'GUIs\Icons\GenericDeleteRed16.gif')
+		
 	def create_frames(self):
-			self.frame_side_bar = tk.LabelFrame(self.window,
-												width ="500",bg=self.color4,
-												border =2 ,relief = "groove")
-			self.frame_major = tk.Frame(self.window, height ="310", width = "400"
-										,bg=self.color3, border =2, relief =
-										"sunken")
-			# self.frame_middle_bar = tk.Frame(self.window,height ="190", width ="700",
-			# 						bg='SkyBlue', border =2 ,relief = "sunken")
-			self.frame_bottom_bar = tk.Frame(self.window,height ="60",
-									 bg='Beige', border =2 ,relief = "raised")
-			self.frame_side_bar.pack(side="right", anchor="e", expand = False,
-									 fill="y")
+			# 侧边栏
+			self.frame_side_bar = tk.Frame(self.window,
+										   width ="500",bg=self.color3,
+										   border =2 ,relief = "groove")
+			self.frame_side_bar.pack(side="right", anchor="e",
+									 expand=False,fill="y")
+			# 左边的主框
+			self.frame_major = tk.Frame(self.window, height ="310",
+										width = "400",bg=self.color3,
+										border =2, relief ="sunken")
 			self.frame_major.pack(side="top", anchor="center",
 								  expand=True, fill="both")
-			# self.frame_middle_bar.pack(side="top", anchor="center",expand=True, fill ="both")
+			# 主框下的底部栏
+			self.frame_bottom_bar = tk.Frame(self.window,height ="60",
+											 bg=self.color6, border =2 ,
+											 relief = "raised")
 			self.frame_bottom_bar.pack(side="top", anchor="center",
 									   expand=False,fill ="x")
 				# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 					# x轴（左右）方向上会拉伸
+			# 主框中的帮助信息
+			help_f = tk.LabelFrame(self.frame_major,bg = self.color1,
+									  relief=tk.RIDGE,width ="500",
+									  text = "-----"*50 ,bd = 2)
+			help_f.pack(side = tk.BOTTOM,anchor="center",
+								  expand=True, fill="both")
+			self.help_text = tk.Text(help_f,bg = self.color1,
+									  relief=tk.RIDGE,width ="500")
+			self.help_text.pack(expand = True,fill = "both")
+			# 侧边框插入文本框
 			self.text = tk.Text(self.frame_side_bar,
-								width = "50",bg = "Tan")
+								width = "50",bg = self.color2)
 			self.text.insert(tk.END,"okokokokoy7")
 			self.text.pack(expand = True, fill = "y",padx=2)
 			# tk.Label(self.frame_side_bar,
@@ -88,12 +110,20 @@ class Tooltk(object):
 			# 		 height="0",
 			# 		 width="0").grid(row = 1, sticky = "w")
 			# expand = False, fill = None,
+			
 			return 1
-
+	# 读取帮助信息并插入帮助框中
+	def read_help(self,filename):
+		with open(filename,"r") as read_msgs:
+			for read_line in read_msgs.readlines():
+				self.help_text.insert(tk.END, read_line)
+				# print read_line
+	
 	def create_button(self):
 		self.button_confirm = ttk.Button(self.frame_bottom_bar, text=u'确认')
 		self.button_help = ttk.Button(self.frame_bottom_bar, text=u'帮助详情')
-		self.button_quit = ttk.Button(self.frame_bottom_bar, text=u'退出',
+		self.button_quit = ttk.Button(self.frame_bottom_bar,
+									  image=self.gif_quit,
 									  command=self.window.destroy)
 		self.button_confirm.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E,
 								 padx=5)
@@ -129,7 +159,7 @@ class Tooltk(object):
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = ttk.Button(frame_one, text = u"选择",command =
-										select_file)
+										select_file, image = self.gif_text16)
 		self.addfile_button.pack(side=tk.RIGHT,anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -162,8 +192,9 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=
-		select_file)
+		self.addfile_button = ttk.Button(frame_one, text=u"选择",
+										 command=select_file,
+										 image = self.gif_folder16)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
