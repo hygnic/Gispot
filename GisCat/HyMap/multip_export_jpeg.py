@@ -82,8 +82,8 @@ class Multip_exp(tooltk.Tooltk):
 		self.window.title(u"多进程导出jpeg")
 		self.single_dir_block()
 		self.label_2["text"] = u"mxd文档文件夹"
-		self.get_int_block()
-		self.input_box3["state"] = "normal"
+		self.single_int_block()
+		self.input_sib["state"] = "normal"
 		self.label_3['text'] = u"出图分辨率"
 		self.addfile_button.config(text = u"——", state = "disabled")
 		

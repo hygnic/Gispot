@@ -5,7 +5,7 @@
 import arcpy, os
 from multiprocessing import Process
 
-
+print u"°"
 arcpy.env.overwriteOutput = True
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
@@ -62,10 +62,10 @@ def export_jpeg(path_slice_set, res):
 		print one_path + " 完成！"
 
 
-# 可以直接多进程出图
+# 可以直接多进程出图，
 if __name__ == '__main__':
-	# 地图文档的地址
-	path = raw_input(u"输入文件夹地址： ")
+	# 地图文档的地址+
+	path = raw_input("输入文件夹地址： ")
 	res = raw_input("输入出图分辨率： ")
 	pt = raw_input(" i5推荐4~5进程\ni7推荐7~8进程\n输入进程数：")
 	# path = ur"E:\move on move on\公示图"
