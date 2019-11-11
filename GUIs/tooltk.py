@@ -49,11 +49,12 @@ class Tooltk(object):
 		
 	def color_mylife(self):
 		self.color1 = "#FFE4B5" # 帮助栏颜色
+		self.color5 = "Olive" # 橄榄色，显示text
 		self.color3 = "Wheat" # 主框的上半部分颜色 侧栏颜色
 		# self.color4 = "Cornsilk" # 侧栏颜色
 		self.color2 = "Tan" # 茶色 较深
 		self.color6 = 'Beige' # 底栏颜色
-	
+		
 	def icon_set(self):
 		self.gif_text16 = tk.PhotoImage(file=r'GUIs\Icons\Text_File16.gif')
 		# self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
@@ -87,19 +88,29 @@ class Tooltk(object):
 				# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 					# x轴（左右）方向上会拉伸
 			# 主框中的帮助信息
-			help_f = tk.LabelFrame(self.frame_major,bg = self.color1,
-									  relief=tk.RIDGE,width ="500",
-									  text = "-----"*50 ,bd = 2)
+			help_f = tk.LabelFrame(self.frame_major, bg = self.color1,
+								   relief=tk.RIDGE, width ="500",
+								   text = "-----" * 80 , bd = 2, fg = self.color2)
 			help_f.pack(side = tk.BOTTOM,anchor="center",
 								  expand=True, fill="both")
-			self.help_text = tk.Text(help_f,bg = self.color1,
-									  relief=tk.RIDGE,width ="500")
+			self.help_text = tk.Text(help_f, bg = self.color1, relief=tk.RIDGE,
+									 fg = self.color5)
 			self.help_text.pack(expand = True,fill = "both")
-			# 侧边框插入文本框
-			self.text = tk.Text(self.frame_side_bar,
-								width = "50",bg = self.color2)
-			self.text.insert(tk.END,"okokokokoy7")
-			self.text.pack(expand = True, fill = "y",padx=2)
+			
+			""""
+				侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
+			下半部分显示动态信息"""
+			# 上栏
+			self.text = tk.Text(self.frame_side_bar, height = "10",
+								width = "60",bg = self.color2)
+			self.text.insert(tk.END,"None")
+			self.text.pack(side = "top" ,anchor = "n",expand = False,
+						   padx=2)
+			# 下栏
+			self.text_downside = tk.Text(self.frame_side_bar, height="10",
+										 width="60", bg=self.color2)
+			self.text_downside.pack(side="top", anchor="n", expand=True,
+									fill = tk.Y ,padx=2)
 			# tk.Label(self.frame_side_bar,
 			# 		 text=u"处理详情",
 			# 		 font=("Times",0,"bold"),
@@ -158,9 +169,9 @@ class Tooltk(object):
 			# self.block_list.append(file_path)
 			input_msg1.set(file_path)
 			
-		self.label_1 = tk.Label(self.frame_major, text= sfb_name,
+		label_1 = tk.Label(self.frame_major, text= sfb_name,
 								bg=self.color3)
-		self.label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 			# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major,height ="60", width ="700",
@@ -193,9 +204,9 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		self.label_2 = tk.Label(self.frame_major, text=sdb_name,
+		label_2 = tk.Label(self.frame_major, text=sdb_name,
 								bg=self.color3)
-		self.label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
 							 bg=self.color3,
@@ -221,9 +232,9 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		self.label_3 = tk.Label(self.frame_major, text=gib_name,
+		label_3 = tk.Label(self.frame_major, text=gib_name,
 								bg=self.color3)
-		self.label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
@@ -239,6 +250,34 @@ class Tooltk(object):
 								  relief=tk.GROOVE)
 		# , state = "readonly"
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
+							padx=15)
+		# input_msg.set(one_file_path)
+		return 1
+
+	def single_int_block2(self, gib_name):
+		"""
+		主Frame中的功能块之一，直接通过Entry获取Int值
+		:param gib_name: label name;ues to describe function
+		:return:
+		"""
+		label_ = tk.Label(self.frame_major, text=gib_name,
+								bg=self.color3)
+		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		# 块一
+		# 将Entry和按钮整齐的放到一起
+		frame_one = tk.Frame(self.frame_major, height="60", width="700",
+							 bg=self.color3, pady=4)  # , border =1 ,relief = "raised"
+		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
+		# 按钮
+		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=
+		None)
+		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+		# Entry
+		input_msg1 = tk.StringVar()
+		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=2,
+								  relief=tk.GROOVE)
+		# , state = "readonly"
+		self.input_sib2.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=15)
 		# input_msg.set(one_file_path)
 		return 1

@@ -9,8 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/GisCat/nonArcGIS" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GUIs" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 2.7 (Python2_)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7 (Python2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Python2" />
     <orderEntry type="module" module-name="Python2" />
     <orderEntry type="module" module-name="Python2" />
   </component>
