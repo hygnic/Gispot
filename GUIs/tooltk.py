@@ -56,12 +56,14 @@ class Tooltk(object):
 	
 	def icon_set(self):
 		self.gif_text16 = tk.PhotoImage(file=r'GUIs\Icons\Text_File16.gif')
-		self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
+		# self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
 		self.gif_folder16 = tk.PhotoImage(file=r'GUIs\Icons\Folder16.gif')
-		self.gif_folder32 = tk.PhotoImage(file=r'GUIs\Icons\Folder32.gif')
+		# self.gif_folder32 = tk.PhotoImage(file=r'GUIs\Icons\Folder32.gif')
 		self.gif_close16 = tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
-		self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
-		self.gif_quit =  tk.PhotoImage(file=r'GUIs\Icons\GenericDeleteRed16.gif')
+		# self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
+		self.gif_quit =  tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
+		self.gif_comfirm =  tk.PhotoImage(file=r'GUIs\Icons\GenericCheckMarkGreen16.gif')
+		self.gif_help = tk.PhotoImage(file=r'GUIs\Icons\GenericInformationBubble16.gif')
 		
 	def create_frames(self):
 			# 侧边栏
@@ -112,16 +114,24 @@ class Tooltk(object):
 			# expand = False, fill = None,
 			
 			return 1
+	
 	# 读取帮助信息并插入帮助框中
 	def read_help(self,filename):
+		"""
+		读取帮助信息并插入帮助框中
+		:param filename: 文件名
+		:return:
+		"""
 		with open(filename,"r") as read_msgs:
 			for read_line in read_msgs.readlines():
 				self.help_text.insert(tk.END, read_line)
 				# print read_line
 	
 	def create_button(self):
-		self.button_confirm = ttk.Button(self.frame_bottom_bar, text=u'确认')
-		self.button_help = ttk.Button(self.frame_bottom_bar, text=u'帮助详情')
+		self.button_confirm = ttk.Button(self.frame_bottom_bar,
+										 image = self.gif_comfirm)  # text=u'确认'
+		self.button_help = ttk.Button(self.frame_bottom_bar,
+									  image = self.gif_help) #  text=u'帮助详情',
 		self.button_quit = ttk.Button(self.frame_bottom_bar,
 									  image=self.gif_quit,
 									  command=self.window.destroy)
