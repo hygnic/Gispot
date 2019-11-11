@@ -103,12 +103,19 @@ class Tooltk(object):
 			# 上栏
 			self.text = tk.Text(self.frame_side_bar, height = "10",
 								width = "60",bg = self.color2)
-			self.text.insert(tk.END,"None")
+			# 不起作用，将所用txt都标记了
+			# self.text.tag_add("tag1","1.end","2.end")
+			self.text.insert(tk.END,
+							 "Python 2.7.12 (v2.7.12:d33e0cf91556, Jun 27 2016, "
+							 "15:19:22) author: Liaochenchen","tag1")
+			# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 			self.text.pack(side = "top" ,anchor = "n",expand = False,
 						   padx=2)
 			# 下栏
 			self.text_downside = tk.Text(self.frame_side_bar, height="10",
 										 width="60", bg=self.color2)
+			self.text_downside.insert(tk.END,
+							 u"详情见控制台信息")
 			self.text_downside.pack(side="top", anchor="n", expand=True,
 									fill = tk.Y ,padx=2)
 			# tk.Label(self.frame_side_bar,

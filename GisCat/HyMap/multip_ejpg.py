@@ -4,7 +4,7 @@
 
 import arcpy,os,sys
 from multiprocessing import Process
-sys.path.append("../GUIs")
+# sys.path.append("../GUIs")
 import tooltk
 
 
@@ -82,9 +82,9 @@ class MultipExp(tooltk.Tooltk):
                                  self.input_sib2)
         print self.block_list
         for i in self.block_list:
-            print i, "type: ", type(i)  # G:/test/gst 20 20 被dpi覆盖
+            self.text.insert("end","\n  "+i)
+            # print i, "type: ", type(i)  # G:/test/gst 20 20 被dpi覆盖
 
-        print "-------------"
         core = int(self.block_list[1])
         print core, "type: ", type(core)
         res = int(self.block_list[2])
@@ -101,7 +101,7 @@ class MultipExp(tooltk.Tooltk):
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "start process"
-
+        # 初始化列表，以免二次输入时报错
         self.block_list = []
 
 
