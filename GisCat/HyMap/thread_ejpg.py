@@ -4,6 +4,7 @@
 
 import arcpy, os
 # from multiprocessing import Process
+from threading import Thread
 
 arcpy.env.overwriteOutput = True
 # mxdpath = "" 地图文档的地址
@@ -59,4 +60,40 @@ def export_jpeg(path_slice_set, res):
         count += 1
         print one_path + " Done!"
         
-address_clip(r"G:\test\gst", 5)
+address_clip(ur"E:\move on move on\公示图", 5)
+# print slices_set
+
+
+# for aslice in slices_set:
+#     print aslice
+#     res = 20
+#     # export_jpeg(aslice,res)
+#     t = Thread(target=export_jpeg, args=(aslice,res))
+#     t.setDaemon(True)  # 就是设置子线程随主线程的结束而结束
+#     t.start()
+#     print "ok"
+
+class MyThread(Thread):   #继承父类threading.Thread
+    def __init__(self):
+        Thread.__init__(self)
+    def run(self):                   #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
+        print "Starting " + self.name
+        for aslice in slices_set:
+            print aslice
+            res = 20
+            export_jpeg(aslice,res)
+        print "Exiting " + self.name
+
+mt = MyThread()
+mt.start()
+
+# res = 20
+# t1 = Thread(target=export_jpeg, args=(slices_set[0],res))
+# t2 = Thread(target=export_jpeg, args=(slices_set[1],res))
+# t3 = Thread(target=export_jpeg, args=(slices_set[2],res))
+# # t4 = Thread(target=export_jpeg, args=(slices_set[3],res))
+#
+# t1.start()
+# t2.start()
+# t3.start()
+# # t4.start()

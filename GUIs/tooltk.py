@@ -289,10 +289,10 @@ class Tooltk(object):
 		:return:
 		"""
 		for i in arg:
-			# 由于Entry输出纯英文数字时是str格式，为方便后续进行，
+			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 				# 将str转换为unicode
 			msg = i.get()
-			if type(msg) == type("str"):
+			if type(msg) == type("str"): # unicode
 				msg = msg.decode("cp936")
 				self.block_list.append(msg)
 			else:

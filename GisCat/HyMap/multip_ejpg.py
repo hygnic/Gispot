@@ -70,27 +70,30 @@ class MultipExp(tooltk.Tooltk):
         self.single_int_block2(u"出图分辨率")
         self.addfile_button.config(text=u"—", state="disabled")
 
-        self.button_confirm["command"] = self.confirm_method
+        # self.button_confirm["command"] = self.confirm_method
         # 读取帮助信息
         self.read_help("docs/multip_ejpg")
+        self.button_confirm["command"] = self.confirm_method
 
     def confirm_method(self):
         # 获取Entry的值
-        self.get_Entry_fromblock(self.input_sdb, self.input_sib,self.input_sib2)
+        # 第一个是文件夹，第二个是进程数，第三个是分辨率
+        self.get_Entry_fromblock(self.input_sdb, self.input_sib,
+                                 self.input_sib2)
         print self.block_list
         for i in self.block_list:
-            print i ,"type: ",type(i) # G:/test/gst 20 20 被dpi覆盖
+            print i, "type: ", type(i)  # G:/test/gst 20 20 被dpi覆盖
 
         print "-------------"
         core = int(self.block_list[1])
-        print core, "type: ",type(core)
+        print core, "type: ", type(core)
         res = int(self.block_list[2])
-        print res, "type: ",type(res)
-        address_clip(r"G:\test\gst",5)
+        print res, "type: ", type(res)
+        address_clip(self.block_list[0], core)
         # address_clip(self.block_list[0],core)
         # export_jpeg(slices_set,20)
         print "准备开启多进程通道："
-        res = 10
+        # res = 10
         print slices_set
         for path_slice_set in slices_set:
             # print path_slice_set
@@ -98,14 +101,14 @@ class MultipExp(tooltk.Tooltk):
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "start process"
-            
+
         self.block_list = []
 
 
 if __name__ == '__main__':
-    
+    # 这里实际不会运行的，
     app_Multip = MultipExp()
-    app_Multip.confirm_method()
+    # app_Multip.confirm_method()
     app_Multip.window.mainloop()
 
 
