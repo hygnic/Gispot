@@ -70,13 +70,13 @@ class Tooltk(object):
 	def create_frames(self):
 			# 侧边栏
 			self.frame_side_bar = tk.Frame(self.window,
-										   width ="500",bg=self.color3,
+										   width ="500",
 										   border =2 ,relief = "groove")
 			self.frame_side_bar.pack(side="right", anchor="e",
 									 expand=False,fill="y")
 			# 左边的主框
 			self.frame_major = tk.Frame(self.window, height ="310",
-										width = "400",bg=self.color3,
+										width = "400",
 										border =2, relief ="sunken")
 			self.frame_major.pack(side="top", anchor="center",
 								  expand=True, fill="both")
@@ -89,12 +89,12 @@ class Tooltk(object):
 				# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 					# x轴（左右）方向上会拉伸
 			# 主框中的帮助信息
-			help_f = tk.LabelFrame(self.frame_major, bg = self.color1,
+			help_f = tk.LabelFrame(self.frame_major,
 								   relief=tk.RIDGE, width ="500",
 								   text = "____" * 80 , bd = 2, fg = self.color5)
 			help_f.pack(side = tk.BOTTOM,anchor="center",
 								  expand=True, fill="both")
-			self.help_text = stt.ScrolledText(help_f, bg = self.color1, relief=tk.RIDGE,
+			self.help_text = stt.ScrolledText(help_f,  relief=tk.RIDGE,
 									 fg = self.color5)
 			self.help_text.pack(expand = True,fill = "both")
 			
@@ -103,7 +103,7 @@ class Tooltk(object):
 			下半部分显示动态信息"""
 			# 上栏
 			self.text =  stt.ScrolledText(self.frame_side_bar, height = "10",
-								width = "60",bg = self.color2)
+								width = "60")
 			# 不起作用，将所用txt都标记了
 			# self.text.tag_add("tag1","1.end","2.end")
 			self.text.insert(tk.END,
@@ -114,7 +114,7 @@ class Tooltk(object):
 						   padx=2)
 			# 下栏
 			self.text_downside = stt.ScrolledText(self.frame_side_bar, height="10",
-										 width="60", bg=self.color2)
+										 width="60")
 			self.text_downside.insert(tk.END,
 							 u"详情见控制台信息")
 			self.text_downside.pack(side="top", anchor="n", expand=True,
@@ -177,13 +177,13 @@ class Tooltk(object):
 			# self.block_list.append(file_path)
 			input_msg1.set(file_path)
 			
-		label_1 = tk.Label(self.frame_major, text= sfb_name,
-								bg=self.color3)
+		label_1 = tk.Label(self.frame_major, text= sfb_name
+							)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 			# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major,height ="60", width ="700",
-							bg=self.color3, pady = 4) # , border =1 ,relief = "raised"
+							 pady = 4) # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center",expand=False, fill ="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
@@ -212,12 +212,12 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		label_2 = tk.Label(self.frame_major, text=sdb_name,
-								bg=self.color3)
+		label_2 = tk.Label(self.frame_major, text=sdb_name
+								)
 		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 bg=self.color3,
+							 
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
@@ -240,13 +240,13 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		label_3 = tk.Label(self.frame_major, text=gib_name,
-								bg=self.color3)
+		label_3 = tk.Label(self.frame_major, text=gib_name
+								)
 		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 bg=self.color3, pady=4)  # , border =1 ,relief = "raised"
+							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=
@@ -268,13 +268,13 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		label_ = tk.Label(self.frame_major, text=gib_name,
-								bg=self.color3)
+		label_ = tk.Label(self.frame_major, text=gib_name
+								)
 		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 bg=self.color3, pady=4)  # , border =1 ,relief = "raised"
+							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=
