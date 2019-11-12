@@ -5,9 +5,10 @@
 """所用工具和脚本都调用此GUI"""
 
 import Tkinter as tk
-import os
 import ttk
 import tkFileDialog
+import ScrolledText as stt
+
 # import sys
 # # gisTKlists = ["../GisCat/HyMap"]
 # for gisTKlist in gisTKlists:
@@ -48,12 +49,12 @@ class Tooltk(object):
 		
 		
 	def color_mylife(self):
-		self.color1 = "#FFE4B5" # 帮助栏颜色
+		self.color1 = "#F1F1F1" # 帮助栏颜色
 		self.color5 = "Olive" # 橄榄色，显示text
-		self.color3 = "Wheat" # 主框的上半部分颜色 侧栏颜色
+		self.color3 = "#F1F1F1" # 主框的上半部分颜色 侧栏颜色
 		# self.color4 = "Cornsilk" # 侧栏颜色
-		self.color2 = "Tan" # 茶色 较深
-		self.color6 = 'Beige' # 底栏颜色
+		self.color2 = "#E1E1E1" # 茶色 较深
+		self.color6 = '#EBEEEE' # 底栏颜色
 		
 	def icon_set(self):
 		self.gif_text16 = tk.PhotoImage(file=r'GUIs\Icons\Text_File16.gif')
@@ -90,10 +91,10 @@ class Tooltk(object):
 			# 主框中的帮助信息
 			help_f = tk.LabelFrame(self.frame_major, bg = self.color1,
 								   relief=tk.RIDGE, width ="500",
-								   text = "-----" * 80 , bd = 2, fg = self.color2)
+								   text = "____" * 80 , bd = 2, fg = self.color5)
 			help_f.pack(side = tk.BOTTOM,anchor="center",
 								  expand=True, fill="both")
-			self.help_text = tk.Text(help_f, bg = self.color1, relief=tk.RIDGE,
+			self.help_text = stt.ScrolledText(help_f, bg = self.color1, relief=tk.RIDGE,
 									 fg = self.color5)
 			self.help_text.pack(expand = True,fill = "both")
 			
@@ -101,7 +102,7 @@ class Tooltk(object):
 				侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
 			下半部分显示动态信息"""
 			# 上栏
-			self.text = tk.Text(self.frame_side_bar, height = "10",
+			self.text =  stt.ScrolledText(self.frame_side_bar, height = "10",
 								width = "60",bg = self.color2)
 			# 不起作用，将所用txt都标记了
 			# self.text.tag_add("tag1","1.end","2.end")
@@ -112,7 +113,7 @@ class Tooltk(object):
 			self.text.pack(side = "top" ,anchor = "n",expand = False,
 						   padx=2)
 			# 下栏
-			self.text_downside = tk.Text(self.frame_side_bar, height="10",
+			self.text_downside = stt.ScrolledText(self.frame_side_bar, height="10",
 										 width="60", bg=self.color2)
 			self.text_downside.insert(tk.END,
 							 u"详情见控制台信息")
