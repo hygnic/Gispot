@@ -5,6 +5,8 @@
 import os
 import Tkinter as tk
 import sys
+import ttk
+
 # 获取程序当前的文件夹位置
 # E:\move on move on\GisCat\bin\appenter.py
 realp = os.path.abspath(__file__)
@@ -35,20 +37,20 @@ class AppEntrance(object):
         self.rootwindow.geometry("700x500")
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         # self.rootwindow.attributes('-topmost', 0)
+        self.button_config()
         
     def menu(self):
         """设置置顶菜单栏"""
         # window = tk.Tk()
         # window.title('My Window')
         # window.geometry('500x300')
-        label_uesless = tk.Label(self.rootwindow, text='       ', bg='olive')
-        label_uesless.pack(side = "bottom",anchor = tk.SE)
-        
+        label_uesless = tk.Label(self.rootwindow, bg='olive')
+        label_uesless.pack(side = "bottom",anchor = tk.SE, fill = "x")
+        self.counter = 0
         def do_job():
-            # global counter
-            counter = 0
-            label_uesless.config(text='do ' + str(counter))
-            counter += 1
+            # counter = 0
+            label_uesless.config(text=str(self.counter) + '  time!')
+            self.counter += 1
         # 创建菜单栏，这里我们可以把他理解成一个容器，在窗口的上方
         menubar = tk.Menu(self.rootwindow)
         # 第6步，创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，
@@ -104,9 +106,6 @@ class AppEntrance(object):
                                   command=self.open_fbt_trans)
         # menubar_trans.add_command(label=u'标志牌名称'）
         
-        
-        
-        
         # 创建菜单栏完成后，配置让菜单栏menubar显示出来
         self.rootwindow.config(menu=menubar)
     
@@ -132,6 +131,14 @@ class AppEntrance(object):
         from nonArcGIS import fbt_trans
         open_fbt_trans = fbt_trans.App()
         open_fbt_trans.window.mainloop()
+    
+    def button_config(self):
+        def open_u():
+            import webbrowser
+            update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
+            webbrowser.open(update_url, new=0, autoraise=True)
+        ap_button = ttk.Button(text = u"获取更新",command = open_u)
+        ap_button.pack(side='top', expand='yes',anchor = "se")
     
 # if __name__ == '__main__':
 # 	AppEntrance().menu()
