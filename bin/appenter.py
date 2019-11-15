@@ -20,7 +20,13 @@ rb_GUIs = os.path.join(root_base, "GUIs")
 # E:\move on move on\GisCat\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
-giscat_paths = [root_base,rb_GisCat,rb_GUIs,rbg_Icons,rbdoc]
+
+
+giscat_paths = [root_base,
+                rb_GisCat,
+                rb_GUIs,
+                rbg_Icons,
+                rbdoc]
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
 # import nonArcGIS # 识别不了gstrename
@@ -36,8 +42,12 @@ class AppEntrance(object):
         self.rootwindow.title(u"主界面")
         self.rootwindow.geometry("700x500")
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
+        self.menu()
         # self.rootwindow.attributes('-topmost', 0)
         self.button_config()
+        
+        # 放最后
+        self.menu_run()
         
     def menu(self):
         """设置置顶菜单栏"""
@@ -52,63 +62,80 @@ class AppEntrance(object):
             label_uesless.config(text=str(self.counter) + '  time!')
             self.counter += 1
         # 创建菜单栏，这里我们可以把他理解成一个容器，在窗口的上方
-        menubar = tk.Menu(self.rootwindow)
+        self.menubar = tk.Menu(self.rootwindow)
         # 第6步，创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，
             # Exit功能项）
-        menubar_file = tk.Menu(menubar, tearoff=0)
+        self.menubar_file = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为File，放在菜单栏中，就是装入那个容器中
-        menubar.add_cascade(label='File', menu=menubar_file)
+        self.menubar.add_cascade(label='File', menu=self.menubar_file)
         # 在File中加入New、Open、Save等小菜单，即我们平时看到的下拉菜单，
             # 每一个小菜单对应命令操作。
-        menubar_file.add_command(label='New', command=do_job)
-        menubar_file.add_command(label='Open', command=do_job)
-        menubar_file.add_command(label='Save', command=do_job)
-        menubar_file.add_separator()  # 添加一条分隔线
-        menubar_file.add_command(label='Exit',
+        self.menubar_file.add_command(label='New', command=do_job)
+        self.menubar_file.add_command(label='Open', command=do_job)
+        self.menubar_file.add_command(label='Save', command=do_job)
+        self.menubar_file.add_separator()  # 添加一条分隔线
+        self.menubar_file.add_command(label='Exit',
                                  command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
-        submenu = tk.Menu(menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单
+        submenu = tk.Menu(self.menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单
         # 创建第三级菜单命令，即菜单项里面的菜单项里面的菜单命令（有点拗口，笑~~~）
         submenu.add_command(label='Submenu_1',
                             command=do_job)  # 这里和上面创建原理也一样，在Import菜单项中加入一个小菜单命令Submenu_1
         # 创建一个Edit菜单项（默认不下拉，下拉内容包括Cut，Copy，Paste功能项）
         # 创建第二级菜单，即菜单项里面的菜单
-        menubar_file.add_cascade(label='Import', menu=submenu,
+        self.menubar_file.add_cascade(label='Import', menu=submenu,
                                  underline=0)  # 给放入的菜单submenu命名为Import
         # edit菜单栏
-        menubar_edit = tk.Menu(menubar, tearoff=0)
+        self.menubar_edit = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为 Edit，放在菜单栏中，就是装入那个容器中
-        menubar.add_cascade(label='Edit', menu=menubar_edit)
+        self.menubar.add_cascade(label='Edit', menu=self.menubar_edit)
         # 同样的在 Edit 中加入Cut、Copy、Paste等小命令功能单元，如果点击这些单元,
             # 就会触发do_job的功能
-        menubar_edit.add_command(label='Cut', command=do_job)
-        menubar_edit.add_command(label='Copy', command=do_job)
-        menubar_edit.add_command(label='Paste', command=do_job)
+        self.menubar_edit.add_command(label='Cut', command=do_job)
+        self.menubar_edit.add_command(label='Copy', command=do_job)
+        self.menubar_edit.add_command(label='Paste', command=do_job)
         
         # 制图mapping菜单栏
-        menubar_gst = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label = u"两区公示图", menu=menubar_gst)
-        menubar_gst.add_command(label=u'公示图命名规范化',
+        self.menubar_gst = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label = u"两区公示图", menu=self.menubar_gst)
+        self.menubar_gst.add_command(label=u'公示图命名规范化',
                                 command=self.open_GSTrename)
         
         
-        # 创建菜单栏完成后，配置让菜单栏menubar显示出来
-        menubar_map = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label=u"制图", menu=menubar_map)
-        menubar_map.add_command(label=u'多进程导图JPEG',
+        # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
+        self.menubar_map = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
+        self.menubar_map.add_command(label=u'多进程导图JPEG',
                                 command=self.open_Multip_exp)
+    # 配置安放菜单栏，写成方法便于调控纯程序
+    def menu_run(self):
+        self.rootwindow.config(menu=self.menubar)
+        
+    def trans_name(self):
+        
+        def open_gst_trans():
+            from nonArcGIS import gst_trans
+            open_gst_trans = gst_trans.App()
+            open_gst_trans.window.mainloop()
+
+        def open_fbt_trans():
+            from nonArcGIS import fbt_trans
+            open_fbt_trans = fbt_trans.App()
+            open_fbt_trans.window.mainloop()
         
         # 图件命名转换 菜单栏
-        menubar_trans = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label=u"两区图件名称装换", menu=menubar_trans)
-        menubar_trans.add_command(label=u'公示图名称',
-                                  command=self.open_gst_trans)
-        menubar_trans.add_command(label=u'分布图名称',
-                                  command=self.open_fbt_trans)
-        # menubar_trans.add_command(label=u'标志牌名称'）
+        self.menubar_trans = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=u"两区图件名称装换", menu=self.menubar_trans)
+        self.menubar_trans.add_command(label=u'公示图名称',
+                                  command=open_gst_trans)
+        self.menubar_trans.add_command(label=u'分布图名称',
+                                  command=open_fbt_trans)
+        # self.menubar_trans.add_command(label=u'标志牌名称'）
         
-        # 创建菜单栏完成后，配置让菜单栏menubar显示出来
-        self.rootwindow.config(menu=menubar)
-    
+        # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
+        self.rootwindow.config(menu=self.menubar)
+
+
+        
     
     @staticmethod
     def open_GSTrename():
@@ -120,17 +147,7 @@ class AppEntrance(object):
         mul_app = multip_ejpg.MultipExp()
         mul_app.window.mainloop()
         
-    @staticmethod
-    def open_gst_trans():
-        from nonArcGIS import gst_trans
-        open_gst_trans = gst_trans.App()
-        open_gst_trans.window.mainloop()
-        
-    @staticmethod
-    def open_fbt_trans():
-        from nonArcGIS import fbt_trans
-        open_fbt_trans = fbt_trans.App()
-        open_fbt_trans.window.mainloop()
+
     
     def button_config(self):
         def open_u():
@@ -150,5 +167,4 @@ class AppEntrance(object):
 
 if __name__ == '__main__':
     app = AppEntrance()
-    app.menu()
     app.rootwindow.mainloop()
