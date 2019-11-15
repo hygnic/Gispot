@@ -13,6 +13,7 @@
     <orderEntry type="jdk" jdkName="Python 2.7 (GisCat)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Python2" />
+    <orderEntry type="module" module-name="Python3" />
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="Nosetests" />

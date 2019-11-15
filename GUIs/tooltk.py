@@ -64,7 +64,11 @@ class Tooltk(object):
 		self.gif_close16 = tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
 		# self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
 		self.gif_quit =  tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
-		self.gif_comfirm =  tk.PhotoImage(file=r'GUIs\Icons\GenericCheckMarkGreen16.gif')
+		ph = tk.PhotoImage(file="GUIs\Icons\GenericCheckMarkGreen16.gif")
+		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
+		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
+		# self.gif_comfirm =  ph.subsample(x= 40,y=40)
+		self.gif_comfirm =  ph
 		self.gif_help = tk.PhotoImage(file=r'GUIs\Icons\GenericInformationBubble16.gif')
 		
 	def create_frames(self):
