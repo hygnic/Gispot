@@ -44,6 +44,7 @@ def address_clip(mxds, process_core):
     print "mxd_num: ", len(mxdpaths)
     print "slice_num: ", len(slices_set)
 
+
 def export_jpeg(path_slice_set, res):
     """
     获取地址列表切片进行出图处理
