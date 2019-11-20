@@ -11,9 +11,9 @@ arcpy.env.overwriteOutput = True
 """
 路径和默认空间设置
 """
-LQDK_path  = r"E:\雁江区\LQDK算完面积村乡名.shp"
+LQDK_path  = r"E:\中江县\LQDK修改.shp"
 # 基本农田路径
-JBNTBHTB_path = r"E:\雁江区\5120022017雁江区\矢量数据\JBNTBHTB5120022017.shp"
+JBNTBHTB_path = r"E:\中江县\510623中江县\矢量数据\JBNTBHTB5106232017.shp"
 task_list = [LQDK_path, JBNTBHTB_path]
 
 # 默认工作空间
