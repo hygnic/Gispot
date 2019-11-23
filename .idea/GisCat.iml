@@ -10,10 +10,11 @@
       <sourceFolder url="file://$MODULE_DIR$/GUIs" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 2.7 (GisCat)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7 (GisCat) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Python2" />
     <orderEntry type="module" module-name="Python3" />
+    <orderEntry type="module" module-name="electron-quick-start" />
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="Nosetests" />
