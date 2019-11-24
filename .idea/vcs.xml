@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../Python2" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../electron-quick-start" vcs="Git" />
   </component>
 </project>
