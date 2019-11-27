@@ -9,7 +9,6 @@ import tkFont
 import ttk
 import sys
 sys.path.append("../GisCat/HyMap")
-from ejpg import *
 
 
 def fun():
