@@ -1,10 +1,14 @@
 # -*- coding:utf-8 -*-
 # User: liaochenchen
 # Date: 2019/11/20
-"""拆分多部件"""
+"""
+拆分多部件
+使用了多线程技术 牛逼！！！！！！！！！
+"""
 
 import arcpy
 import tooltk
+from threading import Thread
 
 def explode_m(shp_p, new_shp):
 	"""
@@ -13,6 +17,8 @@ def explode_m(shp_p, new_shp):
 	:return:
 	"""
 	arcpy.env.overwriteOutput = True
+	# import time
+	# time.sleep(10)
 	base = "base.shp"
 	arcpy.MakeFeatureLayer_management(shp_p, base)
 	print u"拆分多部件..."
@@ -35,13 +41,12 @@ class App(tooltk.Tooltk):
 	def confirm_method(self):
 		# 获取列表
 		v = self.get_Entry_fromblock(self.input_sfb, self.input_sfb2)
-		explode_m(v[0], v[1])
+		t = Thread(target=explode_m, args=(v[0], v[1]))
+		t.setDaemon(True)  # 就是设置子线程随主线程的结束而结束
+		t.start()
+		# explode_m(v[0], v[1])
 
 
-
-
-
-		
 if __name__ == '__main__':
 	path1 = r"G:\test\市中区\矢量数据\LQDK5110022019.shp"
 	path2 = r"G:\test\市中区\output\12.shp"
