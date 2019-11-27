@@ -9,6 +9,8 @@ import ttk
 import tkFileDialog
 import ScrolledText as stt
 
+# 导入配置包
+from HYConfiguration import utils
 # import sys
 # # gisTKlists = ["../GisCat/HyMap"]
 # for gisTKlist in gisTKlists:
@@ -39,7 +41,7 @@ class Tooltk(object):
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		self.window.geometry("800x660")
+		utils.screen_cetre(self.window,width=800,height=660)
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
 		# 重新抓取设置，使Toplevel显示在最上面
@@ -104,10 +106,17 @@ class Tooltk(object):
 								   relief=tk.RIDGE, width ="500",
 								   text = "____" * 80 , bd = 2, fg = self.color5)
 			help_f.pack(side = tk.BOTTOM,anchor="center",
-								  expand=True, fill="both")
-			self.help_text = stt.ScrolledText(help_f,  relief=tk.RIDGE,
-									 fg = self.color5)
-			self.help_text.pack(expand = True,fill = "both")
+						expand=True, fill="both")
+			#设置带滚动条的text
+			s_bar = tk.Scrollbar(help_f, relief = "flat",
+								 elementborderwidth = -15)
+			s_bar.pack(side="right", fill="y")
+			self.help_text = tk.Text(help_f,  relief=tk.FLAT,
+									 fg = self.color5,yscrollcommand=s_bar.set)
+			self.help_text.pack(expand=True, fill="both")
+			s_bar.config(command=self.help_text.yview)
+			
+			
 			
 			""""
 				侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
@@ -124,12 +133,16 @@ class Tooltk(object):
 			self.text.pack(side = "top" ,anchor = "n",expand = False,
 						   padx=2)
 			# 下栏
-			self.text_downside = stt.ScrolledText(self.frame_side_bar, height="10",
-										 width="60")
+			s_bar = tk.Scrollbar(self.frame_side_bar, relief="flat",
+								 elementborderwidth=-15)
+			s_bar.pack(side="right", fill="y")
+			self.text_downside = tk.Text(self.frame_side_bar, height="10",
+										 width="60",yscrollcommand=s_bar.set)
 			self.text_downside.insert(tk.END,
 							 u"详情见控制台信息")
 			self.text_downside.pack(side="top", anchor="n", expand=True,
 									fill = tk.Y ,padx=2)
+			s_bar.config(command=self.text_downside.yview)
 			# tk.Label(self.frame_side_bar,
 			# 		 text=u"处理详情",
 			# 		 font=("Times",0,"bold"),
@@ -219,6 +232,7 @@ class Tooltk(object):
 		"""
 		# 文件选取菜单
 		def select_file():
+			top2 = tk.Toplevel()
 			# global file_path
 			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
 			# 刷新normal_single_block() 中的Entry
@@ -365,7 +379,7 @@ class Tooltk(object):
 if __name__ == '__main__':
 	class App(Tooltk):
 		def __init__(self):
-			super(App, self).__init__(u"本地实验")
+			super(App, self).__init__(u"本地实验", "docs/explode_mulitp")
 			self.button_confirm["command"] = self.confirm_method
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],

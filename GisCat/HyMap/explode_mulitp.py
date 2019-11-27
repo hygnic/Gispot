@@ -40,7 +40,7 @@ class App(tooltk.Tooltk):
 		
 	def confirm_method(self):
 		# 获取列表
-		v = self.get_Entry_fromblock(self.input_sfb, self.input_sfb2)
+		v = App.get_Entry_fromblock(self.input_sfb, self.input_sfb2)
 		t = Thread(target=explode_m, args=(v[0], v[1]))
 		t.setDaemon(True)  # 就是设置子线程随主线程的结束而结束
 		t.start()

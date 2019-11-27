@@ -13,21 +13,38 @@ class Tooltk(object):
 		self.bt = ttk.Button(text="confirm")\
 			.pack(expand = True)
 		
-		tk.Scale(
-			  from_=-400,  # 设置最小值
-			  to=500,  # 设置最大值
-			  resolution=5,  # 设置步距值
-			  orient=tk.HORIZONTAL  # 设置水平方向
-			  ).pack()
+		# tk.Scale(
+		# 	from_=-400,  # 设置最小值
+		# 	to=500,  # 设置最大值
+		# 	resolution=5,  # 设置步距值
+		# 	orient=tk.HORIZONTAL,  # 设置水平方向
+		#
+		# 	  ).pack()
+		self.numin= tk.IntVar()
 		
-		ttk.Scale(
-			from_=-400,  # 设置最小值
-			to=500,  # 设置最大值
+		tk.Scale(
+			from_=2,  # 设置最小值
+			to=12,  # 设置最大值
 			orient=tk.HORIZONTAL, # 设置水平方向
+			variable=self.numin,
+			resolution=1,
+			# relief = tk.FLAT,
+			# sliderrelief = tk.FLAT,
+			sliderlength = 10,
+			# borderwidth=0,
+			# tickinterval=7 数字刻度
+			# digits =5 小数
+			foreground = "Olive"
+		
+			
 			
 		).pack()
 		
-
+		ss =ttk.Scrollbar().pack()
+		ttk.Style()
+		
+		en =tk.Entry(textvariable = self.numin ).pack()
+		
 # {"q": 1, "w": 2}
 
 app = Tooltk()

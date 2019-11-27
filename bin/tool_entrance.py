@@ -8,7 +8,7 @@ import sys
 import ttk
 
 # 获取程序当前的文件夹位置
-# E:\move on move on\GisCat\bin\appenter.py
+# E:\move on move on\GisCat\bin\tool_entrance.py
 realp = os.path.abspath(__file__)
 # 上级 绝对路径
 # E:\move on move on\GisCat
@@ -29,19 +29,21 @@ giscat_paths = [root_base,
                 rbdoc]
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
+
 # import nonArcGIS # 识别不了gstrename
 from nonArcGIS import gstrename
 from HyMap import multip_ejpg
 from HyMap import explode_mulitp
-# from threading import Thread
 
+# 配置包导入
+from HYConfiguration import utils
 
 class AppEntrance(object):
     """进行打包的可视化外壳"""
     def __init__(self):
         self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
-        self.rootwindow.geometry("700x500")
+        utils.screen_cetre(self.rootwindow,width=700,height=500)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.menu()
         # self.rootwindow.attributes('-topmost', 0)
@@ -168,14 +170,8 @@ class AppEntrance(object):
         ap_button = ttk.Button(text = u"获取更新",command = open_u)
         ap_button.pack(side='top', expand='yes',anchor = "se")
     
-# if __name__ == '__main__':
-# 	AppEntrance().menu()
 
 
 # if __name__ == '__main__':
-# 	app = AppEntrance()
-# 	app.root.mainloop()
-
-if __name__ == '__main__':
-    app = AppEntrance()
-    app.rootwindow.mainloop()
+#     app = AppEntrance()
+#     app.rootwindow.mainloop()
