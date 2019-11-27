@@ -23,11 +23,17 @@ class Tooltk(object):
 	block_list = []
 	file_path_ = "23"
 	
-	def __init__(self, window_name):
+	def __init__(self, window_name, help_path):
+		"""
+		:param window_name: 窗口名字
+		:param help_path: 帮助文档的路径
+		"""
+		
 		# 效果未知
 		# self.frame_ma.bell(displayof=self.window)
 		self.window = tk.Toplevel()
 		self.window.title(window_name)
+		self.helppath = help_path
 		# 给Toplevel窗口设置透明度
 		# self.window.attributes('-alpha',0.5)
 		# 设置窗口置顶优先度
@@ -46,6 +52,7 @@ class Tooltk(object):
 		self.icon_set()  # 配置图片
 		self.create_frames() # 配置框架
 		self.create_button() # 配置按钮
+		self.read_help()
 		
 		
 	def color_mylife(self):
@@ -139,12 +146,12 @@ class Tooltk(object):
 			return 1
 	
 	# 读取帮助信息并插入帮助框中
-	def read_help(self,filename):
+	def read_help(self):
 		"""
 		读取帮助信息并插入帮助框中
-		:param filename: 文件名
 		:return:
 		"""
+		filename = self.helppath
 		with open(filename,"r") as read_msgs:
 			for read_line in read_msgs.readlines():
 				self.help_text.insert(tk.END, read_line)
@@ -181,8 +188,7 @@ class Tooltk(object):
 			# self.block_list.append(file_path)
 			input_msg1.set(file_path)
 			
-		label_1 = tk.Label(self.frame_major, text= sfb_name
-							)
+		label_1 = tk.Label(self.frame_major, text= sfb_name)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 			# 将Entry和按钮整齐的放到一起
@@ -203,6 +209,43 @@ class Tooltk(object):
 		# input_msg.set(one_file_path)
 		return 1
 	
+	def savename_block(self, sfb_filetype, sfb_name):
+		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		"""
+		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
+		
+		sfb_filetype: tkFileDialog type
+		sfb_name: label name;ues to describe function
+		"""
+		# 文件选取菜单
+		def select_file():
+			# global file_path
+			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
+			# 刷新normal_single_block() 中的Entry
+			# self.block_list.append(file_path)
+			input_msg1.set(file_path)
+		
+		label_1 = tk.Label(self.frame_major, text=sfb_name)
+		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		# 块一
+		# 将Entry和按钮整齐的放到一起
+		frame_one = tk.Frame(self.frame_major, height="60", width="700",
+							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
+		# 按钮
+		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
+		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=
+		select_file, image=self.gif_text16)
+		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+		# Entry
+		input_msg1 = tk.StringVar()
+		self.input_sfb2 = tk.Entry(frame_one, textvariable=input_msg1,
+								  border=2, relief=tk.GROOVE)
+		self.input_sfb2.pack(side=tk.LEFT, anchor=tk.W, expand=True,
+							fill=tk.X, padx=15)
+		# input_msg.set(one_file_path)
+		return 1
+	
 	def single_dir_block(self,sdb_name):
 		"""
 		sdb_name: label name;ues to describe function
@@ -216,13 +259,11 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		label_2 = tk.Label(self.frame_major, text=sdb_name
-								)
+		label_2 = tk.Label(self.frame_major, text=sdb_name)
 		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major, height="60",
+							 width="700",pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = ttk.Button(frame_one, text=u"选择",
@@ -298,7 +339,7 @@ class Tooltk(object):
 		"""
 		获取Entry值，组成列表
 		:param arg: 各个block的Entry模块组成的元组
-		:return:
+		:return: self.block_list 返回 含有用户输入的各种因子的 列表
 		"""
 		for i in arg:
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
@@ -310,6 +351,10 @@ class Tooltk(object):
 			else:
 				# unicode格式的直接加进去
 				self.block_list.append(msg)
+			# 将信息显示到右上角
+			self.text.insert("end", "\n  " + msg)
+		return self.block_list
+			
 		# got_msg1 = arg[0].get()
 		# # .decode("cp936")
 		# got_msg2 = arg[1].get()

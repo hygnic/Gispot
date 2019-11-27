@@ -2,6 +2,10 @@
 # User: liaochenchen
 # Date: 2019/11/18
 
+"""
+提取面矢量自身的相交线
+并拆解多部件
+"""
 import arcpy
 import os
 

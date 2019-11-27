@@ -11,8 +11,7 @@ import sys
 gisTKlists = ["../GisCat/HyMap"]
 for gisTKlist in gisTKlists:
 	sys.path.append(gisTKlist)
-import ejpg
-import threading
+
 
 def fun():
 	print " I'm ok"

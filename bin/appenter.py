@@ -32,6 +32,7 @@ for giscat_path in giscat_paths:
 # import nonArcGIS # 识别不了gstrename
 from nonArcGIS import gstrename
 from HyMap import multip_ejpg
+from HyMap import explode_mulitp
 # from threading import Thread
 
 
@@ -106,12 +107,17 @@ class AppEntrance(object):
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
         self.menubar_map.add_command(label=u'多进程导图JPEG',
                                 command=self.open_Multip_exp)
+        self.menubar_map.add_command(label=u'拆分多部件',
+                                     command=self.explode_mulitp)
     # 配置安放菜单栏，写成方法便于调控纯程序
     def menu_run(self):
         self.rootwindow.config(menu=self.menubar)
         
     def trans_name(self):
-        
+        """
+        之前要将四川标准的图片名称改为国家标准的名称，
+        没用上，以后也没有用了
+        """
         def open_gst_trans():
             from nonArcGIS import gst_trans
             open_gst_trans = gst_trans.App()
@@ -146,6 +152,11 @@ class AppEntrance(object):
     def open_Multip_exp():
         mul_app = multip_ejpg.MultipExp()
         mul_app.window.mainloop()
+
+    @staticmethod
+    def explode_mulitp():
+        explode_app = explode_mulitp.App()
+        explode_app.window.mainloop()
         
 
     

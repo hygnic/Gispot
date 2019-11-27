@@ -25,6 +25,11 @@ app.window.mainloop()
 
 """
 
+"""
+睡眠10秒
+"""
+
+
 import Tkinter as tk
 import ttk
 import time

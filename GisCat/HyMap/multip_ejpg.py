@@ -1,12 +1,16 @@
 # -*- coding:cp936 -*-
 # 2019 1104
 # 廖晨辰
+"""
+运用多进程技术导出图片
+集成Tkinter
+使用了多进程技术 牛逼！！！！！！！！！！
+"""
 
-import arcpy,os,sys
+import arcpy,os
 from multiprocessing import Process
 # sys.path.append("../GUIs")
 import tooltk
-
 
 arcpy.env.overwriteOutput = True
 # mxdpath = "" 地图文档的地址
@@ -61,7 +65,7 @@ def export_jpeg(path_slice_set, res):
 
 class MultipExp(tooltk.Tooltk):
     def __init__(self):
-        super(MultipExp, self).__init__(u"多进程导出jpeg")
+        super(MultipExp, self).__init__(u"多进程导出jpeg", "docs/multip_ejpg")
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮
@@ -72,8 +76,6 @@ class MultipExp(tooltk.Tooltk):
         self.addfile_button.config(text=u"—", state="disabled")
 
         # self.button_confirm["command"] = self.confirm_method
-        # 读取帮助信息
-        self.read_help("docs/multip_ejpg")
         self.button_confirm["command"] = self.confirm_method
 
     def confirm_method(self):
@@ -81,10 +83,6 @@ class MultipExp(tooltk.Tooltk):
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
         self.get_Entry_fromblock(self.input_sdb, self.input_sib,
                                  self.input_sib2)
-        print self.block_list
-        for i in self.block_list:
-            self.text.insert("end","\n  "+i)
-            # print i, "type: ", type(i)  # G:/test/gst 20 20 被dpi覆盖
 
         core = int(self.block_list[1])
         print core, "type: ", type(core)
