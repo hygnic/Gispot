@@ -32,6 +32,9 @@ class App(tooltk.Tooltk):
 	def __init__(self):
 		super(App, self).__init__(u"拆分多部件",
 								  "docs/explode_mulitp")
+		# s = self.window.winfo_children()
+		# for i in s:
+		# 	print type(i) # <type 'instance'>
 		self.single_file_block( [(u'shpfile', '*.shp'), ('All Files', '*')],
 								u"选择待处理shp文件")
 		self.savename_block([(u'shpfile', '*.shp'), ('All Files', '*')],
