@@ -7,8 +7,8 @@
 """
 
 import arcpy
-import tooltk
 from threading import Thread
+import tooltk
 
 def explode_m(shp_p, new_shp):
 	"""
@@ -21,7 +21,7 @@ def explode_m(shp_p, new_shp):
 	# time.sleep(10)
 	base = "base.shp"
 	arcpy.MakeFeatureLayer_management(shp_p, base)
-	print u"拆分多部件..."
+	print u"多部件拆分..."
 	arcpy.MultipartToSinglepart_management(base, new_shp)
 	print u"多部件拆分完成!"
 
@@ -35,22 +35,26 @@ class App(tooltk.Tooltk):
 		# s = self.window.winfo_children()
 		# for i in s:
 		# 	print type(i) # <type 'instance'>
-		self.single_file_block( [(u'shpfile', '*.shp'), ('All Files', '*')],
+		self.single_file_block( [(u'shapefile', '*.shp'), ('All Files', '*')],
 								u"选择待处理shp文件")
-		self.savename_block([(u'shpfile', '*.shp'), ('All Files', '*')],
+		self.savename_block([(u'shapefile', '*.shp'), ('All Files', '*')],
 							   u"选择保存地址")
-		self.button_confirm["command"] = self.confirm_method
+		self.button_confirm["command"] = self.confirm_method_q
 		
-	def confirm_method(self):
+	def confirm_method_q(self):
 		# 获取列表
-		v = App.get_Entry_fromblock(self.input_sfb, self.input_sfb2)
-		t = Thread(target=explode_m, args=(v[0], v[1]))
-		t.setDaemon(True)  # 就是设置子线程随主线程的结束而结束
+		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)
+		# t = Thread(target=explode_m, args=(v[0], v[1]))
+		t = Thread(target=explode_m, args=(self.block_list[0], self.block_list[1]))
+		# print v[0],type(v[0])
+		# print v[1],type(v[1])
+		# t.setDaemon(True)  # 就是设置子线程随主线程的结束而结束
 		t.start()
 		# explode_m(v[0], v[1])
 
 
 if __name__ == '__main__':
-	path1 = r"G:\test\市中区\矢量数据\LQDK5110022019.shp"
-	path2 = r"G:\test\市中区\output\12.shp"
+	path1 = r"E:\move on move on\正安县\正安数据\CJQY5203242019.shp"
+	# path2 = r"G:\test\市中区\output\12.shp"
+	path2 = r"E:\move on move on\正安县\正安数据\CJdd.shp"
 	explode_m(path1, path2)

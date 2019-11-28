@@ -25,7 +25,7 @@ class Tooltk(object):
 	"""工具的GUI界面"""
 	# 调用类变量也要加self
 	block_list = []
-	file_path_ = "23"
+	file_paths_ = []
 	
 	def __init__(self, window_name, help_path):
 		"""
@@ -193,10 +193,8 @@ class Tooltk(object):
 		
 		# 文件选取菜单
 		def select_file():
-			# global file_path
 			file_path = tkFileDialog.askopenfilename(filetypes=sfb_filetype)
 			# 刷新normal_single_block() 中的Entry
-			# self.block_list.append(file_path)
 			input_msg1.set(file_path)
 		
 		label_1 = tk.Label(self.frame_major, text=sfb_name)
@@ -221,7 +219,7 @@ class Tooltk(object):
 		# input_msg.set(one_file_path)
 		return 1
 	
-	def savename_block(self, sfb_filetype, sfb_name,disable = None):
+	def savename_block(self, sfb_filetype, sfb_name):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
@@ -231,11 +229,12 @@ class Tooltk(object):
 		"""
 		# 文件选取菜单
 		def select_file():
-			# global file_path
 			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
 			# 刷新normal_single_block() 中的Entry
-			# self.block_list.append(file_path)
+			# lis = self.file_paths_.append(file_path)
+			# print lis
 			input_msg1.set(file_path)
+			# return file_path
 		
 		label_1 = tk.Label(self.frame_major, text=sfb_name)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
@@ -251,11 +250,10 @@ class Tooltk(object):
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb2 = tk.Entry(frame_one, textvariable=input_msg1,
-								   border=2, relief=tk.GROOVE)
-		self.input_sfb2.pack(side=tk.LEFT, anchor=tk.W, expand=True,
-							 fill=tk.X, padx=15)
-		# input_msg.set(one_file_path)
+		self.input_sb = tk.Entry(frame_one, textvariable=input_msg1,
+								 border=2, relief=tk.GROOVE)
+		self.input_sb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
+						   fill=tk.X, padx=15)
 		return 1
 	
 	def single_dir_block(self, sdb_name):

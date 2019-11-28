@@ -5,7 +5,8 @@ import os,sys
 
 real = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(real,"bin"))
-apppath = r"bin\tool_entrance.py"
+sys.path.append(r"D:\Python27\ArcGIS10.7\tcl\tcl8.5")
+# apppath = r"bin\tool_entrance.py"
 
 import tool_entrance
 
