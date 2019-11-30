@@ -8,6 +8,7 @@ import Tkinter as tk
 import ttk
 import tkFileDialog
 import ScrolledText as stt
+import os
 
 # 导入配置包
 from HYConfiguration import utils
@@ -64,20 +65,28 @@ class Tooltk(object):
 		self.color6 = '#EBEEEE'  # 底栏颜色
 	
 	def icon_set(self):
-		self.gif_text16 = tk.PhotoImage(file=r'GUIs\Icons\Text_File16.gif')
+		dir_n = os.path.dirname(__file__)
+		self.gif_text16 = tk.PhotoImage(file=
+										os.path.join(dir_n,
+													 r"Icons\Text_File16.gif")
+										)
 		# self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
-		self.gif_folder16 = tk.PhotoImage(file=r'GUIs\Icons\Folder16.gif')
+		self.gif_folder16 = tk.PhotoImage(file=os.path.join(dir_n,
+													 r"Icons\Folder16.gif"))
 		# self.gif_folder32 = tk.PhotoImage(file=r'GUIs\Icons\Folder32.gif')
-		self.gif_close16 = tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
+		self.gif_close16 = tk.PhotoImage(file=os.path.join(dir_n,
+													 r"Icons\Close16.gif"))
 		# self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
-		self.gif_quit = tk.PhotoImage(file=r'GUIs\Icons\Close16.gif')
-		ph = tk.PhotoImage(file=r"GUIs\Icons\GenericCheckMarkGreen16.gif")
+		self.gif_quit = tk.PhotoImage(file=os.path.join(dir_n,
+													 r"Icons\Close16.gif"))
+		ph = tk.PhotoImage(file=os.path.join(dir_n,
+											 r"Icons\GenericCheckMarkGreen16.gif"))
 		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
 		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
 		# self.gif_comfirm =  ph.subsample(x= 40,y=40)
 		self.gif_comfirm = ph
 		self.gif_help = tk.PhotoImage(
-			file=r'GUIs\Icons\GenericInformationBubble16.gif')
+			file=os.path.join(dir_n,r"Icons\GenericInformationBubble16.gif"))
 	
 	def create_frames(self):
 		# 侧边栏
@@ -129,17 +138,16 @@ class Tooltk(object):
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.text.pack(side="top", anchor="n", expand=False,
 					   padx=2)
-		# 下栏
+		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(self.frame_side_bar, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_downside = tk.Text(self.frame_side_bar, height="10",
+		self.text_majorMsg = tk.Text(self.frame_side_bar, height="10",
 									 width="60", yscrollcommand=s_bar.set)
-		self.text_downside.insert(tk.END,
-								  u"详情见控制台信息")
-		self.text_downside.pack(side="top", anchor="n", expand=True,
+		self.text_majorMsg.insert(tk.END,">>>"*20)
+		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
 								fill=tk.Y, padx=2)
-		s_bar.config(command=self.text_downside.yview)
+		s_bar.config(command=self.text_majorMsg.yview)
 		# tk.Label(self.frame_side_bar,
 		# 		 text=u"处理详情",
 		# 		 font=("Times",0,"bold"),
@@ -348,6 +356,7 @@ class Tooltk(object):
 		:param arg: 各个block的Entry模块组成的元组
 		:return: self.block_list 返回 含有用户输入的各种因子的 列表
 		"""
+		self.block_list = []
 		for i in arg:
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
@@ -372,7 +381,7 @@ class Tooltk(object):
 if __name__ == '__main__':
 	class App(Tooltk):
 		def __init__(self):
-			super(App, self).__init__(u"本地实验", "docs/explode_mulitp")
+			super(App, self).__init__(u"本地实验", "docs/explode_mulitp.gc")
 			self.button_confirm["command"] = self.confirm_method
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],

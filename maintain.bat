@@ -1,1 +1,1 @@
-python GISCAT.py
+python bin\GISCAT.py

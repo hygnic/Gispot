@@ -8,7 +8,7 @@ import sys
 import ttk
 
 # 获取程序当前的文件夹位置
-# E:\move on move on\GisCat\bin\tool_entrance.py
+# E:\move on move on\GisCat\GUIs\tool_entrance.py
 realp = os.path.abspath(__file__)
 # 上级 绝对路径
 # E:\move on move on\GisCat
@@ -20,6 +20,7 @@ rb_GUIs = os.path.join(root_base, "GUIs")
 # E:\move on move on\GisCat\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
+rb_bin = os.path.join(root_base, "bin")
 
 
 giscat_paths = [root_base,
@@ -158,7 +159,7 @@ class AppEntrance(object):
     @staticmethod
     def explode_mulitp():
         explode_app = explode_mulitp.App()
-        explode_app.window.mainloop()
+        # explode_app.window.mainloop()
         
 
     

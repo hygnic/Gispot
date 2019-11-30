@@ -65,7 +65,7 @@ def export_jpeg(path_slice_set, res):
 
 class MultipExp(tooltk.Tooltk):
     def __init__(self):
-        super(MultipExp, self).__init__(u"多进程导出jpeg", "docs/multip_ejpg")
+        super(MultipExp, self).__init__(u"多进程导出jpeg", "docs/multip_ejpg.gc")
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮

@@ -53,7 +53,7 @@ def gst_rename(txt_path, jpg_path):
 class App(tooltk.Tooltk):
 	# msg_help = "文本格式：代码在前：510304107218牛佛镇鞍山村"
 	def __init__(self):
-		super(App, self).__init__(u"两区公示图命名规范化", r"docs\gstrename")
+		super(App, self).__init__(u"两区公示图命名规范化", r"docs\gstrename.gc")
 		self.button_confirm["command"] = self.confirm_method
 		# self.window.grab_set()
 		# block1
