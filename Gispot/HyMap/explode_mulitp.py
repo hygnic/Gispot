@@ -2,7 +2,9 @@
 # User: liaochenchen
 # Date: 2019/11/20
 """
-拆分多部件
+main function: make multiple-parts to single.
+因为我的电脑arcgis经常在进行多部件拆解的时候卡死，
+所以自己弄了一个拆解小程序。
 使用了多线程技术 牛逼！！！！！！！！！
 """
 
@@ -15,7 +17,7 @@ import tooltk
 
 def explode_m(shp_p, new_shp):
 	"""
-	main function，make multiple-parts to single.
+	main function, make multiple-parts to single.
 	:param shp_p: shp path which we need to deal with.
 	:param new_shp: shp path which saves our result.
 	:return:
@@ -38,7 +40,7 @@ def decor(queue, func, *args):
 	"""
 	the function has two features:
 	1:
-		as a decortor，put out main function inside,
+		as a decortor, put out main function inside,
 		and repalce our main function, then run it by child process.
 	2:
 		we can put some message in multiprocessing.Queque, like End message.
