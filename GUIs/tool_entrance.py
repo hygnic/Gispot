@@ -8,26 +8,28 @@ import sys
 import ttk
 
 # 获取程序当前的文件夹位置
-# E:\move on move on\GisCat\GUIs\tool_entrance.py
+# E:\move on move on\Gispot\GUIs\tool_entrance.py
 realp = os.path.abspath(__file__)
 # 上级 绝对路径
-# E:\move on move on\GisCat
+# E:\move on move on\Gispot
 root_base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-# E:\move on move on\GisCat\GisCat
-rb_GisCat = os.path.join(root_base, "GisCat")
-# E:\move on move on\GisCat\GUIs
+# E:\move on move on\Gispot\Gispot
+rb_GisCat = os.path.join(root_base, "Gispot")
+# E:\move on move on\Gispot\GUIs
 rb_GUIs = os.path.join(root_base, "GUIs")
-# E:\move on move on\GisCat\GUIs\Icons
+# E:\move on move on\Gispot\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
-
+rb_libs = os.path.join(root_base, "libs")
 
 giscat_paths = [root_base,
                 rb_GisCat,
                 rb_GUIs,
                 rbg_Icons,
-                rbdoc]
+                rbdoc,
+                rb_bin,
+                rb_libs]
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
 
@@ -37,14 +39,14 @@ from HyMap import multip_ejpg
 from HyMap import explode_mulitp
 
 # 配置包导入
-from HYConfiguration import utils
+from hyconf import GUIutils
 
 class AppEntrance(object):
     """进行打包的可视化外壳"""
     def __init__(self):
         self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
-        utils.screen_cetre(self.rootwindow,width=700,height=500)
+        GUIutils.screen_cetre(self.rootwindow, width=700, height=500)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.menu()
         # self.rootwindow.attributes('-topmost', 0)

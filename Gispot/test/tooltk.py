@@ -8,7 +8,7 @@ import Tkinter as tk
 import tkFont
 import ttk
 import sys
-sys.path.append("../GisCat/HyMap")
+sys.path.append("../Gispot/HyMap")
 
 
 def fun():

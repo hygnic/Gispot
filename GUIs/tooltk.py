@@ -11,11 +11,11 @@ import ScrolledText as stt
 import os
 
 # 导入配置包
-from HYConfiguration import utils
+from hyconf import GUIutils
 
 
 # import sys
-# # gisTKlists = ["../GisCat/HyMap"]
+# # gisTKlists = ["../Gispot/HyMap"]
 # for gisTKlist in gisTKlists:
 # 	sys.path.append(gisTKlist)
 # import export_jpeg
@@ -41,7 +41,7 @@ class Tooltk(object):
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		utils.screen_cetre(self.window, width=800, height=660)
+		GUIutils.screen_cetre(self.window, width=800, height=660)
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
 		# 重新抓取设置，使Toplevel显示在最上面
@@ -409,7 +409,7 @@ if __name__ == '__main__':
 			filedialog+手动: E:/move on move on/是多少  type:  <type 'unicode'>
 			手动: G:\软件包  type:  <type 'unicode'>
 			手动: G:\music  type:  <type 'str'>
-			filedialog: E:/move on move on/GisCat/bin  type:  <type 'str'>
+			filedialog: E:/move on move on/Gispot/bin  type:  <type 'str'>
 			filedialog: E:/move on move on/公示图  type:  <type 'unicode'>
 			结论:
 			"""

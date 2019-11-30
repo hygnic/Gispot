@@ -10,7 +10,7 @@ tool_entrance和tooltk都需要的功能
 
 
 def screen_cetre(master, width=None, height=None):
-	# 使界面居中
+	# 窗口居中
 	screenwidth = master.winfo_screenwidth()
 	screenheight = master.winfo_screenheight()
 	if width is None:

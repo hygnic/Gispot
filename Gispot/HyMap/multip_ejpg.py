@@ -8,11 +8,12 @@
 """
 
 import arcpy,os
-from multiprocessing import Process
+from multiprocessing import Process,Queue
+from threading import  Thread
 # sys.path.append("../GUIs")
 import tooltk
 
-arcpy.env.overwriteOutput = True
+
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
 
@@ -21,10 +22,8 @@ def address_clip(mxds, process_core):
     从文件夹中选出mxd文档，将全部mxd地址划分为几个切片然后装进列表中备用
     :param process_core: 运行进程数量
     :param mxds:需要出图的mxd文档的路径
-    :return: None 但是从内部定义了
-    但是从内部声明了两个全局变量列表
-        clip_lists = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
-        mxdpath_list = [] # 所有地址的列表
+    :return: slices_set 包含多个 地址列表的切片包 的列表（列表的列表）
+    其他: mxdpath_list = [] # 所有地址的列表
     """
     global slices_set
     mxdpaths = []
@@ -47,15 +46,18 @@ def address_clip(mxds, process_core):
     chunks(mxdpaths, slice_size)
     print "mxd_num: ", len(mxdpaths)
     print "slice_num: ", len(slices_set)
+    return slices_set
 
 
 def export_jpeg(path_slice_set, res):
     """
+    主要的出图功能函数
     获取地址列表切片进行出图处理
     :param path_slice_set: 地址列表 的 一个切片包（列表）
     :param res: 分辨率 int
     :return:
     """
+    arcpy.env.overwriteOutput = True
     for one_path in path_slice_set:
         mxd1 = arcpy.mapping.MapDocument(one_path)
         # print u"正在出图..."
@@ -63,9 +65,17 @@ def export_jpeg(path_slice_set, res):
         del mxd1
         print one_path + " Done!"
 
+def dercor(queque,func,*args):
+    queque.put(u"任务开始...\n")
+    func(*args)
+    queque.put(u"任务完成\n")
+
+
+
 class MultipExp(tooltk.Tooltk):
+    ququ = Queue()
     def __init__(self):
-        super(MultipExp, self).__init__(u"多进程导出jpeg", "docs/multip_ejpg.gc")
+        super(MultipExp, self).__init__(u"多进程导出jpeg", "../docs/multip_ejpg.gc")
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮
@@ -74,32 +84,44 @@ class MultipExp(tooltk.Tooltk):
         # block3 取消按钮
         self.single_int_block2(u"出图分辨率")
         self.addfile_button.config(text=u"—", state="disabled")
-
-        # self.button_confirm["command"] = self.confirm_method
         self.button_confirm["command"] = self.confirm_method
-
+        
+    def process_communication(self,p):
+        """
+        
+        :param p: 进程
+        :return:
+        """
+        while True:
+            m = self.ququ.get()
+            self.text_majorMsg.insert("end", str(p.pid) + "\n")
+            self.text_majorMsg.insert("end", m + "\n")
+        
+    
+    
     def confirm_method(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
-        self.get_Entry_fromblock(self.input_sdb, self.input_sib,
+        v = self.get_Entry_fromblock(self.input_sdb, self.input_sib,
                                  self.input_sib2)
 
-        core = int(self.block_list[1])
+        core = int(v[1])
         print core, "type: ", type(core)
-        res = int(self.block_list[2])
+        res = int(v[2])
         print res, "type: ", type(res)
-        address_clip(self.block_list[0], core)
-        # address_clip(self.block_list[0],core)
-        # export_jpeg(slices_set,20)
-        print "准备开启多进程通道："
+        # 获取列表
+        sets_lists = address_clip(v[0], core)
+        m1 = "准备开启多进程通道："
         # res = 10
-        print slices_set
-        for path_slice_set in slices_set:
+        for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=export_jpeg, args=(path_slice_set, res))
+            p = Process(target=dercor, args=(self.ququ,export_jpeg,set_li, res,))
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "start process"
+            print "process_communication: begin"
+            t = Thread(target=self.process_communication, args=(p,))
+            t.start()
         # 初始化列表，以免二次输入时报错
         self.block_list = []
 
