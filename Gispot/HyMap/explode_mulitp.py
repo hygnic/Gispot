@@ -15,9 +15,9 @@ import tooltk
 
 def explode_m(shp_p, new_shp):
 	"""
-	主功能函数，实现多部件的拆分
-	:param shp_p: 需要拆分多部件的shp文件地址
-	:param new_shp: 保存地址
+	main function，make multiple-parts to single.
+	:param shp_p: shp path which we need to deal with.
+	:param new_shp: shp path which saves our result.
 	:return:
 	"""
 	arcpy.env.overwriteOutput = True
@@ -36,18 +36,18 @@ def explode_m(shp_p, new_shp):
 # 装饰函数
 def decor(queue, func, *args):
 	"""
-	该函数有两个功能：
-	一：
-		装饰函数，将我们的功能函数放进去，
-		并且会代替原功能函数，被子进程执行。
-	二：
-		将需要的信息装进multiprocessing.Queque中,比如结束信息。
-	问题：
-		不能把该函数放到mian块中，会报错。
-		不能把multiprocessing.Queque创建在main，会报错，这是Windows的问题
-	:param queue: 指向队列multiprocessing.Queque的实例
-	:param func: 主要的功能函数
-	:param args: 地址的集合
+	the function has two features:
+	1:
+		as a decortor，put out main function inside,
+		and repalce our main function, then run it by child process.
+	2:
+		we can put some message in multiprocessing.Queque, like End message.
+	question:
+		can't put this Funtion behide main block, error occur.
+		due to windows, I can only setup multiprocessing.Queque after main block.
+	:param queue:  ponit to multiprocessing.Queque's instance.
+	:param func: main Function (explode_m)
+	:param args: the set of paths
 	:return:
 	"""
 	info1 = u"多部件拆分...\n"
@@ -67,7 +67,7 @@ def decor(queue, func, *args):
 class App(tooltk.Tooltk):
 	q = Queue()
 	"""
-	该功能的GUI调用窗口
+	main-function's GUI
 	"""
 	def __init__(self):
 		super(App, self).__init__(u"拆分多部件",
@@ -83,8 +83,9 @@ class App(tooltk.Tooltk):
 		self.window.mainloop()
 		
 	def process_communication(self):
-		"""进程数据共享
-		主进程开始一个子线程来获取另一个（子进程）的数据
+		"""
+		sharing messages with some Process.
+		The main process starts a child thread to get messages from another (child process)
 		"""
 		while True:
 			i = self.q.get()
