@@ -9,7 +9,7 @@
 
 import arcpy,os
 from multiprocessing import Process,Queue
-from threading import  Thread
+# from threading import Thread
 from hyconf import multication
 # sys.path.append("../GUIs")
 import tooltk
@@ -50,10 +50,11 @@ def address_clip(mxds, process_core):
     return slices_set
 
 
-def export_jpeg(path_slice_set, res):
+def export_jpeg(queue, path_slice_set, res):
     """
     主要的出图功能函数
     获取地址列表切片进行出图处理
+    :param queue:
     :param path_slice_set: 地址列表 的 一个切片包（列表）
     :param res: 分辨率 int
     :return:
@@ -65,14 +66,20 @@ def export_jpeg(path_slice_set, res):
         arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
                                    resolution=res)
         del mxd1
-        info = one_path + " Done!"
+        info = one_path + " Done! \n"
         print info
+        queue.put(info)
+    
 
-def dercor(queque,func,*args):
-    queque.put(u"任务开始...\n")
-    func(*args)
-    queque.put(u"任务完成\n")
-
+       
+def de4cor(queue, information, func, *args):
+    info1 = u"任务开始...<ProcessID: {}>".format(os.getpid())
+    queue.put(info1)
+    queue.put(information)
+    func(queue,*args)
+    # queue.put(info_list.pop(0))
+    info2 = u"任务结束  <ProcessID: {}>".format(os.getpid())
+    queue.put(info2)
 
 
 class MultipExp(tooltk.Tooltk):
@@ -109,9 +116,9 @@ class MultipExp(tooltk.Tooltk):
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=self.commu.decor, args=(self.commu.que,
-                                                       
-                                                       export_jpeg,set_li, res,))
+            p = Process(target=self.commu.decor, args=(self.commu.que,"--",
+                                                       export_jpeg,set_li, res,
+                                                       ))
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "process start"

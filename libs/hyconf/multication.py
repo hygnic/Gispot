@@ -13,6 +13,7 @@ import os
 
 
 class MuCation(object):
+	
 	"""
 	multiprocess communication
 	"""
@@ -47,24 +48,26 @@ class MuCation(object):
 		:param args: the set of paths
 		:return:
 		"""
-		info1 = u"任务开始...<ProcessID: {}>".format(os.getpid())
+		info1 = u"任务开始...<ProcessID: {}\n>".format(os.getpid())
 		queue.put(info1)
 		queue.put(information)
 		print queue
 		print queue.qsize()  # 1
 		print queue.empty()  # Ture
-		func(*args)
-		info2 = u"任务结束  <ProcessID: {}>".format(os.getpid())
+		func(queue,*args)
+		info2 = u"任务结束  <ProcessID: {}\n>".format(os.getpid())
 		queue.put(info2)
 	
+	
 	def process_communication(self, text):
+		
 		"""
 		sharing messages with some Process.
-		The main process starts a child thread to get messages from another (child process)
+		The main process starts a child thread to get messages from another
+		(child process)
 		:param text: Tkinter.text  我们使用的这个 self.text_majorMsg
 		:return:
 		"""
-		
 		def inner():
 			# 因为是阻塞操作，另起一子线程循环监听Queue，否则会导致GUI界面卡死。
 			while True:
