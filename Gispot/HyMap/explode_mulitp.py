@@ -10,7 +10,8 @@ main function: make multiple-parts to single.
 
 import arcpy
 from multiprocessing import Process,Queue
-from threading import Thread
+# from threading import Thread
+from hyconf import multication
 import tooltk
 # import subprocess
 
@@ -36,30 +37,30 @@ def explode_m(shp_p, new_shp):
 			  u"或者重启程序。"
 
 # 装饰函数
-def decor(queue, func, *args):
-	"""
-	the function has two features:
-	1:
-		as a decortor, put out main function inside,
-		and repalce our main function, then run it by child process.
-	2:
-		we can put some message in multiprocessing.Queque, like End message.
-	question:
-		can't put this Funtion behide main block, error occur.
-		due to windows, I can only setup multiprocessing.Queque after main block.
-	:param queue:  ponit to multiprocessing.Queque's instance.
-	:param func: main Function (explode_m)
-	:param args: the set of paths
-	:return:
-	"""
-	info1 = u"多部件拆分...\n"
-	queue.put(info1)
-	print queue
-	print queue.qsize() # 1
-	print queue.empty() # Ture
-	func(*args)
-	info2 = u"多部件拆解完成"
-	queue.put(info2)
+# def decor(queue, func, *args):
+# 	"""
+# 	the function has two features:
+# 	1:
+# 		as a decortor, put out main function inside,
+# 		and repalce our main function, then run it by child process.
+# 	2:
+# 		we can put some message in multiprocessing.Queque, like End message.
+# 	question:
+# 		can't put this Funtion behide main block, error occur.
+# 		due to windows, I can only setup multiprocessing.Queque after main block.
+# 	:param queue:  ponit to multiprocessing.Queque's instance.
+# 	:param func: main Function (explode_m)
+# 	:param args: the set of paths
+# 	:return:
+# 	"""
+# 	info1 = u"多部件拆分...\n"
+# 	queue.put(info1)
+# 	print queue
+# 	print queue.qsize() # 1
+# 	print queue.empty() # Ture
+# 	func(*args)
+# 	info2 = u"多部件拆解完成"
+# 	queue.put(info2)
 	# while True:
 	# 	print q.get() # 多部件拆分...
 				  # 多部件已拆解
@@ -67,10 +68,12 @@ def decor(queue, func, *args):
 
 	
 class App(tooltk.Tooltk):
-	q = Queue()
+	
+	commu = multication.MuCation()
 	"""
 	main-function's GUI
 	"""
+	
 	def __init__(self):
 		super(App, self).__init__(u"拆分多部件",
 								  "../docs/explode_mulitp.gc")
@@ -82,27 +85,26 @@ class App(tooltk.Tooltk):
 		self.savename_block([(u'shapefile', '*.shp'), ('All Files', '*')],
 							u"选择保存地址")
 		self.button_confirm["command"] = self.confirm_method_e
+		# self.text_majorMsg.insert("end", "jkjkjkjkkjkk" + "\n")
+		# self.text_majorMsg.insert("end", "jkjkjkjkkjkk" + "\n")
 		self.window.mainloop()
 		
-	def process_communication(self):
-		"""
-		sharing messages with some Process.
-		The main process starts a child thread to get messages from another (child process)
-		"""
-		while True:
-			i = self.q.get()
-			self.text_majorMsg.insert("end", i+"\n")
-	
+
+		
 	def confirm_method_e(self):
 		# 获取列表
 		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)
-		p = Process(target=decor, args=(self.q, explode_m, v[0], v[1],))
+		# p = Process(target=self.commu.decor, args=( explode_m, v[0], v[1],))
+		p = Process(target=self.commu.decor, args=(self.commu.que,
+												   "----",
+												   explode_m, v[0], v[1],))
 		p.start()
 		
 		print "process_communication: begin"
-		t = Thread(target=self.process_communication)
-		t.start()
-		
+		# t = Thread(target=self.process_communication)
+		# t.start()
+		self.commu.process_communication(self.text_majorMsg)
+		# self.process_communication(self.q)
 		# explode_m(v[0], v[1])
 	
 		# t = Thread(target=explode_m,args=(v[0], v[1]))
@@ -111,9 +113,9 @@ class App(tooltk.Tooltk):
 		# self.text_majorMsg.insert("end", u"多部件拆分...\n")
 		# self.text_majorMsg.insert("end", u"多部件已拆解")
 
-if __name__ == '__main__':
-	path1 = raw_input(u"待输入处理数据：")
-	path2 = raw_input(u"保存位置")
-	print u"多部件拆分..."
-	explode_m(path1, path2)
-	print u"多部件拆解完成"
+# if __name__ == '__main__':
+# 	path1 = raw_input(u"待输入处理数据：")
+# 	path2 = raw_input(u"保存位置")
+# 	print u"多部件拆分..."
+# 	explode_m(path1, path2)
+# 	print u"多部件拆解完成"

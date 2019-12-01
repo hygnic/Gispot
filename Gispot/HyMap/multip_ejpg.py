@@ -10,6 +10,7 @@
 import arcpy,os
 from multiprocessing import Process,Queue
 from threading import  Thread
+from hyconf import multication
 # sys.path.append("../GUIs")
 import tooltk
 
@@ -61,9 +62,11 @@ def export_jpeg(path_slice_set, res):
     for one_path in path_slice_set:
         mxd1 = arcpy.mapping.MapDocument(one_path)
         # print u"正在出图..."
-        arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg', resolution=res)
+        arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
+                                   resolution=res)
         del mxd1
-        print one_path + " Done!"
+        info = one_path + " Done!"
+        print info
 
 def dercor(queque,func,*args):
     queque.put(u"任务开始...\n")
@@ -73,6 +76,8 @@ def dercor(queque,func,*args):
 
 
 class MultipExp(tooltk.Tooltk):
+    
+    commu = multication.MuCation()
     ququ = Queue()
     def __init__(self):
         super(MultipExp, self).__init__(u"多进程导出jpeg", "../docs/multip_ejpg.gc")
@@ -86,17 +91,6 @@ class MultipExp(tooltk.Tooltk):
         self.addfile_button.config(text=u"—", state="disabled")
         self.button_confirm["command"] = self.confirm_method
         
-    def process_communication(self,p):
-        """
-        
-        :param p: 进程
-        :return:
-        """
-        while True:
-            m = self.ququ.get()
-            self.text_majorMsg.insert("end", str(p.pid) + "\n")
-            self.text_majorMsg.insert("end", m + "\n")
-        
     
     
     def confirm_method(self):
@@ -104,7 +98,7 @@ class MultipExp(tooltk.Tooltk):
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
         v = self.get_Entry_fromblock(self.input_sdb, self.input_sib,
                                  self.input_sib2)
-
+        # 进程数
         core = int(v[1])
         print core, "type: ", type(core)
         res = int(v[2])
@@ -115,22 +109,25 @@ class MultipExp(tooltk.Tooltk):
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=dercor, args=(self.ququ,export_jpeg,set_li, res,))
+            p = Process(target=self.commu.decor, args=(self.commu.que,
+                                                       
+                                                       export_jpeg,set_li, res,))
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
-            print "start process"
+            print "process start"
             print "process_communication: begin"
-            t = Thread(target=self.process_communication, args=(p,))
-            t.start()
+            self.commu.process_communication(self.text_majorMsg)
+            # t = Thread(target=self.process_communication, args=(p,))
+            # t.start()
         # 初始化列表，以免二次输入时报错
         self.block_list = []
 
 
-if __name__ == '__main__':
-    # 这里实际不会运行的，
-    app_Multip = MultipExp()
-    # app_Multip.confirm_method()
-    app_Multip.window.mainloop()
+# if __name__ == '__main__':
+#     # 这里实际不会运行的，
+#     app_Multip = MultipExp()
+#     # app_Multip.confirm_method()
+#     app_Multip.window.mainloop()
 
 
 # address_clip(r"G:\test\gst", 5)

@@ -143,7 +143,9 @@ class Tooltk(object):
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
 		self.text_majorMsg = tk.Text(self.frame_side_bar, height="10",
-									 width="60", yscrollcommand=s_bar.set)
+									 width="60", yscrollcommand=s_bar.set,
+									maxundo = 15, undo =True)
+									# 支持撤销操作，支持换行 wrap = "char"
 		self.text_majorMsg.insert(tk.END,">>>"*20)
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
 								fill=tk.Y, padx=2)
