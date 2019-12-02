@@ -24,7 +24,7 @@ class MuCation(object):
 		return self._q
 	
 	
-	def decor(self, queue, information, func, *args):
+	def decor(self, queue,  func, *args):
 		
 		"""
 			这里必须传入参数queue，因为multiprocessing.Queue只能在mian下建立
@@ -48,14 +48,14 @@ class MuCation(object):
 		:param args: the set of paths
 		:return:
 		"""
-		info1 = u"任务开始...<ProcessID: {}\n>".format(os.getpid())
+		info1 = u"<ProcessID: {}> 任务开始...\n".format(os.getpid())
 		queue.put(info1)
-		queue.put(information)
+		# queue.put(information)
 		print queue
 		print queue.qsize()  # 1
 		print queue.empty()  # Ture
 		func(queue,*args)
-		info2 = u"任务结束  <ProcessID: {}\n>".format(os.getpid())
+		info2 = u"<ProcessID: {}> 任务结束。\n".format(os.getpid())
 		queue.put(info2)
 	
 	
@@ -72,8 +72,14 @@ class MuCation(object):
 			# 因为是阻塞操作，另起一子线程循环监听Queue，否则会导致GUI界面卡死。
 			while True:
 				i = self.que.get()
-				# "\n  " + 反而会冒出一个空行
-				text.insert("end", " " + i)
+				
+				if i.startswith("<ProcessID"):
+					text.tag_config("tag_1", backgroun="yellow",
+									foreground="red")
+					text.insert("end", " " + i,"tag_1")
+					# "\n  " + 反而会冒出一个空行
+				else:
+					text.insert("end", " " + i)
 		
 		t = Thread(target=inner)
 		t.start()

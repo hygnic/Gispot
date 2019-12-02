@@ -66,21 +66,10 @@ def export_jpeg(queue, path_slice_set, res):
         arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
                                    resolution=res)
         del mxd1
-        info = one_path + " Done! \n"
+        info = os.path.basename(one_path) + " Done! \n"
         print info
         queue.put(info)
     
-
-       
-def de4cor(queue, information, func, *args):
-    info1 = u"任务开始...<ProcessID: {}>".format(os.getpid())
-    queue.put(info1)
-    queue.put(information)
-    func(queue,*args)
-    # queue.put(info_list.pop(0))
-    info2 = u"任务结束  <ProcessID: {}>".format(os.getpid())
-    queue.put(info2)
-
 
 class MultipExp(tooltk.Tooltk):
     
@@ -116,7 +105,7 @@ class MultipExp(tooltk.Tooltk):
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=self.commu.decor, args=(self.commu.que,"--",
+            p = Process(target=self.commu.decor, args=(self.commu.que,
                                                        export_jpeg,set_li, res,
                                                        ))
             p.start()

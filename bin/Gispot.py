@@ -12,7 +12,7 @@ bin_p = os.path.abspath(os.path.dirname(__file__))
 root_p = os.path.abspath(os.path.dirname(bin_p))
 # print "root_P:  ",root_p  #  E:/move on move on/Gispot
 sys.path.append(os.path.join(root_p, "GUIs"))
-print sys.path
+
 
 import tool_entrance
 

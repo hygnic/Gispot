@@ -134,7 +134,7 @@ class Tooltk(object):
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.text.insert(tk.END,
 						 "Python 2.7.12 (v2.7.12:d33e0cf91556, Jun 27 2016, "
-						 "15:19:22) author: Liaochenchen", "tag1")
+						 "15:19:22) author: Liaochenchen") #,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.text.pack(side="top", anchor="n", expand=False,
 					   padx=2)

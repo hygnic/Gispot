@@ -96,7 +96,6 @@ class App(tooltk.Tooltk):
 		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)
 		# p = Process(target=self.commu.decor, args=( explode_m, v[0], v[1],))
 		p = Process(target=self.commu.decor, args=(self.commu.que,
-												   "----",
 												   explode_m, v[0], v[1],))
 		p.start()
 		
