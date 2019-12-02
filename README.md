@@ -1,2 +1,4 @@
 # Gispot
-base on ArcPy and Tkinter
+base on ArcPy and Tkinter.
+just a draft.
+studying and learning.
