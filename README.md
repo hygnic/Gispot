@@ -1,3 +1,2 @@
-# GisCat
-just a draft
-studying and make progress
+# Gispot
+base on ArcPy and Tkinter
