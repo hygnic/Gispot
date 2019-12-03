@@ -1,0 +1,1 @@
+setx env_name env_value /m
