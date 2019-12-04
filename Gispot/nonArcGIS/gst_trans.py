@@ -8,7 +8,7 @@
 
 """
 
-import os,re
+import os
 import tooltk
 # print "name:GSTrename"
 
@@ -34,6 +34,7 @@ def gst_trans(jpg_path):
 				os.rename(oldname, newfile)
 				print "Done!"
 
+
 # gst_trans(ur"F:\正安县\gshitu")
 
 # 继承
@@ -45,7 +46,7 @@ class App(tooltk.Tooltk):
 		# self.window.grab_set()
 		# block1
 		self.single_dir_block(u"图片文件夹")
-		self.read_help(r"docs\trans_gst")
+		self.read_help(r"docs\trans_gst.gc")
 
 	def confirm_method(self):
 		"""按下确认button时可以同时获取Entry的值，然后赋值，运行主方法"""
@@ -66,6 +67,6 @@ class App(tooltk.Tooltk):
 			print "Done"
 
 
-if __name__ == '__main__':
-	app = App()
-	app.window.mainloop()
+# if __name__ == '__main__':
+# 	app = App()
+# 	app.window.mainloop()
