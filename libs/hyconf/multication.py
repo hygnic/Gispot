@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # User: liaochenchen, hygnic
 # Date: 2019/12/1
+# python2.7
 """
 multiprocess communication两个单词的组合  > _ < !!!
 The class contains some fuctions about a GUI how to coummnication with
@@ -75,12 +76,13 @@ class MuCation(object):
 				
 				if i.startswith("<ProcessID"):
 					text.tag_config("tag_1", backgroun="yellow",
-									foreground="red")
+									foreground="red",)
 					text.insert("end", " " + i,"tag_1")
+					text.see("end")
 					# "\n  " + 反而会冒出一个空行
 				else:
 					text.insert("end", " " + i)
-		
+					text.see("end")
 		t = Thread(target=inner)
 		t.start()
 

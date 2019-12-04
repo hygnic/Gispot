@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # User: liaochenchen
 # Date: 2019/10/21
-
+# python2.7
 """所用工具和脚本都调用此GUI"""
 
 import Tkinter as tk
@@ -68,8 +68,7 @@ class Tooltk(object):
 		dir_n = os.path.dirname(__file__)
 		self.gif_text16 = tk.PhotoImage(file=
 										os.path.join(dir_n,
-													 r"Icons\Text_File16.gif")
-										)
+													 r"Icons\Text_File16.gif"))
 		# self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
 		self.gif_folder16 = tk.PhotoImage(file=os.path.join(dir_n,
 													 r"Icons\Folder16.gif"))
@@ -121,12 +120,13 @@ class Tooltk(object):
 		s_bar.pack(side="right", fill="y")
 		self.help_text = tk.Text(help_f, relief=tk.FLAT,
 								 fg=self.color5, yscrollcommand=s_bar.set)
+		
 		self.help_text.pack(expand=True, fill="both")
 		s_bar.config(command=self.help_text.yview)
 		
 		""""
-				侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
-			下半部分显示动态信息"""
+			侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
+		下半部分显示动态信息"""
 		# 上栏
 		self.text = stt.ScrolledText(self.frame_side_bar, height="10",
 									 width="60")
@@ -150,6 +150,7 @@ class Tooltk(object):
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
 								fill=tk.Y, padx=2)
 		s_bar.config(command=self.text_majorMsg.yview)
+		
 		# tk.Label(self.frame_side_bar,
 		# 		 text=u"处理详情",
 		# 		 font=("Times",0,"bold"),

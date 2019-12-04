@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 # User: liaochenchen
 # Date: 2019/11/20
+# python2.7
 """
 main function: make multiple-parts to single.
 因为我的电脑arcgis经常在进行多部件拆解的时候卡死，
