@@ -33,10 +33,10 @@ giscat_paths = [root_base,
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
 
-# import nonArcGIS # 识别不了gstrename
-from nonArcGIS import gstrename
-from HyMap import multip_ejpg
-from HyMap import explode_mulitp
+# import ccname # 识别不了gstrename
+from ccname import gstrename
+from ccarcpy import multip_ejpg
+from ccarcpy import explode_mulitp
 
 # 配置包导入
 from hyconf import GUIutils
@@ -124,12 +124,12 @@ class AppEntrance(object):
         没用上，以后也没有用了
         """
         def open_gst_trans():
-            from nonArcGIS import gst_trans
+            from ccname import gst_trans
             open_gst_trans = gst_trans.App()
             open_gst_trans.window.mainloop()
 
         def open_fbt_trans():
-            from nonArcGIS import fbt_trans
+            from ccname import fbt_trans
             open_fbt_trans = fbt_trans.App()
             open_fbt_trans.window.mainloop()
         

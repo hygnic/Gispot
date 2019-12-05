@@ -15,7 +15,7 @@ from hyconf import GUIutils
 
 
 # import sys
-# # gisTKlists = ["../Gispot/HyMap"]
+# # gisTKlists = ["../Gispot/ccarcpy"]
 # for gisTKlist in gisTKlists:
 # 	sys.path.append(gisTKlist)
 # import export_jpeg

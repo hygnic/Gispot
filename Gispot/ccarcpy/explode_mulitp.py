@@ -42,42 +42,6 @@ def explode_m(qq, shp_p, new_shp):
 		print "None"
 	qq.put(info)
 
-
-
-# p1 = ur"G:\古蔺县\矢量数据\CJQY5105252019.shp"
-# p2 = ur"G:\古蔺县\矢量数据\777.shp"
-# explode_m(p1, p2)
-
-# 装饰函数
-# def decor(queue, func, *args):
-# 	"""
-# 	the function has two features:
-# 	1:
-# 		as a decortor, put out main function inside,
-# 		and repalce our main function, then run it by child process.
-# 	2:
-# 		we can put some message in multiprocessing.Queque, like End message.
-# 	question:
-# 		can't put this Funtion behide main block, error occur.
-# 		due to windows, I can only setup multiprocessing.Queque after main block.
-# 	:param queue:  ponit to multiprocessing.Queque's instance.
-# 	:param func: main Function (explode_m)
-# 	:param args: the set of paths
-# 	:return:
-# 	"""
-# 	info1 = u"多部件拆分...\n"
-# 	queue.put(info1)
-# 	print queue
-# 	print queue.qsize() # 1
-# 	print queue.empty() # Ture
-# 	func(*args)
-# 	info2 = u"多部件拆解完成"
-# 	queue.put(info2)
-	# while True:
-	# 	print q.get() # 多部件拆分...
-				  # 多部件已拆解
-				  
-
 	
 class App(tooltk.Tooltk):
 	
