@@ -15,13 +15,13 @@ arcpy.env.overwriteOutput = True
 """
 路径和默认空间设置
 """
-LQDK_path  = r"E:\中江县\LQDK修改.shp"
+LQDK_path  = r"D:\农业部汇交1120\纳溪\纳溪补地块\LQDK.shp"
 # 基本农田路径
-JBNTBHTB_path = r"E:\中江县\510623中江县\矢量数据\JBNTBHTB5106232017.shp"
+JBNTBHTB_path = r"D:\农业部汇交1120\纳溪\纳溪补地块\JBNTBHTB5105032019.shp"
 task_list = [LQDK_path, JBNTBHTB_path]
 
 # 默认工作空间
-workspace = r"E:\worksapce_1"
+workspace = r"E:\worksapce_1205"
 
 if not os.path.isdir(workspace):
 	os.makedirs(workspace)

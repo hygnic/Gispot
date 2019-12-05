@@ -52,10 +52,10 @@ class MuCation(object):
 		info1 = u"<ProcessID: {}> 任务开始...\n".format(os.getpid())
 		queue.put(info1)
 		# queue.put(information)
-		print queue
-		print queue.qsize()  # 1
-		print queue.empty()  # Ture
-		func(queue,*args)
+		# print queue
+		# print queue.qsize()  # 1
+		# print queue.empty()  # Ture
+		func(queue, *args)
 		info2 = u"<ProcessID: {}> 任务结束。\n".format(os.getpid())
 		queue.put(info2)
 	

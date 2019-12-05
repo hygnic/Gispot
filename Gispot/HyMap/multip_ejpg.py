@@ -51,11 +51,11 @@ def address_clip(mxds, process_core):
     return slices_set
 
 
-def export_jpeg(queue, path_slice_set, res):
+def export_jpeg(me_queue, path_slice_set, res):
     """
     主要的出图功能函数
     获取地址列表切片进行出图处理
-    :param queue:
+    :param me_queue:
     :param path_slice_set: 地址列表 的 一个切片包（列表）
     :param res: 分辨率 int
     :return:
@@ -69,7 +69,7 @@ def export_jpeg(queue, path_slice_set, res):
         del mxd1
         info = os.path.basename(one_path) + " Done! \n"
         print info
-        queue.put(info)
+        me_queue.put(info)
     
 
 class MultipExp(tooltk.Tooltk):

@@ -17,9 +17,10 @@ import tooltk
 # import subprocess
 
 
-def explode_m(shp_p, new_shp):
+def explode_m(qq, shp_p, new_shp):
 	"""
 	main function, make multiple-parts to single.
+	:param qq: 就是queue
 	:param shp_p: shp path which we need to deal with.
 	:param new_shp: shp path which saves our result.
 	:return:
@@ -27,15 +28,25 @@ def explode_m(shp_p, new_shp):
 	arcpy.env.overwriteOutput = True
 	# import time
 	# time.sleep(10)
+	# print u"程序开始了"
 	base = "base.shp"
-	arcpy.env.workspace = r"E:\move on move on\ffff"
+	# arcpy.env.workspace = r"E:\move on move on\ffff"
 	if arcpy.Exists(shp_p):
+		# queue.put("oooooo")
 		arcpy.MakeFeatureLayer_management(shp_p, base)
 		arcpy.MultipartToSinglepart_management(base, new_shp)
-		print "complete"
+		info =  "complete"
 	else:
-		print u"无法识别文件，请检查文件名和路径是否正确；\n" \
-			  u"或者重启程序。"
+		info = u"无法识别文件，请检查文件名和路径是否正确；\n" \
+			  u"或者重启程序。\n"
+		print "None"
+	qq.put(info)
+
+
+
+# p1 = ur"G:\古蔺县\矢量数据\CJQY5105252019.shp"
+# p2 = ur"G:\古蔺县\矢量数据\777.shp"
+# explode_m(p1, p2)
 
 # 装饰函数
 # def decor(queue, func, *args):
