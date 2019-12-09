@@ -9,7 +9,7 @@ import ttk
 import tkFileDialog
 import ScrolledText as stt
 import os
-from PIL import Image, ImageTk
+
 
 
 # 导入配置包
@@ -80,17 +80,22 @@ class Tooltk(object):
 		# self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
 		self.gif_quit = tk.PhotoImage(file=os.path.join(dir_n,
 													 r"Icons\Close16.gif"))
-		ph = tk.PhotoImage(file=os.path.join(dir_n,
+		self.gif_confirm = tk.PhotoImage(file=os.path.join(dir_n,
 											 r"Icons\GenericCheckMarkGreen16.gif"))
+		self.gif_help = tk.PhotoImage(
+			file=os.path.join(dir_n, r"Icons\GenericInformationBubble16.gif"))
 		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
 		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
 		# self.gif_comfirm =  ph.subsample(x= 40,y=40)
+		
+		"""
+		使用pillow设置按键图标
+		from PIL import Image, ImageTk
 		self.gif_comfirm = ph
-		self.gif_help = tk.PhotoImage(
-			file=os.path.join(dir_n,r"Icons\GenericInformationBubble16.gif"))
 		# test
-		self.im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
-		self.ph_im = ImageTk.PhotoImage(self.im)
+		im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
+		self.ph_im = ImageTk.PhotoImage(im)
+		"""
 		
 	
 	def create_frames(self):
@@ -189,7 +194,7 @@ class Tooltk(object):
 		
 		
 		self.button_confirm = tk.Button(self.frame_bottom_bar,
-										image=self.ph_im)  # text=u'确认'
+										image=self.gif_confirm)  # text=u'确认'
 		self.button_help = ttk.Button(self.frame_bottom_bar,
 									  image=self.gif_help)  # text=u'帮助详情',
 		self.button_quit = ttk.Button(self.frame_bottom_bar,

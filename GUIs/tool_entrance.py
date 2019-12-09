@@ -6,7 +6,7 @@ import os
 import Tkinter as tk
 import sys
 import ttk
-from PIL import Image, ImageTk
+# from PIL import Image, ImageTk
 
 
 # 获取程序当前的文件夹位置
@@ -51,13 +51,6 @@ class AppEntrance(object):
         GUIutils.screen_cetre(self.rootwindow, width=700, height=500)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.menu()
-        # im = Image.open(ur"E:\move on move on\Gispot\GUIs\66.png")
-        self.im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
-        self.ph_im = ImageTk.PhotoImage(self.im)
-        # self.ph_im = tk.PhotoImage(
-        #     file=ur"E:\move on move on\Gispot\GUIs\Close16.gif")
-        bt = ttk.Button(image=self.ph_im)
-        bt.pack()
         # bt.config()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
