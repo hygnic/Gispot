@@ -9,6 +9,8 @@ import ttk
 import tkFileDialog
 import ScrolledText as stt
 import os
+from PIL import Image, ImageTk
+
 
 # 导入配置包
 from hyconf import GUIutils
@@ -86,6 +88,10 @@ class Tooltk(object):
 		self.gif_comfirm = ph
 		self.gif_help = tk.PhotoImage(
 			file=os.path.join(dir_n,r"Icons\GenericInformationBubble16.gif"))
+		# test
+		self.im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
+		self.ph_im = ImageTk.PhotoImage(self.im)
+		
 	
 	def create_frames(self):
 		# 侧边栏
@@ -178,9 +184,12 @@ class Tooltk(object):
 				self.help_text.insert(tk.END, read_line)
 			# print read_line
 	
+
 	def create_button(self):
-		self.button_confirm = ttk.Button(self.frame_bottom_bar,
-										 image=self.gif_comfirm)  # text=u'确认'
+		
+		
+		self.button_confirm = tk.Button(self.frame_bottom_bar,
+										image=self.ph_im)  # text=u'确认'
 		self.button_help = ttk.Button(self.frame_bottom_bar,
 									  image=self.gif_help)  # text=u'帮助详情',
 		self.button_quit = ttk.Button(self.frame_bottom_bar,
@@ -191,6 +200,7 @@ class Tooltk(object):
 		self.button_help.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E, padx=5)
 		self.button_quit.pack(side=tk.RIGHT, expand=tk.NO, anchor=tk.E, padx=5)
 		# buttonttk["command"] = self.kk
+		
 		return 1
 	
 	def single_file_block(self, sfb_filetype, sfb_name):

@@ -6,6 +6,8 @@ import os
 import Tkinter as tk
 import sys
 import ttk
+from PIL import Image, ImageTk
+
 
 # 获取程序当前的文件夹位置
 # E:\move on move on\Gispot\GUIs\tool_entrance.py
@@ -49,12 +51,25 @@ class AppEntrance(object):
         GUIutils.screen_cetre(self.rootwindow, width=700, height=500)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.menu()
+        # im = Image.open(ur"E:\move on move on\Gispot\GUIs\66.png")
+        self.im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
+        self.ph_im = ImageTk.PhotoImage(self.im)
+        # self.ph_im = tk.PhotoImage(
+        #     file=ur"E:\move on move on\Gispot\GUIs\Close16.gif")
+        bt = ttk.Button(image=self.ph_im)
+        bt.pack()
+        # bt.config()
+        # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
         self.button_config()
         
         # 放最后
         self.menu_run()
+    # @property
+    # def pp(self):
+    #     return self.rootwindow
         
+    
     def menu(self):
         """设置置顶菜单栏"""
         # window = tk.Tk()
@@ -172,6 +187,9 @@ class AppEntrance(object):
             webbrowser.open(update_url, new=0, autoraise=True)
         ap_button = ttk.Button(text = u"获取更新",command = open_u)
         ap_button.pack(side='top', expand='yes',anchor = "se")
+
+        
+        
     
 
 

@@ -14,6 +14,7 @@ from multiprocessing import Process,Queue
 # from threading import Thread
 from hyconf import multication
 import tooltk
+import tool_entrance
 # import subprocess
 
 
@@ -51,7 +52,8 @@ class App(tooltk.Tooltk):
 	"""
 	
 	def __init__(self):
-		super(App, self).__init__(u"拆分多部件",
+		super(App, self).__init__(
+								  u"拆分多部件",
 								  "../docs/explode_mulitp.gc")
 		# s = self.window.winfo_children()
 		# for i in s:
