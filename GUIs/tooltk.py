@@ -104,14 +104,13 @@ class Tooltk(object):
 	
 	def create_frames(self):
 		# 侧边栏
-		self.frame_side_bar = tk.Frame(self.window,
-									   width="500",
+		self.frame_side_bar = tk.Frame(self.window,height = 1000,
+									 
 									   border=2, relief="groove")
 		self.frame_side_bar.pack(side="right", anchor="e",
 								 expand=False, fill="y")
 		# 左边的主框
-		self.frame_major = tk.Frame(self.window, height="310",
-									width="400",
+		self.frame_major = tk.Frame(self.window,
 									border=2, relief="sunken")
 		self.frame_major.pack(side="top", anchor="center",
 							  expand=True, fill="both")

@@ -47,10 +47,11 @@ from hyconf import lccutils
 class AppEntrance(object):
     """进行打包的可视化外壳"""
     
-    rootwindow = tk.Tk()
-    main_f = ttk.Frame(rootwindow,relief = "flat")
+    # rootwindow = tk.Tk()
+    
+    
     def __init__(self):
-        # self.rootwindow = tk.Tk()
+        self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
         lccutils.screen_cetre(self.rootwindow, width=1000, height=618)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
@@ -60,7 +61,10 @@ class AppEntrance(object):
         # self.rootwindow.attributes('-topmost', 0)
         self.olive_bar()
         self.upgrade_but()
-        self.main_f.pack()
+        self.main_f = tk.Frame(self.rootwindow,relief = "flat")
+                          # bg="Blue"
+        self.main_f.pack(expand = True,fill ="both")
+        
         # 放最后
         self.menu_run()
         
@@ -131,36 +135,33 @@ class AppEntrance(object):
     def menu_run(self):
         self.rootwindow.config(menu=self.menubar)
     
-    def trans_name(self):
-        """
-        之前要将四川标准的图片名称改为国家标准的名称，
-        没用上，以后也没有用了
-        """
-        def open_gst_trans():
-            from ccname import gst_trans
-            open_gst_trans = gst_trans.App()
-            open_gst_trans.window.mainloop()
+    # def trans_name(self):
+    #     """
+    #     之前要将四川标准的图片名称改为国家标准的名称，
+    #     没用上，以后也没有用了
+    #     """
+    #     def open_gst_trans():
+    #         from ccname import gst_trans
+    #         open_gst_trans = gst_trans.App()
+    #         open_gst_trans.window.mainloop()
+    #
+    #     def open_fbt_trans():
+    #         from ccname import fbt_trans
+    #         open_fbt_trans = fbt_trans.App()
+    #         open_fbt_trans.window.mainloop()
+    #
+    #     # 图件命名转换 菜单栏
+    #     self.menubar_trans = tk.Menu(self.menubar, tearoff=0)
+    #     self.menubar.add_cascade(label=u"两区图件名称装换", menu=self.menubar_trans)
+    #     self.menubar_trans.add_command(label=u'公示图名称',
+    #                               command=open_gst_trans)
+    #     self.menubar_trans.add_command(label=u'分布图名称',
+    #                               command=open_fbt_trans)
+    #     # self.menubar_trans.add_command(label=u'标志牌名称'）
+    #
+    #     # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
+    #     self.rootwindow.config(menu=self.menubar)
 
-        def open_fbt_trans():
-            from ccname import fbt_trans
-            open_fbt_trans = fbt_trans.App()
-            open_fbt_trans.window.mainloop()
-        
-        # 图件命名转换 菜单栏
-        self.menubar_trans = tk.Menu(self.menubar, tearoff=0)
-        self.menubar.add_cascade(label=u"两区图件名称装换", menu=self.menubar_trans)
-        self.menubar_trans.add_command(label=u'公示图名称',
-                                  command=open_gst_trans)
-        self.menubar_trans.add_command(label=u'分布图名称',
-                                  command=open_fbt_trans)
-        # self.menubar_trans.add_command(label=u'标志牌名称'）
-        
-        # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
-        self.rootwindow.config(menu=self.menubar)
-
-
-        
-    
     def open_GSTrename(self):
         lccutils.destroy_chird(self.main_f)
         gstrename.App(self.main_f)
