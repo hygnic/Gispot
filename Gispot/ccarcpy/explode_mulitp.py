@@ -33,19 +33,19 @@ def explode_m(qq, shp_p, new_shp):
 	base = "base.shp"
 	# arcpy.env.workspace = r"E:\move on move on\ffff"
 	if arcpy.Exists(shp_p):
-		# queue.put("oooooo")
+		infoo = u"开始拆除多部件！\n"
+		qq.put(infoo)
 		arcpy.MakeFeatureLayer_management(shp_p, base)
 		arcpy.MultipartToSinglepart_management(base, new_shp)
-		info =  "complete"
+		info =  "complete\n"
 	else:
 		info = u"无法识别文件，请检查文件名和路径是否正确；\n" \
 			  u"或者重启程序。\n"
-		print "None"
+		print info
 	qq.put(info)
 
 	
 class App(tooltk.Tooltk):
-	
 	commu = multication.MuCation()
 	"""
 	main-function's GUI

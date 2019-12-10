@@ -9,6 +9,8 @@ path1 = ur'G:\MoveOn\df\gst.txt'
 图片地址
 path2 = ur'G:\MoveOn\df'
 GST_rename(path1, path2)
+四川命名规范：
+GST CJQYDM 08001
 """
 
 import os,re

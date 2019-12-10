@@ -15,9 +15,9 @@ arcpy.env.overwriteOutput = True
 """
 路径和默认空间设置
 """
-LQDK_path  = r"D:\农业部汇交1120\纳溪\纳溪补地块\LQDK.shp"
+LQDK_path  = r"D:\农业部汇交1120\宜宾\511521宜宾县-最终-勿删\矢量数据\LQDK5115212019.shp"
 # 基本农田路径
-JBNTBHTB_path = r"D:\农业部汇交1120\纳溪\纳溪补地块\JBNTBHTB5105032019.shp"
+JBNTBHTB_path = r"D:\农业部汇交1120\宜宾\511521宜宾县-最终-勿删\矢量数据\JBNTBHTB5115212019.shp"
 task_list = [LQDK_path, JBNTBHTB_path]
 
 # 默认工作空间
