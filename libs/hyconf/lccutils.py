@@ -2,7 +2,11 @@
 # User: liaochenchen, hygnic
 # Date: 2019/11/28
 """
-tool_entrance和tooltk都需要的功能
+完善主窗口（tool_entrance）的功能：
+	窗口居中
+	清楚父部件中的子部件
+	
+
 """
 
 
@@ -21,3 +25,16 @@ def screen_cetre(master, width=None, height=None):
 	master.geometry(geometry_size)
 	# geometry = '%dx%d+%d+%d' % (
 	# width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+	
+	
+def destroy_chird(master):
+	"""
+	监测一个部件内部是否有子部件，如果有，
+	那么删除子部件
+	:param master: 父部件
+	:return:
+	"""
+	widget_set = master.winfo_children()
+	if widget_set:
+		for i in widget_set:
+			i.destroy()

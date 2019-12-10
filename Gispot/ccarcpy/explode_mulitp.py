@@ -10,11 +10,10 @@ main function: make multiple-parts to single.
 """
 
 import arcpy
-from multiprocessing import Process,Queue
+from multiprocessing import Process
 # from threading import Thread
 from hyconf import multication
 import tooltk
-import tool_entrance
 # import subprocess
 
 
@@ -50,11 +49,13 @@ class App(tooltk.Tooltk):
 	"""
 	main-function's GUI
 	"""
-	
-	def __init__(self):
-		super(App, self).__init__(
-								  u"拆分多部件",
-								  "../docs/explode_mulitp.gc")
+	def __init__(self,master_eem):
+		"""
+		:param master_eem: mian_f, a widget from tool_entrance.py
+		"""
+		super(App, self).__init__(master_eem,
+								  "../docs/explode_mulitp.gc",
+								  self.confirm_method_e)
 		# s = self.window.winfo_children()
 		# for i in s:
 		# 	print type(i) # <type 'instance'>
@@ -62,13 +63,9 @@ class App(tooltk.Tooltk):
 							   u"选择待处理shp文件")
 		self.savename_block([(u'shapefile', '*.shp'), ('All Files', '*')],
 							u"选择保存地址")
-		self.button_confirm["command"] = self.confirm_method_e
-		# self.text_majorMsg.insert("end", "jkjkjkjkkjkk" + "\n")
-		# self.text_majorMsg.insert("end", "jkjkjkjkkjkk" + "\n")
 		self.window.mainloop()
 		
 
-		
 	def confirm_method_e(self):
 		# 获取列表
 		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)

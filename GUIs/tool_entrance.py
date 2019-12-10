@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # User: liaochenchen, hygnic
 # Date: 2019/10/19
+"""该工具的主体界面"""
 
 import os
 import Tkinter as tk
@@ -41,41 +42,45 @@ from ccarcpy import multip_ejpg
 from ccarcpy import explode_mulitp
 
 # 配置包导入
-from hyconf import GUIutils
+from hyconf import lccutils
 
 class AppEntrance(object):
     """进行打包的可视化外壳"""
+    
+    rootwindow = tk.Tk()
+    main_f = ttk.Frame(rootwindow,relief = "flat")
     def __init__(self):
-        self.rootwindow = tk.Tk()
+        # self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
-        GUIutils.screen_cetre(self.rootwindow, width=700, height=500)
+        lccutils.screen_cetre(self.rootwindow, width=1000, height=618)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.menu()
         # bt.config()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
-        self.button_config()
-        
+        self.olive_bar()
+        self.upgrade_but()
+        self.main_f.pack()
         # 放最后
         self.menu_run()
-    # @property
-    # def pp(self):
-    #     return self.rootwindow
         
+    def olive_bar(self):
+        self.label_uesless = tk.Label(self.rootwindow, bg='olive')
+        self.label_uesless.pack(side="bottom", anchor=tk.SE, fill="x")
+    
+    def upgrade_but(self):
+            def open_u():
+                import webbrowser
+                update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
+                webbrowser.open(update_url, new=0, autoraise=True)
+        
+            ap_button = ttk.Button(master=self.label_uesless, text=u"获取更新", command=open_u)
+            ap_button.pack(side='top', expand='yes', anchor="se")
+    
     
     def menu(self):
         """设置置顶菜单栏"""
-        # window = tk.Tk()
-        # window.title('My Window')
-        # window.geometry('500x300')
-        label_uesless = tk.Label(self.rootwindow, bg='olive')
-        label_uesless.pack(side = "bottom",anchor = tk.SE, fill = "x")
-        self.counter = 0
-        def do_job():
-            # counter = 0
-            label_uesless.config(text=str(self.counter) + '  time!')
-            self.counter += 1
-        # 创建菜单栏，这里我们可以把他理解成一个容器，在窗口的上方
+        
         self.menubar = tk.Menu(self.rootwindow)
         # 第6步，创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，
             # Exit功能项）
@@ -84,16 +89,16 @@ class AppEntrance(object):
         self.menubar.add_cascade(label='File', menu=self.menubar_file)
         # 在File中加入New、Open、Save等小菜单，即我们平时看到的下拉菜单，
             # 每一个小菜单对应命令操作。
-        self.menubar_file.add_command(label='New', command=do_job)
-        self.menubar_file.add_command(label='Open', command=do_job)
-        self.menubar_file.add_command(label='Save', command=do_job)
+        self.menubar_file.add_command(label='New', command=None)
+        self.menubar_file.add_command(label='Open', command=None)
+        self.menubar_file.add_command(label='Save', command=None)
         self.menubar_file.add_separator()  # 添加一条分隔线
         self.menubar_file.add_command(label='Exit',
                                  command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
         submenu = tk.Menu(self.menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单
         # 创建第三级菜单命令，即菜单项里面的菜单项里面的菜单命令（有点拗口，笑~~~）
         submenu.add_command(label='Submenu_1',
-                            command=do_job)  # 这里和上面创建原理也一样，在Import菜单项中加入一个小菜单命令Submenu_1
+                            command=None)  # 这里和上面创建原理也一样，在Import菜单项中加入一个小菜单命令Submenu_1
         # 创建一个Edit菜单项（默认不下拉，下拉内容包括Cut，Copy，Paste功能项）
         # 创建第二级菜单，即菜单项里面的菜单
         self.menubar_file.add_cascade(label='Import', menu=submenu,
@@ -103,10 +108,10 @@ class AppEntrance(object):
         # 将上面定义的空菜单命名为 Edit，放在菜单栏中，就是装入那个容器中
         self.menubar.add_cascade(label='Edit', menu=self.menubar_edit)
         # 同样的在 Edit 中加入Cut、Copy、Paste等小命令功能单元，如果点击这些单元,
-            # 就会触发do_job的功能
-        self.menubar_edit.add_command(label='Cut', command=do_job)
-        self.menubar_edit.add_command(label='Copy', command=do_job)
-        self.menubar_edit.add_command(label='Paste', command=do_job)
+            # 就会触发None的功能
+        self.menubar_edit.add_command(label='Cut', command=None)
+        self.menubar_edit.add_command(label='Copy', command=None)
+        self.menubar_edit.add_command(label='Paste', command=None)
         
         # 制图mapping菜单栏
         self.menubar_gst = tk.Menu(self.menubar, tearoff=0)
@@ -125,7 +130,7 @@ class AppEntrance(object):
     # 配置安放菜单栏，写成方法便于调控纯程序
     def menu_run(self):
         self.rootwindow.config(menu=self.menubar)
-        
+    
     def trans_name(self):
         """
         之前要将四川标准的图片名称改为国家标准的名称，
@@ -156,20 +161,17 @@ class AppEntrance(object):
 
         
     
-    @staticmethod
-    def open_GSTrename():
-        GST_app = gstrename.App()
-        GST_app.window.mainloop()
+    def open_GSTrename(self):
+        lccutils.destroy_chird(self.main_f)
+        gstrename.App(self.main_f)
     
-    @staticmethod
-    def open_Multip_exp():
-        mul_app = multip_ejpg.MultipExp()
-        mul_app.window.mainloop()
+    def open_Multip_exp(self):
+        lccutils.destroy_chird(self.main_f)
+        multip_ejpg.MultipExp(self.main_f)
 
-    @staticmethod
-    def explode_mulitp():
-        explode_app = explode_mulitp.App()
-        # explode_app.window.mainloop()
+    def explode_mulitp(self):
+        lccutils.destroy_chird(self.main_f)
+        explode_mulitp.App(self.main_f)
         
 
     

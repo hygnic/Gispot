@@ -54,9 +54,13 @@ def gst_rename(txt_path, jpg_path):
 # 继承u
 class App(tooltk.Tooltk):
 	# msg_help = "文本格式：代码在前：510304107218牛佛镇鞍山村"
-	def __init__(self):
-		super(App, self).__init__(u"两区公示图命名规范化", r"../docs/gstrename.gc")
-		self.button_confirm["command"] = self.confirm_method
+	def __init__(self,master22):
+		"""
+		:param master22: mian_f , a widget from tool_entrance.py
+		"""
+		super(App, self).__init__(master22,
+								  r"../docs/gstrename.gc",
+								  self.confirm_method_g)
 		# self.window.grab_set()
 		# block1
 		self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
@@ -68,7 +72,7 @@ class App(tooltk.Tooltk):
 		# self.window.bind('<Return>', self.confirm_method)
 		
 
-	def confirm_method(self):
+	def confirm_method_g(self):
 		"""按下确认button时可以同时获取Entry的值，然后赋值，运行主方法"""
 		try:
 			# 过去single_file_block和single_dir_block的Entry数据
@@ -86,8 +90,3 @@ class App(tooltk.Tooltk):
 			# 初始化列表
 			self.block_list = []
 			print "Done"
-	
-
-if __name__ == '__main__':
-	app = App()
-	app.window.mainloop()

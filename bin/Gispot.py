@@ -19,8 +19,10 @@ import tool_entrance
 
 if __name__ == '__main__':
 	# print sys.path
+	print os.getpid()
 	entrance = tool_entrance.AppEntrance()
 	entrance.menu()
+	# 操控所有循环
 	entrance.rootwindow.mainloop()
 	
 	

@@ -15,7 +15,6 @@ from hyconf import multication
 # sys.path.append("../GUIs")
 import tooltk
 
-
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
 
@@ -71,13 +70,18 @@ def export_jpeg(me_queue, path_slice_set, res):
         print info
         me_queue.put(info)
     
-
+# our_master = tool_entrance.AppEntrance.rootwindow
 class MultipExp(tooltk.Tooltk):
     
     commu = multication.MuCation()
     ququ = Queue()
-    def __init__(self):
-        super(MultipExp, self).__init__(u"多进程导出jpeg", "../docs/multip_ejpg.gc")
+    def __init__(self,master1):
+        """
+        :param master1: mian_f , a widget from tool_entrance.py
+        """
+        super(MultipExp, self).__init__(master1,
+                                        "../docs/multip_ejpg.gc",
+                                        self.let_go)
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮
@@ -86,11 +90,10 @@ class MultipExp(tooltk.Tooltk):
         # block3 取消按钮
         self.single_int_block2(u"出图分辨率")
         self.addfile_button.config(text=u"—", state="disabled")
-        self.button_confirm["command"] = self.confirm_method
         
     
     
-    def confirm_method(self):
+    def let_go(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
         v = self.get_Entry_fromblock(self.input_sdb, self.input_sib,
@@ -102,7 +105,6 @@ class MultipExp(tooltk.Tooltk):
         print res, "type: ", type(res)
         # 获取列表
         sets_lists = address_clip(v[0], core)
-        m1 = "准备开启多进程通道："
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set

@@ -13,7 +13,7 @@ import os
 
 
 # 导入配置包
-# from hyconf import GUIutils
+from hyconf import lccutils
 
 
 # import sys
@@ -30,27 +30,25 @@ class Tooltk(object):
 	block_list = []
 	file_paths_ = []
 	
-	def __init__(self, master, help_path, confirm_method):
+	def __init__(self, window_name, help_path):
 		"""
-		:param master:
+		:param window_name: 窗口名字
 		:param help_path: 帮助文档的路径
-		:param confirm_method: 按下确认键后的响应事件
 		"""
-		self.window = master
-		# self.window.title(window_name)
+		self.window = tk.Toplevel()
+		self.window.title(window_name)
 		self.helppath = help_path
-		self.confirm_method = confirm_method
 		# self.window.overrideredirect(True)
 		# 给Toplevel窗口设置透明度
 		# self.window.attributes('-alpha',0.5)
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		# GUIutils.screen_cetre(self.window, width=800, height=660)
+		lccutils.screen_cetre(self.window, width=800, height=660)
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
 		# 重新抓取设置，使Toplevel显示在最上面
-		# self.window.grab_set()
+		self.window.grab_set()
 		# self.window.grab_release()
 		# self.window.resizable(False, False)
 		# self.input_str_1 = tk.StringVar()
@@ -195,9 +193,10 @@ class Tooltk(object):
 	
 
 	def create_button(self):
+		
+		
 		self.button_confirm = tk.Button(self.frame_bottom_bar,
-										image=self.gif_confirm,
-										command = self.confirm_method)  # text=u'确认'
+										image=self.gif_confirm)  # text=u'确认'
 		self.button_help = ttk.Button(self.frame_bottom_bar,
 									  image=self.gif_help)  # text=u'帮助详情',
 		self.button_quit = ttk.Button(self.frame_bottom_bar,
