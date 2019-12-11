@@ -13,7 +13,7 @@ import os
 
 
 # 导入配置包
-# from hyconf import GUIutils
+from hyconf import lccutils
 
 
 # import sys
@@ -88,6 +88,7 @@ class Tooltk(object):
 											 r"Icons\GenericCheckMarkGreen16.gif"))
 		self.gif_help = tk.PhotoImage(
 			file=os.path.join(dir_n, r"Icons\GenericInformationBubble16.gif"))
+		
 		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
 		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
 		# self.gif_comfirm =  ph.subsample(x= 40,y=40)
@@ -164,20 +165,6 @@ class Tooltk(object):
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
 								fill=tk.Y, padx=2)
 		s_bar.config(command=self.text_majorMsg.yview)
-		
-		# tk.Label(self.frame_side_bar,
-		# 		 text=u"处理详情",
-		# 		 font=("Times",0,"bold"),
-		# 		 bg = self.color4
-		# 		 ).grid(row = 1)
-		# tk.Label(self.frame_side_bar,
-		# 		 text=u"一大推处理结果方法辅导费多付多付多
-		# 		 付多付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付",
-		# 		 wraplength = "100",
-		# 		 height="0",
-		# 		 width="0").grid(row = 1, sticky = "w")
-		# expand = False, fill = None,
-		
 		return 1
 	
 	# 读取帮助信息并插入帮助框中
@@ -194,14 +181,24 @@ class Tooltk(object):
 	
 
 	def create_button(self):
+		
 		self.button_confirm = tk.Button(self.frame_bottom_bar,
 										image=self.gif_confirm,
 										command = self.confirm_method)  # text=u'确认'
 		self.button_help = ttk.Button(self.frame_bottom_bar,
-									  image=self.gif_help)  # text=u'帮助详情',
+									  image=self.gif_help)  # text=u'帮助详情'
+		
+		def inner_quit():
+			"""
+			使用该方法来删除main_f下的子部件，如果直接使用
+			command=self.windows.destory ,会删除掉main_f，
+			导致打开其他功能时找不到main_f而报错
+			:return:
+			"""
+			lccutils.destroy_chird(self.window)
 		self.button_quit = ttk.Button(self.frame_bottom_bar,
 									  image=self.gif_quit,
-									  command=self.window.destroy)
+									  command=inner_quit)
 		self.button_confirm.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E,
 								 padx=5)
 		self.button_help.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E, padx=5)

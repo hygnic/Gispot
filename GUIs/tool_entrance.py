@@ -43,30 +43,53 @@ from ccarcpy import explode_mulitp
 
 # 配置包导入
 from hyconf import lccutils
+from hyconf import _gPath
 
+
+import Tix
+# from Tkconstants import *
 class AppEntrance(object):
     """进行打包的可视化外壳"""
-    
-    # rootwindow = tk.Tk()
-    
-    
+    prograss_int = 0
     def __init__(self):
-        self.rootwindow = tk.Tk()
+        self.rootwindow = Tix.Tk()
         self.rootwindow.title(u"主界面")
         lccutils.screen_cetre(self.rootwindow, width=1000, height=618)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
+        self.rootwindow.resizable(False, False)
         self.menu()
         # bt.config()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
         self.olive_bar()
         self.upgrade_but()
-        self.main_f = tk.Frame(self.rootwindow,relief = "flat")
-                          # bg="Blue"
-        self.main_f.pack(expand = True,fill ="both")
+        # -------------------------------------
+        # cmb = ttk.Menubutton(self.rootwindow, text="io")
+        # cmb.pack()
+        #
+        # aa = Tix.ComboBox(self.rootwindow)
+        # aa1 = Tix.ComboBox(aa)
+        # aa.pack()
+        # aa1.pack()
+
         
+        # -------------------------------------
+        self.main_f = tk.Frame(self.rootwindow,relief = "flat")
+        self.main_f.pack(expand = True,fill ="both")
         # 放最后
         self.menu_run()
+    
+    def prograssbar(self):
+        self.prograss_int +=10
+        bb = Tix.Meter(self.main_f, value=self.prograss_int,
+                       fillcolor="#ffc851")
+        bb.pack()
+        # m = 0
+        # for i in xrange(10):
+        #     time.sleep(2)
+        #     bb["value"] = i * 10 + m
+        #
+       
         
     def olive_bar(self):
         self.label_uesless = tk.Label(self.rootwindow, bg='olive')
@@ -85,7 +108,7 @@ class AppEntrance(object):
     def menu(self):
         """设置置顶菜单栏"""
         
-        self.menubar = tk.Menu(self.rootwindow)
+        self.menubar = tk.Menu(self.rootwindow,background = "Olive")
         #创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，# Exit功能项）
         self.menubar_file = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为File，放在菜单栏中，就是装入那个容器中
@@ -95,10 +118,10 @@ class AppEntrance(object):
         self.menubar_file.add_command(label='New', command=None)
         self.menubar_file.add_command(label='Open', command=None)
         self.menubar_file.add_command(label='Save', command=None)
+        self.menubar_file.add_command(label='Prograss Bar',
+                                      command=self.prograssbar)
 
-        cmb = ttk.Combobox(self.menubar)
-        cmb['value'] = ('上海', '北京', '天津', '广州')
-        cmb.pack()
+     
         
         self.menubar_file.add_separator()  # 添加一条分隔线
 
@@ -174,8 +197,9 @@ class AppEntrance(object):
         gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
+        img_forbid = _gPath.path_gif.gif_forbid
         lccutils.destroy_chird(self.main_f)
-        multip_ejpg.MultipExp(self.main_f)
+        multip_ejpg.MultipExp(self.main_f,img_forbid,img_forbid)
 
     def explode_mulitp(self):
         lccutils.destroy_chird(self.main_f)

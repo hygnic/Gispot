@@ -2,16 +2,16 @@
 # User: liaochenchen, hygnic
 # Date: 2019/11/30
 
-import os,sys
+import sys
 
 sys.path.append("../../libs")
-import WidgetPath
+from hyconf import _gPath
 
-ac  = WidgetPath.Path_GC()
+ac  = _gPath.Path_GC()
 s =ac.explode_mulitp
 print s
 
-# path = "../../libs/WidgetPath.py"
+# path = "../../libs/_gPath.py"
 
 # with open(path,"r") as f:
 # 	s = f.readlines()
