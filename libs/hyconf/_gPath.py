@@ -28,8 +28,12 @@ class path_gif():
 	# E:\move on move on\Gispot\GUIs\Icons
 	basepath = os.path.abspath(os.path.join(_GUIs_p,"Icons"))
 	# _gif_forbid = os.path.join(basepath, "forbit.gif")
-	gif_forbid= tk.PhotoImage(file=
-							   os.path.join(basepath, "forbit.gif"))
+	@property
+	def path1(self):
+		self._gif_forbid= tk.PhotoImage(file=
+							   os.path.join(self.basepath, "forbit.gif"))
+		return self._gif_forbid
+	
 
 
 

@@ -197,9 +197,8 @@ class AppEntrance(object):
         gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
-        img_forbid = _gPath.path_gif.gif_forbid
         lccutils.destroy_chird(self.main_f)
-        multip_ejpg.MultipExp(self.main_f,img_forbid,img_forbid)
+        multip_ejpg.MultipExp(self.main_f)
 
     def explode_mulitp(self):
         lccutils.destroy_chird(self.main_f)
