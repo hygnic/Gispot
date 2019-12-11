@@ -5,7 +5,7 @@
 import os
 import sys
 """
-程序的入口，未以__file__为地址的文件的地址都以此入口为锚点
+程序的入口，未以__file__为基准地址的文件的地址都以此入口为锚点
 """
 
 bin_p = os.path.abspath(os.path.dirname(__file__))

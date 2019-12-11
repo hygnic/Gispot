@@ -86,8 +86,7 @@ class AppEntrance(object):
         """设置置顶菜单栏"""
         
         self.menubar = tk.Menu(self.rootwindow)
-        # 第6步，创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，
-            # Exit功能项）
+        #创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，# Exit功能项）
         self.menubar_file = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为File，放在菜单栏中，就是装入那个容器中
         self.menubar.add_cascade(label='File', menu=self.menubar_file)
@@ -96,7 +95,15 @@ class AppEntrance(object):
         self.menubar_file.add_command(label='New', command=None)
         self.menubar_file.add_command(label='Open', command=None)
         self.menubar_file.add_command(label='Save', command=None)
+
+        cmb = ttk.Combobox(self.menubar)
+        cmb['value'] = ('上海', '北京', '天津', '广州')
+        cmb.pack()
+        
         self.menubar_file.add_separator()  # 添加一条分隔线
+
+       
+        
         self.menubar_file.add_command(label='Exit',
                                  command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
         submenu = tk.Menu(self.menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单
