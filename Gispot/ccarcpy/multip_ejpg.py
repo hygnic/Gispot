@@ -75,7 +75,7 @@ class MultipExp(tooltk.Tooltk):
     
     commu = multication.MuCation()
     ququ = Queue()
-    def __init__(self,master1,*args):
+    def __init__(self,master1):
         """
         :param master1: mian_f , a widget from tool_entrance.py
         """
@@ -87,10 +87,10 @@ class MultipExp(tooltk.Tooltk):
         # block2 取消按钮
         self.single_int_block(u"进程数")
         
-        self.addfile_button.config(image=args, state="disabled")
+        self.addfile_button.config(text = "---",state = "disable")
         # block3 取消按钮
         self.single_int_block2(u"出图分辨率")
-        self.addfile_button.config(image=args, state="disabled")
+        self.addfile_button.config(text = "---",state = "disable")
     
     
     def let_go(self):

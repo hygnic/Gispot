@@ -14,6 +14,7 @@ import os
 
 # 导入配置包
 from hyconf import lccutils
+from hyconf import gispotpath
 
 
 # import sys
@@ -88,6 +89,9 @@ class Tooltk(object):
 											 r"Icons\GenericCheckMarkGreen16.gif"))
 		self.gif_help = tk.PhotoImage(
 			file=os.path.join(dir_n, r"Icons\GenericInformationBubble16.gif"))
+		
+		self.test1 = tk.PhotoImage(
+			file=gispotpath.gif_forbid)
 		
 		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
 		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
@@ -181,12 +185,15 @@ class Tooltk(object):
 	
 
 	def create_button(self):
-		
+		"""
+		create second window button
+		"""
+		# self.confirm_method 确认按键所触发的方法
 		self.button_confirm = tk.Button(self.frame_bottom_bar,
-										image=self.gif_confirm,
-										command = self.confirm_method)  # text=u'确认'
+										image=self.test1,
+										command = self.confirm_method)
 		self.button_help = ttk.Button(self.frame_bottom_bar,
-									  image=self.gif_help)  # text=u'帮助详情'
+									  image=self.gif_help)
 		
 		def inner_quit():
 			"""
@@ -271,7 +278,7 @@ class Tooltk(object):
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = ttk.Button(frame_one, image=self.gif_text16,
-										 command=select_file, text=u"选择")
+										 command=select_file)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -302,7 +309,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = ttk.Button(frame_one, text=u"选择",
+		self.addfile_button = ttk.Button(frame_one,
 										 command=select_file,
 										 image=self.gif_folder16)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
@@ -329,7 +336,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=None)
+		self.addfile_button = ttk.Button(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -355,7 +362,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = ttk.Button(frame_one, text=u"选择", command=None)
+		self.addfile_button = ttk.Button(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()

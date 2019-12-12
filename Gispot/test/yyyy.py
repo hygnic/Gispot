@@ -5,13 +5,13 @@
 import sys
 
 sys.path.append("../../libs")
-from hyconf import _gPath
+from hyconf import gispotpath
 
-ac  = _gPath.Path_GC()
+ac  = gispotpath.Path_GC()
 s =ac.explode_mulitp
 print s
 
-# path = "../../libs/_gPath.py"
+# path = "../../libs/gispotpath.py"
 
 # with open(path,"r") as f:
 # 	s = f.readlines()

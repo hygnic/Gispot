@@ -43,7 +43,7 @@ from ccarcpy import explode_mulitp
 
 # 配置包导入
 from hyconf import lccutils
-from hyconf import _gPath
+from hyconf import gispotpath
 
 
 import Tix

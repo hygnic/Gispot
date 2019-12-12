@@ -24,15 +24,9 @@ _Gispot_p = os.path.join(_Groot, "_Gispot_p")
 
 
 
-class path_gif():
-	# E:\move on move on\Gispot\GUIs\Icons
+class GifPath():
 	basepath = os.path.abspath(os.path.join(_GUIs_p,"Icons"))
-	# _gif_forbid = os.path.join(basepath, "forbit.gif")
-	@property
-	def path1(self):
-		self._gif_forbid= tk.PhotoImage(file=
-							   os.path.join(self.basepath, "forbit.gif"))
-		return self._gif_forbid
+	gif_forbid = os.path.join(basepath, "forbid.gif")
 	
 
 
