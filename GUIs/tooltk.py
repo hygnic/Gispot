@@ -8,21 +8,26 @@ import Tkinter as tk
 import ttk
 import tkFileDialog
 import ScrolledText as stt
-import os
 
 
 
-# 导入配置包
-from hyconf import lccutils
+# 导入配置包、地址包
+from hyconf import lutils
 from hyconf import gispotpath
 
 
-# import sys
-# # gisTKlists = ["../Gispot/ccarcpy"]
-# for gisTKlist in gisTKlists:
-# 	sys.path.append(gisTKlist)
-# import export_jpeg
-# import threading
+class HoverButton(tk.Button):
+	def __init__(self, master, **kw):
+		tk.Button.__init__(self,master=master,**kw)
+		self.defaultBackground = self["background"]
+		self.bind("<Enter>", self.on_enter)
+		self.bind("<Leave>", self.on_leave)
+
+	def on_enter(self, e):
+		self['background'] = self['activebackground']
+
+	def on_leave(self, e):
+		self['background'] = self.defaultBackground
 
 
 class Tooltk(object):
@@ -60,7 +65,7 @@ class Tooltk(object):
 		self.color_mylife()  # 颜色
 		self.icon_set()  # 配置图片
 		self.create_frames()  # 配置框架
-		self.create_button()  # 配置按钮
+		self.create_button("flat","#ffc851")  # 配置按钮
 		self.read_help()
 	
 	def color_mylife(self):
@@ -72,30 +77,17 @@ class Tooltk(object):
 		self.color6 = '#EBEEEE'  # 底栏颜色
 	
 	def icon_set(self):
-		dir_n = os.path.dirname(__file__)
-		self.gif_text16 = tk.PhotoImage(file=
-										os.path.join(dir_n,
-													 r"Icons\Text_File16.gif"))
-		# self.gif_text32 = tk.PhotoImage(file=r'GUIs\Icons\Text_File32.gif')
-		self.gif_folder16 = tk.PhotoImage(file=os.path.join(dir_n,
-													 r"Icons\Folder16.gif"))
-		# self.gif_folder32 = tk.PhotoImage(file=r'GUIs\Icons\Folder32.gif')
-		self.gif_close16 = tk.PhotoImage(file=os.path.join(dir_n,
-													 r"Icons\Close16.gif"))
-		# self.gif_close32 = tk.PhotoImage(file=r'GUIs\Icons\Close32.gif')
-		self.gif_quit = tk.PhotoImage(file=os.path.join(dir_n,
-													 r"Icons\Close16.gif"))
-		self.gif_confirm = tk.PhotoImage(file=os.path.join(dir_n,
-											 r"Icons\GenericCheckMarkGreen16.gif"))
-		self.gif_help = tk.PhotoImage(
-			file=os.path.join(dir_n, r"Icons\GenericInformationBubble16.gif"))
+		self.gif_text = tk.PhotoImage(file=gispotpath.GifPath.gif_textfile)
+		self.gif_folder = tk.PhotoImage(file=gispotpath.GifPath.gif_folder)
+		self.gif_close = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
+		self.gif_quit = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
+		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
+		self.gif_help = tk.PhotoImage(file = gispotpath.GifPath.gif_info)
+		self.test1 = tk.PhotoImage(file=gispotpath.GifPath.gif_forbid)
 		
-		self.test1 = tk.PhotoImage(
-			file=gispotpath.gif_forbid)
-		
-		# ph = tk.PhotoImage(file=r'GUIs\Icons\checked.gif')
-		# self.gif_comfirm =  ph.zoom(x= 2,y = 2)
-		# self.gif_comfirm =  ph.subsample(x= 40,y=40)
+		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm32)
+		# self.gif_confirm =  ph.zoom(x= 2,y = 2)
+		# self.gif_confirm =  ph.subsample(x= 40,y=40)
 		
 		"""
 		使用pillow设置按键图标
@@ -110,7 +102,6 @@ class Tooltk(object):
 	def create_frames(self):
 		# 侧边栏
 		self.frame_side_bar = tk.Frame(self.window,height = 1000,
-									 
 									   border=2, relief="groove")
 		self.frame_side_bar.pack(side="right", anchor="e",
 								 expand=False, fill="y")
@@ -122,7 +113,7 @@ class Tooltk(object):
 		# 主框下的底部栏
 		self.frame_bottom_bar = tk.Frame(self.window, height="60",
 										 bg=self.color6, border=2,
-										 relief="raised")
+										 relief="raised") # ffc851
 		self.frame_bottom_bar.pack(side="top", anchor="center",
 								   expand=False, fill="x")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
@@ -184,16 +175,23 @@ class Tooltk(object):
 			# print read_line
 	
 
-	def create_button(self):
+	def create_button(self,but_relief=None,activebackground=None):
 		"""
 		create second window button
+		:param activebackground:
+		:param but_relief: relief
+		:return:
 		"""
 		# self.confirm_method 确认按键所触发的方法
-		self.button_confirm = tk.Button(self.frame_bottom_bar,
-										image=self.test1,
-										command = self.confirm_method)
-		self.button_help = ttk.Button(self.frame_bottom_bar,
-									  image=self.gif_help)
+		self.button_confirm = HoverButton(self.frame_bottom_bar,
+										image=self.gif_confirm,relief = but_relief,
+										command = self.confirm_method,
+										activebackground = activebackground)
+		# height = 18, width = 18,
+		self.button_help = ttk.Button(self.frame_bottom_bar,text = "oooo"
+									   )
+		# relief = but_relief,
+		# activebackground = activebackground
 		
 		def inner_quit():
 			"""
@@ -202,16 +200,43 @@ class Tooltk(object):
 			导致打开其他功能时找不到main_f而报错
 			:return:
 			"""
-			lccutils.destroy_chird(self.window)
-		self.button_quit = ttk.Button(self.frame_bottom_bar,
-									  image=self.gif_quit,
-									  command=inner_quit)
-		self.button_confirm.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E,
+			lutils.destroy_chird(self.window)
+			
+		self.button_quit = HoverButton(self.frame_bottom_bar,
+									   image=self.gif_quit, command=inner_quit,
+									   relief = but_relief,
+									   activebackground = activebackground) # image=self.gif_quit,
+		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
-		self.button_help.pack(side=tk.LEFT, expand=tk.NO, anchor=tk.E, padx=5)
-		self.button_quit.pack(side=tk.RIGHT, expand=tk.NO, anchor=tk.E, padx=5)
+		self.button_help.pack(side=tk.LEFT,  anchor=tk.E, padx=5)
+		self.button_quit.pack(side=tk.RIGHT, anchor=tk.E, padx=5)
 		# buttonttk["command"] = self.kk
+		# --------------- 获取部件的query_class
+		# print self.button_confirm.winfo_class()
+		# print self.button_help.winfo_class()
+		# print self.button_quit.winfo_class()
+		ttk.Style().configure("TButton",foreground = "#ffc851",relief=tk.RAISED)
+		print ttk.Style().layout('TButton')
+		# 原版
+		# [('Button.button',
+		#   {'children': [(
+		# 	  'Button.focus', {'children': [('Button.padding',{'children': [('Button.label',{'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})]
 		
+		ttk.Style().layout("TButton",
+				[('Button.button', {'children':
+					[('Button.focus', {'children':
+						[('Button.border', {'children':
+							[('Button.label', {'sticky': 'nswe'})],
+						'sticky': 'nswe'})],
+					'sticky': 'nswe'})],
+				'sticky': 'nswe'})])
+		
+		
+		"""[("Button.border", {"children": [("Button.focus", {"children": [("Button.spacing",
+{"children": [("Button.label", {"sticky": "nswe"})], "sticky": "nswe"})],
+"sticky": "nswe"})], "sticky": "nswe", "border": "1"})]	"""
+		# ---------------
+
 		return 1
 	
 	def single_file_block(self, sfb_filetype, sfb_name):
@@ -238,9 +263,9 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = ttk.Button(frame_one,
+		self.addfile_button = tk.Button(frame_one,
 										 text=u"选择", command=select_file,
-										 image=self.gif_text16)
+										 image=self.gif_text)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -251,7 +276,7 @@ class Tooltk(object):
 		# input_msg.set(one_file_path)
 		return 1
 	
-	def savename_block(self, sfb_filetype, sfb_name):
+	def save_path_block(self, sfb_filetype, sfb_name):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
@@ -277,7 +302,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = ttk.Button(frame_one, image=self.gif_text16,
+		self.addfile_button = tk.Button(frame_one, image=self.gif_text,
 										 command=select_file)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
@@ -309,9 +334,9 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = ttk.Button(frame_one,
+		self.addfile_button = tk.Button(frame_one,
 										 command=select_file,
-										 image=self.gif_folder16)
+										 image=self.gif_folder)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -336,7 +361,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = ttk.Button(frame_one, command=None)
+		self.addfile_button = tk.Button(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -362,7 +387,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = ttk.Button(frame_one, command=None)
+		self.addfile_button = tk.Button(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -405,7 +430,8 @@ class Tooltk(object):
 if __name__ == '__main__':
 	class App(Tooltk):
 		def __init__(self):
-			super(App, self).__init__(u"本地实验", "docs/explode_mulitp.gc")
+			super(App, self).__init__(u"本地实验", "docs/explode_mulitp.gc",
+									  self.confirm_method)
 			self.button_confirm["command"] = self.confirm_method
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],

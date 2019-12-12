@@ -61,7 +61,7 @@ class App(tooltk.Tooltk):
 		# 	print type(i) # <type 'instance'>
 		self.single_file_block([(u'shapefile', '*.shp'), ('All Files', '*')],
 							   u"选择待处理shp文件")
-		self.savename_block([(u'shapefile', '*.shp'), ('All Files', '*')],
+		self.save_path_block([(u'shapefile', '*.shp'), ('All Files', '*')],
 							u"选择保存地址")
 		self.window.mainloop()
 		

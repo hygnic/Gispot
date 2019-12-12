@@ -42,7 +42,7 @@ from ccarcpy import multip_ejpg
 from ccarcpy import explode_mulitp
 
 # 配置包导入
-from hyconf import lccutils
+from hyconf import lutils
 from hyconf import gispotpath
 
 
@@ -54,7 +54,7 @@ class AppEntrance(object):
     def __init__(self):
         self.rootwindow = Tix.Tk()
         self.rootwindow.title(u"主界面")
-        lccutils.screen_cetre(self.rootwindow, width=1000, height=618)
+        lutils.screen_cetre(self.rootwindow, width=1000, height=618)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
         self.rootwindow.resizable(False, False)
         self.menu()
@@ -193,15 +193,15 @@ class AppEntrance(object):
     #     self.rootwindow.config(menu=self.menubar)
 
     def open_GSTrename(self):
-        lccutils.destroy_chird(self.main_f)
+        lutils.destroy_chird(self.main_f)
         gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
-        lccutils.destroy_chird(self.main_f)
+        lutils.destroy_chird(self.main_f)
         multip_ejpg.MultipExp(self.main_f)
 
     def explode_mulitp(self):
-        lccutils.destroy_chird(self.main_f)
+        lutils.destroy_chird(self.main_f)
         explode_mulitp.App(self.main_f)
         
 

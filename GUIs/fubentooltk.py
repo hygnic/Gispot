@@ -13,7 +13,7 @@ import os
 
 
 # 导入配置包
-from hyconf import lccutils
+from hyconf import lutils
 
 
 # import sys
@@ -44,7 +44,7 @@ class Tooltk(object):
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		lccutils.screen_cetre(self.window, width=800, height=660)
+		lutils.screen_cetre(self.window, width=800, height=660)
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
 		# 重新抓取设置，使Toplevel显示在最上面

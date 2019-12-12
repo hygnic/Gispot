@@ -5,18 +5,20 @@
 """锚点文件"""
 
 import os
-import Tkinter as tk
-
 
 
 _libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/Gispot/libs/hyconf
 _lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\Gispot\libs
 _Groot = os.path.dirname(_lib)  # E:\move on move on\Gispot
-_bin_p = os.path.join(_Groot, "bin")
-_docs_p = os.path.join(_Groot, "docs")
-_GUIs_p = os.path.join(_Groot, "GUIs")
-_Gispot_p = os.path.join(_Groot, "_Gispot_p")
+# _bin_p = os.path.join(_Groot, "bin")
+# _docs_p = os.path.join(_Groot, "docs")
+# _Gispot_p = os.path.join(_Groot, "_Gispot_p")
 
+_GUIs_p = os.path.join(_Groot, "GUIs")
+
+
+# E:\move on move on\Gispot\GUIs\Icons
+_base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 # docs
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
 # _gstrename = os.path.join(_docs_p, r"multip_ejpg.gc")
@@ -24,9 +26,18 @@ _Gispot_p = os.path.join(_Groot, "_Gispot_p")
 
 
 
-class GifPath():
-	basepath = os.path.abspath(os.path.join(_GUIs_p,"Icons"))
-	gif_forbid = os.path.join(basepath, "forbid.gif")
+class GifPath(object):
+	"""
+	gif图片的路径
+	"""
+	# _base_icons_path
+	gif_forbid = os.path.join(_base_icons_path, "forbit.gif")
+	gif_close = os.path.join(_base_icons_path, "Close16.gif")
+	gif_folder = os.path.join(_base_icons_path, "Folder16.gif")
+	gif_textfile = os.path.join(_base_icons_path, "Text_File16.gif")
+	gif_info = os.path.join(_base_icons_path, "more_info.gif")
+	gif_confirm= os.path.join(_base_icons_path, "GenericCheckMarkGreen16.gif")
+	gif_confirm32= os.path.join(_base_icons_path, "GenericCheckMarkGreen32.gif")
 	
 
 
