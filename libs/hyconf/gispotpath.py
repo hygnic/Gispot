@@ -38,6 +38,7 @@ class GifPath(object):
 	gif_info = os.path.join(_base_icons_path, "more_info.gif")
 	gif_confirm= os.path.join(_base_icons_path, "GenericCheckMarkGreen16.gif")
 	gif_confirm32= os.path.join(_base_icons_path, "GenericCheckMarkGreen32.gif")
+	gif_tttt= os.path.join(_base_icons_path, "test2.gif")
 	
 
 

@@ -62,7 +62,7 @@ class AppEntrance(object):
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
         self.olive_bar()
-        self.upgrade_but()
+        self.upgrade_from_github()
         # -------------------------------------
         # cmb = ttk.Menubutton(self.rootwindow, text="io")
         # cmb.pack()
@@ -95,7 +95,7 @@ class AppEntrance(object):
         self.label_uesless = tk.Label(self.rootwindow, bg='olive')
         self.label_uesless.pack(side="bottom", anchor=tk.SE, fill="x")
     
-    def upgrade_but(self):
+    def upgrade_from_github(self):
             def open_u():
                 import webbrowser
                 update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
@@ -120,13 +120,7 @@ class AppEntrance(object):
         self.menubar_file.add_command(label='Save', command=None)
         self.menubar_file.add_command(label='Prograss Bar',
                                       command=self.prograssbar)
-
-     
-        
         self.menubar_file.add_separator()  # 添加一条分隔线
-
-       
-        
         self.menubar_file.add_command(label='Exit',
                                  command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
         submenu = tk.Menu(self.menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单
@@ -141,8 +135,6 @@ class AppEntrance(object):
         self.menubar_edit = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为 Edit，放在菜单栏中，就是装入那个容器中
         self.menubar.add_cascade(label='Edit', menu=self.menubar_edit)
-        # 同样的在 Edit 中加入Cut、Copy、Paste等小命令功能单元，如果点击这些单元,
-            # 就会触发None的功能
         self.menubar_edit.add_command(label='Cut', command=None)
         self.menubar_edit.add_command(label='Copy', command=None)
         self.menubar_edit.add_command(label='Paste', command=None)
@@ -161,6 +153,12 @@ class AppEntrance(object):
                                 command=self.open_Multip_exp)
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
+
+        self.menubar_about = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=u"关于", menu=self.menubar_about)
+        self.menubar_about.add_command(label=u'获取更新',
+                                     command=self.upgrade_from_github)
+        
     # 配置安放菜单栏，写成方法便于调控纯程序
     def menu_run(self):
         self.rootwindow.config(menu=self.menubar)

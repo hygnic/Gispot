@@ -2,7 +2,7 @@
 # User: liaochenchen
 # Date: 2019/10/21
 # python2.7
-"""所用工具和脚本都调用此GUI"""
+"""所用工具和脚本调用此GUI"""
 
 import Tkinter as tk
 import ttk
@@ -22,7 +22,9 @@ class HoverButton(tk.Button):
 		self.defaultBackground = self["background"]
 		self.bind("<Enter>", self.on_enter)
 		self.bind("<Leave>", self.on_leave)
-
+		self.config(relief = "flat",
+					activebackground = "#ffc851")
+	
 	def on_enter(self, e):
 		self['background'] = self['activebackground']
 
@@ -65,7 +67,8 @@ class Tooltk(object):
 		self.color_mylife()  # 颜色
 		self.icon_set()  # 配置图片
 		self.create_frames()  # 配置框架
-		self.create_button("flat","#ffc851")  # 配置按钮
+		self.create_button()  # 配置按钮
+		# color   "SystemHighlight","SystemMenuText"
 		self.read_help()
 	
 	def color_mylife(self):
@@ -84,6 +87,7 @@ class Tooltk(object):
 		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
 		self.gif_help = tk.PhotoImage(file = gispotpath.GifPath.gif_info)
 		self.test1 = tk.PhotoImage(file=gispotpath.GifPath.gif_forbid)
+		self.ttt = tk.PhotoImage(file=gispotpath.GifPath.gif_tttt)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm32)
 		# self.gif_confirm =  ph.zoom(x= 2,y = 2)
@@ -175,21 +179,18 @@ class Tooltk(object):
 			# print read_line
 	
 
-	def create_button(self,but_relief=None,activebackground=None):
+	def create_button(self):
 		"""
 		create second window button
-		:param activebackground:
-		:param but_relief: relief
-		:return:
 		"""
 		# self.confirm_method 确认按键所触发的方法
 		self.button_confirm = HoverButton(self.frame_bottom_bar,
-										image=self.gif_confirm,relief = but_relief,
-										command = self.confirm_method,
-										activebackground = activebackground)
+										image=self.ttt,height = 20, width = 20,
+										command = self.confirm_method)
+		print "Border:",self.button_confirm["borderwidth"]
 		# height = 18, width = 18,
-		self.button_help = ttk.Button(self.frame_bottom_bar,text = "oooo"
-									   )
+		self.button_help = HoverButton(self.frame_bottom_bar,
+									   image = self.gif_help)
 		# relief = but_relief,
 		# activebackground = activebackground
 		
@@ -203,9 +204,7 @@ class Tooltk(object):
 			lutils.destroy_chird(self.window)
 			
 		self.button_quit = HoverButton(self.frame_bottom_bar,
-									   image=self.gif_quit, command=inner_quit,
-									   relief = but_relief,
-									   activebackground = activebackground) # image=self.gif_quit,
+									   image=self.gif_quit, command=inner_quit)
 		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
 		self.button_help.pack(side=tk.LEFT,  anchor=tk.E, padx=5)
@@ -215,26 +214,27 @@ class Tooltk(object):
 		# print self.button_confirm.winfo_class()
 		# print self.button_help.winfo_class()
 		# print self.button_quit.winfo_class()
-		ttk.Style().configure("TButton",foreground = "#ffc851",relief=tk.RAISED)
-		print ttk.Style().layout('TButton')
-		# 原版
-		# [('Button.button',
-		#   {'children': [(
-		# 	  'Button.focus', {'children': [('Button.padding',{'children': [('Button.label',{'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})]
-		
+		"""
+		# 测试ttk.Style.layout()
 		ttk.Style().layout("TButton",
 				[('Button.button', {'children':
 					[('Button.focus', {'children':
-						[('Button.border', {'children':
+						[('Button.border', {'border':1,'children':
 							[('Button.label', {'sticky': 'nswe'})],
 						'sticky': 'nswe'})],
 					'sticky': 'nswe'})],
 				'sticky': 'nswe'})])
-		
-		
-		"""[("Button.border", {"children": [("Button.focus", {"children": [("Button.spacing",
-{"children": [("Button.label", {"sticky": "nswe"})], "sticky": "nswe"})],
-"sticky": "nswe"})], "sticky": "nswe", "border": "1"})]	"""
+
+		ttk.Style().configure("TButton", foreground="#ffc851", background="blue")
+		# padding = 10
+		"""
+		# print ttk.Style().layout('TButton')
+		# 原版
+		# [('Button.button',
+		#   {'children': [(
+		# 	  'Button.focus', {'children': [('Button.padding',{'children': [('Button.label',{'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})],'sticky': 'nswe'})]
+		"""
+		"""
 		# ---------------
 
 		return 1
@@ -263,7 +263,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = tk.Button(frame_one,
+		self.addfile_button = HoverButton(frame_one,
 										 text=u"选择", command=select_file,
 										 image=self.gif_text)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
@@ -302,7 +302,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = tk.Button(frame_one, image=self.gif_text,
+		self.addfile_button = HoverButton(frame_one, image=self.gif_text,
 										 command=select_file)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
@@ -334,7 +334,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = tk.Button(frame_one,
+		self.addfile_button = HoverButton(frame_one,
 										 command=select_file,
 										 image=self.gif_folder)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
@@ -361,7 +361,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = tk.Button(frame_one, command=None)
+		self.addfile_button = HoverButton(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -387,7 +387,7 @@ class Tooltk(object):
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = tk.Button(frame_one, command=None)
+		self.addfile_button = HoverButton(frame_one, command=None)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
