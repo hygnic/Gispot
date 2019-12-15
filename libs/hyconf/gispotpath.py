@@ -32,15 +32,22 @@ class GifPath(object):
 	"""
 	# _base_icons_path
 	gif_forbid = os.path.join(_base_icons_path, "forbit.gif")
-	gif_close = os.path.join(_base_icons_path, "Close16.gif")
-	gif_folder = os.path.join(_base_icons_path, "Folder16.gif")
-	gif_textfile = os.path.join(_base_icons_path, "Text_File16.gif")
-	gif_info = os.path.join(_base_icons_path, "more_info.gif")
-	gif_confirm= os.path.join(_base_icons_path, "GenericCheckMarkGreen16.gif")
-	gif_confirm32= os.path.join(_base_icons_path, "GenericCheckMarkGreen32.gif")
-	gif_tttt= os.path.join(_base_icons_path, "test2.gif")
+	gif_close = os.path.join(_base_icons_path, "close30_4.gif")
+	gif_folder = os.path.join(_base_icons_path, "folder1.gif")
 	
-
+	gif_textfile = os.path.join(_base_icons_path, "Text_File16.gif")
+	gif_add_file = os.path.join(_base_icons_path, "file3.gif")
+	
+	gif_info = os.path.join(_base_icons_path, "help_info_3.gif")
+	gif_confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
+	
+	gif_github= os.path.join(_base_icons_path, "Github-icon40.gif")
+	
+	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
+	
+if __name__ == '__main__':
+	aa = GifPath.gif_github
+	print os.path.exists(aa)
 
 
 # class Path_GC(object):

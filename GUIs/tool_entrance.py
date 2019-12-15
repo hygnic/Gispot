@@ -7,6 +7,7 @@ import os
 import Tkinter as tk
 import sys
 import ttk
+import tkMessageBox
 # from PIL import Image, ImageTk
 
 
@@ -42,7 +43,7 @@ from ccarcpy import multip_ejpg
 from ccarcpy import explode_mulitp
 
 # 配置包导入
-from hyconf import lutils
+from hyconf import luitils
 from hyconf import gispotpath
 
 
@@ -52,11 +53,11 @@ class AppEntrance(object):
     """进行打包的可视化外壳"""
     prograss_int = 0
     def __init__(self):
-        self.rootwindow = Tix.Tk()
+        self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
-        lutils.screen_cetre(self.rootwindow, width=1000, height=618)
+        luitils.screen_cetre(self.rootwindow, width=1192, height=650)
         self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
-        self.rootwindow.resizable(False, False)
+        # self.rootwindow.resizable(False, False)
         self.menu()
         # bt.config()
         # bt.pack(side='left')
@@ -67,15 +68,16 @@ class AppEntrance(object):
         # cmb = ttk.Menubutton(self.rootwindow, text="io")
         # cmb.pack()
         #
-        # aa = Tix.ComboBox(self.rootwindow)
-        # aa1 = Tix.ComboBox(aa)
-        # aa.pack()
+        # image_octacat = Tix.ComboBox(self.rootwindow)
+        # aa1 = Tix.ComboBox(image_octacat)
+        # image_octacat.pack()
         # aa1.pack()
 
         
         # -------------------------------------
-        self.main_f = tk.Frame(self.rootwindow,relief = "flat")
+        self.main_f = tk.Frame(self.rootwindow,relief = "groove")
         self.main_f.pack(expand = True,fill ="both")
+        self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 放最后
         self.menu_run()
     
@@ -96,18 +98,19 @@ class AppEntrance(object):
         self.label_uesless.pack(side="bottom", anchor=tk.SE, fill="x")
     
     def upgrade_from_github(self):
-            def open_u():
-                import webbrowser
-                update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
-                webbrowser.open(update_url, new=0, autoraise=True)
-        
-            ap_button = ttk.Button(master=self.label_uesless, text=u"获取更新", command=open_u)
-            ap_button.pack(side='top', expand='yes', anchor="se")
+        def open_u():
+            import webbrowser
+            update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
+            webbrowser.open(update_url, new=0, autoraise=True)
+        self.image_octacat = tk.PhotoImage(file = gispotpath.GifPath.gif_github)
+        ap_button = tk.Button(master=self.label_uesless, command=open_u,
+                              image = self.image_octacat,
+                              width = 26, height = 26,text=u"获取更新")
+        ap_button.pack(side='top', expand='yes', anchor="se")
     
     
     def menu(self):
         """设置置顶菜单栏"""
-        
         self.menubar = tk.Menu(self.rootwindow,background = "Olive")
         #创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，# Exit功能项）
         self.menubar_file = tk.Menu(self.menubar, tearoff=0)
@@ -191,15 +194,15 @@ class AppEntrance(object):
     #     self.rootwindow.config(menu=self.menubar)
 
     def open_GSTrename(self):
-        lutils.destroy_chird(self.main_f)
+        luitils.destroy_chird(self.main_f)
         gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
-        lutils.destroy_chird(self.main_f)
+        luitils.destroy_chird(self.main_f)
         multip_ejpg.MultipExp(self.main_f)
 
     def explode_mulitp(self):
-        lutils.destroy_chird(self.main_f)
+        luitils.destroy_chird(self.main_f)
         explode_mulitp.App(self.main_f)
         
 
@@ -212,8 +215,12 @@ class AppEntrance(object):
         ap_button = ttk.Button(text = u"获取更新",command = open_u)
         ap_button.pack(side='top', expand='yes',anchor = "se")
 
-        
-        
+    def on_closing(self):
+        # 退出确认功能，防止误触发
+        if tkMessageBox.askokcancel("Quit", "   Do you want to quit?"):
+            self.rootwindow.destroy()
+
+    
     
 
 

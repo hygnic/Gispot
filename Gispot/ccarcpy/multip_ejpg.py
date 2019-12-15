@@ -111,6 +111,7 @@ class MultipExp(tooltk.Tooltk):
             p = Process(target=self.commu.decor, args=(self.commu.que,
                                                        export_jpeg,set_li, res,
                                                        ))
+            p.deamon = True
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "process start"

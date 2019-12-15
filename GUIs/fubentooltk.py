@@ -13,7 +13,7 @@ import os
 
 
 # 导入配置包
-from hyconf import lutils
+from hyconf import luitils
 
 
 # import sys
@@ -44,7 +44,7 @@ class Tooltk(object):
 		# 设置窗口置顶优先度
 		# self.window.attributes('-topmost', 1)
 		# self.window = tk.Tk()
-		lutils.screen_cetre(self.window, width=800, height=660)
+		luitils.screen_cetre(self.window, width=800, height=660)
 		# self.window.iconbitmap(default=os.path.dirname(__file__)+
 		# 							   "/Icons/toolbox.ico")
 		# 重新抓取设置，使Toplevel显示在最上面
@@ -164,12 +164,12 @@ class Tooltk(object):
 								fill=tk.Y, padx=2)
 		s_bar.config(command=self.text_majorMsg.yview)
 		
-		# tk.Label(self.frame_side_bar,
+		# tk.Label(self.frame_right_side,
 		# 		 text=u"处理详情",
 		# 		 font=("Times",0,"bold"),
 		# 		 bg = self.color4
 		# 		 ).grid(row = 1)
-		# tk.Label(self.frame_side_bar,
+		# tk.Label(self.frame_right_side,
 		# 		 text=u"一大推处理结果方法辅导费多付多付多
 		# 		 付多付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付付",
 		# 		 wraplength = "100",

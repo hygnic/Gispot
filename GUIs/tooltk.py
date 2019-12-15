@@ -12,7 +12,7 @@ import ScrolledText as stt
 
 
 # 导入配置包、地址包
-from hyconf import lutils
+from hyconf import luitils
 from hyconf import gispotpath
 
 
@@ -35,15 +35,13 @@ class HoverButton(tk.Button):
 class Tooltk(object):
 	"""工具的GUI界面"""
 	# 调用类变量也要加self
-	block_list = []
-	file_paths_ = []
-	
 	def __init__(self, master, help_path, confirm_method):
 		"""
 		:param master:
 		:param help_path: 帮助文档的路径
 		:param confirm_method: 按下确认键后的响应事件
 		"""
+		self.block_list = []
 		self.window = master
 		# self.window.title(window_name)
 		self.helppath = help_path
@@ -81,17 +79,19 @@ class Tooltk(object):
 	
 	def icon_set(self):
 		self.gif_text = tk.PhotoImage(file=gispotpath.GifPath.gif_textfile)
+		self.gif_addfile = tk.PhotoImage(file=gispotpath.GifPath.gif_add_file)
+		
+		
 		self.gif_folder = tk.PhotoImage(file=gispotpath.GifPath.gif_folder)
 		self.gif_close = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
 		self.gif_quit = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
-		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
 		self.gif_help = tk.PhotoImage(file = gispotpath.GifPath.gif_info)
-		self.test1 = tk.PhotoImage(file=gispotpath.GifPath.gif_forbid)
-		self.ttt = tk.PhotoImage(file=gispotpath.GifPath.gif_tttt)
+		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
 		
-		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm32)
-		# self.gif_confirm =  ph.zoom(x= 2,y = 2)
-		# self.gif_confirm =  ph.subsample(x= 40,y=40)
+		
+		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
+		# self.gif_check_green16 =  ph.zoom(x= 2,y = 2)
+		# self.gif_check_green16 =  ph.subsample(x= 40,y=40)
 		
 		"""
 		使用pillow设置按键图标
@@ -104,29 +104,35 @@ class Tooltk(object):
 		
 	
 	def create_frames(self):
-		# 侧边栏
-		self.frame_side_bar = tk.Frame(self.window,height = 1000,
-									   border=2, relief="groove")
-		self.frame_side_bar.pack(side="right", anchor="e",
-								 expand=False, fill="y")
+		# 1192/2 = 596
+		# 右边的主框
+		self.frame_right_side = tk.Frame(self.window, width = 496,
+										 border=2, relief="flat")
+		self.frame_right_side.grid(k)
+		# self.frame_right_side.propagate(False)
 		# 左边的主框
-		self.frame_major = tk.Frame(self.window,
-									border=2, relief="sunken")
-		self.frame_major.pack(side="top", anchor="center",
+		self.frame_left_side = tk.Frame(self.window, width=696,
+										 border=2, relief="flat")
+		self.frame_left_side.pack(side="left",
+								   expand=True, fill="both")
+		# 里面 的 上部分
+		self.frame_major = tk.Frame(self.frame_left_side, width = 696,
+									relief="flat")
+		self.frame_major.pack(
 							  expand=True, fill="both")
 		# 主框下的底部栏
-		self.frame_bottom_bar = tk.Frame(self.window, height="60",
+		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
 										 bg=self.color6, border=2,
-										 relief="raised") # ffc851
-		self.frame_bottom_bar.pack(side="top", anchor="center",
-								   expand=False, fill="x")
+										 relief="groove") # ffc851
+		self.frame_bottom_bar.pack(
+								   expand=False, fill="both")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 		# x轴（左右）方向上会拉伸
-		# 主框中的帮助信息
-		help_f = tk.LabelFrame(self.frame_major,
-							   relief=tk.RIDGE, width="500",
+		# 左边主框中的帮助信息
+		help_f = tk.LabelFrame(self.frame_major, width=696,
+							   relief=tk.RIDGE,
 							   text="____" * 80, bd=2, fg=self.color5)
-		help_f.pack(side=tk.BOTTOM, anchor="center",
+		help_f.pack(side=tk.BOTTOM,anchor = "s",
 					expand=True, fill="both")
 		# 设置带滚动条的text
 		s_bar = tk.Scrollbar(help_f, relief="flat",
@@ -142,27 +148,27 @@ class Tooltk(object):
 			侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
 		下半部分显示动态信息"""
 		# 上栏
-		self.text = stt.ScrolledText(self.frame_side_bar, height="10",
-									 width="60")
+		self.text = stt.ScrolledText(self.frame_right_side, height="10",
+									 width="90")
 		# 不起作用，将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.text.insert(tk.END,
 						 "Python 2.7.12 (v2.7.12:d33e0cf91556, Jun 27 2016, "
 						 "15:19:22) author: Liaochenchen") #,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
-		self.text.pack(side="top", anchor="n", expand=False,
+		self.text.pack(side="top", anchor="n", expand=True,fill = "both",
 					   padx=2)
 		# 下栏 主要的动态信息显示栏
-		s_bar = tk.Scrollbar(self.frame_side_bar, relief="flat",
+		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_majorMsg = tk.Text(self.frame_side_bar, height="10",
+		self.text_majorMsg = tk.Text(self.frame_right_side, height="10",
 									 width="60", yscrollcommand=s_bar.set,
-									maxundo = 15, undo =True)
+									 maxundo = 15, undo =True)
 									# 支持撤销操作，支持换行 wrap = "char"
 		self.text_majorMsg.insert(tk.END,">>>"*20)
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
-								fill=tk.Y, padx=2)
+								fill="both", padx=2)
 		s_bar.config(command=self.text_majorMsg.yview)
 		return 1
 	
@@ -185,8 +191,8 @@ class Tooltk(object):
 		"""
 		# self.confirm_method 确认按键所触发的方法
 		self.button_confirm = HoverButton(self.frame_bottom_bar,
-										image=self.ttt,height = 20, width = 20,
-										command = self.confirm_method)
+										  image=self.gif_confirm,
+										  command = self.confirm_method)
 		print "Border:",self.button_confirm["borderwidth"]
 		# height = 18, width = 18,
 		self.button_help = HoverButton(self.frame_bottom_bar,
@@ -201,7 +207,7 @@ class Tooltk(object):
 			导致打开其他功能时找不到main_f而报错
 			:return:
 			"""
-			lutils.destroy_chird(self.window)
+			luitils.destroy_chird(self.window)
 			
 		self.button_quit = HoverButton(self.frame_bottom_bar,
 									   image=self.gif_quit, command=inner_quit)
@@ -239,6 +245,9 @@ class Tooltk(object):
 
 		return 1
 	
+	
+	
+
 	def single_file_block(self, sfb_filetype, sfb_name):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
@@ -265,12 +274,12 @@ class Tooltk(object):
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = HoverButton(frame_one,
 										 text=u"选择", command=select_file,
-										 image=self.gif_text)
+										 image=self.gif_addfile, width=24)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,
-								  border=2, relief=tk.GROOVE)
+								  border=2, relief=tk.FLAT)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=15)
 		# input_msg.set(one_file_path)
@@ -293,8 +302,8 @@ class Tooltk(object):
 			input_msg1.set(file_path)
 			# return file_path
 		
-		label_1 = tk.Label(self.frame_major, text=sfb_name)
-		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		name_label = tk.Label(self.frame_major, text=sfb_name)
+		name_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major, height="60", width="700",
@@ -302,13 +311,13 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = HoverButton(frame_one, image=self.gif_text,
-										 command=select_file)
+		self.addfile_button = HoverButton(frame_one, image=self.gif_addfile,
+										 command=select_file,width = 24)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sb = tk.Entry(frame_one, textvariable=input_msg1,
-								 border=2, relief=tk.GROOVE)
+								 border=2, relief=tk.FLAT)
 		self.input_sb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 						   fill=tk.X, padx=15)
 		return 1
@@ -341,7 +350,7 @@ class Tooltk(object):
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								  relief=tk.GROOVE)
+								  relief=tk.FLAT)
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=15)
 		# input_msg.set(one_file_path)
@@ -366,7 +375,7 @@ class Tooltk(object):
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sib = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								  relief=tk.GROOVE)
+								  relief=tk.FLAT)
 		# , state = "readonly"
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=15)
@@ -392,7 +401,7 @@ class Tooltk(object):
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								   relief=tk.GROOVE)
+								   relief="flat")
 		# , state = "readonly"
 		self.input_sib2.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							 padx=15)
