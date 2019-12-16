@@ -13,31 +13,10 @@ from hyconf import luitils
 from hyconf import gispotpath
 
 
-class HoverButton(tk.Button):
-	"""
-	继承Button.实现鼠标悬停时，按键变化的效果
-	注意事项：
-		图片按键和文字按键的width和height的度量单位不一样
-	"""
-	def __init__(self, master, **kw):
-		tk.Button.__init__(self, master=master, **kw)
-		self.defaultBackground = self["background"]
-		self.config(relief="flat",
-					activebackground="#ffc851",width = 24,height =24)
-		# print self["state"] # disabled normal
-		if not self["state"] == "disabled":
-			self.bind("<Enter>", self.on_enter)
-			self.bind("<Leave>", self.on_leave)
-	
-	def on_enter(self, e):
-		self['background'] = self['activebackground']
-	
-	def on_leave(self, e):
-		self['background'] = self.defaultBackground
-
-
 class Tooltk(object):
 	"""工具的GUI界面"""
+	# button's width and height
+	_button_size = 24
 	
 	# 调用类变量也要加self
 	def __init__(self, master, help_path, confirm_method):
@@ -112,13 +91,13 @@ class Tooltk(object):
 		# 1192/2 = 596
 		# 右边的主框
 		self.frame_right_side = tk.Frame(self.window, width=496,
-										 border=2, relief="flat")
+										 border=0, relief="flat")
 		self.frame_right_side.pack(side="right",
 								  expand=True, fill="both")
 		# self.frame_right_side.propagate(False)
 		# 左边的主框
 		self.frame_left_side = tk.Frame(self.window, width=696,
-										border=2, relief="flat")
+										border=0, relief="flat")
 		self.frame_left_side.pack(side="left",
 								  expand=True, fill="both")
 		# 里面 的 上部分
@@ -151,7 +130,7 @@ class Tooltk(object):
 		s_bar.config(command=self.help_text.yview)
 		
 		""""
-			侧边框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
+			右边主框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
 		下半部分显示动态信息"""
 		# 上栏
 		self.text = stt.ScrolledText(self.frame_right_side, height="10",
@@ -159,8 +138,8 @@ class Tooltk(object):
 		# 不起作用，将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.text.insert(tk.END,
-						 "Python 2.7.12 (v2.7.12:d33e0cf91556, Jun 27 2016, "
-						 "15:19:22) author: Liaochenchen")  # ,"tag1"
+						 "Python 2.7.12 (v2.7.12:d33e0cf91556,Jun 27 2016, "
+						 "15:19:22) author: Liaochenchen 2019#00#00")  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.text.pack(side="top", anchor="n", expand=True, fill="both",
 					   padx=2)
@@ -168,8 +147,8 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_majorMsg = tk.Text(self.frame_right_side, height="10",
-									 width="60", yscrollcommand=s_bar.set,
+		self.text_majorMsg = tk.Text(self.frame_right_side, height="60",
+									  yscrollcommand=s_bar.set,
 									 maxundo=15, undo=True)
 		# 支持撤销操作，支持换行 wrap = "char"
 		self.text_majorMsg.insert(tk.END, ">>>" * 20)
@@ -188,6 +167,7 @@ class Tooltk(object):
 		with open(filename, "r") as read_msgs:
 			for read_line in read_msgs.readlines():
 				self.help_text.insert(tk.END, read_line)
+			self.help_text["state"] = "disabled"
 	
 	# print read_line
 	
@@ -195,14 +175,19 @@ class Tooltk(object):
 		"""
 		create second window button
 		"""
+		
 		# self.confirm_method 确认按键所触发的方法
-		self.button_confirm = HoverButton(self.frame_bottom_bar,
-										  image=self.gif_confirm,
-										  command=self.confirm_method)
+		self.button_confirm = luitils.HoverButton(self.frame_bottom_bar,
+												  image=self.gif_confirm,
+												  command=self.confirm_method,
+												  width =self._button_size,
+												  height =self._button_size)
 		# print "tooltk.py>>Border:", self.button_confirm["borderwidth"] # 2
 		# height = 18, width = 18,
-		self.button_help = HoverButton(self.frame_bottom_bar,
-									   image=self.gif_help)
+		self.button_help = luitils.HoverButton(self.frame_bottom_bar,
+											   image=self.gif_help,
+											   width=self._button_size,
+											   height=self._button_size)
 		
 		def inner_quit():
 			"""
@@ -213,8 +198,11 @@ class Tooltk(object):
 			"""
 			luitils.destroy_chird(self.window)
 		
-		self.button_quit = HoverButton(self.frame_bottom_bar,
-									   image=self.gif_quit, command=inner_quit)
+		self.button_quit = luitils.HoverButton(self.frame_bottom_bar,
+											   image=self.gif_quit,
+											   command=inner_quit,
+											   width=self._button_size,
+											   height=self._button_size)
 		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
 		self.button_help.pack(side=tk.LEFT, anchor=tk.E, padx=5)
@@ -256,7 +244,6 @@ class Tooltk(object):
 		主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
 		"""
-		
 		# 文件选取菜单
 		def select_file():
 			file_path = tkFileDialog.askopenfilename(filetypes=sfb_filetype)
@@ -275,9 +262,11 @@ class Tooltk(object):
 		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,border=0)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=10)
-		self.addfile_button = HoverButton(frame_one,
-										  text=u"选择", command=select_file,
-										  image=self.gif_addfile, width=24)
+		self.addfile_button = luitils.HoverButton(frame_one, text=u"选择",
+												  command=select_file,
+												  image=self.gif_addfile,
+												  width=self._button_size,
+												  height=self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -304,8 +293,10 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = HoverButton(frame_one, image=self.gif_addfile,
-										  command=select_file, width=24)
+		self.addfile_button = luitils.HoverButton(frame_one, image=self.gif_addfile,
+												  command= select_file,
+												  width= self._button_size,
+												  height = self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -338,9 +329,11 @@ class Tooltk(object):
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
-		self.addfile_button = HoverButton(frame_one,
-										  command=select_file,
-										  image=self.gif_folder)
+		self.addfile_button = luitils.HoverButton(frame_one,
+												  command=select_file,
+												  image=self.gif_folder,
+												  width = self._button_size,
+												  height = self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -363,8 +356,10 @@ class Tooltk(object):
 							padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
-		int_button_1 = HoverButton(frame_one, image=self.gif_empty_1,
-								   state = "disabled")
+		int_button_1 = luitils.HoverButton(frame_one, image=self.gif_empty_1,
+										   state = "disabled",
+										   width = self._button_size,
+										   height = self._button_size)
 		int_button_1.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -381,8 +376,10 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		int_button_2 = HoverButton(frame_one,state = "disabled",
-								   image=self.gif_empty_1)
+		int_button_2 = luitils.HoverButton(frame_one,state = "disabled",
+										   image=self.gif_empty_1,
+										   width = self._button_size,
+										   height = self._button_size)
 		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()

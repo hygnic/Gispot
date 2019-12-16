@@ -8,6 +8,7 @@ import Tkinter as tk
 import sys
 import ttk
 import tkMessageBox
+from webbrowser import open as weberopen
 # from PIL import Image, ImageTk
 
 
@@ -62,7 +63,7 @@ class AppEntrance(object):
         # bt.config()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
-        self.olive_bar()
+        self.gradient_bar()
         self.upgrade_from_github()
         # -------------------------------------
         # cmb = ttk.Menubutton(self.rootwindow, text="io")
@@ -92,21 +93,25 @@ class AppEntrance(object):
         #     bb["value"] = i * 10 + m
         #
        
-        
-    def olive_bar(self):
-        self.label_uesless = tk.Label(self.rootwindow, bg='olive')
-        self.label_uesless.pack(side="bottom", anchor=tk.SE, fill="x")
+    def gradient_bar(self):
+        self.gradient_canv = luitils.GradientFrame(self.rootwindow,
+                                                  "#ffc851", 'olive',relief= "flat")
+        self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
+        self.gradient_canv.create_text(1,2,text = "okok")
     
     def upgrade_from_github(self):
         def open_u():
-            import webbrowser
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
-            webbrowser.open(update_url, new=0, autoraise=True)
+            weberopen(update_url, new=0, autoraise=True)
         self.image_octacat = tk.PhotoImage(file = gispotpath.GifPath.gif_github)
-        ap_button = tk.Button(master=self.label_uesless, command=open_u,
-                              image = self.image_octacat,
-                              width = 26, height = 26,text=u"获取更新")
+        ap_button = luitils.HoverButton(master=self.gradient_canv,
+                                        command=open_u, bd = 2,
+                                        image = self.image_octacat,
+                                        width = 30, height = 30)
         ap_button.pack(side='top', expand='yes', anchor="se")
+        # exxp = tk.Text(self.gradient_canv,height = 1)
+        # exxp.pack()
+        # exxp.insert("end","im ok")
     
     
     def menu(self):
@@ -148,7 +153,6 @@ class AppEntrance(object):
         self.menubar_gst.add_command(label=u'公示图命名规范化',
                                 command=self.open_GSTrename)
         
-        
         # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
         self.menubar_map = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
@@ -156,7 +160,7 @@ class AppEntrance(object):
                                 command=self.open_Multip_exp)
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
-
+        # 关于 栏
         self.menubar_about = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"关于", menu=self.menubar_about)
         self.menubar_about.add_command(label=u'获取更新',
