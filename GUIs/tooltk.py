@@ -103,20 +103,16 @@ class Tooltk(object):
 		# 里面 的 上部分
 		self.frame_major = tk.Frame(self.frame_left_side, width=696,
 									relief="flat")
-		self.frame_major.pack(
-			expand=True, fill="both")
+		self.frame_major.pack(expand=True, fill="both")
 		# 主框下的底部栏
 		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
-										 bg=self.color6, border=2,
-										 relief="groove")  # ffc851
-		self.frame_bottom_bar.pack(
-			expand=False, fill="both")
+										 bg=self.color6)  # ffc851
+		self.frame_bottom_bar.pack(expand=False, fill="both")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 		# x轴（左右）方向上会拉伸
 		# 左边主框中的帮助信息
 		help_f = tk.Frame(self.frame_major, width=696,
-							   relief=tk.RIDGE,
-							   bd=2)
+						  relief=tk.GROOVE,bd=2,padx = 3)
 		help_f.pack(side=tk.BOTTOM, anchor="s",
 					expand=True, fill="both")
 		# 设置带滚动条的text

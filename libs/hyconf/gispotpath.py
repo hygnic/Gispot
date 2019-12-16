@@ -41,7 +41,7 @@ class GifPath(object):
 	gif_info = os.path.join(_base_icons_path, "help_info_3.gif")
 	gif_confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
 	
-	gif_github= os.path.join(_base_icons_path, "Github-icon40.gif")
+	gif_github= os.path.join(_base_icons_path, "Github-icon32.gif")
 	
 	gif_empty1 =os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
