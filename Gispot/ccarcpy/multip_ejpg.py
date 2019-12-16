@@ -87,11 +87,13 @@ class MultipExp(tooltk.Tooltk):
         # block2 取消按钮
         self.single_int_block(u"进程数")
         
-        self.addfile_button.config(text = "---",state = "disable")
+        # self.addfile_button.config(state = "disable")
         # block3 取消按钮
         self.single_int_block2(u"出图分辨率")
-        self.addfile_button.config(text = "---",state = "disable")
-    
+        # self.addfile_button.config(state = "disable")
+        # self.addfile_button.pack_forget()  # 隐藏模块
+
+        # self.addfile_button.destroy()	# 隐藏模块
     
     def let_go(self):
         # 获取Entry的值
@@ -108,9 +110,10 @@ class MultipExp(tooltk.Tooltk):
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=self.commu.decor, args=(self.commu.que,
-                                                       export_jpeg,set_li, res,
-                                                       ))
+            p = Process(target=self.commu.decor,
+                        args=(self.commu.que,
+                              export_jpeg,set_li, res)
+                        )
             p.deamon = True
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)

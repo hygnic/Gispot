@@ -5,11 +5,8 @@
 """所用工具和脚本调用此GUI"""
 
 import Tkinter as tk
-import ttk
 import tkFileDialog
 import ScrolledText as stt
-
-
 
 # 导入配置包、地址包
 from hyconf import luitils
@@ -17,23 +14,31 @@ from hyconf import gispotpath
 
 
 class HoverButton(tk.Button):
+	"""
+	继承Button.实现鼠标悬停时，按键变化的效果
+	注意事项：
+		图片按键和文字按键的width和height的度量单位不一样
+	"""
 	def __init__(self, master, **kw):
-		tk.Button.__init__(self,master=master,**kw)
+		tk.Button.__init__(self, master=master, **kw)
 		self.defaultBackground = self["background"]
-		self.bind("<Enter>", self.on_enter)
-		self.bind("<Leave>", self.on_leave)
-		self.config(relief = "flat",
-					activebackground = "#ffc851")
+		self.config(relief="flat",
+					activebackground="#ffc851",width = 24,height =24)
+		# print self["state"] # disabled normal
+		if not self["state"] == "disabled":
+			self.bind("<Enter>", self.on_enter)
+			self.bind("<Leave>", self.on_leave)
 	
 	def on_enter(self, e):
 		self['background'] = self['activebackground']
-
+	
 	def on_leave(self, e):
 		self['background'] = self.defaultBackground
 
 
 class Tooltk(object):
 	"""工具的GUI界面"""
+	
 	# 调用类变量也要加self
 	def __init__(self, master, help_path, confirm_method):
 		"""
@@ -81,13 +86,14 @@ class Tooltk(object):
 		self.gif_text = tk.PhotoImage(file=gispotpath.GifPath.gif_textfile)
 		self.gif_addfile = tk.PhotoImage(file=gispotpath.GifPath.gif_add_file)
 		
-		
 		self.gif_folder = tk.PhotoImage(file=gispotpath.GifPath.gif_folder)
 		self.gif_close = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
 		self.gif_quit = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
-		self.gif_help = tk.PhotoImage(file = gispotpath.GifPath.gif_info)
+		self.gif_help = tk.PhotoImage(file=gispotpath.GifPath.gif_info)
 		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
 		
+		self.gif_empty_1 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty1)
+		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
 		# self.gif_check_green16 =  ph.zoom(x= 2,y = 2)
@@ -101,38 +107,38 @@ class Tooltk(object):
 		im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
 		self.ph_im = ImageTk.PhotoImage(im)
 		"""
-		
 	
 	def create_frames(self):
 		# 1192/2 = 596
 		# 右边的主框
-		self.frame_right_side = tk.Frame(self.window, width = 496,
+		self.frame_right_side = tk.Frame(self.window, width=496,
 										 border=2, relief="flat")
-		self.frame_right_side.grid(k)
+		self.frame_right_side.pack(side="right",
+								  expand=True, fill="both")
 		# self.frame_right_side.propagate(False)
 		# 左边的主框
 		self.frame_left_side = tk.Frame(self.window, width=696,
-										 border=2, relief="flat")
+										border=2, relief="flat")
 		self.frame_left_side.pack(side="left",
-								   expand=True, fill="both")
+								  expand=True, fill="both")
 		# 里面 的 上部分
-		self.frame_major = tk.Frame(self.frame_left_side, width = 696,
+		self.frame_major = tk.Frame(self.frame_left_side, width=696,
 									relief="flat")
 		self.frame_major.pack(
-							  expand=True, fill="both")
+			expand=True, fill="both")
 		# 主框下的底部栏
 		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
 										 bg=self.color6, border=2,
-										 relief="groove") # ffc851
+										 relief="groove")  # ffc851
 		self.frame_bottom_bar.pack(
-								   expand=False, fill="both")
+			expand=False, fill="both")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 		# x轴（左右）方向上会拉伸
 		# 左边主框中的帮助信息
-		help_f = tk.LabelFrame(self.frame_major, width=696,
+		help_f = tk.Frame(self.frame_major, width=696,
 							   relief=tk.RIDGE,
-							   text="____" * 80, bd=2, fg=self.color5)
-		help_f.pack(side=tk.BOTTOM,anchor = "s",
+							   bd=2)
+		help_f.pack(side=tk.BOTTOM, anchor="s",
 					expand=True, fill="both")
 		# 设置带滚动条的text
 		s_bar = tk.Scrollbar(help_f, relief="flat",
@@ -154,9 +160,9 @@ class Tooltk(object):
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.text.insert(tk.END,
 						 "Python 2.7.12 (v2.7.12:d33e0cf91556, Jun 27 2016, "
-						 "15:19:22) author: Liaochenchen") #,"tag1"
+						 "15:19:22) author: Liaochenchen")  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
-		self.text.pack(side="top", anchor="n", expand=True,fill = "both",
+		self.text.pack(side="top", anchor="n", expand=True, fill="both",
 					   padx=2)
 		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
@@ -164,9 +170,9 @@ class Tooltk(object):
 		s_bar.pack(side="right", fill="y")
 		self.text_majorMsg = tk.Text(self.frame_right_side, height="10",
 									 width="60", yscrollcommand=s_bar.set,
-									 maxundo = 15, undo =True)
-									# 支持撤销操作，支持换行 wrap = "char"
-		self.text_majorMsg.insert(tk.END,">>>"*20)
+									 maxundo=15, undo=True)
+		# 支持撤销操作，支持换行 wrap = "char"
+		self.text_majorMsg.insert(tk.END, ">>>" * 20)
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
 								fill="both", padx=2)
 		s_bar.config(command=self.text_majorMsg.yview)
@@ -182,9 +188,9 @@ class Tooltk(object):
 		with open(filename, "r") as read_msgs:
 			for read_line in read_msgs.readlines():
 				self.help_text.insert(tk.END, read_line)
-			# print read_line
 	
-
+	# print read_line
+	
 	def create_button(self):
 		"""
 		create second window button
@@ -192,13 +198,11 @@ class Tooltk(object):
 		# self.confirm_method 确认按键所触发的方法
 		self.button_confirm = HoverButton(self.frame_bottom_bar,
 										  image=self.gif_confirm,
-										  command = self.confirm_method)
-		print "Border:",self.button_confirm["borderwidth"]
+										  command=self.confirm_method)
+		# print "tooltk.py>>Border:", self.button_confirm["borderwidth"] # 2
 		# height = 18, width = 18,
 		self.button_help = HoverButton(self.frame_bottom_bar,
-									   image = self.gif_help)
-		# relief = but_relief,
-		# activebackground = activebackground
+									   image=self.gif_help)
 		
 		def inner_quit():
 			"""
@@ -208,12 +212,12 @@ class Tooltk(object):
 			:return:
 			"""
 			luitils.destroy_chird(self.window)
-			
+		
 		self.button_quit = HoverButton(self.frame_bottom_bar,
 									   image=self.gif_quit, command=inner_quit)
 		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
-		self.button_help.pack(side=tk.LEFT,  anchor=tk.E, padx=5)
+		self.button_help.pack(side=tk.LEFT, anchor=tk.E, padx=5)
 		self.button_quit.pack(side=tk.RIGHT, anchor=tk.E, padx=5)
 		# buttonttk["command"] = self.kk
 		# --------------- 获取部件的query_class
@@ -230,7 +234,6 @@ class Tooltk(object):
 						'sticky': 'nswe'})],
 					'sticky': 'nswe'})],
 				'sticky': 'nswe'})])
-
 		ttk.Style().configure("TButton", foreground="#ffc851", background="blue")
 		# padding = 10
 		"""
@@ -242,12 +245,9 @@ class Tooltk(object):
 		"""
 		"""
 		# ---------------
-
+		
 		return 1
 	
-	
-	
-
 	def single_file_block(self, sfb_filetype, sfb_name):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
@@ -264,35 +264,36 @@ class Tooltk(object):
 			input_msg1.set(file_path)
 		
 		label_1 = tk.Label(self.frame_major, text=sfb_name)
-		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# 按钮
-		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = HoverButton(frame_one,
-										 text=u"选择", command=select_file,
-										 image=self.gif_addfile, width=24)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+	
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,
-								  border=2, relief=tk.FLAT)
+								  border=0)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
-							fill=tk.X, padx=15)
+							fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
+		# 按钮
+		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
+		self.addfile_button = HoverButton(frame_one,
+										  text=u"选择", command=select_file,
+										  image=self.gif_addfile, width=24)
+		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
 	def save_path_block(self, sfb_filetype, sfb_name):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
-		
+
 		sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		"""
+		
 		# 文件选取菜单
 		def select_file():
 			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
@@ -300,7 +301,8 @@ class Tooltk(object):
 			# lis = self.file_paths_.append(file_path)
 			# print lis
 			input_msg1.set(file_path)
-			# return file_path
+		
+		# return file_path
 		
 		name_label = tk.Label(self.frame_major, text=sfb_name)
 		name_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
@@ -312,7 +314,7 @@ class Tooltk(object):
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = HoverButton(frame_one, image=self.gif_addfile,
-										 command=select_file,width = 24)
+										  command=select_file, width=24)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -336,24 +338,21 @@ class Tooltk(object):
 			input_msg1.set(file_path)
 		
 		label_2 = tk.Label(self.frame_major, text=sdb_name)
-		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60",
-							 width="700",
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = HoverButton(frame_one,
-										 command=select_file,
-										 image=self.gif_folder)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								  relief=tk.FLAT)
+		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1,
+								 bd = 0)
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
-							padx=15)
+							padx=10)
 		# input_msg.set(one_file_path)
+		self.addfile_button = HoverButton(frame_one,
+										  command=select_file,
+										  image=self.gif_folder)
+		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
 	def single_int_block(self, gib_name):
@@ -366,20 +365,20 @@ class Tooltk(object):
 		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60", width="700",
+		frame_one = tk.Frame(self.frame_major,
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# 按钮
-		self.addfile_button = HoverButton(frame_one, command=None)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sib = tk.Entry(frame_one, textvariable=input_msg1, border=2,
 								  relief=tk.FLAT)
-		# , state = "readonly"
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=15)
 		# input_msg.set(one_file_path)
+		# 按钮
+		int_button_1 = HoverButton(frame_one, image=self.gif_empty_1,
+								   state = "disabled")
+		int_button_1.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
 	def single_int_block2(self, gib_name):
@@ -392,12 +391,13 @@ class Tooltk(object):
 		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60", width="700",
+		frame_one = tk.Frame(self.frame_major,
 							 pady=4)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		self.addfile_button = HoverButton(frame_one, command=None)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+		int_button_2 = HoverButton(frame_one,state = "disabled",
+								   image=self.gif_empty_1)
+		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
 		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=2,
@@ -428,12 +428,13 @@ class Tooltk(object):
 			# 将信息显示到右上角
 			self.text.insert("end", "\n  " + msg)
 		return self.block_list
-	
-	# got_msg1 = arg[0].get()
-	# # .decode("cp936")
-	# got_msg2 = arg[1].get()
-	# self.block_list.append(got_msg1)
-	# self.block_list.append(got_msg2)
+
+
+# got_msg1 = arg[0].get()
+# # .decode("cp936")
+# got_msg2 = arg[1].get()
+# self.block_list.append(got_msg1)
+# self.block_list.append(got_msg2)
 
 
 if __name__ == '__main__':

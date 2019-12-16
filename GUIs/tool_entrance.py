@@ -204,9 +204,9 @@ class AppEntrance(object):
     def explode_mulitp(self):
         luitils.destroy_chird(self.main_f)
         explode_mulitp.App(self.main_f)
-        
 
-    
+
+
     def button_config(self):
         def open_u():
             import webbrowser
