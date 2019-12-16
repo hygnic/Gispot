@@ -272,13 +272,9 @@ class Tooltk(object):
 	
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,
-								  border=0)
+		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,border=0)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=10)
-		# input_msg.set(one_file_path)
-		# 按钮
-		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
 		self.addfile_button = HoverButton(frame_one,
 										  text=u"选择", command=select_file,
 										  image=self.gif_addfile, width=24)
@@ -289,11 +285,9 @@ class Tooltk(object):
 		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
-
 		sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		"""
-		
 		# 文件选取菜单
 		def select_file():
 			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
@@ -302,14 +296,11 @@ class Tooltk(object):
 			# print lis
 			input_msg1.set(file_path)
 		
-		# return file_path
-		
 		name_label = tk.Label(self.frame_major, text=sfb_name)
 		name_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major, height="60", width="700",
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
@@ -330,7 +321,6 @@ class Tooltk(object):
 		主Frame中的功能块之一，将通过Filedialog获取的 文件夹  传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
 		"""
-		
 		def select_file():
 			# global file_path
 			file_path = tkFileDialog.askdirectory()
@@ -344,8 +334,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1,
-								 bd = 0)
+		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1,bd = 0)
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
@@ -362,18 +351,16 @@ class Tooltk(object):
 		:return:
 		"""
 		label_3 = tk.Label(self.frame_major, text=gib_name)
-		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major,
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								  relief=tk.FLAT)
+		self.input_sib = tk.Entry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
-							padx=15)
+							padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
 		int_button_1 = HoverButton(frame_one, image=self.gif_empty_1,
@@ -388,11 +375,10 @@ class Tooltk(object):
 		:return:
 		"""
 		label_ = tk.Label(self.frame_major, text=gib_name)
-		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
+		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major,
-							 pady=4)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		int_button_2 = HoverButton(frame_one,state = "disabled",
@@ -400,11 +386,10 @@ class Tooltk(object):
 		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=2,
-								   relief="flat")
+		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=0)
 		# , state = "readonly"
 		self.input_sib2.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
-							 padx=15)
+							 padx=10)
 		# input_msg.set(one_file_path)
 		return 1
 	
