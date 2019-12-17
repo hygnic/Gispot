@@ -94,7 +94,7 @@ class GradientFrame(tk.Canvas):
 		g_ratio = float(g2-g1) / limit
 		b_ratio = float(b2-b1) / limit
 
-		for i in range(limit):
+		for i in xrange(limit):
 			nr = int(r1 + (r_ratio * i))
 			ng = int(g1 + (g_ratio * i))
 			nb = int(b1 + (b_ratio * i))

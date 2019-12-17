@@ -8,14 +8,14 @@ import Tkinter as tk      # py2
 class Example(tk.Frame):
 	def __init__(self, parent):
 		tk.Frame.__init__(self, parent)
-		# f1 = GradientFrame(self, borderwidth=1, relief="sunken")
-		f2 = GradientFrame(self, "#ffc851", "blue", borderwidth=1, relief="sunken")
-		# f1.pack(side="top", fill="both", expand=True)
+		f1 = GradientFrame(self, borderwidth=1, relief="sunken")
+		f2 = GradientFrame(self, "#ffc851", "lightblue", borderwidth=1, relief="sunken")
+		f1.pack(side="top", fill="both", expand=True)
 		f2.pack(side="bottom", fill="both", expand=True)
 
 class GradientFrame(tk.Canvas):
 	"""A gradient frame which uses a canvas to draw the background"""
-	def __init__(self, parent, color1="red", color2="black", **kwargs):
+	def __init__(self, parent, color1="red", color2="lightblue", **kwargs):
 		tk.Canvas.__init__(self, parent, **kwargs)
 		self._color1 = color1
 		self._color2 = color2
@@ -33,7 +33,7 @@ class GradientFrame(tk.Canvas):
 		g_ratio = float(g2-g1) / limit
 		b_ratio = float(b2-b1) / limit
 
-		for i in range(limit):
+		for i in xrange(limit):
 			nr = int(r1 + (r_ratio * i))
 			ng = int(g1 + (g_ratio * i))
 			nb = int(b1 + (b_ratio * i))

@@ -97,7 +97,7 @@ class AppEntrance(object):
         self.gradient_canv = luitils.GradientFrame(self.rootwindow,
                                                   "#ffc851", 'olive',relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
-        self.gradient_canv.create_text(32,18,text = "Gispot 2")
+        self.gradient_canv.create_text(32,18,text = "Gispot 1")
     
     def upgrade_from_github(self):
         def open_u():
