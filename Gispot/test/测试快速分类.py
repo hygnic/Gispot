@@ -10,53 +10,81 @@
 
 import os
 import arcpy
-import time
+
+
+def path_detect(path_d):
+	"""检测目录是否存在并建立"""
+	if not os.path.isdir(path_d):
+		os.makedirs(path_d)
 
 arcpy.env.overwriteOutput = True
 
-# mxd1_path = ur"D:\农业部汇交1120\宜宾\1217.mxd"
-mxd1_path = ur"E:\move on move on\正安县\测试.mxd"
-# layer_name = "XJQY5115212019"
-layer_name = "XJQY5203242019"
+mxd1_path = ur"D:\test\1217.mxd"
+# mxd1_path = ur"E:\move on move on\正安县\测试.mxd"
+output_dir = os.path.abspath(os.path.dirname(mxd1_path))
+
+mxd_layer = "XJQY5115212019"
+# layer_inmxd = "XJQY5203242019"
 selected_field = "XJQYDM"
-# value_list = {
-# 	"group1":[511521111,511521105],
-# 	"group2":[511521202,511521107]
-# }
-value_list = {
-	"group1":[520324102,520324105],
-	"group2":[520324106,520324111]
+group_dict = {
+	"group1":["511521111","511521105"],
+	"group2":["511521202","511521107"]
 }
+
+# value_list = {
+# 	"group1":[520324102,520324105],
+# 	"group2":[520324106,520324111]
+# }
 
 mxd1 = arcpy.mapping.MapDocument(mxd1_path)
 # 选出作为选择母本的图层
-lyr_base = arcpy.mapping.ListLayers(mxd1,layer_name)[0]
-arcpy.MakeFeatureLayer_management(lyr_base,"base")
-print value_list["group1"]
-print value_list["group1"][1]
-print "------------"
-sp = "E:\move on move on\正安县"
-for group_name in value_list:
-	print group_name # group1
-	group_list = value_list[group_name] # group_list: [511521111, 511521105]
-	for group_value in group_list: # 511521111
-		print group_value
-		# print selected_field+" = '"+str(group_value)+"'" # XJQYDM = '520324102'
-		arcpy.SelectLayerByAttribute_management(lyr_base,"ADD_TO_SELECTION",
-											   "\""+selected_field+ "\"= \'"
-											   +str(group_value)+"'")
+raw_layers = arcpy.mapping.ListLayers(mxd1)
+cooked_layers = []
+for lyr in raw_layers:
+	if lyr.name == mxd_layer:
+		print "find!"
+		target_lyr = lyr
+		print "Get {0} layer!".format(mxd_layer)
+	else:
+		cooked_layers.append(lyr)
+		
+	
+arcpy.MakeFeatureLayer_management(target_lyr,"base")
+# print group_dict["group1"]
+# print group_dict["group1"][1]
+# print "------------"
 
-	mxd1.saveACopy(sp+'/'+str(group_name)+".mxd")
-	lyr_base.setSelectionSet("NEW",[])
-	print "okkk"
-	
-def _output_lyr(selector,layerlist):
-	"""
-	示例：根据从XJQY中选择好的乡镇为范围，将其他图层导出
-	:param selector 用于选择的图层，比如XJQY
-	:param layerlist: 余下图层的列表
-	:return:
-	"""
-	for o_layer in layerlist:
-	
-	
+for group_name in group_dict:
+	# print group_name # group1
+	group_list = group_dict[group_name] # group_list: [511521111, 511521105]
+	for group_value in group_list: # group_value: 511521111
+		# print selected_field+" = '"+str(group_value)+"'" # XJQYDM = '520324102'
+		arcpy.SelectLayerByAttribute_management(
+			target_lyr, "ADD_TO_SELECTION",
+			"\"" + selected_field + "\"= \'"
+			+ group_value + "'"
+		)
+
+		# 对 其余图层 进行选择操作
+		for o_layer in cooked_layers:
+			arcpy.SelectLayerByLocation_management(
+				o_layer, "WITHIN", target_lyr,
+				selection_type="ADD_TO_SELECTION"
+			)
+	group_dir = os.path.join(output_dir,group_name) # D:\test\group1
+	# establish dir
+	path_detect(group_dir)
+	# export shapefile of every layer
+	for o_layer in cooked_layers:
+		group_filename = os.path.join(group_dir,o_layer.name) # D:\test\group1\CJQY5115212019.shp
+		try:
+			arcpy.CopyFeatures_management(o_layer,group_filename)
+			o_layer.setSelectionSet("NEW",[])
+		except Exception as e:
+			print e.message
+		else:
+			print u"保存 {0}".format(o_layer.name)
+		
+	# mxd1.saveACopy(output_dir + '/' + str(group_name) + ".mxd")
+	target_lyr.setSelectionSet("NEW",[])
+	print "{0} Done!".format(group_name)
