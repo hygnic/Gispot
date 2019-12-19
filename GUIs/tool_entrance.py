@@ -57,7 +57,8 @@ class AppEntrance(object):
         self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
         luitils.screen_cetre(self.rootwindow, width=1192, height=650)
-        self.rootwindow.iconbitmap(default=os.path.join(rbg_Icons,"cpt2.ico"))
+        self.rootwindow.iconbitmap(default=
+                                   os.path.join(rbg_Icons,"icon.ico"))
         # self.rootwindow.resizable(False, False)
         self.menu()
         # bt.config()
