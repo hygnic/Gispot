@@ -119,7 +119,7 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(help_f, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.help_text = tk.Text(help_f, relief=tk.FLAT,
+		self.help_text = luitils.NeewwText(help_f, relief=tk.FLAT,
 								 fg=self.color5, yscrollcommand=s_bar.set)
 		
 		self.help_text.pack(expand=True, fill="both")
@@ -143,7 +143,7 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_majorMsg = tk.Text(self.frame_right_side, height="60",
+		self.text_majorMsg = luitils.NeewwText(self.frame_right_side, height="60",
 									  yscrollcommand=s_bar.set,
 									 maxundo=15, undo=True)
 		# 支持撤销操作，支持换行 wrap = "char"
@@ -255,7 +255,7 @@ class Tooltk(object):
 	
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb = tk.Entry(frame_one, textvariable=input_msg1,border=0)
+		self.input_sfb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,border=0)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=10)
 		self.addfile_button = luitils.HoverButton(frame_one, text=u"选择",
@@ -296,7 +296,7 @@ class Tooltk(object):
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sb = tk.Entry(frame_one, textvariable=input_msg1,
+		self.input_sb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,
 								 border=2, relief=tk.FLAT)
 		self.input_sb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 						   fill=tk.X, padx=15)
@@ -321,7 +321,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb = tk.Entry(frame_one, textvariable=input_msg1,bd = 0)
+		self.input_sdb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,bd = 0)
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
@@ -347,7 +347,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib = tk.Entry(frame_one, textvariable=input_msg1, border=0)
+		self.input_sib = luitils.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
@@ -372,17 +372,24 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		int_button_2 = luitils.HoverButton(frame_one,state = "disabled",
-										   image=self.gif_empty_1,
-										   width = self._button_size,
-										   height = self._button_size)
+		int_button_2 = luitils.HoverButton(
+			frame_one, state="disabled",
+			image=self.gif_empty_1,
+			width=self._button_size,
+			height=self._button_size
+		)
 		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib2 = tk.Entry(frame_one, textvariable=input_msg1, border=0)
+		self.input_sib2 = luitils.NeewwEntry(
+			frame_one,
+			textvariable=input_msg1, border=0
+		)
 		# , state = "readonly"
-		self.input_sib2.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
-							 padx=10)
+		self.input_sib2.pack(
+			side=tk.LEFT, anchor=tk.W,
+			padx=10, expand=True, fill=tk.X
+		)
 		# input_msg.set(one_file_path)
 		return 1
 	

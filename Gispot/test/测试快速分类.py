@@ -64,8 +64,8 @@ for group_name in group_dict:
 			"\"" + selected_field + "\"= \'"
 			+ group_value + "'"
 		)
-
 		# 对 其余图层 进行选择操作
+		# 将一个 group列表中的所有限制条
 		for o_layer in cooked_layers:
 			arcpy.SelectLayerByLocation_management(
 				o_layer, "WITHIN", target_lyr,

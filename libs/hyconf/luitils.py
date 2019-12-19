@@ -8,9 +8,7 @@
 		窗口居中
 		清除父部件中的子部件
 二:
-	定义新类HoverButton
-	
-
+	定义新类 HoverButton,NeewwEntry,NeewwText
 """
 
 import Tkinter as tk
@@ -63,8 +61,44 @@ class HoverButton(tk.Button):
 	
 	def on_leave(self, event=None):
 		self['background'] = self.defaultBackground
-		
 
+
+class NeewwEntry(tk.Entry):
+	"""
+	from https://stackoverflow.com/questions/41477428/
+		ctrl-a-select-all-in-entry-widget-tkinter-python
+	继承Entry，实现以下功能
+		1.Ctrl A 实现全选的功能
+	"""
+	def __init__(self, master, **kw):
+		tk.Entry.__init__(self, master=master, **kw)
+		self.bind("<Control-a>", self.select_all)
+	
+	@staticmethod
+	def select_all(event):
+		# select text
+		event.widget.select_range(0, 'end')
+		# move cursor to the end
+		event.widget.icursor('end')
+		# stop propagation
+		return 'break'
+
+
+class NeewwText(tk.Text):
+	"""
+	from (https://stackoverflow.com/questions/5870561/
+		re-binding-select-all-in-text-widget)
+	继承Text，实现以下功能
+		1.Ctrl A 实现全选的功能
+	"""
+	def __init__(self, master, **kw):
+		tk.Text.__init__(self, master=master, **kw)
+		self.bind_class("Text","<Control-a>", self.selectall)
+	
+	def selectall(self, event):
+		event.widget.tag_add("sel","1.0","end")
+
+	
 class GradientFrame(tk.Canvas):
 	"""
 	from Bryan Oakley on (https://stackoverflow.com/questions/26178869/
