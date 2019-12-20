@@ -39,9 +39,17 @@ for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
 
 # import ccname # 识别不了gstrename
-from ccname import gstrename
-from ccarcpy import multip_ejpg
-from ccarcpy import explode_mulitp
+
+# from Gispot.ccname import gstrename
+# from Gispot.ccarcpy import multip_ejpg
+# from Gispot.ccarcpy import explode_mulitp
+# from Gispot.ccarcpy import task_dispatch
+
+import ccname.gstrename
+import ccarcpy.multip_ejpg
+import ccarcpy.explode_mulitp
+import ccarcpy.task_dispatch
+
 
 # 配置包导入
 from hyconf import luitils
@@ -148,19 +156,21 @@ class AppEntrance(object):
         self.menubar_edit.add_command(label='Copy', command=None)
         self.menubar_edit.add_command(label='Paste', command=None)
         
-        # 制图mapping菜单栏
+        # 两区公示图 菜单栏
         self.menubar_gst = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label = u"两区公示图", menu=self.menubar_gst)
         self.menubar_gst.add_command(label=u'公示图命名规范化',
                                 command=self.open_GSTrename)
         
-        # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
+        # 制图mapping菜单栏
         self.menubar_map = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
         self.menubar_map.add_command(label=u'多进程导图JPEG',
                                 command=self.open_Multip_exp)
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
+        self.menubar_map.add_command(label=u'任务分配',
+                                     command=self.start_dispatch_task)
         # 关于 栏
         self.menubar_about = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"关于", menu=self.menubar_about)
@@ -200,16 +210,23 @@ class AppEntrance(object):
 
     def open_GSTrename(self):
         luitils.destroy_chird(self.main_f)
-        gstrename.App(self.main_f)
+        # gstrename.App(self.main_f)
+        ccname.gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
         luitils.destroy_chird(self.main_f)
-        multip_ejpg.MultipExp(self.main_f)
+        # multip_ejpg.MultipExp(self.main_f)
+        ccarcpy.multip_ejpg.MultipExp(self.main_f)
 
     def explode_mulitp(self):
         luitils.destroy_chird(self.main_f)
-        explode_mulitp.App(self.main_f)
-
+        # explode_mulitp.App(self.main_f)
+        ccarcpy.explode_mulitp.App(self.main_f)
+    
+    def start_dispatch_task(self):
+        luitils.destroy_chird(self.main_f)
+        # task_dispatch.StartApp(self.main_f)
+        ccarcpy.task_dispatch.StartApp(self.main_f)
 
 
     def button_config(self):

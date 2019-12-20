@@ -365,8 +365,8 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		label_ = tk.Label(self.frame_major, text=gib_name)
-		label_.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
+		_label = tk.Label(self.frame_major, text=gib_name)
+		_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
 		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
@@ -392,6 +392,20 @@ class Tooltk(object):
 		)
 		# input_msg.set(one_file_path)
 		return 1
+	
+	def single_text_block(self,stb_name):
+		"""
+		text组件
+		:param stb_name:
+		:return:
+		"""
+		_label = tk.Label(self.frame_major, text=stb_name)
+		_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
+		# text = tk.Text(_label)
+		# text.pack()
+		
+		
+		
 	
 	def get_Entry_fromblock(self, *arg):
 		"""
