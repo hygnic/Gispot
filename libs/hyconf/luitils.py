@@ -97,24 +97,29 @@ class NeewwText(tk.Text):
 	
 	def selectall(self, event):
 		event.widget.tag_add("sel","1.0","end")
+	# 重新复写tk.Text().get()方法，默认其获得全部信息
+	def get(self, index1="0.0", index2="end"):
+		"""Return the text from INDEX1 to INDEX2 (not included)."""
+		return self.tk.call(self._w, 'get', index1, index2)
 
 	
-class GradientFrame(tk.Canvas):
+class GradientCanvas(tk.Canvas):
 	"""
 	from Bryan Oakley on (https://stackoverflow.com/questions/26178869/
 							is-it-possible-to-apply-gradient-colours-
 							to-bg-of-tkinter-python-widgets)
 	A gradient frame which uses a canvas to draw the background
 	parent:
-	color1: 渐变颜色1
-	color2: 渐变颜色2
+	color11: 渐变颜色1
+	color22: 渐变颜色2
 	"""
-	def __init__(self, parent, color1="red", color2="black", **kwargs):
+	def __init__(self, parent, color1= "#ffc851", color2="olive", **kwargs):
 		"""default gradient color: red to black"""
 		tk.Canvas.__init__(self, parent, **kwargs)
 		self._color1 = color1
 		self._color2 = color2
 		self.bind("<Configure>", self._draw_gradient)
+		self.config(relief = "flat",highlightthickness = 0)
 
 	def _draw_gradient(self, event=None):
 		"""Draw the gradient"""

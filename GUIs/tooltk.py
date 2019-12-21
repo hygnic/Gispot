@@ -107,19 +107,21 @@ class Tooltk(object):
 		# 主框下的底部栏
 		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
 										 bg=self.color6)  # ffc851
+		# self.frame_bottom_bar.pack_propagate(0)
 		self.frame_bottom_bar.pack(expand=False, fill="both")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 		# x轴（左右）方向上会拉伸
 		# 左边主框中的帮助信息
-		help_f = tk.Frame(self.frame_major, width=696,
+		help_f = tk.Frame(self.frame_major,
 						  relief=tk.GROOVE,bd=2,padx = 3)
+		# help_f.pack_propagate(0)
 		help_f.pack(side=tk.BOTTOM, anchor="s",
 					expand=True, fill="both")
 		# 设置带滚动条的text
 		s_bar = tk.Scrollbar(help_f, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.help_text = luitils.NeewwText(help_f, relief=tk.FLAT,
+		self.help_text = luitils.NeewwText(help_f, relief=tk.FLAT,height = 20,
 								 fg=self.color5, yscrollcommand=s_bar.set)
 		
 		self.help_text.pack(expand=True, fill="both")
@@ -399,15 +401,46 @@ class Tooltk(object):
 		:param stb_name:
 		:return:
 		"""
-		_label = tk.Label(self.frame_major, text=stb_name)
-		_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# text = tk.Text(_label)
-		# text.pack()
+		# 块名称
+		tk.Label(self.frame_major, text=stb_name).\
+			pack(side=tk.TOP, anchor=tk.NW, padx=40)
+		frame_one = tk.Frame(self.frame_major)
+		frame_one.pack(side="top", anchor="center",
+					  expand = True,fill = "both")
+		# 右边障碍要素
+		luitils.HoverButton(
+			frame_one, state="disabled",
+			image=self.gif_empty_1,
+			width=60,
+			height=self._button_size
+		).pack(side=tk.RIGHT, padx=10)
+		# 左边障碍要素
+		luitils.HoverButton(
+			frame_one, state="disabled",
+			image=self.gif_empty_1,
+			width=13,
+			height=self._button_size
+		).pack(side=tk.LEFT, padx=10)
 		
+		# frame_one.columnconfigure(0, weight=1)
+		# frame_one.columnconfigure(1, weight=1)
+		self.input_text = luitils.NeewwText(frame_one,
+											relief = "flat",height = 10)
+		self.input_text.pack(expand=True, fill="both")
+		# text.grid(column = 0,sticky = "nesw")
 		
+	def divider_bar_block(self, master, color11, color22):
+		"""
+		分隔栏
+		:return:
+		"""
+		s = luitils.GradientCanvas(
+			master,color11,color22,
+			height= 10,bd = 0
+		).pack(fill = "x")
 		
 	
-	def get_Entry_fromblock(self, *arg):
+	def get_blockvalue(self, *arg):
 		"""
 		获取Entry值，组成列表
 		:param arg: 各个block的Entry模块组成的元组
@@ -454,7 +487,7 @@ if __name__ == '__main__':
 		# 触发命令获取Entry的值
 		
 		def confirm_method(self):
-			self.get_Entry_fromblock(self.input_sfb, self.input_sdb)
+			self.get_blockvalue(self.input_sfb, self.input_sdb)
 			print "self.block_list: ", self.block_list
 			for i in self.block_list:
 				print i, " type: ", type(i)

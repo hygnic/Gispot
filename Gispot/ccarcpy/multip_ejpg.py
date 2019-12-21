@@ -98,8 +98,8 @@ class MultipExp(tooltk.Tooltk):
     def let_go(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
-        v = self.get_Entry_fromblock(self.input_sdb, self.input_sib,
-                                 self.input_sib2)
+        v = self.get_blockvalue(self.input_sdb, self.input_sib,
+                                self.input_sib2)
         # 进程数
         core = int(v[1])
         print core, "type: ", type(core)

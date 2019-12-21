@@ -3,12 +3,11 @@
 # Date: 2019/12/20
 # python2 arcgis10.3
 
+import Tkinter as tk
 import arcpy
 from multiprocessing import Process
 from hyconf import multication
 import tooltk
-
-
 
 
 class StartApp(tooltk.Tooltk):
@@ -28,8 +27,16 @@ class StartApp(tooltk.Tooltk):
 		self.single_dir_block(u"输出文件夹")
 		# block3
 		self.single_text_block(u"分组")
+		self.divider_bar_block(
+			self.frame_major, color11="gray", color22="gray"
+		)
+		# self.help_text.destroy()
 		self.window.mainloop()
 		
 		
 	def confirm(self):
-		pass
+		v = self.get_blockvalue(self.input_sfb, self.input_sdb,
+								self.input_text)
+		print v
+		# bb = self.input_text.get("0.0","end")
+		# print bb

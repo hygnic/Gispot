@@ -46,7 +46,7 @@ class App(tooltk.Tooltk):
 		
 	def confirm_method_q(self):
 		# 获取列表
-		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)
+		v = self.get_blockvalue(self.input_sfb, self.input_sb)
 		# t = Thread(target=explode_m, args=(v[0], v[1]))
 		# t = Thread(target=explode_m, args=(self.block_list[0], self.block_list[1]))
 		# print v[0],type(v[0])

@@ -68,7 +68,7 @@ class App(tooltk.Tooltk):
 
 	def confirm_method_e(self):
 		# 获取列表
-		v = self.get_Entry_fromblock(self.input_sfb, self.input_sb)
+		v = self.get_blockvalue(self.input_sfb, self.input_sb)
 		# p = Process(target=self.commu.decor, args=( explode_m, v[0], v[1],))
 		p = Process(target=self.commu.decor, args=(self.commu.que,
 												   explode_m, v[0], v[1],))

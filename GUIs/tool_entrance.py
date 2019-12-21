@@ -103,8 +103,8 @@ class AppEntrance(object):
         #
        
     def gradient_bar(self):
-        self.gradient_canv = luitils.GradientFrame(self.rootwindow,
-                                                  "#ffc851", 'olive',relief= "flat")
+        self.gradient_canv = luitils.GradientCanvas(self.rootwindow,
+                                                  "#ffc851", 'olive', relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
         self.gradient_canv.create_text(32,18,text = "Gispot 1")
     

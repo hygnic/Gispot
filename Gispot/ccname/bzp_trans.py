@@ -39,7 +39,7 @@ class App(tooltk.Tooltk):
 		"""按下确认button时可以同时获取Entry的值，然后赋值，运行主方法"""
 		try:
 			# 过去single_file_block和single_dir_block的Entry数据
-			self.get_Entry_fromblock(self.input_sfb, self.input_sdb)
+			self.get_blockvalue(self.input_sfb, self.input_sdb)
 			# 　开始重命名
 			fbt_trans(self.block_list[0])
 			for i in self.block_list:
