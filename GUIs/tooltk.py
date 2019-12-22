@@ -146,8 +146,7 @@ class Tooltk(object):
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
 		self.text_majorMsg = luitils.NeewwText(self.frame_right_side, height="60",
-									  yscrollcommand=s_bar.set,
-									 maxundo=15, undo=True)
+									  yscrollcommand=s_bar.set)
 		# 支持撤销操作，支持换行 wrap = "char"
 		self.text_majorMsg.insert(tk.END, ">>>" * 20)
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
@@ -424,7 +423,7 @@ class Tooltk(object):
 		
 		# frame_one.columnconfigure(0, weight=1)
 		# frame_one.columnconfigure(1, weight=1)
-		self.input_text = luitils.NeewwText(frame_one,
+		self.input_text = luitils.NeewwText(frame_one,wrap = "none",
 											relief = "flat",height = 10)
 		self.input_text.pack(expand=True, fill="both")
 		# text.grid(column = 0,sticky = "nesw")

@@ -93,6 +93,7 @@ class NeewwText(tk.Text):
 	"""
 	def __init__(self, master, **kw):
 		tk.Text.__init__(self, master=master, **kw)
+		self.config( maxundo=15, undo=True)
 		self.bind_class("Text","<Control-a>", self.selectall)
 	
 	def selectall(self, event):

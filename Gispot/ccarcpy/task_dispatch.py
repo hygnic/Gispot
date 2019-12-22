@@ -3,7 +3,6 @@
 # Date: 2019/12/20
 # python2 arcgis10.3
 
-import Tkinter as tk
 import arcpy
 from multiprocessing import Process
 from hyconf import multication

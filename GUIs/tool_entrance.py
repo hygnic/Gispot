@@ -96,10 +96,10 @@ class AppEntrance(object):
         bb = Tix.Meter(self.main_f, value=self.prograss_int,
                        fillcolor="#ffc851")
         bb.pack()
-        # m = 0
+        # impure_data = 0
         # for i in xrange(10):
         #     time.sleep(2)
-        #     bb["value"] = i * 10 + m
+        #     bb["value"] = i * 10 + impure_data
         #
        
     def gradient_bar(self):
