@@ -9,8 +9,8 @@ import tkFileDialog
 import ScrolledText as stt
 
 # 导入配置包、地址包
-from hyconf import luitils
-from hyconf import gispotpath
+from TkGUIconfig import newidgets
+from TkGUIconfig import gispotpath
 
 
 class Tooltk(object):
@@ -121,8 +121,8 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(help_f, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.help_text = luitils.NeewwText(help_f, relief=tk.FLAT,height = 20,
-								 fg=self.color5, yscrollcommand=s_bar.set)
+		self.help_text = newidgets.NeewwText(help_f, relief=tk.FLAT, height = 20,
+											 fg=self.color5, yscrollcommand=s_bar.set)
 		
 		self.help_text.pack(expand=True, fill="both")
 		s_bar.config(command=self.help_text.yview)
@@ -145,8 +145,8 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_majorMsg = luitils.NeewwText(self.frame_right_side, height="60",
-									  yscrollcommand=s_bar.set)
+		self.text_majorMsg = newidgets.NeewwText(self.frame_right_side, height="60",
+												 yscrollcommand=s_bar.set)
 		# 支持撤销操作，支持换行 wrap = "char"
 		self.text_majorMsg.insert(tk.END, ">>>" * 20)
 		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
@@ -174,17 +174,17 @@ class Tooltk(object):
 		"""
 		
 		# self.confirm_method 确认按键所触发的方法
-		self.button_confirm = luitils.HoverButton(self.frame_bottom_bar,
-												  image=self.gif_confirm,
-												  command=self.confirm_method,
-												  width =self._button_size,
-												  height =self._button_size)
+		self.button_confirm = newidgets.HoverButton(self.frame_bottom_bar,
+													image=self.gif_confirm,
+													command=self.confirm_method,
+													width =self._button_size,
+													height =self._button_size)
 		# print "tooltk.py>>Border:", self.button_confirm["borderwidth"] # 2
 		# height = 18, width = 18,
-		self.button_help = luitils.HoverButton(self.frame_bottom_bar,
-											   image=self.gif_help,
-											   width=self._button_size,
-											   height=self._button_size)
+		self.button_help = newidgets.HoverButton(self.frame_bottom_bar,
+												 image=self.gif_help,
+												 width=self._button_size,
+												 height=self._button_size)
 		
 		def inner_quit():
 			"""
@@ -193,13 +193,13 @@ class Tooltk(object):
 			导致打开其他功能时找不到main_f而报错
 			:return:
 			"""
-			luitils.destroy_chird(self.window)
+			newidgets.destroy_chird(self.window)
 		
-		self.button_quit = luitils.HoverButton(self.frame_bottom_bar,
-											   image=self.gif_quit,
-											   command=inner_quit,
-											   width=self._button_size,
-											   height=self._button_size)
+		self.button_quit = newidgets.HoverButton(self.frame_bottom_bar,
+												 image=self.gif_quit,
+												 command=inner_quit,
+												 width=self._button_size,
+												 height=self._button_size)
 		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
 		self.button_help.pack(side=tk.LEFT, anchor=tk.E, padx=5)
@@ -256,14 +256,14 @@ class Tooltk(object):
 	
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,border=0)
+		self.input_sfb = newidgets.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=10)
-		self.addfile_button = luitils.HoverButton(frame_one, text=u"选择",
-												  command=select_file,
-												  image=self.gif_addfile,
-												  width=self._button_size,
-												  height=self._button_size)
+		self.addfile_button = newidgets.HoverButton(frame_one, text=u"选择",
+													command=select_file,
+													image=self.gif_addfile,
+													width=self._button_size,
+													height=self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -290,15 +290,15 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = luitils.HoverButton(frame_one, image=self.gif_addfile,
-												  command= select_file,
-												  width= self._button_size,
-												  height = self._button_size)
+		self.addfile_button = newidgets.HoverButton(frame_one, image=self.gif_addfile,
+													command= select_file,
+													width= self._button_size,
+													height = self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,
-								 border=2, relief=tk.FLAT)
+		self.input_sb = newidgets.NeewwEntry(frame_one, textvariable=input_msg1,
+											 border=2, relief=tk.FLAT)
 		self.input_sb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 						   fill=tk.X, padx=15)
 		return 1
@@ -322,15 +322,15 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb = luitils.NeewwEntry(frame_one, textvariable=input_msg1,bd = 0)
+		self.input_sdb = newidgets.NeewwEntry(frame_one, textvariable=input_msg1, bd = 0)
 		self.input_sdb.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
-		self.addfile_button = luitils.HoverButton(frame_one,
-												  command=select_file,
-												  image=self.gif_folder,
-												  width = self._button_size,
-												  height = self._button_size)
+		self.addfile_button = newidgets.HoverButton(frame_one,
+													command=select_file,
+													image=self.gif_folder,
+													width = self._button_size,
+													height = self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -348,15 +348,15 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib = luitils.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
+		self.input_sib = newidgets.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
 							padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
-		int_button_1 = luitils.HoverButton(frame_one, image=self.gif_empty_1,
-										   state = "disabled",
-										   width = self._button_size,
-										   height = self._button_size)
+		int_button_1 = newidgets.HoverButton(frame_one, image=self.gif_empty_1,
+											 state = "disabled",
+											 width = self._button_size,
+											 height = self._button_size)
 		int_button_1.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
@@ -373,7 +373,7 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		int_button_2 = luitils.HoverButton(
+		int_button_2 = newidgets.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=self._button_size,
@@ -382,7 +382,7 @@ class Tooltk(object):
 		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib2 = luitils.NeewwEntry(
+		self.input_sib2 = newidgets.NeewwEntry(
 			frame_one,
 			textvariable=input_msg1, border=0
 		)
@@ -407,14 +407,14 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center",
 					  expand = True,fill = "both")
 		# 右边障碍要素
-		luitils.HoverButton(
+		newidgets.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=60,
 			height=self._button_size
 		).pack(side=tk.RIGHT, padx=10)
 		# 左边障碍要素
-		luitils.HoverButton(
+		newidgets.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=13,
@@ -423,8 +423,8 @@ class Tooltk(object):
 		
 		# frame_one.columnconfigure(0, weight=1)
 		# frame_one.columnconfigure(1, weight=1)
-		self.input_text = luitils.NeewwText(frame_one,wrap = "none",
-											relief = "flat",height = 10)
+		self.input_text = newidgets.NeewwText(frame_one, wrap ="none",
+											  relief = "flat", height = 10)
 		self.input_text.pack(expand=True, fill="both")
 		# text.grid(column = 0,sticky = "nesw")
 		
@@ -433,7 +433,7 @@ class Tooltk(object):
 		分隔栏
 		:return:
 		"""
-		s = luitils.GradientCanvas(
+		s = newidgets.GradientCanvas(
 			master,color11,color22,
 			height= 10,bd = 0
 		).pack(fill = "x")

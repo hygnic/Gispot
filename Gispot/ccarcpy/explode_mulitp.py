@@ -12,7 +12,7 @@ main function: make multiple-parts to single.
 import arcpy
 from multiprocessing import Process
 # from threading import Thread
-from hyconf import multication
+from TkGUIconfig import multication
 import tooltk
 # import subprocess
 

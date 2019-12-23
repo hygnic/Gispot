@@ -11,7 +11,7 @@
 import arcpy,os
 from multiprocessing import Process,Queue
 # from threading import Thread
-from hyconf import multication
+from TkGUIconfig import multication
 # sys.path.append("../GUIs")
 import tooltk
 

@@ -52,8 +52,8 @@ import ccarcpy.task_dispatch
 
 
 # 配置包导入
-from hyconf import luitils
-from hyconf import gispotpath
+from TkGUIconfig import newidgets
+from TkGUIconfig import gispotpath
 
 
 import Tix
@@ -64,7 +64,7 @@ class AppEntrance(object):
     def __init__(self):
         self.rootwindow = tk.Tk()
         self.rootwindow.title(u"主界面")
-        luitils.screen_cetre(self.rootwindow, width=1192, height=650)
+        newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
         self.rootwindow.iconbitmap(default=
                                    os.path.join(rbg_Icons,"icon.ico"))
         # self.rootwindow.resizable(False, False)
@@ -103,7 +103,7 @@ class AppEntrance(object):
         #
        
     def gradient_bar(self):
-        self.gradient_canv = luitils.GradientCanvas(self.rootwindow,
+        self.gradient_canv = newidgets.GradientCanvas(self.rootwindow,
                                                   "#ffc851", "#808000", relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
         self.gradient_canv.create_text(32,18,text = "Gispot 1")
@@ -113,10 +113,10 @@ class AppEntrance(object):
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
             weberopen(update_url, new=0, autoraise=True)
         self.image_octacat = tk.PhotoImage(file = gispotpath.GifPath.gif_github)
-        ap_button = luitils.HoverButton(master=self.gradient_canv,
-                                        command=open_u, bd = 2,
-                                        image = self.image_octacat,
-                                        width = 30, height = 30)
+        ap_button = newidgets.HoverButton(master=self.gradient_canv,
+                                          command=open_u, bd = 2,
+                                          image = self.image_octacat,
+                                          width = 30, height = 30)
         ap_button.pack(side='top', expand='yes', anchor="se")
         # exxp = tk.Text(self.gradient_canv,height = 1)
         # exxp.pack()
@@ -209,22 +209,22 @@ class AppEntrance(object):
     #     self.rootwindow.config(menu=self.menubar)
 
     def open_GSTrename(self):
-        luitils.destroy_chird(self.main_f)
+        newidgets.destroy_chird(self.main_f)
         # gstrename.App(self.main_f)
         ccname.gstrename.App(self.main_f)
     
     def open_Multip_exp(self):
-        luitils.destroy_chird(self.main_f)
+        newidgets.destroy_chird(self.main_f)
         # multip_ejpg.MultipExp(self.main_f)
         ccarcpy.multip_ejpg.MultipExp(self.main_f)
 
     def explode_mulitp(self):
-        luitils.destroy_chird(self.main_f)
+        newidgets.destroy_chird(self.main_f)
         # explode_mulitp.App(self.main_f)
         ccarcpy.explode_mulitp.App(self.main_f)
     
     def start_dispatch_task(self):
-        luitils.destroy_chird(self.main_f)
+        newidgets.destroy_chird(self.main_f)
         # task_dispatch.StartApp(self.main_f)
         ccarcpy.task_dispatch.StartApp(self.main_f)
 

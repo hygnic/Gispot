@@ -5,7 +5,8 @@
 
 import arcpy
 from multiprocessing import Process
-from hyconf import multication
+from TkGUIconfig import multication
+from ccutility import datacooker
 import tooltk
 
 
@@ -27,7 +28,7 @@ class StartApp(tooltk.Tooltk):
 		# block3
 		self.single_text_block(u"分组")
 		self.divider_bar_block(
-			self.frame_major, color11="gray", color22="gray"
+			self.frame_major, color11="#F1F1F1", color22="#F1F1F1"
 		)
 		# self.help_text.destroy()
 		self.window.mainloop()
