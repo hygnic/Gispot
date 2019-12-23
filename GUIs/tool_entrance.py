@@ -104,7 +104,7 @@ class AppEntrance(object):
        
     def gradient_bar(self):
         self.gradient_canv = luitils.GradientCanvas(self.rootwindow,
-                                                  "#ffc851", 'olive', relief= "flat")
+                                                  "#ffc851", "#808000", relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
         self.gradient_canv.create_text(32,18,text = "Gispot 1")
     
@@ -125,7 +125,7 @@ class AppEntrance(object):
     
     def menu(self):
         """设置置顶菜单栏"""
-        self.menubar = tk.Menu(self.rootwindow,background = "Olive")
+        self.menubar = tk.Menu(self.rootwindow,background = "#808000")
         #创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，# Exit功能项）
         self.menubar_file = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为File，放在菜单栏中，就是装入那个容器中

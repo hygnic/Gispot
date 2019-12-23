@@ -55,7 +55,7 @@ class Tooltk(object):
 	
 	def color_mylife(self):
 		self.color1 = "#F1F1F1"  # 帮助栏颜色
-		self.color5 = "Olive"  # 橄榄色，显示text
+		self.color5 = "#808000"  # 橄榄色，显示text
 		self.color3 = "#F1F1F1"  # 主框的上半部分颜色 侧栏颜色
 		# self.color4 = "Cornsilk" # 侧栏颜色
 		self.color2 = "#E1E1E1"  # 茶色 较深

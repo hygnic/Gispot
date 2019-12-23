@@ -114,7 +114,8 @@ class GradientCanvas(tk.Canvas):
 	color11: 渐变颜色1
 	color22: 渐变颜色2
 	"""
-	def __init__(self, parent, color1= "#ffc851", color2="olive", **kwargs):
+	def __init__(self, parent, color1= "#ffc851", color2="#808000", **kwargs):
+		# "#808000" olive
 		"""default gradient color: red to black"""
 		tk.Canvas.__init__(self, parent, **kwargs)
 		self._color1 = color1
