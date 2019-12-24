@@ -9,7 +9,7 @@ import os
 
 from multiprocessing import Process
 from TkGUIconfig import multication
-from ccutility import datacooker
+from ccutility import databutcher
 import tooltk
 
 
@@ -85,8 +85,9 @@ def main_f(mxd_path, attr_field, outputclass, cooked_dict):
 
 # 主功能函数的外包装饰函数
 def mian_wrap(mxd_path, attr_field, outputclass,str_mess):
-	cooked_dict = datacooker.str2dict(str_mess)
+	cooked_dict = databutcher.str2dict(str_mess)
 	main_f(mxd_path, attr_field, outputclass,cooked_dict)
+	
 	
 class StartApp(tooltk.Tooltk):
 	commu = multication.MuCation()

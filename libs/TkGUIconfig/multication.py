@@ -26,7 +26,6 @@ class MuCation(object):
 	
 	
 	def decor(self, queue,  func, *args):
-		
 		"""
 			这里必须传入参数queue，因为multiprocessing.Queue只能在mian下建立
 		才能实现它的功能（数据交流），设置该参数，让他在被调用时，重伸一下Queue，
