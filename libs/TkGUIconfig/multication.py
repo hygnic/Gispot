@@ -8,7 +8,7 @@ The class contains some fuctions about a GUI how to coummnication with
 we feature function. Mostly use Queue to comply.
 """
 
-from multiprocessing import Process,Queue
+from multiprocessing import Queue
 from threading import Thread
 import os
 
@@ -44,7 +44,6 @@ class MuCation(object):
 			due to windows, I can only setup multiprocessing.Queque after main
 			block.
 		:param queue: point to multiprocessing.Queue()
-		:param information:
 		:param func: main Function (explode_m)
 		:param args: the set of paths
 		:return:
@@ -66,7 +65,7 @@ class MuCation(object):
 		sharing messages with some Process.
 		The main process starts a child thread to get messages from another
 		(child process)
-		:param text: Tkinter.text  我们使用的这个 self.text_majorMsg
+		:param text: Tkinter.text  我们使用的这个 self.text_major_msg
 		:return:
 		"""
 		def inner():

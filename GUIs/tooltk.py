@@ -145,13 +145,13 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_majorMsg = newidgets.NeewwText(self.frame_right_side, height="60",
-												 yscrollcommand=s_bar.set)
+		self.text_major_msg = newidgets.NeewwText(self.frame_right_side, height="60",
+												  yscrollcommand=s_bar.set)
 		# 支持撤销操作，支持换行 wrap = "char"
-		self.text_majorMsg.insert(tk.END, ">>>" * 20)
-		self.text_majorMsg.pack(side="top", anchor="n", expand=True,
-								fill="both", padx=2)
-		s_bar.config(command=self.text_majorMsg.yview)
+		self.text_major_msg.insert(tk.END, ">>>" * 20)
+		self.text_major_msg.pack(side="top", anchor="n", expand=True,
+								 fill="both", padx=2)
+		s_bar.config(command=self.text_major_msg.yview)
 		return 1
 	
 	# 读取帮助信息并插入帮助框中
@@ -454,6 +454,7 @@ class Tooltk(object):
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
 			msg = i.get()
+			# print msg
 			# print type(msg)
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("cp936")

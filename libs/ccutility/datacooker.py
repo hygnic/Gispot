@@ -9,15 +9,16 @@
 
 
 
-def list2dict(raw_list):
+def str2dict(raw_str):
 	"""
 	将我们从前端图形界面的获得的 杂糅了大量信息的
 	列表 转换为一一对应的字典
-	:param raw_list: 获得的数据杂糅列表
+	:param raw_str: 获得的杂糅数据 字符串
+	# :param raw_list:
 	:return: 返回字典
 	"""
 	import sys, time, re
-	raw_data = raw_list[2]
+	raw_data = raw_str
 	impure_data = raw_data.split("\n")
 	# remove blank values ""
 	pure_data = [i for i in impure_data if i != '']
@@ -68,5 +69,6 @@ if __name__ == '__main__':
 		u'\u5c0f\u7ea2\n*43,67,09*\n'
 		u'\u5c0f\u5f20\n*987,178,990*\n\n'
 	]
-	a = list2dict(got_list)
+	got_str = u'\u5c0f\u660e\n*510,242,333*\n\u5c0f\u7ea2\n*43,67,09*\n\u5c0f\u5f20\n*987,178,990*\n'
+	a = str2dict(got_str)
 	print a

@@ -83,7 +83,7 @@ class MultipExp(tooltk.Tooltk):
         """
         super(MultipExp, self).__init__(master1,
                                         "../docs/multip_ejpg.gc",
-                                        self.let_go)
+                                        self.confirm_mu)
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮
@@ -98,7 +98,7 @@ class MultipExp(tooltk.Tooltk):
 
         # self.addfile_button.destroy()	# 隐藏模块
     
-    def let_go(self):
+    def confirm_mu(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
         v = self.get_blockvalue(self.input_sdb, self.input_svb,
@@ -122,7 +122,7 @@ class MultipExp(tooltk.Tooltk):
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "process start"
             print "process_communication: begin"
-            self.commu.process_communication(self.text_majorMsg)
+            self.commu.process_communication(self.text_major_msg)
             # t = Thread(target=self.process_communication, args=(p,))
             # t.start()
         # 初始化列表，以免二次输入时报错

@@ -23,6 +23,8 @@ def main_f(mxd_path, attr_field, outputclass, cooked_dict):
 	"""
 	以第一个图层为基准图层，选择基准字段；
 	对mxd中所有其余图层按 小组分配 进行筛选导出。
+	:param para_dict:
+	:param mf_queue:
 	:param attr_field: 用作分组属性字段值 基准字段
 	:param mxd_path: mxd文档
 	:param outputclass: 输出位置
@@ -81,10 +83,14 @@ def main_f(mxd_path, attr_field, outputclass, cooked_dict):
 		target_lyr.setSelectionSet("NEW", [])
 		print "{0} Done!".format(group_name)
 
-
-
-
+# 主功能函数的外包装饰函数
+def mian_wrap(str_mess,mxd_path, attr_field, outputclass, cooked_dict):
+	group_dict = datacooker.str2dict(str_mess)
+	main_f(mxd_path, attr_field, outputclass,str_mess)
+	
 class StartApp(tooltk.Tooltk):
+	commu = multication.MuCation()
+	
 	""""""
 	def __init__(self, master_f):
 		"""
@@ -118,13 +124,20 @@ class StartApp(tooltk.Tooltk):
 		)
 		print "para: ",para
 		print "began!--------------"
-
-		mess_data=para[3]
-		print mess_data
-		print "mess_data type: ",type(mess_data)
-		# dispatch_group_dict = datacooker.list2dict(mess_data)
-		# main_f(para[0],para[1],para[2],dispatch_group_dict)
-		#
+		para1 = para[0]
+		para2 = para[1]
+		para3 = para[2]
+		para4 = para[3]
+		dispatch_group_dict = datacooker.str2dict(para4)
+		# main_f(para1,para2,para3,dispatch_group_dict)
+		p = Process(
+			target=main_f,
+			args=(para1, para2,
+				  para3, dispatch_group_dict)
+		)
+		# p = Process(target=inner_function)
+		p.start()
+		# self.commu.process_communication(self.text_major_msg)
 		print "END"
 		# bb = self.input_tb.get("0.0","end")
 		# print bb

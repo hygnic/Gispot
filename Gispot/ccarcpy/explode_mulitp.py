@@ -43,7 +43,7 @@ def explode_m(qq, shp_p, new_shp):
 		print info
 	qq.put(info)
 
-	
+
 class App(tooltk.Tooltk):
 	commu = multication.MuCation()
 	"""
@@ -74,18 +74,18 @@ class App(tooltk.Tooltk):
 												   explode_m, v[0], v[1],))
 		p.start()
 		
-		print "process_communication: begin"
+		print "process_communication begin"
 		# t = Thread(target=self.process_communication)
 		# t.start()
-		self.commu.process_communication(self.text_majorMsg)
+		self.commu.process_communication(self.text_major_msg)
 		# self.process_communication(self.q)
 		# explode_m(v[0], v[1])
 	
 		# t = Thread(target=explode_m,args=(v[0], v[1]))
 		# t.setDaemon(True)
 		# t.start()
-		# self.text_majorMsg.insert("end", u"多部件拆分...\n")
-		# self.text_majorMsg.insert("end", u"多部件已拆解")
+		# self.text_major_msg.insert("end", u"多部件拆分...\n")
+		# self.text_major_msg.insert("end", u"多部件已拆解")
 
 # if __name__ == '__main__':
 # 	path1 = raw_input(u"待输入处理数据：")
