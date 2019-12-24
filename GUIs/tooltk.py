@@ -334,9 +334,11 @@ class Tooltk(object):
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
-	def single_int_block(self, gib_name):
+	def single_vari_block(self, gib_name, input_msg1):
 		"""
-		主Frame中的功能块之一，直接通过Entry获取Int值
+		主Frame中的功能块之一，直接通过Entry获取变量值，
+		其变量类型，可以根据需要灵活指定。
+		:param input_msg1: # input_msg1 = tk.StringVar()
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
@@ -347,10 +349,12 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sib = newidgets.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
-		self.input_sib.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
-							padx=10)
+		# input_msg1 = tk.StringVar()
+		self.input_svb = newidgets.NeewwEntry(
+			frame_one, textvariable=input_msg1, border=0
+		)
+		self.input_svb.pack(side=tk.LEFT, anchor=tk.W,
+							expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
 		int_button_1 = newidgets.HoverButton(frame_one, image=self.gif_empty_1,
@@ -423,9 +427,9 @@ class Tooltk(object):
 		
 		# frame_one.columnconfigure(0, weight=1)
 		# frame_one.columnconfigure(1, weight=1)
-		self.input_text = newidgets.NeewwText(frame_one, wrap ="none",
-											  relief = "flat", height = 10)
-		self.input_text.pack(expand=True, fill="both")
+		self.input_tb = newidgets.NeewwText(frame_one, wrap ="none",
+											relief = "flat", height = 10)
+		self.input_tb.pack(expand=True, fill="both")
 		# text.grid(column = 0,sticky = "nesw")
 		
 	def divider_bar_block(self, master, color11, color22):
@@ -450,6 +454,7 @@ class Tooltk(object):
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
 			msg = i.get()
+			# print type(msg)
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("cp936")
 				self.block_list.append(msg)
@@ -458,6 +463,8 @@ class Tooltk(object):
 				self.block_list.append(msg)
 			# 将信息显示到右上角
 			self.text.insert("end", "\n  " + msg)
+		# print len(self.block_list)
+		# print self.block_list[3]
 		return self.block_list
 
 

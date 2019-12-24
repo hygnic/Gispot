@@ -7,13 +7,15 @@
 集成Tkinter
 使用了多进程技术 牛逼！！！！！！！！！！
 """
-
+import Tkinter as tk
 import arcpy,os
 from multiprocessing import Process,Queue
 # from threading import Thread
+
 from TkGUIconfig import multication
 # sys.path.append("../GUIs")
 import tooltk
+
 
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
@@ -85,7 +87,8 @@ class MultipExp(tooltk.Tooltk):
         # block1
         self.single_dir_block(u"mxd文档文件夹")
         # block2 取消按钮
-        self.single_int_block(u"进程数")
+        input_msgg = tk.StringVar()
+        self.single_vari_block(u"进程数", input_msgg)
         
         # self.addfile_button.config(state = "disable")
         # block3 取消按钮
@@ -98,7 +101,7 @@ class MultipExp(tooltk.Tooltk):
     def let_go(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
-        v = self.get_blockvalue(self.input_sdb, self.input_sib,
+        v = self.get_blockvalue(self.input_sdb, self.input_svb,
                                 self.input_sib2)
         # 进程数
         core = int(v[1])

@@ -17,7 +17,7 @@ def path_detect(path_d):
 	if not os.path.isdir(path_d):
 		os.makedirs(path_d)
 
-def main_f(mxd_path, cooked_dict,attr_field, outputclass):
+def main_f(mxd_path,attr_field, outputclass,cooked_dict):
 	"""
 	以第一个图层为基准图层，选择基准字段；
 	对mxd中所有其余图层按 小组分配 进行筛选导出。
@@ -28,26 +28,15 @@ def main_f(mxd_path, cooked_dict,attr_field, outputclass):
 	:return:
 	"""
 	arcpy.env.overwriteOutput = True
-	# mxd_layer = "XJQY5115212019"
-	mxd_layer = "XJQY5203242019"
 	
 	mxd1 = arcpy.mapping.MapDocument(mxd_path)
 	# 选出作为选择母本的图层
 	raw_layers = arcpy.mapping.ListLayers(mxd1)
 	target_lyr = raw_layers.pop(0)
-	print "Get {0} layer!".format(mxd_layer)
+	print "get target layer {0}".format(target_lyr)
 	# 将其余图层放进列表
 	left_layers = raw_layers
-	print left_layers
-	# for lyr in raw_layers:
-	# 	if lyr.name == mxd_layer:
-	# 		print "find!"
-	# 		target_lyr = lyr
-	# 		print "Get {0} layer!".format(mxd_layer)
-	# 	else:
-	# 		left_layers.append(lyr)
-	# 		# print "can't find target layer"
-	
+	# print left_layers
 	arcpy.MakeFeatureLayer_management(target_lyr,"base")
 	# print cooked_dict["group1"]
 	# print cooked_dict["group1"][1]
@@ -101,4 +90,4 @@ if __name__ == '__main__':
 	}
 	output_dir = os.path.abspath(os.path.dirname(mxd1_path))
 	field = "XJQYDM"
-	main_f(mxd1_path,group_dict,field,output_dir)
+	main_f(mxd1_path,field,output_dir,group_dict)

@@ -23,6 +23,7 @@ def list2dict(raw_list):
 	pure_data = [i for i in impure_data if i != '']
 	group_len = len(pure_data)
 	if group_len%2 != 0:
+		print pure_data
 		print u"分组异常"
 		time.sleep(5)
 		sys.exit()

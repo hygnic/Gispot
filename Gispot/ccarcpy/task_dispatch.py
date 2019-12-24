@@ -3,11 +3,85 @@
 # Date: 2019/12/20
 # python2 arcgis10.3
 
+import Tkinter as tk
 import arcpy
+import os
+
 from multiprocessing import Process
 from TkGUIconfig import multication
 from ccutility import datacooker
 import tooltk
+
+
+def path_detect(path_d):
+	"""检测目录是否存在并建立"""
+	if not os.path.isdir(path_d):
+		os.makedirs(path_d)
+
+# 主功能函数
+def main_f(mxd_path, attr_field, outputclass, cooked_dict):
+	"""
+	以第一个图层为基准图层，选择基准字段；
+	对mxd中所有其余图层按 小组分配 进行筛选导出。
+	:param attr_field: 用作分组属性字段值 基准字段
+	:param mxd_path: mxd文档
+	:param outputclass: 输出位置
+	:param cooked_dict: 处理后的字典，包含分组信息
+	:return:
+	"""
+	arcpy.env.overwriteOutput = True
+	
+	mxd1 = arcpy.mapping.MapDocument(mxd_path)
+	# 选出作为选择母本的图层
+	raw_layers = arcpy.mapping.ListLayers(mxd1)
+	target_lyr = raw_layers.pop(0)
+	print "get target layer {0}".format(target_lyr)
+	# 将其余图层放进列表
+	left_layers = raw_layers
+	# print left_layers
+	arcpy.MakeFeatureLayer_management(target_lyr, "base")
+	# print cooked_dict["group1"]
+	# print cooked_dict["group1"][1]
+	# print "------------"
+	
+	for group_name in cooked_dict:
+		# print group_name # group1
+		group_list = cooked_dict[
+			group_name]  # group_list: [511521111, 511521105]
+		for group_value in group_list:  # group_value: 511521111
+			# print attr_field+" = '"+str(group_value)+"'" # XJQYDM = '520324102'
+			arcpy.SelectLayerByAttribute_management(
+				target_lyr, "ADD_TO_SELECTION",
+				"\"" + attr_field + "\"= \'"
+				+ group_value + "'"
+			)
+			# 对 其余图层 进行选择操作
+			# 将一个 group列表中的所有限制条
+			for o_layer in left_layers:
+				arcpy.SelectLayerByLocation_management(
+					o_layer, "WITHIN", target_lyr,
+					selection_type="ADD_TO_SELECTION"
+				)
+		group_dir = os.path.join(outputclass, group_name)  # D:\test\group1
+		# establish dir
+		path_detect(group_dir)
+		# export shapefile of every layer
+		for o_layer in left_layers:
+			group_filename = os.path.join(group_dir,
+										  o_layer.name)  # D:\test\group1\CJQY5115212019.shp
+			try:
+				arcpy.CopyFeatures_management(o_layer, group_filename)
+				o_layer.setSelectionSet("NEW", [])
+			except Exception as e:
+				print e.message
+			else:
+				print u"保存 {0}".format(o_layer.name)
+		
+		# mxd1.saveACopy(outputclass + '/' + str(group_name) + ".mxd")
+		target_lyr.setSelectionSet("NEW", [])
+		print "{0} Done!".format(group_name)
+
+
 
 
 class StartApp(tooltk.Tooltk):
@@ -24,8 +98,11 @@ class StartApp(tooltk.Tooltk):
 			[(u'地图文档', '*.mxd'), ('All Files', '*')],"mxd"
 		)
 		# block2
-		self.single_dir_block(u"输出文件夹")
+		input_value = tk.StringVar()
+		self.single_vari_block(u"选择字段",input_value)
 		# block3
+		self.single_dir_block(u"输出文件夹")
+		# block4
 		self.single_text_block(u"分组")
 		self.divider_bar_block(
 			self.frame_major, color11="#F1F1F1", color22="#F1F1F1"
@@ -35,8 +112,19 @@ class StartApp(tooltk.Tooltk):
 		
 		
 	def confirm(self):
-		v = self.get_blockvalue(self.input_sfb, self.input_sdb,
-								self.input_text)
-		print v
-		# bb = self.input_text.get("0.0","end")
+		para = self.get_blockvalue(
+			self.input_sfb, self.input_svb,
+			self.input_sdb, self.input_tb
+		)
+		print "para: ",para
+		print "began!--------------"
+
+		mess_data=para[3]
+		print mess_data
+		print "mess_data type: ",type(mess_data)
+		# dispatch_group_dict = datacooker.list2dict(mess_data)
+		# main_f(para[0],para[1],para[2],dispatch_group_dict)
+		#
+		print "END"
+		# bb = self.input_tb.get("0.0","end")
 		# print bb
