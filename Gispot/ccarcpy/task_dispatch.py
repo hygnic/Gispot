@@ -84,9 +84,9 @@ def main_f(mxd_path, attr_field, outputclass, cooked_dict):
 		print "{0} Done!".format(group_name)
 
 # 主功能函数的外包装饰函数
-def mian_wrap(str_mess,mxd_path, attr_field, outputclass, cooked_dict):
-	group_dict = datacooker.str2dict(str_mess)
-	main_f(mxd_path, attr_field, outputclass,str_mess)
+def mian_wrap(mxd_path, attr_field, outputclass,str_mess):
+	cooked_dict = datacooker.str2dict(str_mess)
+	main_f(mxd_path, attr_field, outputclass,cooked_dict)
 	
 class StartApp(tooltk.Tooltk):
 	commu = multication.MuCation()
@@ -128,16 +128,14 @@ class StartApp(tooltk.Tooltk):
 		para2 = para[1]
 		para3 = para[2]
 		para4 = para[3]
-		dispatch_group_dict = datacooker.str2dict(para4)
+		# dispatch_group_dict = datacooker.str2dict(para4)
 		# main_f(para1,para2,para3,dispatch_group_dict)
 		p = Process(
-			target=main_f,
+			target=mian_wrap,
 			args=(para1, para2,
-				  para3, dispatch_group_dict)
+				  para3, para4)
 		)
 		# p = Process(target=inner_function)
 		p.start()
 		# self.commu.process_communication(self.text_major_msg)
-		print "END"
-		# bb = self.input_tb.get("0.0","end")
-		# print bb
+		
