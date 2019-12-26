@@ -148,7 +148,7 @@ class Tooltk(object):
 		self.text_major_msg = newidgets.NeewwText(self.frame_right_side, height="60",
 												  yscrollcommand=s_bar.set)
 		# 支持撤销操作，支持换行 wrap = "char"
-		self.text_major_msg.insert(tk.END, ">>>" * 20)
+		# self.text_major_msg.insert(tk.END, ">>>" * 80)
 		self.text_major_msg.pack(side="top", anchor="n", expand=True,
 								 fill="both", padx=2)
 		s_bar.config(command=self.text_major_msg.yview)
