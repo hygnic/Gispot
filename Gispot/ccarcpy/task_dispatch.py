@@ -104,6 +104,7 @@ def mian_wrap(qq_pip,mxd_path, attr_field, outputclass,str_mess):
 
 	
 class StartApp(tooltk.Tooltk):
+	"""用于启动的 类"""
 	commu = multication.MuCation()
 	""""""
 	def __init__(self, master_f):

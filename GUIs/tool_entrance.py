@@ -9,6 +9,7 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
+
 # from PIL import Image, ImageTk
 
 
@@ -49,6 +50,7 @@ import ccname.gstrename
 import ccarcpy.multip_ejpg
 import ccarcpy.explode_mulitp
 import ccarcpy.task_dispatch
+import cmdbase.cmd_console
 
 
 # 配置包导入
@@ -165,8 +167,10 @@ class AppEntrance(object):
         # 制图mapping菜单栏
         self.menubar_map = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
-        self.menubar_map.add_command(label=u'多进程导图JPEG',
+        self.menubar_map.add_command(label=u'多进程批量出图(JPEG)',
                                 command=self.open_Multip_exp)
+        self.menubar_map.add_command(label=u'批量出图(JPEG)',
+                                     command=self.export_base_cmd())
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
         self.menubar_map.add_command(label=u'任务分配',
@@ -227,8 +231,11 @@ class AppEntrance(object):
         newidgets.destroy_chird(self.main_f)
         # task_dispatch.StartApp(self.main_f)
         ccarcpy.task_dispatch.StartApp(self.main_f)
-
-
+        
+    def export_base_cmd(self):
+        cmdbase.cmd_console.Starter1()
+        # None
+        
     def button_config(self):
         def open_u():
             import webbrowser
