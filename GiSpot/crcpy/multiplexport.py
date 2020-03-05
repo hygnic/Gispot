@@ -3,9 +3,10 @@
 # 廖晨辰
 # python2.7
 """
+
 运用多进程技术导出图片
 集成Tkinter
-使用了多进程技术 牛逼！！！！！！！！！！
+使用了多进程技术
 """
 import Tkinter as tk
 import arcpy,os
@@ -79,7 +80,7 @@ class MultipExp(tooltk.Tooltk):
     ququ = Queue()
     def __init__(self,master1):
         """
-        :param master1: mian_f , a widget from tool_entrance.py
+        :param master1: mian_f , a widget from entrance.py
         """
         super(MultipExp, self).__init__(master1,
                                         "../docs/multip_ejpg.gc",
@@ -114,14 +115,13 @@ class MultipExp(tooltk.Tooltk):
         for set_li in sets_lists:
             # print path_slice_set
             p = Process(target=self.commu.decor,
-                        args=(self.commu.que,
-                              export_jpeg,set_li, res)
+                        args=(self.commu.que,export_jpeg,set_li, res)
                         )
             p.deamon = True
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "process start"
-            print "process_communication: begin"
+            print "start process communication"
             self.commu.process_communication(self.text_major_msg)
             # t = Thread(target=self.process_communication, args=(p,))
             # t.start()

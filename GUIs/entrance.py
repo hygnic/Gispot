@@ -2,7 +2,6 @@
 # User: liaochenchen, hygnic
 # Date: 2019/10/19
 """该工具的主体界面"""
-
 import os
 import Tkinter as tk
 import sys
@@ -13,17 +12,19 @@ from webbrowser import open as weberopen
 # from PIL import Image, ImageTk
 
 
-# 获取程序当前的文件夹位置
-# E:\move on move on\Gispot\GUIs\tool_entrance.py
+# 获取当前的文件位置
+# E:\move on move on\GiSpot\GUIs\entrance.py
 realp = os.path.abspath(__file__)
+# 该文件所处的文件夹绝对路径
+realp_dir = os.path.abspath(os.path.dirname(__file__))
 # 上级 绝对路径
-# E:\move on move on\Gispot
+# E:\move on move on\GiSpot
 root_base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-# E:\move on move on\Gispot\Gispot
-rb_GisCat = os.path.join(root_base, "Gispot")
-# E:\move on move on\Gispot\GUIs
+# E:\move on move on\GiSpot\GiSpot
+rb_GisCat = os.path.join(root_base, "GiSpot")
+# E:\move on move on\GiSpot\GUIs
 rb_GUIs = os.path.join(root_base, "GUIs")
-# E:\move on move on\Gispot\GUIs\Icons
+# E:\move on move on\GiSpot\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
@@ -41,21 +42,21 @@ for giscat_path in giscat_paths:
 
 # import ccname # 识别不了gstrename
 
-# from Gispot.ccname import gstrename
-# from Gispot.ccarcpy import multip_ejpg
-# from Gispot.ccarcpy import explode_mulitp
-# from Gispot.ccarcpy import task_dispatch
-
+# from GiSpot.ccname import gstrename
+# from GiSpot.crcpy import multip_ejpg
+# from GiSpot.crcpy import explode_mulitp
+# from GiSpot.crcpy import task_dispatch
+# 界面模块导入
+import mainlayout
+# 功能模块导入
 import ccname.gstrename
-import ccarcpy.multip_ejpg
-import ccarcpy.explode_mulitp
-import ccarcpy.task_dispatch
-import cmdbase.cmd_console
-
-
+import crcpy.multiplexport
+import crcpy.explode
+import crcpy.task_dispatch
+import commandorder.export
 # 配置包导入
 from TkGUIconfig import newidgets
-from TkGUIconfig import gispotpath
+from TkGUIconfig import paths
 
 
 import Tix
@@ -84,14 +85,15 @@ class AppEntrance(object):
         # aa1 = Tix.ComboBox(image_octacat)
         # image_octacat.pack()
         # aa1.pack()
-
-        
+      
         # -------------------------------------
         self.main_f = tk.Frame(self.rootwindow,relief = "groove")
         self.main_f.pack(expand = True,fill ="both")
+       
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
-        # 放最后
-        self.menu_run()
+        # 安排界面格局
+        self.run_menu()
+        self.run_panel()
     
     def prograssbar(self):
         self.prograss_int +=10
@@ -108,13 +110,13 @@ class AppEntrance(object):
         self.gradient_canv = newidgets.GradientCanvas(self.rootwindow,
                                                   "#ffc851", "#808000", relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
-        self.gradient_canv.create_text(32,18,text = "Gispot 1")
+        self.gradient_canv.create_text(32,18,text = "GiSpot 1")
     
     def upgrade_from_github(self):
         def open_u():
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
             weberopen(update_url, new=0, autoraise=True)
-        self.image_octacat = tk.PhotoImage(file = gispotpath.GifPath.gif_github)
+        self.image_octacat = tk.PhotoImage(file = paths.GifPath.gif_github)
         ap_button = newidgets.HoverButton(master=self.gradient_canv,
                                           command=open_u, bd = 2,
                                           image = self.image_octacat,
@@ -169,8 +171,8 @@ class AppEntrance(object):
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
         self.menubar_map.add_command(label=u'多进程批量出图(JPEG)',
                                 command=self.open_Multip_exp)
-        self.menubar_map.add_command(label=u'批量出图(JPEG)',
-                                     command=self.export_base_cmd())
+        self.menubar_map.add_command(label=u'批量出图(JPEG;ONGOING)',
+                                     command=None)
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
         self.menubar_map.add_command(label=u'任务分配',
@@ -182,7 +184,7 @@ class AppEntrance(object):
                                      command=self.upgrade_from_github)
         
     # 配置安放菜单栏，写成方法便于调控纯程序
-    def menu_run(self):
+    def run_menu(self):
         self.rootwindow.config(menu=self.menubar)
     
     # def trans_name(self):
@@ -211,7 +213,7 @@ class AppEntrance(object):
     #
     #     # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
     #     self.rootwindow.config(menu=self.menubar)
-
+    # ----------------------------------------
     def open_GSTrename(self):
         newidgets.destroy_chird(self.main_f)
         # gstrename.App(self.main_f)
@@ -220,21 +222,25 @@ class AppEntrance(object):
     def open_Multip_exp(self):
         newidgets.destroy_chird(self.main_f)
         # multip_ejpg.MultipExp(self.main_f)
-        ccarcpy.multip_ejpg.MultipExp(self.main_f)
+        crcpy.multiplexport.MultipExp(self.main_f)
 
     def explode_mulitp(self):
         newidgets.destroy_chird(self.main_f)
         # explode_mulitp.App(self.main_f)
-        ccarcpy.explode_mulitp.App(self.main_f)
+        crcpy.explode.App(self.main_f)
     
     def start_dispatch_task(self):
         newidgets.destroy_chird(self.main_f)
         # task_dispatch.StartApp(self.main_f)
-        ccarcpy.task_dispatch.StartApp(self.main_f)
+        crcpy.task_dispatch.StartApp(self.main_f)
+    # ----------------------------------------
+    
+    def run_panel(self):
+        # 使程序主要面板运行起来
+        button1 = mainlayout.Panel(self.main_f)
+        button1.config()
         
-    def export_base_cmd(self):
-        cmdbase.cmd_console.Starter1()
-        # None
+        
         
     def button_config(self):
         def open_u():
@@ -251,6 +257,14 @@ class AppEntrance(object):
 
     
     
+
+
+
+
+
+
+
+
 
 
 # if __name__ == '__main__':

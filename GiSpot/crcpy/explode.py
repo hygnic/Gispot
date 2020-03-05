@@ -16,9 +16,7 @@ from TkGUIconfig import multication
 import tooltk
 # import subprocess
 
-
 def explode_m(qq, shp_p, new_shp):
-	
 	"""
 	main function, make multiple-parts to single.
 	:param qq: 就是queue
@@ -52,7 +50,7 @@ class App(tooltk.Tooltk):
 	"""
 	def __init__(self,master_eem):
 		"""
-		:param master_eem: mian_f, a widget from tool_entrance.py
+		:param master_eem: mian_f, a widget from entrance.py
 		"""
 		super(App, self).__init__(master_eem,
 								  "../docs/explode_mulitp.gc",
@@ -66,7 +64,6 @@ class App(tooltk.Tooltk):
 							u"选择保存地址")
 		self.window.mainloop()
 		
-
 	def confirm_method_e(self):
 		# 获取列表
 		v = self.get_blockvalue(self.input_sfb, self.input_sb)
@@ -74,7 +71,6 @@ class App(tooltk.Tooltk):
 		p = Process(target=self.commu.decor, args=(self.commu.que,
 												   explode_m, v[0], v[1],))
 		p.start()
-		
 		print "process_communication begin"
 		# t = Thread(target=self.process_communication)
 		# t.start()

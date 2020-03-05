@@ -1,4 +1,8 @@
-version 1
+#  version 1
+#  python2
+#  arcgis10.1 arcgis10.3 arcgis10.6
+liaochenchen hygnic
+detail
     2019 09
         1.添加 公示图重命名 功能
         2.界面优化
@@ -13,5 +17,5 @@ version 1
     2019 12 16
         1.尝试gradient颜色渐变效果
     2019 12 19
-        1.封装全新的Entry和Text类，实现全选功能。
+        1.封装全新的Entry和Text类，实现Ctrl+a全选功能。
         2.更改程序icon和主程序左上角图标。

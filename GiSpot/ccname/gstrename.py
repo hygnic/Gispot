@@ -56,7 +56,7 @@ class App(tooltk.Tooltk):
 	# msg_help = "文本格式：代码在前：510304107218牛佛镇鞍山村"
 	def __init__(self,master22):
 		"""
-		:param master22: mian_f , a widget from tool_entrance.py
+		:param master22: mian_f , a widget from entrance.py
 		"""
 		super(App, self).__init__(master22,
 								  r"../docs/gstrename.gc",

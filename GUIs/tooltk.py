@@ -10,7 +10,7 @@ import ScrolledText as stt
 
 # 导入配置包、地址包
 from TkGUIconfig import newidgets
-from TkGUIconfig import gispotpath
+from TkGUIconfig import paths
 
 
 class Tooltk(object):
@@ -62,16 +62,17 @@ class Tooltk(object):
 		self.color6 = '#EBEEEE'  # 底栏颜色
 	
 	def icon_set(self):
-		self.gif_text = tk.PhotoImage(file=gispotpath.GifPath.gif_textfile)
-		self.gif_addfile = tk.PhotoImage(file=gispotpath.GifPath.gif_add_file)
+		# 必须加file参数，不然不显示图片（arcgis10.6）
+		self.gif_text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
+		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
 		
-		self.gif_folder = tk.PhotoImage(file=gispotpath.GifPath.gif_folder)
-		self.gif_close = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
-		self.gif_quit = tk.PhotoImage(file=gispotpath.GifPath.gif_close)
-		self.gif_help = tk.PhotoImage(file=gispotpath.GifPath.gif_info)
-		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
+		self.gif_folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
+		self.gif_close = tk.PhotoImage(file=paths.GifPath.gif_close)
+		self.gif_quit = tk.PhotoImage(file=paths.GifPath.gif_close)
+		self.gif_help = tk.PhotoImage(file=paths.GifPath.gif_info)
+		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
 		
-		self.gif_empty_1 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty1)
+		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
@@ -434,7 +435,7 @@ class Tooltk(object):
 		
 	def divider_bar_block(self, master, color11, color22):
 		"""
-		分隔栏
+		最下面的那个分隔栏
 		:return:
 		"""
 		s = newidgets.GradientCanvas(
@@ -445,6 +446,7 @@ class Tooltk(object):
 	
 	def get_blockvalue(self, *arg):
 		"""
+		列表初始化
 		获取Entry值，组成列表
 		:param arg: 各个block的Entry模块组成的元组
 		:return: self.block_list 返回 含有用户输入的各种因子的 列表
@@ -468,12 +470,13 @@ class Tooltk(object):
 		# print self.block_list[3]
 		return self.block_list
 
-
 # got_msg1 = arg[0].get()
 # # .decode("cp936")
 # got_msg2 = arg[1].get()
 # self.block_list.append(got_msg1)
 # self.block_list.append(got_msg2)
+	
+
 
 
 if __name__ == '__main__':
@@ -508,7 +511,7 @@ if __name__ == '__main__':
 			filedialog+手动: E:/move on move on/是多少  type:  <type 'unicode'>
 			手动: G:\软件包  type:  <type 'unicode'>
 			手动: G:\music  type:  <type 'str'>
-			filedialog: E:/move on move on/Gispot/bin  type:  <type 'str'>
+			filedialog: E:/move on move on/GiSpot/bin  type:  <type 'str'>
 			filedialog: E:/move on move on/公示图  type:  <type 'unicode'>
 			结论:
 			"""

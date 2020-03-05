@@ -47,6 +47,10 @@ class HoverButton(tk.Button):
 	"""
 	
 	def __init__(self, master, **kw):
+		"""
+		:param master: 该组件的父
+		:param kw:
+		"""
 		tk.Button.__init__(self, master=master, **kw)
 		self.defaultBackground = self["background"]
 		self.config(relief="flat",

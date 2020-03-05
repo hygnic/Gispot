@@ -7,9 +7,9 @@
 import os
 
 
-_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/Gispot/libs/TkGUIconfig
-_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\Gispot\libs
-_Groot = os.path.dirname(_lib)  # E:\move on move on\Gispot
+_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/GiSpot/libs/TkGUIconfig
+_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\GiSpot\libs
+_Groot = os.path.dirname(_lib)  # E:\move on move on\GiSpot
 # _bin_p = os.path.join(_Groot, "bin")
 # _docs_p = os.path.join(_Groot, "docs")
 # _Gispot_p = os.path.join(_Groot, "_Gispot_p")
@@ -17,7 +17,7 @@ _Groot = os.path.dirname(_lib)  # E:\move on move on\Gispot
 _GUIs_p = os.path.join(_Groot, "GUIs")
 
 
-# E:\move on move on\Gispot\GUIs\Icons
+# E:\move on move on\GiSpot\GUIs\Icons
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 # docs
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
@@ -45,6 +45,7 @@ class GifPath(object):
 	
 	gif_empty1 =os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
+	gif_dos = os.path.join(_base_icons_path, "dos.gif")
 	
 if __name__ == '__main__':
 	aa = GifPath.gif_github

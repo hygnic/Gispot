@@ -9,18 +9,18 @@ import sys
 """
 
 bin_p = os.path.abspath(os.path.dirname(__file__))
-# real:  E:\move on move on\Gispot\bin
+# real:  E:\move on move on\GiSpot\bin
 root_p = os.path.abspath(os.path.dirname(bin_p))
-# print "root_P:  ",root_p  #  E:/move on move on/Gispot
+# print "root_P:  ",root_p  #  E:/move on move on/GiSpot
 sys.path.append(os.path.join(root_p, "GUIs"))
 
 
-import tool_entrance
+import entrance
 
 if __name__ == '__main__':
 	# print sys.path
 	print os.getpid()
-	entrance = tool_entrance.AppEntrance()
+	entrance = entrance.AppEntrance()
 	entrance.menu()
 	# 操控所有循环
 	entrance.rootwindow.mainloop()
@@ -34,7 +34,7 @@ if __name__ == '__main__':
 	
 	
 # sys.path.append(r"D:\Python27\ArcGIS10.7\tcl\tcl8.5")
-# apppath = r"bin\tool_entrance.py"
+# apppath = r"bin\entrance.py"
 # sys.path.append("../docs")
 
 # path = "../docs/gstrename.gc"

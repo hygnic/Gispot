@@ -3,7 +3,7 @@
 # Date: 2019/11/6
 
 # 基于arcpy接口
-# ccarcpy
+# crcpy
 
 # import explode_mulitp
 # import multip_ejpg
