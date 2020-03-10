@@ -148,6 +148,9 @@ class Tooltk(object):
 		s_bar.pack(side="right", fill="y")
 		self.text_major_msg = newidgets.NeewwText(self.frame_right_side, height="60",
 												  yscrollcommand=s_bar.set)
+		# 配置字体颜色
+		self.text_major_msg.tag_config("tag_1", backgroun="yellow",
+						foreground="red", )
 		# 支持撤销操作，支持换行 wrap = "char"
 		# self.text_major_msg.insert(tk.END, ">>>" * 80)
 		self.text_major_msg.pack(side="top", anchor="n", expand=True,

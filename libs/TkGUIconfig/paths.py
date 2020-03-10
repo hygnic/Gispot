@@ -21,8 +21,8 @@ _GUIs_p = os.path.join(_Groot, "GUIs")
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 # docs
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
-# _gstrename = os.path.join(_docs_p, r"multip_ejpg.gc")
-# _multip_ejpg = os.path.join(_docs_p, r"multip_ejpg.gc")
+# _gstrename = os.path.join(_docs_p, r"multiplexport.gc")
+# _multip_ejpg = os.path.join(_docs_p, r"multiplexport.gc")
 
 
 

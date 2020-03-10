@@ -73,8 +73,7 @@ class MuCation(object):
 				i = self.que.get()
 				
 				if i.startswith("<ProcessID"):
-					text.tag_config("tag_1", backgroun="yellow",
-									foreground="red",)
+					# tag_1 在text处已经配置
 					text.insert("end", " " + i,"tag_1")
 					text.see("end")
 					# "\n  " + 反而会冒出一个空行
