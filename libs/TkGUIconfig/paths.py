@@ -7,9 +7,9 @@
 import os
 
 
-_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/GiSpot/libs/TkGUIconfig
-_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\GiSpot\libs
-_Groot = os.path.dirname(_lib)  # E:\move on move on\GiSpot
+_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/gispot/libs/TkGUIconfig
+_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\gispot\libs
+_Groot = os.path.dirname(_lib)  # E:\move on move on\gispot
 # _bin_p = os.path.join(_Groot, "bin")
 # _docs_p = os.path.join(_Groot, "docs")
 # _Gispot_p = os.path.join(_Groot, "_Gispot_p")
@@ -17,7 +17,7 @@ _Groot = os.path.dirname(_lib)  # E:\move on move on\GiSpot
 _GUIs_p = os.path.join(_Groot, "GUIs")
 
 
-# E:\move on move on\GiSpot\GUIs\Icons
+# E:\move on move on\gispot\GUIs\Icons
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 # docs
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")

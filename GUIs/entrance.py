@@ -13,18 +13,18 @@ from webbrowser import open as weberopen
 
 
 # 获取当前的文件位置
-# E:\move on move on\GiSpot\GUIs\entrance.py
+# E:\move on move on\gispot\GUIs\entrance.py
 realp = os.path.abspath(__file__)
 # 该文件所处的文件夹绝对路径
 realp_dir = os.path.abspath(os.path.dirname(__file__))
 # 上级 绝对路径
-# E:\move on move on\GiSpot
+# E:\move on move on\gispot
 root_base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-# E:\move on move on\GiSpot\GiSpot
-rb_GisCat = os.path.join(root_base, "GiSpot")
-# E:\move on move on\GiSpot\GUIs
+# E:\move on move on\gispot\gispot
+rb_GisCat = os.path.join(root_base, "gispot")
+# E:\move on move on\gispot\GUIs
 rb_GUIs = os.path.join(root_base, "GUIs")
-# E:\move on move on\GiSpot\GUIs\Icons
+# E:\move on move on\gispot\GUIs\Icons
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
@@ -42,10 +42,10 @@ for giscat_path in giscat_paths:
 
 # import ccname # 识别不了gstrename
 
-# from GiSpot.ccname import gstrename
-# from GiSpot.crcpy import multip_ejpg
-# from GiSpot.crcpy import explode_mulitp
-# from GiSpot.crcpy import task_dispatch
+# from gispot.ccname import gstrename
+# from gispot.crcpy import multip_ejpg
+# from gispot.crcpy import explode_mulitp
+# from gispot.crcpy import task_dispatch
 # 界面模块导入
 import mainlayout
 # 功能模块导入
@@ -110,7 +110,7 @@ class AppEntrance(object):
         self.gradient_canv = newidgets.GradientCanvas(self.rootwindow,
                                                   "#ffc851", "#808000", relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
-        self.gradient_canv.create_text(32,18,text = "GiSpot 1")
+        self.gradient_canv.create_text(32,18,text = "gispot 1")
     
     def upgrade_from_github(self):
         def open_u():

@@ -514,7 +514,7 @@ if __name__ == '__main__':
 			filedialog+手动: E:/move on move on/是多少  type:  <type 'unicode'>
 			手动: G:\软件包  type:  <type 'unicode'>
 			手动: G:\music  type:  <type 'str'>
-			filedialog: E:/move on move on/GiSpot/bin  type:  <type 'str'>
+			filedialog: E:/move on move on/gispot/bin  type:  <type 'str'>
 			filedialog: E:/move on move on/公示图  type:  <type 'unicode'>
 			结论:
 			"""

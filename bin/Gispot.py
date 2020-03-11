@@ -9,9 +9,9 @@ import sys
 """
 
 bin_p = os.path.abspath(os.path.dirname(__file__))
-# real:  E:\move on move on\GiSpot\bin
+# real:  E:\move on move on\gispot\bin
 root_p = os.path.abspath(os.path.dirname(bin_p))
-# print "root_P:  ",root_p  #  E:/move on move on/GiSpot
+# print "root_P:  ",root_p  #  E:/move on move on/gispot
 sys.path.append(os.path.join(root_p, "GUIs"))
 
 

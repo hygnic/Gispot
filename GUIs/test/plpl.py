@@ -10,19 +10,19 @@ from PIL import Image, ImageTk # <---
 root = tkinter.Tk()
 color = 'white'
 
-item = tkinter.Button(root,
-                text=color,
-                width=20,
-                height=10,
-                relief='raised',
-                borderwidth=5,
-                bg=color
-            )
+__getall_items = tkinter.Button(root,
+								text=color,
+								width=20,
+								height=10,
+								relief='raised',
+								borderwidth=5,
+								bg=color
+								)
 
 original = Image.open(r"66.png")
 ph_im = ImageTk.PhotoImage(original) # <----------
-item.config(image=ph_im)
-item.pack(side='left')
+__getall_items.config(image=ph_im)
+__getall_items.pack(side='left')
 root.mainloop()
 
 

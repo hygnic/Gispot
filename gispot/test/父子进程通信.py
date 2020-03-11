@@ -57,8 +57,8 @@ li = ['C', 'python', 'php', 'html', 'SQL', 'java']
 # ---创建两个列表组件---
 listb = Tkinter.Listbox(root_window)
 # ---给小部件插入数据---
-for item in li:
-	listb.insert(0, item)
+for __getall_items in li:
+	listb.insert(0, __getall_items)
 listb.pack()
 
 # ---创建子容器，在子容器上创建Label---
