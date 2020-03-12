@@ -89,7 +89,7 @@ class AppEntrance(object):
         # -------------------------------------
         self.main_f = tk.Frame(self.rootwindow,relief = "groove")
         self.main_f.pack(expand = True,fill ="both")
-       
+        # 将退出弹窗与退出功能绑定起来，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 安排界面格局
         self.run_menu()
@@ -238,7 +238,7 @@ class AppEntrance(object):
     def run_panel(self):
         # 使程序主要面板运行起来
         button1 = mainlayout.Panel(self.main_f)
-        button1.config()
+        # button1.config()
         
         
         
