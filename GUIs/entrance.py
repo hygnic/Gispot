@@ -100,7 +100,7 @@ class AppEntrance(object):
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 安排界面格局
         self.run_menu()
-        self.run_panel()
+        self.run_toolbar_viewer()
     
     def prograssbar(self):
         self.prograss_int +=10
@@ -250,7 +250,7 @@ class AppEntrance(object):
         crcpy.task_dispatch.StartApp(self.input_interface)
     # ----------------------------------------
     
-    def run_panel(self):
+    def run_toolbar_viewer(self):
         # 使程序主要面板运行起来
         # return 1
         button1 = toolbar.ToolPan(self.toolbar)

@@ -12,10 +12,6 @@ from TkGUIconfig import newidgets
 from TkGUIconfig import paths
 from commandorder import export
 
-class FangFa(object):
-    """方法。      方法函数的集合，哈哈哈哈"""
-    def dos(self):
-        export.export()
 
 
 class ToolbarViewer(object):
@@ -25,7 +21,13 @@ class ToolbarViewer(object):
         self.window = master
         # newidgets.destroy_child(master)
         newidgets.destroy_child(self.window)
-        
+        self.script()
+    
+    def script(self):
+       newidgets.ButtonFrame(self.window,tk.PhotoImage(paths.GifPath.gif_python),"test")
+    
+def inner(P1):
+    ToolbarViewer(P1)
         
         
 
@@ -40,7 +42,7 @@ class ToolPan(object):
         self.button_one = newidgets.HoverButton(self.window,
                                                 width=45,
                                                 image = self.icon_dos,
-                                                height = 45, command =FangFa.dos)
+                                                height = 45, command =ToolbarViewer)
         self.button_one.pack(side ="left", anchor ="nw")
         self.window.mainloop()
 		

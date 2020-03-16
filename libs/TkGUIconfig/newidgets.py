@@ -146,3 +146,18 @@ class GradientCanvas(tk.Canvas):
 			color = "#%4.4x%4.4x%4.4x" % (nr,ng,nb)
 			self.create_line(i,0,i,height, tags=("gradient",), fill=color)
 		self.lower("gradient")
+		
+		
+class ButtonFrame(tk.Frame):
+	"""图标按钮与名称的组合frame"""
+	def __init__(self, master,image,name, **kw):
+		tk.Frame.__init__(self, master=master, **kw)
+		# 设置图标路径
+		self.image = image
+		self.name = name
+		wrap_frame = tk.Frame(self.master, relief="flat")
+		wrap_frame.pack(side="top", anchor="nw")
+		button = HoverButton(wrap_frame,image = self.image)
+		button.pack(side="top")
+		label = tk.Label(self.master,text =self.name )
+		label.pack(side="top")

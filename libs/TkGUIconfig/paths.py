@@ -47,6 +47,10 @@ class GifPath(object):
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
 	gif_dos = os.path.join(_base_icons_path, "dos.gif")
 	
+	# 应用于toolbar_viewer中的按钮图标
+	gif_python = os.path.join(_base_icons_path, "python_48.gif")
+	
+	
 if __name__ == '__main__':
 	aa = GifPath.gif_github
 	print os.path.exists(aa)
