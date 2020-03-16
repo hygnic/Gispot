@@ -53,7 +53,7 @@ import ccname.gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
-import commandorder.export
+import ccmd.export
 # 配置包导入
 from TkGUIconfig import newidgets
 from TkGUIconfig import paths

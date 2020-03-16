@@ -6,12 +6,10 @@
 部分一：toolbar
 部分二：toolbar_viewer"""
 
-import os
 import tkinter as tk
 from TkGUIconfig import newidgets
 from TkGUIconfig import paths
-from commandorder import export
-
+import vitems
 
 class ToolbarViewer(object):
     """
@@ -38,10 +36,10 @@ class ToolbarViewer(object):
         self.icon_dos = tk.PhotoImage(file = paths.GifPath.gif_dos)
     
     def viewer(self):
-        # 界面右侧的view
+        # 界面右侧的viewer
         # master2 就是 input_interface这个frame
         # master2
         # newidgets.destroy_child(master1)
         newidgets.destroy_child(self.window2)
-        newidgets.ButtonFrame(self.window2,
-                              tk.PhotoImage(file=paths.GifPath.gif_python), "test")
+        vitems.test_0317(self.window2)
+        

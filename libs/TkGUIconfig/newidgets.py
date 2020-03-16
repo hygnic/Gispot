@@ -150,15 +150,24 @@ class GradientCanvas(tk.Canvas):
 		
 class ButtonFrame(tk.Frame):
 	"""图标按钮与名称的组合frame"""
-	def __init__(self, master,image,name, **kw):
+	def __init__(self, master,image,name,command, **kw):
+		"""
+		:param master:
+		:param image: 图标地址
+		:param name: 名字
+		:param command: button响应事件
+		:param kw:
+		"""
 		tk.Frame.__init__(self, master=master, **kw)
 		# 设置图标路径
 		self.image = image
 		self.name = name
+		self.command = command
 		wrap_frame = tk.Frame(self.master, relief="groove",bd=10)
 		wrap_frame.pack(side="top",anchor="nw")
 		# wrap_frame.grid(column=0,row=0)
-		button = HoverButton(wrap_frame,image = self.image)
+		button = HoverButton(wrap_frame,image = self.image,
+							 command=self.command)
 		button.pack(side="top")
 		label = tk.Label(wrap_frame,text =self.name )
 		label.pack(side="top")
