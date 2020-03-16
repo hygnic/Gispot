@@ -155,9 +155,10 @@ class ButtonFrame(tk.Frame):
 		# 设置图标路径
 		self.image = image
 		self.name = name
-		wrap_frame = tk.Frame(self.master, relief="flat")
-		wrap_frame.pack(side="top", anchor="nw")
+		wrap_frame = tk.Frame(self.master, relief="groove",bd=10)
+		wrap_frame.pack(side="top",anchor="nw")
+		# wrap_frame.grid(column=0,row=0)
 		button = HoverButton(wrap_frame,image = self.image)
 		button.pack(side="top")
-		label = tk.Label(self.master,text =self.name )
+		label = tk.Label(wrap_frame,text =self.name )
 		label.pack(side="top")

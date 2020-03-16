@@ -47,7 +47,7 @@ for giscat_path in giscat_paths:
 # from gispot.crcpy import explode_mulitp
 # from gispot.crcpy import task_dispatch
 # 界面模块导入
-import toolbar
+import barviewer
 # 功能模块导入
 import ccname.gstrename
 import crcpy.multiplexport
@@ -94,7 +94,7 @@ class AppEntrance(object):
         self.toolbar.pack(side="left",fill = "both", expand =False)
         # 主界面右侧的用户输入界面 input interface
         self.input_interface = tk.Frame(self.rootwindow, relief ="groove")
-        self.input_interface.pack(side= "right", expand =False, fill ="both")
+        self.input_interface.pack(side= "right", expand =True, fill ="both")
         
         # 将退出弹窗与退出功能绑定起来，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -253,7 +253,8 @@ class AppEntrance(object):
     def run_toolbar_viewer(self):
         # 使程序主要面板运行起来
         # return 1
-        button1 = toolbar.ToolPan(self.toolbar)
+        # toolbar_viewer就是建立在input_interface上的
+        button1 = barviewer.ToolbarViewer(self.toolbar, self.input_interface)
         # button1.config()
         
         

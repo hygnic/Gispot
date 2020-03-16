@@ -13,8 +13,8 @@ class Block(tk.Frame):
 	def __init__(self,master,name,**kw):
 		tk.Frame.__init__(self,master,**kw)
 		self.master = master
-		# master.rowconfigure(0, weight=1)
-		# master.columnconfigure(0, weight=1)
+		# master1.rowconfigure(0, weight=1)
+		# master1.columnconfigure(0, weight=1)
 		# self.grid(row=0, column=0, sticky=tk.NSEW)
 		# self.rowconfigure(1, weight=1)
 		# self.rowconfigure(0, weight=1)
@@ -56,9 +56,9 @@ mmm.mainloop()
 # root = tk.Tk()
 #
 # class Block(tk.Frame):
-# 	def __init__(self,master,name,**kw):
-# 		tk.Frame.__init__(self,master,**kw)
-# 		self.master = master
+# 	def __init__(self,master1,name,**kw):
+# 		tk.Frame.__init__(self,master1,**kw)
+# 		self.master1 = master1
 #
 # 		tk.Label(self,text = name).pack(anchor = "w",  pady=10)
 #
