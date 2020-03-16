@@ -2,7 +2,8 @@
 # User: liaochenchen
 # Date: 2019/10/21
 # python2.7
-"""所用工具和脚本调用此GUI"""
+"""
+GUI  所用工具和脚本用GUI"""
 
 import Tkinter as tk
 import tkFileDialog
@@ -15,7 +16,6 @@ from TkGUIconfig import paths
 
 class Tooltk(object):
 	"""工具的GUI界面"""
-	# button's width and height
 	_button_size = 24
 	
 	# 调用类变量也要加self
@@ -197,13 +197,14 @@ class Tooltk(object):
 			导致打开其他功能时找不到main_f而报错
 			:return:
 			"""
-			newidgets.destroy_chird(self.window)
+			newidgets.destroy_child(self.window)
 		
 		self.button_quit = newidgets.HoverButton(self.frame_bottom_bar,
 												 image=self.gif_quit,
 												 command=inner_quit,
 												 width=self._button_size,
 												 height=self._button_size)
+		# pack
 		self.button_confirm.pack(side=tk.LEFT, anchor=tk.E,
 								 padx=5)
 		self.button_help.pack(side=tk.LEFT, anchor=tk.E, padx=5)

@@ -47,7 +47,7 @@ for giscat_path in giscat_paths:
 # from gispot.crcpy import explode_mulitp
 # from gispot.crcpy import task_dispatch
 # 界面模块导入
-import mainlayout
+import toolbar
 # 功能模块导入
 import ccname.gstrename
 import crcpy.multiplexport
@@ -87,8 +87,15 @@ class AppEntrance(object):
         # aa1.pack()
       
         # -------------------------------------
-        self.main_f = tk.Frame(self.rootwindow,relief = "groove")
-        self.main_f.pack(expand = True,fill ="both")
+        # 主界面左侧图标工具栏
+                        # Frame的实际大小不仅仅受width控制，如果其中有其它部件，
+                            # 以其它部件大小为准
+        self.toolbar = tk.Frame(self.rootwindow, relief="sunken" ,width= 80, bd =1)
+        self.toolbar.pack(side="left",fill = "both", expand =False)
+        # 主界面右侧的用户输入界面 input interface
+        self.input_interface = tk.Frame(self.rootwindow, relief ="groove")
+        self.input_interface.pack(side= "right", expand =False, fill ="both")
+        
         # 将退出弹窗与退出功能绑定起来，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 安排界面格局
@@ -97,7 +104,7 @@ class AppEntrance(object):
     
     def prograssbar(self):
         self.prograss_int +=10
-        bb = Tix.Meter(self.main_f, value=self.prograss_int,
+        bb = Tix.Meter(self.input_interface, value=self.prograss_int,
                        fillcolor="#ffc851")
         bb.pack()
         # impure_data = 0
@@ -213,31 +220,40 @@ class AppEntrance(object):
     #
     #     # 创建菜单栏完成后，配置让菜单栏self.menubar显示出来
     #     self.rootwindow.config(menu=self.menubar)
+    
     # ----------------------------------------
+    """
+    全是一些按键的command指令，放在这里方便添加修改一些自定义功能
+    使用的各种函数方法说明：
+        newidgets.destroy_child(self.main_f): 在打开一个功能的GUI界面时，销毁覆盖
+            之前存在的GUI界面
+    """
     def open_GSTrename(self):
-        newidgets.destroy_chird(self.main_f)
+        newidgets.destroy_child(self.input_interface)
         # gstrename.App(self.main_f)
-        ccname.gstrename.App(self.main_f)
+        ccname.gstrename.App(self.input_interface)
     
     def open_Multip_exp(self):
-        newidgets.destroy_chird(self.main_f)
+        newidgets.destroy_child(self.input_interface)
         # multip_ejpg.MultipExp(self.main_f)
-        crcpy.multiplexport.MultipExp(self.main_f)
-
+        crcpy.multiplexport.MultipExp(self.input_interface)
+    
+    # 多进程导出JPEG图片
     def explode_mulitp(self):
-        newidgets.destroy_chird(self.main_f)
+        newidgets.destroy_child(self.input_interface)
         # explode_mulitp.App(self.main_f)
-        crcpy.explode.App(self.main_f)
+        crcpy.explode.App(self.input_interface)
     
     def start_dispatch_task(self):
-        newidgets.destroy_chird(self.main_f)
+        newidgets.destroy_child(self.input_interface)
         # task_dispatch.StartApp(self.main_f)
-        crcpy.task_dispatch.StartApp(self.main_f)
+        crcpy.task_dispatch.StartApp(self.input_interface)
     # ----------------------------------------
     
     def run_panel(self):
         # 使程序主要面板运行起来
-        button1 = mainlayout.Panel(self.main_f)
+        # return 1
+        button1 = toolbar.ToolPan(self.toolbar)
         # button1.config()
         
         

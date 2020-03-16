@@ -26,7 +26,7 @@ def screen_cetre(master, width=None, height=None):
 	# geometry = '%dx%d+%d+%d' % (
 	# width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
 	
-def destroy_chird(master):
+def destroy_child(master):
 	"""
 	监测一个部件内部是否有子部件，如果有，
 	那么删除子部件

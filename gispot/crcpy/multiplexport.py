@@ -77,7 +77,7 @@ def export_jpeg(me_queue, path_slice_set, res):
 class MultipExp(tooltk.Tooltk):
     
     commu = multication.MuCation()
-    ququ = Queue()
+    ququ = Queue() #TODO ÓÐÓÃÂð£¿É¾³ý£¿
     def __init__(self,master1):
         """
         :param master1: mian_f , a widget from tool_entrance.py
