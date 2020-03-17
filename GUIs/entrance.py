@@ -178,8 +178,6 @@ class AppEntrance(object):
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
         self.menubar_map.add_command(label=u'多进程批量出图(JPEG)',
                                 command=self.open_Multip_exp)
-        self.menubar_map.add_command(label=u'批量出图(JPEG;ONGOING)',
-                                     command=None)
         self.menubar_map.add_command(label=u'拆分多部件',
                                      command=self.explode_mulitp)
         self.menubar_map.add_command(label=u'任务分配',

@@ -41,5 +41,5 @@ class ToolbarViewer(object):
         # master2
         # newidgets.destroy_child(master1)
         newidgets.destroy_child(self.window2)
-        vitems.test_0317(self.window2)
+        vitems.export_s(self.window2)
         

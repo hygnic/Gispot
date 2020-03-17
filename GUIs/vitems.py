@@ -7,12 +7,15 @@ import tkinter as tk
 from TkGUIconfig import newidgets
 from TkGUIconfig import paths
 from ccmd import export
+
+
 """viewer items
 配置位于主界面右边的toolbar viewer中的部件"""
 
-def test_0317(master):
+# 单进程导出图片JPEG(适用于文件夹和单个mxd文件)
+def export_s(master):
 	newidgets.ButtonFrame(
 		master,
 		tk.PhotoImage(file=paths.GifPath.gif_python),
-		"test",command=export.export
+		"导出图片",command=export.func
 	)

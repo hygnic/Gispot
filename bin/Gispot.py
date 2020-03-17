@@ -19,7 +19,7 @@ import entrance
 
 if __name__ == '__main__':
 	# print sys.path
-	print os.getpid()
+	print "ProcessID:{}\n".format(os.getpid())
 	entrance = entrance.AppEntrance()
 	entrance.menu()
 	# 操控所有循环
