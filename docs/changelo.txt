@@ -19,3 +19,6 @@ detail
     2019 12 19
         1.封装全新的Entry和Text类，实现Ctrl+a全选功能。
         2.更改程序icon和主程序左上角图标。
+    2020 03 17
+        1.新增toolbar和右侧的viewer界面
+        2.打开Dos界面，大小位置进行调整

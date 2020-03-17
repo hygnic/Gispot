@@ -8,33 +8,35 @@ cmd 默认识别cp936编码的中文
 
 尝试加入 u"输入文件夹" 失败
 """
-import arcpy, os
+from hybag import base_feature
 
-def export(path,resolution):
-	arcpy.env.overwriteOutput = True
-	if not os.path.isdir(path) and path[-3:].lower() == 'mxd':
-		print "file"
-		mxd1 = arcpy.mapping.MapDocument(path)
-		print 'exporting...'
-		arcpy.mapping.ExportToJPEG(
-			mxd1, os.path.abspath(path[:-3] + 'jpg'), resolution=resolution)
-		a = os.path.split(path)
-		print a[1]+"finished"
-	else:
-		print "folder"
-		for afile in os.listdir(path):
-			if afile[-3:].lower() == 'mxd':
-				mxd1 = arcpy.mapping.MapDocument(os.path.join(path, afile))
-				print 'exporting...'
-				# ExportToJEPG的第二个参数是导出图片的名称和目录设置
-				arcpy.mapping.ExportToJPEG(
-					mxd1, os.path.join(path, afile[:-3] + 'jpg'), resolution=resolution
-				)
-				print afile + ' finished'
-				print "\n----------------"
-				del mxd1
-			else:
-				pass
+# import arcpy, os
+#
+# def export(path,resolution):
+# 	arcpy.env.overwriteOutput = True
+# 	if not os.path.isdir(path) and path[-3:].lower() == 'mxd':
+# 		print "file"
+# 		mxd1 = arcpy.mapping.MapDocument(path)
+# 		print 'exporting...'
+# 		arcpy.mapping.ExportToJPEG(
+# 			mxd1, os.path.abspath(path[:-3] + 'jpg'), resolution=resolution)
+# 		a = os.path.split(path)
+# 		print a[1]+"finished"
+# 	else:
+# 		print "folder"
+# 		for afile in os.listdir(path):
+# 			if afile[-3:].lower() == 'mxd':
+# 				mxd1 = arcpy.mapping.MapDocument(os.path.join(path, afile))
+# 				print 'exporting...'
+# 				# ExportToJEPG的第二个参数是导出图片的名称和目录设置
+# 				arcpy.mapping.ExportToJPEG(
+# 					mxd1, os.path.join(path, afile[:-3] + 'jpg'), resolution=resolution
+# 				)
+# 				print afile + ' finished'
+# 				print "\n----------------"
+# 				del mxd1
+# 			else:
+# 				pass
 				
 # 使用此函数调用功能函数，不想直接将用户交互界面写入
 def func():
@@ -42,7 +44,7 @@ def func():
 	# dir_path = ur"G:\test\gst"
 	res = int(raw_input('分辨率：'))
 	# res = 3
-	export(dir_path, res)
+	base_feature.export(dir_path, res)
 	
 	
 

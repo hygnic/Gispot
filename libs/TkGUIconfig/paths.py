@@ -45,7 +45,11 @@ class GifPath(object):
 	
 	gif_empty1 =os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
+	
+	# 应用于toolbar中的按钮图标
 	gif_dos = os.path.join(_base_icons_path, "dos.gif")
+	gif_editor = os.path.join(_base_icons_path, "editor.gif")
+	
 	
 	# 应用于toolbar_viewer中的按钮图标
 	gif_python = os.path.join(_base_icons_path, "python_48.gif")

@@ -19,3 +19,13 @@ def export_s(master):
 		tk.PhotoImage(file=paths.GifPath.gif_python),
 		"导出图片",command=export.func
 	)
+	
+	
+# ----------------------------------------------------
+
+def itme_1(master):
+	newidgets.ButtonFrame(
+		master,
+		tk.PhotoImage(file=paths.GifPath.gif_python),
+		"自动计算面积", command=export.func
+	)

@@ -26,20 +26,32 @@ class ToolbarViewer(object):
                                                 width=45,
                                                 image = self.icon_dos,
                                                 height = 45, command =self.viewer)
-        self.button_one.pack(side ="left", anchor ="nw")
-
+        self.button_one.pack(side ="top", anchor ="nw")
+        # 第2个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
+        self.button_two = newidgets.HoverButton(self.window1,
+                                                width=45,
+                                                image = self.icon_editor,
+                                                height = 45, command =self.editor_viewer)
+        self.button_two.pack(side ="top", anchor ="nw")
         # self.window1.mainloop()
 		
     def toolbar(self):
         """界面左侧的toolbar；必须加入file（arcgis10.6）"""
         # toolbar中直接使用dos命令行的工具（暂定）#TODO 应该不止这些
         self.icon_dos = tk.PhotoImage(file = paths.GifPath.gif_dos)
+        self.icon_editor = tk.PhotoImage(file=paths.GifPath.gif_editor)
     
     def viewer(self):
-        # 界面右侧的viewer
+        # 界面右侧的viewer,放置一个一个的图标
         # master2 就是 input_interface这个frame
         # master2
         # newidgets.destroy_child(master1)
         newidgets.destroy_child(self.window2)
         vitems.export_s(self.window2)
+        
+    # toolbar第二个图标打开的物品集
+    def editor_viewer(self):
+        newidgets.destroy_child(self.window2)
+        vitems.itme_1(self.window2)
+        
         
