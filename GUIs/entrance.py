@@ -28,7 +28,7 @@ rb_GUIs = os.path.join(root_base, "GUIs")
 rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
-rb_libs = os.path.join(root_base, "libs")
+rb_libs = os.path.join(root_base, "Lib")
 
 giscat_paths = [root_base,
                 rb_GisCat,
@@ -40,16 +40,16 @@ giscat_paths = [root_base,
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
 
-# import ccname # 识别不了gstrename
+# import LQHD # 识别不了gstrename
 
-# from gispot.ccname import gstrename
+# from gispot.LQHD import gstrename
 # from gispot.crcpy import multip_ejpg
 # from gispot.crcpy import explode_mulitp
 # from gispot.crcpy import task_dispatch
 # 界面模块导入
-import barviewer
+import initial_interface
 # 功能模块导入
-import ccname.gstrename
+import LQHD.gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
@@ -92,9 +92,9 @@ class AppEntrance(object):
                             # 以其它部件大小为准
         self.toolbar = tk.Frame(self.rootwindow, relief="sunken" ,width= 80, bd =1)
         self.toolbar.pack(side="left",fill = "both", expand =False)
-        # 主界面右侧的用户输入界面 input interface
-        self.input_interface = tk.Frame(self.rootwindow, relief ="groove")
-        self.input_interface.pack(side= "right", expand =True, fill ="both")
+        # 初始界面右侧的交互界面的框架 interface_frame
+        self.interface_frame = tk.Frame(self.rootwindow, relief ="groove")
+        self.interface_frame.pack(side="right", expand =True, fill ="both")
         
         # 将退出弹窗与退出功能绑定起来，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -104,7 +104,7 @@ class AppEntrance(object):
     
     def prograssbar(self):
         self.prograss_int +=10
-        bb = Tix.Meter(self.input_interface, value=self.prograss_int,
+        bb = Tix.Meter(self.interface_frame, value=self.prograss_int,
                        fillcolor="#ffc851")
         bb.pack()
         # impure_data = 0
@@ -198,12 +198,12 @@ class AppEntrance(object):
     #     没用上，以后也没有用了
     #     """
     #     def open_gst_trans():
-    #         from ccname import gst_trans
+    #         from LQHD import gst_trans
     #         open_gst_trans = gst_trans.App()
     #         open_gst_trans.window.mainloop()
     #
     #     def open_fbt_trans():
-    #         from ccname import fbt_trans
+    #         from LQHD import fbt_trans
     #         open_fbt_trans = fbt_trans.App()
     #         open_fbt_trans.window.mainloop()
     #
@@ -227,32 +227,32 @@ class AppEntrance(object):
             之前存在的GUI界面
     """
     def open_GSTrename(self):
-        newidgets.destroy_child(self.input_interface)
+        newidgets.destroy_child(self.interface_frame)
         # gstrename.App(self.main_f)
-        ccname.gstrename.App(self.input_interface)
+        LQHD.gstrename.App(self.interface_frame)
     
     def open_Multip_exp(self):
-        newidgets.destroy_child(self.input_interface)
+        newidgets.destroy_child(self.interface_frame)
         # multip_ejpg.MultipExp(self.main_f)
-        crcpy.multiplexport.MultipExp(self.input_interface)
+        crcpy.multiplexport.MultipExp(self.interface_frame)
     
     # 多进程导出JPEG图片
     def explode_mulitp(self):
-        newidgets.destroy_child(self.input_interface)
+        newidgets.destroy_child(self.interface_frame)
         # explode_mulitp.App(self.main_f)
-        crcpy.explode.App(self.input_interface)
+        crcpy.explode.App(self.interface_frame)
     
     def start_dispatch_task(self):
-        newidgets.destroy_child(self.input_interface)
+        newidgets.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
-        crcpy.task_dispatch.StartApp(self.input_interface)
+        crcpy.task_dispatch.StartApp(self.interface_frame)
     # ----------------------------------------
     
     def run_toolbar_viewer(self):
         # 使程序主要面板运行起来
         # return 1
         # toolbar_viewer就是建立在input_interface上的
-        button1 = barviewer.ToolbarViewer(self.toolbar, self.input_interface)
+        button1 = initial_interface.InitialInterface(self.toolbar, self.interface_frame)
         # button1.config()
         
         

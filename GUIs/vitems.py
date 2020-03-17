@@ -12,6 +12,9 @@ from ccmd import export
 """viewer items
 配置位于主界面右边的toolbar viewer中的部件"""
 
+# ----------------------------------------------------
+# 可运行
+
 # 单进程导出图片JPEG(适用于文件夹和单个mxd文件)
 def export_s(master):
 	newidgets.ButtonFrame(
@@ -22,6 +25,7 @@ def export_s(master):
 	
 	
 # ----------------------------------------------------
+# 仅查看
 
 def itme_1(master):
 	newidgets.ButtonFrame(

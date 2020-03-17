@@ -7,8 +7,8 @@
 import os
 
 
-_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/gispot/libs/TkGUIconfig
-_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\gispot\libs
+_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/gispot/Lib/TkGUIconfig
+_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\gispot\Lib
 _Groot = os.path.dirname(_lib)  # E:\move on move on\gispot
 # _bin_p = os.path.join(_Groot, "bin")
 # _docs_p = os.path.join(_Groot, "docs")
