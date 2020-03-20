@@ -15,7 +15,7 @@ import arcpy
 import os
 
 from multiprocessing import Process
-from TkGUIconfig import multication
+from GUIconfig import multication
 from ccutility import databutcher
 import tooltk
 

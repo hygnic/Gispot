@@ -55,8 +55,8 @@ import crcpy.explode
 import crcpy.task_dispatch
 import ccmd.export
 # 配置包导入
-from TkGUIconfig import newidgets
-from TkGUIconfig import paths
+from GUIconfig import newidgets
+from GUIconfig import paths
 
 
 import Tix
@@ -70,7 +70,7 @@ class AppEntrance(object):
         newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
         self.rootwindow.iconbitmap(default=
                                    os.path.join(rbg_Icons,"icon.ico"))
-        # self.rootwindow.resizable(False, False)
+        self.rootwindow.resizable(False, False) # 关闭缩放功能
         self.menu()
         # bt.config()
         # bt.pack(side='left')

@@ -10,8 +10,8 @@ import tkFileDialog
 import ScrolledText as stt
 
 # 导入配置包、地址包
-from TkGUIconfig import newidgets
-from TkGUIconfig import paths
+from GUIconfig import newidgets
+from GUIconfig import paths
 
 
 class Tooltk(object):

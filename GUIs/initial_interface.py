@@ -9,8 +9,8 @@
 """
 
 import tkinter as tk
-from TkGUIconfig import newidgets
-from TkGUIconfig import paths
+from GUIconfig import newidgets
+from GUIconfig import paths
 import vitems
 
 class InitialInterface(object):
@@ -49,7 +49,8 @@ class InitialInterface(object):
     # 查看器，不可运行
     def first_viewer(self):
         newidgets.destroy_child(self.window2)
-        vitems.itme_1(self.window2)
+        pass
+        # vitems.Filter(self.window2)
 
     def second_viewer(self):
         """放置可运行的
@@ -59,3 +60,9 @@ class InitialInterface(object):
         newidgets.destroy_child(master1)"""
         newidgets.destroy_child(self.window2)
         vitems.export_s(self.window2)
+        
+        
+    # -------------------------
+    # 将带有参数的类变成方法和button绑定
+    # def show_first_viewer(self):
+    

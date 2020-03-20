@@ -164,10 +164,10 @@ class ButtonFrame(tk.Frame):
 		self.name = name
 		self.command = command
 		wrap_frame = tk.Frame(self.master, relief="groove",bd=10)
-		wrap_frame.pack(side="top",anchor="nw")
+		# wrap_frame.pack(side="left",anchor="nw",fill=None,expand=False)
 		# wrap_frame.grid(column=0,row=0)
 		button = HoverButton(wrap_frame,image = self.image,
 							 command=self.command)
-		button.pack(side="top")
-		label = tk.Label(wrap_frame,text =self.name )
-		label.pack(side="top")
+		button.pack(side="top",fill=None,expand=False)
+		label = tk.Label(wrap_frame,text =self.name)
+		label.pack(side="top",fill=None,expand=False)

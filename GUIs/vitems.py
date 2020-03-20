@@ -3,9 +3,10 @@
 # Date: 2020/3/17
 # python2 arcgis10.6
 
+import os
 import tkinter as tk
-from TkGUIconfig import newidgets
-from TkGUIconfig import paths
+from GUIconfig import newidgets
+from GUIconfig import paths
 from ccmd import export
 
 
@@ -17,19 +18,64 @@ from ccmd import export
 
 # 单进程导出图片JPEG(适用于文件夹和单个mxd文件)
 def export_s(master):
-	newidgets.ButtonFrame(
+	frame = newidgets.ButtonFrame(
 		master,
 		tk.PhotoImage(file=paths.GifPath.gif_python),
-		"导出图片",command=export.func
-	)
-	
+		"导出图片",command=export.func)
+	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
 # ----------------------------------------------------
 # 仅查看
 
-def itme_1(master):
-	newidgets.ButtonFrame(
-		master,
-		tk.PhotoImage(file=paths.GifPath.gif_python),
-		"自动计算面积", command=export.func
-	)
+
+
+# 根据文件的后缀匹配图标 仅查看
+class Filter(object):
+	def __init__(self,master):
+		path =ur"G:\MoveOn\Gispot\Lib\cpt"
+		self.master = master
+		self.flag1 = 0
+		for item in os.listdir(path):
+			aa, suffi = os.path.splitext(item)
+			self.name = os.path.basename(aa)
+			# print self.name
+			# print suffi
+			suffi = suffi.lower()
+			if suffi == ".py":
+				self.flag1=  1
+			elif suffi == "tbx":
+				self.flag1= 2
+			# print self.flag1
+			self.icon_selector()
+	
+	def icon_selector(self):
+		if self.flag1==1:
+			newidgets.ButtonFrame(self.master,tk.PhotoImage(file=paths.GifPath.gif_python),
+			self.name, command=None)
+		elif self.flag1==2:
+			newidgets.ButtonFrame(self.master,tk.PhotoImage(file=paths.GifPath.gif_python),
+			self.name, command=None)
+			
+if __name__ == '__main__':
+# 	path = ur"G:\MoveOn\Gispot\Lib\cpt"
+#
+# 	for item in os.listdir(path):
+# 		aa, suffi = os.path.splitext(item)
+# 		name = os.path.basename(aa)
+# 		print name
+# 		print suffi
+	class Filter(object):
+		def __init__(self, master):
+			path = ur"G:\MoveOn\Gispot\Lib\cpt"
+			self.master = master
+			for item in os.listdir(path):
+				aa, suffi = os.path.splitext(item)
+				self.name = os.path.basename(aa)
+				print self.name
+				print suffi
+				suffi = suffi.lower()
+				if suffi == ".py":
+					self.flag1 = 1
+				elif suffi == "tbx":
+					self.flag1 = 2
+				print self.flag1
