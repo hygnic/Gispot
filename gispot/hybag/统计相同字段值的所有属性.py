@@ -26,8 +26,8 @@ def getvalue_from_attribute(area,name):
 	layer = arcpy.mapping.ListLayers(mxd1)[-2]
 	with arcpy.da.UpdateCursor(layer,field_list) as cursor:
 		name=None
-		
 		name_list=[]
+		# get the names with list format
 		for row in cursor:
 			if row[1] not in name_list:
 				name_list.append(row[1])
