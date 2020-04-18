@@ -13,7 +13,7 @@ layername = arcpy.GetParameterAsText(0)
 text = arcpy.GetParameterAsText(1)
 # 缓冲区目录
 bufferoutput = arcpy.GetParameterAsText(2)
-# 获取缓冲距离
+# 获取缓冲距离；多选
 nums = arcpy.GetParameterAsText(3)
 nums = nums.split(';')
 # # 将split获取的str列表转换为int列表，用于计算缓冲区

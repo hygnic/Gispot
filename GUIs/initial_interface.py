@@ -8,7 +8,7 @@
 部分二：toolbar_viewer 点击工具栏弹出的工具浏览窗口
 """
 
-import tkinter as tk
+import Tkinter as tk
 from GUIconfig import newidgets
 from GUIconfig import paths
 import vitems

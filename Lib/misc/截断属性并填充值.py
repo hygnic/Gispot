@@ -2,6 +2,9 @@
 # User: liaochenchen
 # Date: 2020/3/23
 # Python2 arcgis10.6
+"""
+截断字段并赋值
+"""
 
 import arcpy
 

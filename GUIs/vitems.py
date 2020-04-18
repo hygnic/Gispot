@@ -4,7 +4,7 @@
 # python2 arcgis10.6
 
 import os
-import tkinter as tk
+import Tkinter as tk
 from GUIconfig import newidgets
 from GUIconfig import paths
 from ccmd import export
@@ -57,7 +57,7 @@ class Filter(object):
 			self.name, command=None)
 			
 if __name__ == '__main__':
-# 	path = ur"G:\MoveOn\Gispot\Lib\cpt"
+# 	path = ur"G:\MoveOn\Gispot\Lib\misc"
 #
 # 	for item in os.listdir(path):
 # 		aa, suffi = os.path.splitext(item)

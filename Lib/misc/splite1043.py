@@ -17,27 +17,27 @@ fields = ["XJQYDM", "XJQYMC"]
 
 def makeringbuffer(layers, field):
 
-    cursor = arcpy.da.SearchCursor(layers, field)
-    counter = 0
-    for row in cursor:
-        getvalue_field = row[0]
-        getvalue_name = row[1]
+	cursor = arcpy.da.SearchCursor(layers, field)
+	counter = 0
+	for row in cursor:
+		getvalue_field = row[0]
+		getvalue_name = row[1]
 
-    # 创建feature class，这一步可要可不要
-        outFeatureName = 'feature_class'
-        print counter
-        arcpy.MakeFeatureLayer_management(layer2, outFeatureName)
+	# 创建feature class，这一步可要可不要
+		outFeatureName = 'feature_class'
+		print counter
+		arcpy.MakeFeatureLayer_management(layer2, outFeatureName)
 
-    # 选中各个乡镇级图斑
-        arcpy.SelectLayerByAttribute_management(outFeatureName, 'NEW_SELECTION',
+	# 选中各个乡镇级图斑
+		arcpy.SelectLayerByAttribute_management(outFeatureName, 'NEW_SELECTION',
 									"\"XJQYDM\" = \'" + getvalue_field+"'")
 
   
-    # 输出图层
-        arcpy.CopyFeatures_management(outFeatureName,
+	# 输出图层
+		arcpy.CopyFeatures_management(outFeatureName,
 									  os.path.join(outpath,getvalue_name))
-        counter += 1
-    del cursor
+		counter += 1
+	del cursor
 
 if __name__ == '__main__':
 	makeringbuffer(layer, fields)
