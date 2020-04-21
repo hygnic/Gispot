@@ -1,14 +1,18 @@
+#!/usr/bin/env python
 # -*- coding:cp936 -*-
 # ---------------------------------------------------------------------------
 # Author: LiaoChenchen
 # Created on: 2020/4/8 16:33
 # Reference:
-# Description: # python2 arcgis10.6 10.3
+"""
+Description: # python2 arcgis10.6 10.3
 	# 导出图片 001
-	# 添加shp文件 current 002
-	# 递归遍历 003
-	# 获取图层中某一个字段的所有值 004
-
+	# 添加shp文件到mxd 002
+	# 递归查询 003
+	# 字段展示其 获取图层中某单个字段的所有值 004
+	# 一键合并 005
+Usage:
+"""
 # ---------------------------------------------------------------------------
 import arcpy, os
 
@@ -41,13 +45,13 @@ def export(path,resolution):										 # 001
 			
 			
 __getall_items = []
-def getall_item(dirs_p, suffix, matchword=None):                # 002
+def recur_search(dirs_p, suffix, matchword=None):                # 002
 	"""
 	import os
-	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
+	递归查询 遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
 	recur 使用递归，特别注意，层数不要太多
 	:param dirs_p: dir address
-	:param suffix: 后缀
+	:param suffix: 文件后缀
 	:param matchword: 匹配字段，简单筛选出符合匹配字段的项目
 	:return: list
 	"""
@@ -56,7 +60,7 @@ def getall_item(dirs_p, suffix, matchword=None):                # 002
 		file_path = os.path.join(dirs_p,file_p)
 		if os.path.isdir(file_path):
 			# 递归
-			getall_item(file_path, suffix, matchword)
+			recur_search(file_path, suffix, matchword)
 		else:# 保证不使用matchword匹配字段时也能正常运行
 			if matchword:
 				# 注意matchword是 str 还是 Unicode
@@ -68,26 +72,26 @@ def getall_item(dirs_p, suffix, matchword=None):                # 002
 	return __getall_items
 
 
-def addshp(shp_path, df_name=None, fresh=True):                   # 003
+def addshp(mapdocument,shp_path, df_name=None, fresh=True):                   # 003
 	"""
 	import arcpy,os
-	*加载shp文件到   *当前mxd
+	*加载shp文件到mxd
+	:param mapdocument: mxd
 	:param shp_path: file path.
 	:param df_name: dataframe name; default first df.
 	:param fresh:bollean; refresh; default ture.
 	:return: None
 	"""
-	mxd = arcpy.mapping.MapDocument("CURRENT")
-	dataframe = arcpy.mapping.ListDataFrames(mxd, df_name)[0]
+	dataframe = arcpy.mapping.ListDataFrames(mapdocument, df_name)[0]
 	layer = arcpy.mapping.Layer(shp_path)
 	arcpy.mapping.AddLayer(dataframe, layer, "AUTO_ARRANGE")
 	if fresh:
 		arcpy.RefreshActiveView()  # 刷新地图和布局窗口
 		arcpy.RefreshTOC()  # 刷新内容列表
 
-def get_fieldvalue(layer,field):									# 004
+def field_shower(layer, field):									# 004
 	"""
-	获取图层中某一个字段的所有值
+	获取图层中某单个字段的所有值
 	layer: mxd layer
 	field: 字段,只能选一个字段
 	"""
@@ -99,7 +103,7 @@ def get_fieldvalue(layer,field):									# 004
 	del cursor
 	return _list
 	
-def merger(layer):
+def merger(layer):													# 005
 	arcpy.env.addOutputsToMap = True
 	arcpy.env.overwriteOutput = True
 	"""一键快速合并图层的所有要素"""

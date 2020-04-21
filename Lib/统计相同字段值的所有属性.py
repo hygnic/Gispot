@@ -1,0 +1,119 @@
+#!/usr/bin/env python
+# -*- coding:cp936 -*-
+# ---------------------------------------------------------------------------
+# User: liaochenchen
+# Date: 2020/3/19
+# python2 arcgis10.6
+# Reference:
+"""
+Description:
+Usage:
+"""
+# ---------------------------------------------------------------------------
+# import sys
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
+
+import arcpy
+import codecs
+"""
+遍历图层
+	按位置选择
+	属性表读取模块
+	写出
+"""
+
+def getvalue_from_attribute(layer, txt_output,strrr, class_field, value_field):
+	# 获取layer图层属性表中所有相同值的和，比如获取一个同一个乡镇下，所有TBDLMJ的和
+	"""
+	:param layer:  图层
+	:param txt_output:  输出TXT路径
+	:param strrr:
+	:param class_field: 用于分类的字段 如 CJQYMC
+	:param value_field: 我们需要的数据的字段，比如面积字段 "SHAPE@AREA" 等
+	:return:
+	"""
+	field_list = [class_field, value_field]
+	with arcpy.da.UpdateCursor(layer,field_list) as cursor:
+		name=None
+		class_field_list=[]
+		# get the names with list format
+		for row in cursor:
+			if row[0] not in class_field_list:
+				class_field_list.append(row[0])
+		cursor.reset()
+		for name in class_field_list:
+			mjm = 0
+			mj = 0
+			# cursor 只能遍历一次
+			for roww in cursor:
+				if name == roww[0]:
+					tbdlmj = float(roww[1])
+					mj += tbdlmj
+					mjm += round(tbdlmj * 0.0015, 4)
+					# mj+=roww[0]
+			cursor.reset()
+			# mian ji dan wei   mu
+			msgg = "," +name +"," + str(mjm) + "\n"
+			print msgg
+			f = codecs.open(txt_output,"a", "utf8")
+			# f=open(txt_output,"a")
+			f.write(strrr)
+			f.write(msgg)
+		f.write("\n")
+		f.close()
+
+
+if __name__ == '__main__':
+	txt_path = ur"G:\高标准分布图\510604罗江县_没有出图\out.txt"
+	mxd = arcpy.mapping.MapDocument("CURRENT")
+	layer_dltb= arcpy.mapping.ListLayers(mxd, "DLTB_allfield")[0]
+	layer_GBZ= arcpy.mapping.ListLayers(mxd,"GBZ*") # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
+	print "GBZ_count:",len(layer_GBZ)
+	for i in layer_GBZ:
+		print "GBZ_name:",i.name
+		real_name = i.name[15:-2]
+		try:
+			arcpy.SelectLayerByLocation_management(layer_dltb, "WITHIN", i,
+											   "", "NEW_SELECTION",
+											   "NOT_INVERT")
+		except arcpy.ExecuteError as e:
+			print e.message
+			continue
+		getvalue_from_attribute(layer_dltb, txt_path,real_name,"MC_new", "TBDLMJ")
+
+
+# def getvalue_from_attribute(area, name, xx):
+# 	# 获取shp属性表中所有相同值的和，比如获取不同乡镇的高标准建成区面积
+# 	"""
+# 	area: 统计面积  name: 名称
+# 	"""
+# 	mxd1 = arcpy.mapping.MapDocument("CURRENT")
+# 	field_list = [area, name]
+#
+# 	layer = arcpy.mapping.ListLayers(mxd1)[-2]
+# 	with arcpy.da.UpdateCursor(layer, field_list) as cursor:
+# 		name = None
+# 		name_list = []
+# 		# get the names with list format
+# 		for row in cursor:
+# 			if row[1] not in name_list:
+# 				name_list.append(row[1])
+# 		cursor.reset()
+# 		for name in name_list:
+# 			mj = 0
+# 			# cursor 只能遍历一次
+# 			for roww in cursor:
+# 				if name == roww[1]:
+# 					tbdlmj = float(roww[0])
+# 					mj += round(tbdlmj * 0.0015, 4)
+# 			# mj+=roww[0]
+# 			cursor.reset()
+# 			# mian ji dan wei   mu
+# 			msgg = name + "," + str(mj) + xx + "\n"
+# 			print msgg
+# 			f = open(ur"G:\高标准分布图\511302顺庆区\123321.txt", "a", )
+# 			f.write(msgg)
+# 		f.write("\n")
+# 		f.close()
+
