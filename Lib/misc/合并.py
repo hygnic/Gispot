@@ -32,8 +32,11 @@ def merger(layer):													# 005
 	del cursor
 	new_ly = "newlayer_945"
 	arcpy.Dissolve_management(layer, new_ly ,name)
+	arcpy.DeleteField_management(new_ly, name)
+	
 	return new_ly
 
-mxd = arcpy.mapping.MapDocument("CURRENT")
-layerr = arcpy.GetParameterAsText(0)
-merger(layerr)
+if __name__ == '__main__':
+	mxd = arcpy.mapping.MapDocument("CURRENT")
+	layerr = arcpy.GetParameterAsText(0)
+	merger(layerr)

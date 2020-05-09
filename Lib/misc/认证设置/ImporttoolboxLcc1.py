@@ -10,7 +10,7 @@ print sys.executable
 
 scriptPath = sys.path[0]
 arcpy.AddMessage("1--------------------")
-arcpy.AddMessage(sys.argv[0])
+arcpy.AddMessage(__file__)
 # ooo = open(sys.argv[0],'r')
 # arcpy.AddMessage(ooo.read())
 arcpy.AddMessage("Script folder: " + scriptPath)
@@ -21,7 +21,7 @@ arcpy.AddMessage("ToolShare folder: " + toolSharePath)
 
 arcpy.AddMessage("3--------------------")
 # 可以获得工具箱的真实路径
-pathname = os.path.realpath(__file__)
+pathname = os.path.realpath(sys.argv[0])
 tool_path = pathname.split(".tbx",1)[0]+".tbx"
 arcpy.AddMessage("Toolbox: " + tool_path)
 

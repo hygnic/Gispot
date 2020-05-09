@@ -66,13 +66,12 @@ class AppEntrance(object):
     prograss_int = 0
     def __init__(self):
         self.rootwindow = tk.Tk()
-        self.rootwindow.title(u"主界面")
+        self.rootwindow.title("GISPOT")
         newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
         self.rootwindow.iconbitmap(default=
                                    os.path.join(rbg_Icons,"icon.ico"))
-        self.rootwindow.resizable(False, False) # 关闭缩放功能
+        self.rootwindow.resizable(False, False)
         self.menu()
-        # bt.config()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
         self.gradient_bar()
@@ -96,9 +95,9 @@ class AppEntrance(object):
         self.interface_frame = tk.Frame(self.rootwindow, relief ="groove")
         self.interface_frame.pack(side="right", expand =True, fill ="both")
         
-        # 将退出弹窗与退出功能绑定起来，实现退出功能
+        # 绑定退出弹窗与退出功能，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
-        # 安排界面格局
+        # 界面
         self.run_menu()
         self.run_toolbar_viewer()
     
@@ -148,7 +147,7 @@ class AppEntrance(object):
         self.menubar_file.add_command(label='Save', command=None)
         self.menubar_file.add_command(label='Prograss Bar',
                                       command=self.prograssbar)
-        self.menubar_file.add_separator()  # 添加一条分隔线
+        self.menubar_file.add_separator()  # 分隔线
         self.menubar_file.add_command(label='Exit',
                                  command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
         submenu = tk.Menu(self.menubar_file)  # 和上面定义菜单一样，不过此处实在File上创建一个空的菜单

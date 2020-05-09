@@ -4,11 +4,20 @@
 # python2.7
 import os
 import sys
+
+# from site import addsitedir
+# from sys import executable
+# interpreter = executable
+# sitepkg = os.path.dirname(interpreter) + "\\site-packages"
+# addsitedir(sitepkg)
+
 """
 程序的入口，未以__file__为基准地址的文件的地址都以此入口为锚点
+,现在使用sys.argv[0]
 """
 
 bin_p = os.path.abspath(os.path.dirname(__file__))
+print "bin_p",bin_p
 # real:  E:\move on move on\gispot\bin
 root_p = os.path.abspath(os.path.dirname(bin_p))
 # print "root_P:  ",root_p  #  E:/move on move on/gispot

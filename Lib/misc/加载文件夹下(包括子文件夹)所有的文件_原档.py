@@ -3,10 +3,11 @@
 # ---------------------------------------------------------------------------
 # User: liaochenchen
 # Date: 2020/3/11
-# Python2 arcgis10.6
+# Python2 arcgis10.6 arcgis10.3
 # Reference:
 """
-Description: *已经导入工具箱
+Description: 来自hybag_base 中的方法三和方法二
+*已经导入工具箱
 Usage:
 """
 # ---------------------------------------------------------------------------
@@ -70,10 +71,25 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 			else:
 				# arcpy.AddMessage(9)
 				if file_p[-3:].lower() == suffix:
-					print type(matchword)
-					print matchword
-					__getall_items.append(file_path)
+					# 使用了文件大小限制且不符合大小要求
+					if size_limit and os.path.getsize(file_path) != size_limit:
+						print type(matchword)
+						print matchword
+						__getall_items.append(file_path)
+					# 没有使用大小限制
+					elif not size_limit:
+						__getall_items.append(file_path)
+					# 使用了大小限制，符合大小要求
+					else:
+						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
+						arcpy.AddMessage("空项目/未添加项：")
+						arcpy.AddMessage(
+							os.path.splitext(os.path.basename(file_path))[0])
+					# print type(matchword)
+					# print matchword
+					# __getall_items.append(file_path)
 	return __getall_items
+
 
 dir_path = arcpy.GetParameterAsText(0)
 match_w = arcpy.GetParameterAsText(1)
@@ -86,7 +102,7 @@ print type(match_w)
 arcpy.AddMessage(match_w)
 arcpy.AddMessage(type(match_w))
 
-filelist = recur_search(dir_path, "shp","", matchword=match_w)
+filelist = recur_search(dir_path, "shp",100, matchword=match_w)
 count = len(filelist)
 arcpy.AddMessage("\n"+"loading...")
 for afile in filelist:

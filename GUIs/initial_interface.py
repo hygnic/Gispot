@@ -24,17 +24,24 @@ class InitialInterface(object):
         self.window1 = master1
         self.window2 = master2
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
-        self.button_two = newidgets.HoverButton(self.window1,
-                                                width=45,
-                                                image = self.icon_editor,
-                                                height = 45, command =self.first_viewer)
-        self.button_two.pack(side ="top", anchor ="nw")
+        self.button_viewer = newidgets.HoverButton(self.window1,
+                                                   width=45,
+                                                   image = self.icon_editor,
+                                                   height = 45, command =self.first_viewer)
+        self.button_viewer.pack(side ="top", anchor ="nw")
         # 第er个button，作用是调出dos命令等（暂时）
-        self.button_one = newidgets.HoverButton(self.window1,
+        self.button_dos = newidgets.HoverButton(self.window1,
                                                 width=45,
                                                 image = self.icon_dos,
                                                 height = 45, command =self.second_viewer)
-        self.button_one.pack(side ="top", anchor ="nw")
+        self.button_dos.pack(side ="top", anchor ="nw")
+        # 第san个button，工具button
+        self.button_tool = newidgets.HoverButton(self.window1,
+                                                width=45,
+                                                image=self.icon_tool,
+                                                height=45,
+                                                command=None)
+        self.button_tool.pack(side="top", anchor="nw")
         # self.window1.mainloop()
 		
     def toolbar(self):
@@ -43,6 +50,7 @@ class InitialInterface(object):
         self.icon_dos = tk.PhotoImage(file = paths.GifPath.gif_dos)
         # 对应second_viewer
         self.icon_editor = tk.PhotoImage(file=paths.GifPath.gif_editor)
+        self.icon_tool = tk.PhotoImage(file=paths.GifPath.gif_tool)
 
         
     # toolbar第yi个图标(一个查看器)打开的物品集 browser

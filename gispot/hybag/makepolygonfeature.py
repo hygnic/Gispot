@@ -26,7 +26,7 @@ Usage:
 
 import os
 import arcpy
-from arcpy import env
+
 
 
 def makepoly(coord_list, SR=None):
@@ -155,8 +155,8 @@ SR = None
 # env.workspace = env.scratchGDB  # C:\Users\Administrator\AppData\Local\Temp\scratch.gdb
 # env.workspace = "%scratchGDB%" # C:\Users\Administrator\AppData\Local\Temp\scratch.gdb
 
-env.workspace = ur"G:\MoveOn\MyPython\2020\NumPY_edu\files\Folder"
-Data = arcpy.CreateScratchName("", "", "featureclass", env.workspace)
+arcpy.env.workspace = ur"G:\MoveOn\MyPython\2020\NumPY_edu\files\Folder"
+Data = arcpy.CreateScratchName("", "", "featureclass", arcpy.env.workspace)
 print "writing: " + Data
 print
 arcpy.CreateFeatureclass_management(os.path.dirname(Data),

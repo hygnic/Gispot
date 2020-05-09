@@ -11,31 +11,39 @@ Usage: 已经导入自定义工具箱 @村、乡字段添加
 # ---------------------------------------------------------------------------
 import arcpy
 
-layer = arcpy.GetParameterAsText(0)
-# 新建字段名称 默认 XJQYMC XJQYDM CJQYDM CJQYMC
-new_names = arcpy.GetParameterAsText(1)
-# new_names = "XJQYMC;XJQYDM;CJQYDM;CJQYMC"
-# 字段长度 默认100
-length = arcpy.GetParameterAsText(2)
-# length = 100
-
-
-mxd0 = arcpy.mapping.MapDocument("CURRENT")
-# layer = arcpy.mapping.ListLayers(mxd0)[0]
-the_fields = arcpy.ListFields(layer)
-# 当前图层的字段名称列表
-fields_array = []
-for field in the_fields:
-	fields_array.append(field.aliasName)
-arcpy.AddMessage("\n")
-new_names = new_names.split(";")
-for new_name in new_names:
-	if new_name not in fields_array:
-		arcpy.AddField_management(layer,new_name,"TEXT",field_length = length)
-		# arcpy.AddMessage("\n")
-		arcpy.AddMessage(new_name)
+def add_field(layer, names, f_type, f_length):
+	"""
 	
+	:param layer:
+	:param names:
+	:param f_type:
+	:param f_length:
+	:return:
+	"""
+	the_fields = arcpy.ListFields(layer)
+	# 当前图层的字段名称列表
+	fields_array = []
+	for field in the_fields:
+		fields_array.append(field.aliasName)
+	arcpy.AddMessage("\n")
+	for name in names:
+		if name not in fields_array:
+			arcpy.AddField_management(layer, name, f_type, field_length = f_length)
+			# arcpy.AddMessage("\n")
+			arcpy.AddMessage(name)
 
-arcpy.AddMessage("Done")
-arcpy.AddMessage("\n")
-
+if __name__ == '__main__':
+	
+	in_layer = arcpy.GetParameterAsText(0)
+	# 新建字段名称 默认 XJQYMC XJQYDM CJQYDM CJQYMC
+	new_names = arcpy.GetParameterAsText(1)
+	# new_names = "XJQYMC;XJQYDM;CJQYDM;CJQYMC"
+	# 字段长度 默认100
+	length = arcpy.GetParameterAsText(2)
+	# length = 100
+	new_names = new_names.split(";")
+	# mxd0 = arcpy.mapping.MapDocument("CURRENT")
+	add_field(in_layer,new_names,"TEXT",length)
+	
+	arcpy.AddMessage("Done")
+	arcpy.AddMessage("\n")

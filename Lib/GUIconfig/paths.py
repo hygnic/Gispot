@@ -2,27 +2,30 @@
 # User: liaochenchen, hygnic
 # Date: 2019/11/30
 
-"""锚点文件"""
+"""
+锚点文件,
+从__file__改用sys.args[0]
+"""
 
 import os
+import sys
 
-
+# 不使用该方法
 _libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/gispot/Lib/GUIconfig
 _lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\gispot\Lib
 _Groot = os.path.dirname(_lib)  # E:\move on move on\gispot
-# _bin_p = os.path.join(_Groot, "bin")
-# _docs_p = os.path.join(_Groot, "docs")
-# _Gispot_p = os.path.join(_Groot, "_Gispot_p")
-
 _GUIs_p = os.path.join(_Groot, "GUIs")
-
-
 # E:\move on move on\gispot\GUIs\Icons
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 # docs
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
 # _gstrename = os.path.join(_docs_p, r"multiplexport.gc")
 # _multip_ejpg = os.path.join(_docs_p, r"multiplexport.gc")
+
+# _path_bin = os.path.dirname(sys.argv[0])  # G:\MoveOn\Gispot\bin
+# _path_root = os.path.dirname(_path_bin)  # G:\MoveOn\Gispot
+# _GUIs_p = os.path.join(_path_root, "GUIs")
+# _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
 
 
 
@@ -49,7 +52,7 @@ class GifPath(object):
 	# 应用于toolbar中的按钮图标
 	gif_dos = os.path.join(_base_icons_path, "dos.gif")
 	gif_editor = os.path.join(_base_icons_path, "editor.gif")
-	
+	gif_tool = os.path.join(_base_icons_path,"toolbox.gif")
 	
 	# 应用于toolbar_viewer中的按钮图标
 	gif_python = os.path.join(_base_icons_path, "python_48.gif")
