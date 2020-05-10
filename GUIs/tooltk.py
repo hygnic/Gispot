@@ -27,7 +27,7 @@ class Tooltk(object):
 		"""
 		self.block_list = []
 		self.window = master
-		# self.window.title(window_name)
+		# self.window.remove_sth(window_name)
 		self.helppath = help_path
 		self.confirm_method = confirm_method
 		# self.window.overrideredirect(True)

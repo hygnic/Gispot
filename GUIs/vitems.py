@@ -59,8 +59,8 @@ class Filter(object):
 if __name__ == '__main__':
 # 	path = ur"G:\MoveOn\Gispot\Lib\misc"
 #
-# 	for item in os.listdir(path):
-# 		aa, suffi = os.path.splitext(item)
+# 	for i1 in os.listdir(path):
+# 		aa, suffi = os.path.splitext(i1)
 # 		name = os.path.basename(aa)
 # 		print name
 # 		print suffi
