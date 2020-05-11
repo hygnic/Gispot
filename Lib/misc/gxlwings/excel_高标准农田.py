@@ -123,7 +123,7 @@ def Excel_match_05(infile,mathfile,output,XZQ):
 		app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
 		app1.display_alerts = False  # 关闭Excel的提示和警告信息
 		# app1.screen_updating = False  # 不更新屏幕显示
-		app1.screen_updating = True
+		# app1.screen_updating = True
 		# 打开清理统计表
 		wb1 = app1.books.open(infile)
 		wbs1 = wb1.sheets[0]
@@ -324,7 +324,7 @@ def Excel_match_05(infile,mathfile,output,XZQ):
 		# # now = datetime.datetime.now()
 		# # now_time = now.strftime('%d%H%M%S')
 		# log_file = open(os.path.join(output,"error.log"),"a")
-		# log_file.write(wb1.name.encode("cp936")+"\n")
+		# log_file.write(wb.name.encode("cp936")+"\n")
 		# log_file.close()
 		
 	finally:

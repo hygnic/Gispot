@@ -29,8 +29,8 @@ Usage:
 # 	# app1.screen_updating = False  # 不更新屏幕显示
 # 	app1.screen_updating = True
 # 	# 打开清理统计表
-# 	wb1 = app1.books.open(fujian_path)
-# 	wb1_sheet1 = wb1.sheets[0]
+# 	wb = app1.books.open(fujian_path)
+# 	wb1_sheet1 = wb.sheets[0]
 # 	names = wb1_sheet1.range("D4:D100")
 # 	# wbs1.api.Columns("AA").Insert()
 # 	# wbs1.api.Columns("AB").Insert()
@@ -85,7 +85,7 @@ Usage:
 #
 # 	print wb1_sheet1.range("a1").value.strip(u"（市、区、旗、团场）“十二五”以来高标准农田建设清理检查数据统计表")
 # 	# order_code(wb1_sheet1,"X1:X50",48)
-# 	wb1.save("jjj")
+# 	wb.save("jjj")
 # finally:
 # 	app1.quit()
 # 	print "\n close application"
