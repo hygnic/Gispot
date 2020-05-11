@@ -54,7 +54,7 @@ def save_file():
 		with open(file_path, mode='a+') as file:
 			file.write(file_text)
 		text1.delete('1.0', tk.END)
-		dialog.Dialog(None, {'title': 'File Modified', 'text': '保存完成',
+		dialog.Dialog(None, {'remove_sth': 'File Modified', 'text': '保存完成',
 							 'bitmap': 'warning', 'default': 0,
 							 'strings': ('OK', 'Cancle')})
 		print('保存完成')

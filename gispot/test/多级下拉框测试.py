@@ -7,7 +7,7 @@
 # import ttk
 #
 # wuya = tk.Tk()
-# wuya.title("wuya")
+# wuya.remove_sth("wuya")
 # wuya.geometry("300x200+10+20")
 #
 # # 创建下拉菜单

@@ -120,7 +120,7 @@ class Notepad:
 			self.__file = None
 		else:
 			# try to open the file
-			# set the window title
+			# set the window remove_sth
 			self.__root.title(os.path.basename(self.__file) + " - Notepad")
 			self.__thisTextArea.delete(1.0, END)
 			
@@ -151,7 +151,7 @@ class Notepad:
 				file = open(self.__file, "w")
 				file.write(self.__thisTextArea.get(1.0, END))
 				file.close()
-				# change the window title
+				# change the window remove_sth
 				self.__root.title(os.path.basename(self.__file) + " - Notepad")
 		
 		

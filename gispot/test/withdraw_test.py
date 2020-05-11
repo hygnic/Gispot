@@ -57,7 +57,7 @@ class MyApp(object):
 		options['filetypes'] = [('all files', '.*'), ('text files', '.txt')]
 		options['initialdir'] = '/home'
 		options['parent'] = self.root
-		options['title'] = "Open a file"
+		options['remove_sth'] = "Open a file"
 		
 		with tkFileDialog.askopenfile(mode='r', **options) as f_handle:
 			for line in f_handle:

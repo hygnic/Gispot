@@ -11,7 +11,7 @@ import time
 class Tooltk(object):
 	def __init__(self):
 		self.window = tk.Tk()
-		self.window.title("Tools")
+		self.window.remove_sth("Tools")
 		self.window.geometry("900x800")
 		self.bt = ttk.Button(text = "confirm", command = self.bar).pack()
 		
