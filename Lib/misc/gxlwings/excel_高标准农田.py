@@ -308,7 +308,7 @@ def Excel_match_05(infile,mathfile,output,XZQ):
 		"-----------------------"
 		# 排序
 		new_wbs2_rowcount = wbs2.api.UsedRange.Rows.count
-		order_code(wbs2, "A8", new_wbs2_rowcount - 7)
+		order_code(wbs2, "A12", new_wbs2_rowcount - 7-4)
 		"-----------------------"
 		
 		wbs2.range('A1:AL'+str(wbs2_rowcount)).columns.autofit()
@@ -345,9 +345,9 @@ if __name__ == '__main__':
 	# 	u"甘孜州")
 	# os.chdir(ur"G:\高标准农田\复核\其它")
 	# dir_p= ur"G:\高标准农田\复核\甘孜州\乡城县“十二五”以来高标准农田建设清理检查数据统计表.xlsx"
-	dir_p= ur"G:\高标准农田\复核\成都市\12.xls"
-	XJXZQ_name = u"成都市"
-	out = ur"G:\高标准农田\复核"
+	dir_p= ur"G:\高标准农田\复核\所有"
+	XJXZQ_name = u"**"
+	out = ur"G:\高标准农田\复核\所有复核表"
 	if os.path.isdir(dir_p):
 		dirrs = os.listdir(dir_p)
 		for dirr in dirrs:
