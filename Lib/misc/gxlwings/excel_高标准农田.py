@@ -345,9 +345,9 @@ if __name__ == '__main__':
 	# 	u"甘孜州")
 	# os.chdir(ur"G:\高标准农田\复核\其它")
 	# dir_p= ur"G:\高标准农田\复核\甘孜州\乡城县“十二五”以来高标准农田建设清理检查数据统计表.xlsx"
-	dir_p= ur"G:\高标准农田\复核\所有"
+	dir_p= ur"G:\高标准农田\复核\凉山\新建文件夹"
 	XJXZQ_name = u"**"
-	out = ur"G:\高标准农田\复核\所有复核表"
+	out = ur"G:\高标准农田\复核"
 	if os.path.isdir(dir_p):
 		dirrs = os.listdir(dir_p)
 		for dirr in dirrs:

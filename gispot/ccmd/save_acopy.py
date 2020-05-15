@@ -12,11 +12,11 @@ Usage:
 import arcpy
 import os
 
-path = ur"G:\正安县\正安县分布图\成果"
+path = ur"G:\高标准分布图\东坡"
 list_p = os.listdir(path)
 for i in list_p:
 	if i[-3:].lower() == "mxd":
-		new_path = ur"G:\正安县\正安县分布图\成果\10.3"
+		new_path = ur"G:\高标准分布图\东坡\10.3"
 		mxd_p =os.path.join(path,i)
 		print mxd_p
 		mxd1 = arcpy.mapping.MapDocument(mxd_p)

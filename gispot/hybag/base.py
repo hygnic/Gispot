@@ -7,7 +7,8 @@
 """
 Description: # python2 arcgis10.6 10.3
 	# 导出图片 001
-	# 递归查询 002
+	# 递归查询 002.0
+	# 列表筛选（根据大小和字符串匹配） 002.5
 	# 添加shp文件到mxd 003
 	# 字段展示其 获取图层中某单个字段的所有值 004
 	# 一键合并 005
@@ -42,67 +43,143 @@ def export(path,resolution):										 # 001
 				del mxd1
 			else:
 				pass
-			
-			
-__getall_items = []
-def recur_search(dirs_p, suffix,size_limit, matchword=None):		# 002
+
+
+def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	"""
 	import os
 	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
+	ss = recur_search(ur"G:\高标准","",True)
+	ss = recur_search(ur"G:\高标准","xlsx",True)
+	ss = recur_search(ur"G:\高标准",["xlsx","xls"],True)
+
 	recur 使用递归，特别注意，层数不要太多
-	:param size_limit: 文件大小限制 字节
+	:param recur: bool 是否启用递归
 	:param dirs_p: dir address
-	:param suffix: 后缀
-	:param matchword: 匹配字段，简单筛选出符合匹配字段的项目
+	:param suffix: 后缀 str或者列表
+	:param counter: 计数 用于缩进\t
 	:return: list
 	"""
-	global __getall_items
-	matchword=str(matchword)
+	__getall_items = []
+	# global __getall_items
 	for file_p in os.listdir(dirs_p):
-		file_path = os.path.join(dirs_p,file_p)
+		file_path = os.path.join(dirs_p, file_p)
 		if os.path.isdir(file_path):
+			print "\t" * counter + "dir:", file_p
 			# 递归
-			recur_search(file_path, suffix,size_limit, matchword)
+			if recur:
+				recur_search(file_path, suffix, recur, counter + 1)
 		else:
-			# arcpy.AddMessage(4)
-			if matchword: # 保证不使用matchword匹配字段时也能正常运行
-				# arcpy.AddMessage(6)
-				# if file_p[-3:].lower() == suffix and matchword in file_p and os.path.getsize(file_path)!=100:
-				if file_p[-3:].lower() == suffix and matchword in file_p:
-					# 使用了文件大小限制且不符合大小要求
-					if size_limit and os.path.getsize(file_path)!=size_limit:
-						print type(matchword)
-						print matchword
+			# print "\t"*counter+file_p
+			if suffix:
+				# 单个后缀
+				if not isinstance(suffix, list):
+					# stage 1 筛选后缀
+					base_name = os.path.basename(file_path)
+					name_and_suffix = os.path.splitext(base_name)
+					f_suffix = name_and_suffix[1][1:]
+					f_name = name_and_suffix[0]
+					if f_suffix == suffix:
+						print "\t" * counter, base_name
 						__getall_items.append(file_path)
-					# 没有使用大小限制
-					elif not size_limit:
+				# 多个后缀组成列表
+				else:
+					base_name = os.path.basename(file_path)
+					name_and_suffix = os.path.splitext(base_name)
+					f_suffix = name_and_suffix[1][1:]
+					f_name = name_and_suffix[0]
+					if f_suffix in suffix:
+						print "\t" * counter, base_name
 						__getall_items.append(file_path)
-					# 使用了大小限制，符合大小要求
-					else:
-						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
-						arcpy.AddMessage("空项目/未添加项：")
-						arcpy.AddMessage(os.path.splitext(os.path.basename(file_path))[0])
+			# 无后缀要求，获取所有文件
 			else:
-				# arcpy.AddMessage(9)
-				if file_p[-3:].lower() == suffix:
-					# 使用了文件大小限制且不符合大小要求
-					if size_limit and os.path.getsize(file_path) != size_limit:
-						print type(matchword)
-						print matchword
-						__getall_items.append(file_path)
-					# 没有使用大小限制
-					elif not size_limit:
-						__getall_items.append(file_path)
-					# 使用了大小限制，符合大小要求
-					else:
-						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
-						arcpy.AddMessage("空项目/未添加项：")
-						arcpy.AddMessage(
-							os.path.splitext(os.path.basename(file_path))[0])
-					# print type(matchword)
-					# print matchword
-					# __getall_items.append(file_path)
+				__getall_items.append(file_path)
+	
 	return __getall_items
+
+
+def filter_list(raw_list, matchword, size_limit=None):					# 002.5
+	"""
+	使用字符匹配和文件大小（如果列表元素是地址的话）对列表中进行筛选
+	import os
+	oo = filter_list(ss,u"评估")
+	oo = filter_list(ss,u"评估",100)
+	:param raw_list:
+	:param size_limit: int 排除等于该大小的文件 计量单位 字节
+	:param matchword: 匹配字段，筛选符合该条件的元素
+	:return: list
+	"""
+	_bridge_list = []
+	if matchword:
+		for a_raw in raw_list:
+			if matchword in os.path.basename(a_raw):
+				_bridge_list.append(a_raw)
+		raw_list = _bridge_list
+	if size_limit:
+		_bridge_list = []
+		_bridge_list = [x for x in raw_list if os.path.getsize(x) != size_limit]
+	return _bridge_list
+	
+	
+# __getall_items = []
+# def recur_search(dirs_p, suffix,size_limit, matchword=None):		# 002
+# 	"""
+# 	import os
+# 	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
+# 	recur 使用递归，特别注意，层数不要太多
+# 	:param size_limit: 文件大小限制 字节
+# 	:param dirs_p: dir address
+# 	:param suffix: 后缀
+# 	:param matchword: 匹配字段，简单筛选出符合匹配字段的项目
+# 	:return: list
+# 	"""
+# 	global __getall_items
+# 	matchword=str(matchword)
+# 	for file_p in os.listdir(dirs_p):
+# 		file_path = os.path.join(dirs_p,file_p)
+# 		if os.path.isdir(file_path):
+# 			# 递归
+# 			recur_search(file_path, suffix,size_limit, matchword)
+# 		else:
+# 			# arcpy.AddMessage(4)
+# 			if matchword: # 保证不使用matchword匹配字段时也能正常运行
+# 				# arcpy.AddMessage(6)
+# 				# if file_p[-3:].lower() == suffix and matchword in file_p and os.path.getsize(file_path)!=100:
+# 				if file_p[-3:].lower() == suffix and matchword in file_p:
+# 					# 使用了文件大小限制且不符合大小要求
+# 					if size_limit and os.path.getsize(file_path)!=size_limit:
+# 						print type(matchword)
+# 						print matchword
+# 						__getall_items.append(file_path)
+# 					# 没有使用大小限制
+# 					elif not size_limit:
+# 						__getall_items.append(file_path)
+# 					# 使用了大小限制，符合大小要求
+# 					else:
+# 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
+# 						arcpy.AddMessage("空项目/未添加项：")
+# 						arcpy.AddMessage(os.path.splitext(os.path.basename(file_path))[0])
+# 			else:
+# 				# arcpy.AddMessage(9)
+# 				if file_p[-3:].lower() == suffix:
+# 					# 使用了文件大小限制且不符合大小要求
+# 					if size_limit and os.path.getsize(file_path) != size_limit:
+# 						print type(matchword)
+# 						print matchword
+# 						__getall_items.append(file_path)
+# 					# 没有使用大小限制
+# 					elif not size_limit:
+# 						__getall_items.append(file_path)
+# 					# 使用了大小限制，符合大小要求
+# 					else:
+# 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
+# 						arcpy.AddMessage("空项目/未添加项：")
+# 						arcpy.AddMessage(
+# 							os.path.splitext(os.path.basename(file_path))[0])
+# 					# print type(matchword)
+# 					# print matchword
+# 					# __getall_items.append(file_path)
+# 	return __getall_items
 
 
 def addshp(mapdocument,shp_path, df_name=None, fresh=True):              # 003
