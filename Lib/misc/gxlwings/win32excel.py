@@ -13,3 +13,6 @@ Usage:
 from win32com.client import Dispatch
 xlApp = Dispatch('Excel.Application')
 xlApp.DisplayAlerts=False
+xlApp.Visible = False
+
+xlApp.close()

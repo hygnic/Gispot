@@ -52,7 +52,8 @@ def xxx(pathh):
 		sss.append(ss)
 	
 	finally:
-		app1.quit()
+		# app1.quit()
+		wb1.close()
 		# app1.kill()
 		print "\n close application"
 	
@@ -65,3 +66,4 @@ for ii in all_GZDG:
 	real_path = os.path.join(dir_p,ii)
 	print real_path
 xxx(path_s)
+xxx(ur"G:\夹江\夹江县2012年度农业综合开发土地治理项目.xlsx")
