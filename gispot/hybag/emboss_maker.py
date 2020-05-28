@@ -11,7 +11,7 @@ arcgis 10.3
 Usage:
 """
 # ---------------------------------------------------------------------------
-import arcpy
+# import arcpy
 
 def emboss(layer,buffer_distance,out_raster):
 	"""

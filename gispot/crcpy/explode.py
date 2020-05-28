@@ -9,7 +9,7 @@ main function: make multiple-parts to single.
 使用了多线程技术 牛逼！！！！！！！！！
 """
 
-import arcpy
+# import arcpy
 from multiprocessing import Process
 # from threading import Thread
 from GUIconfig import multication

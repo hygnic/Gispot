@@ -10,7 +10,8 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 
-import arcpy,os,time
+# import arcpy
+import os,time
 
 path = arcpy.GetParameterAsText(0)
 layoutdir = arcpy.GetParameterAsText(1)

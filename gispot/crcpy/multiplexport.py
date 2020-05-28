@@ -9,7 +9,8 @@
 使用了多进程技术
 """
 import Tkinter as tk
-import arcpy,os
+# import arcpy
+import os
 from multiprocessing import Process,Queue
 # from threading import Thread
 

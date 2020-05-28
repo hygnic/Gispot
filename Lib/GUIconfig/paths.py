@@ -6,26 +6,37 @@
 锚点文件,
 从__file__改用sys.args[0]
 """
-
 import os
 import sys
 
 # 不使用该方法
-_libs_hyconf = os.path.dirname(__file__)  # E:/move on move on/gispot/Lib/GUIconfig
-_lib = os.path.dirname(_libs_hyconf)  # E:\move on move on\gispot\Lib
-_Groot = os.path.dirname(_lib)  # E:\move on move on\gispot
+_paths_gispot = os.path.abspath(sys.argv[0])  # G:\MoveOn\Gispot_copy\bin\Gispot.py
+# print "_paths_gispot:",_paths_gispot
+_paths_bin = os.path.dirname(_paths_gispot)  # G:\MoveOn\Gispot_copy\bin
+_Groot = os.path.dirname(_paths_bin)  # E:\move on move on\gispot
 _GUIs_p = os.path.join(_Groot, "GUIs")
-# E:\move on move on\gispot\GUIs\Icons
-_base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
+_base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on move on\gispot\GUIs\Icons
+
+# G:\MoveOn\GUIs\Icons\GitHub_32.gif
 # docs
+
+# root = os.path.abspath(os.path.dirname(sys.argv[0]))
+# _docs_p = os.path.join(root,"docs")
 # _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
 # _gstrename = os.path.join(_docs_p, r"multiplexport.gc")
 # _multip_ejpg = os.path.join(_docs_p, r"multiplexport.gc")
-
 # _path_bin = os.path.dirname(sys.argv[0])  # G:\MoveOn\Gispot\bin
 # _path_root = os.path.dirname(_path_bin)  # G:\MoveOn\Gispot
 # _GUIs_p = os.path.join(_path_root, "GUIs")
 # _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons"))
+
+def code2exe():
+	"""配置doc文件和图片，用于py2exe封装"""
+	global _base_icons_path
+	py2exe_path = "images"
+	_base_icons_path = py2exe_path
+
+# code2exe()
 
 
 
@@ -45,6 +56,8 @@ class GifPath(object):
 	gif_confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
 	
 	gif_github= os.path.join(_base_icons_path, "GitHub_32.gif")
+	# gif_github= os.path.join(ur"G:\MoveOn\Gispot_copy\bin\dist\images", "GitHub_32.gif")
+	# gif_github= os.path.join(ur"images", "GitHub_32.gif")
 	
 	gif_empty1 =os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")

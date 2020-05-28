@@ -9,7 +9,7 @@ import datetime
 
 time1=datetime.datetime.now()
 
-time2 = datetime.datetime.strptime("2019-9-1", "%Y-%impure_data-%d")
+time2 = datetime.datetime.strptime("2019-9-1", "%Y-%m-%d")
 
 #设置数据源文件数据库
 LQDatasource = ur"G:\正安县\正安县公示图\出图2.gdb"

@@ -2,7 +2,8 @@
 # User: liaochenchen
 # Date: 2019/11/11
 
-import arcpy, os
+import arcpy
+import os
 # from multiprocessing import Process
 from threading import Thread
 

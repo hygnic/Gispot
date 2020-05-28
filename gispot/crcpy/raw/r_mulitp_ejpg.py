@@ -2,7 +2,8 @@
 # 2019 1104
 # ¡Œ≥ø≥Ω
 
-import arcpy, os
+# import arcpy
+import os
 from multiprocessing import Process
 
 arcpy.env.overwriteOutput = True

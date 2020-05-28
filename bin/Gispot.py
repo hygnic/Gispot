@@ -4,23 +4,27 @@
 # python2.7
 import os
 import sys
+from site import addsitedir # py2exe
 
-# from site import addsitedir
-# from sys import executable
-# interpreter = executable
-# sitepkg = os.path.dirname(interpreter) + "\\site-packages"
-# addsitedir(sitepkg)
+# ------------ py2exe
+interpreter = sys.executable
+sitepkg = os.path.dirname(interpreter) + "\\site-packages"
+# sitepkg1 = os.path.dirname(interpreter) + "\\Lib\\site-packages"
+print(sitepkg)
+addsitedir(sitepkg)
+# addsitedir(sitepkg1)
+# ------------ py2exe
 
 """
 程序的入口，未以__file__为基准地址的文件的地址都以此入口为锚点
 ,现在使用sys.argv[0]
 """
 
-bin_p = os.path.abspath(os.path.dirname(__file__))
+bin_p = os.path.abspath(os.path.dirname(sys.argv[0]))
 print "bin_p",bin_p
 # real:  E:\move on move on\gispot\bin
-root_p = os.path.abspath(os.path.dirname(bin_p))
-# print "root_P:  ",root_p  #  E:/move on move on/gispot
+root_p = os.path.abspath(os.path.dirname(bin_p))  # E:/move on move on/gispot
+# print "root_P:",root_p
 sys.path.append(os.path.join(root_p, "GUIs"))
 
 

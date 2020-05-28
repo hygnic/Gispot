@@ -2,7 +2,8 @@
 # User: hygnic 廖晨辰
 # Date: 2019/10/2
 import datetime,os
-import arcpy,sys
+import arcpy
+import sys
 import hashlib
 def create_authentication_setting(time):
 	"""

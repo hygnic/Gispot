@@ -6,7 +6,7 @@
 提取面矢量自身的相交线
 并拆解多部件
 """
-import arcpy
+# import arcpy
 import os
 
 arcpy.env.overwriteOutput = True

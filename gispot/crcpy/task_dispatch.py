@@ -11,7 +11,7 @@
 
 
 import Tkinter as tk
-import arcpy
+# import arcpy
 import os
 
 from multiprocessing import Process

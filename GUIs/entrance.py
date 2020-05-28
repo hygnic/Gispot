@@ -14,12 +14,15 @@ from webbrowser import open as weberopen
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
-realp = os.path.abspath(__file__)
+realp = os.path.abspath(sys.argv[0])
+print "os.path.abspath(sys.argv[0]):",os.path.abspath(sys.argv[0])  # G:\MoveOn\Gispot_copy\bin\Gispot.py
 # 该文件所处的文件夹绝对路径
-realp_dir = os.path.abspath(os.path.dirname(__file__))
+realp_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 # 上级 绝对路径
 # E:\move on move on\gispot
-root_base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+root_base = os.path.abspath(os.path.dirname(realp_dir))
+print "os.path.dirname(sys.argv[0]):",os.path.dirname(sys.argv[0])
+print "root_base:",root_base
 # E:\move on move on\gispot\gispot
 rb_GisCat = os.path.join(root_base, "gispot")
 # E:\move on move on\gispot\GUIs
@@ -29,6 +32,7 @@ rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
 rb_libs = os.path.join(root_base, "Lib")
+rb_GUIconfig = os.path.join(rb_libs, "GUIconfig")
 
 giscat_paths = [root_base,
                 rb_GisCat,
@@ -36,9 +40,11 @@ giscat_paths = [root_base,
                 rbg_Icons,
                 rbdoc,
                 rb_bin,
-                rb_libs]
+                rb_libs,
+                rb_GUIconfig]
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
+print "sys.path:",sys.path
 
 # import LQHD # 识别不了gstrename
 
@@ -68,8 +74,8 @@ class AppEntrance(object):
         self.rootwindow = tk.Tk()
         self.rootwindow.title("GISPOT")
         newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
-        self.rootwindow.iconbitmap(default=
-                                   os.path.join(rbg_Icons,"icon.ico"))
+        # self.rootwindow.iconbitmap(default=
+        #                            os.path.join(rbg_Icons,"icon.ico")) #TODO 暂时关闭图标
         self.rootwindow.resizable(False, False)
         self.menu()
         # bt.pack(side='left')
@@ -122,6 +128,7 @@ class AppEntrance(object):
         def open_u():
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
             weberopen(update_url, new=0, autoraise=True)
+        print paths.GifPath.gif_github
         self.image_octacat = tk.PhotoImage(file = paths.GifPath.gif_github)
         ap_button = newidgets.HoverButton(master=self.gradient_canv,
                                           command=open_u, bd = 2,

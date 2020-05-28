@@ -25,7 +25,7 @@ Usage:
 #
 
 import os
-import arcpy
+# import arcpy
 
 
 

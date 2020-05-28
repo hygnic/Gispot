@@ -15,7 +15,8 @@ Description: # python2 arcgis10.6 10.3
 Usage:
 """
 # ---------------------------------------------------------------------------
-import arcpy, os
+import arcpy
+import os
 
 # arcpy 导出JPEG，适用于文件夹或者单个mxd
 def export(path,resolution):										 # 001
@@ -44,7 +45,7 @@ def export(path,resolution):										 # 001
 			else:
 				pass
 
-
+__getall_items = []
 def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	"""
 	import os
@@ -60,7 +61,7 @@ def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	:param counter: 计数 用于缩进\t
 	:return: list
 	"""
-	__getall_items = []
+	global __getall_items
 	# global __getall_items
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p, file_p)
