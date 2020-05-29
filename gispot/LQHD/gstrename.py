@@ -15,8 +15,10 @@ GST CJQYDM 08001
 
 import os,re
 import tooltk
+from GUIconfig import paths
 # print "name:GSTrename"
 
+gstname_path = paths.DocPath.doc_gstrename
 
 def gst_rename(txt_path, jpg_path):
 	"""
@@ -59,7 +61,7 @@ class App(tooltk.Tooltk):
 		:param master22: mian_f , a widget from entrance.py
 		"""
 		super(App, self).__init__(master22,
-								  r"../docs/gstrename.gc",
+								  gstname_path,
 								  self.confirm_method_g)
 		# self.window.grab_set()
 		# block1

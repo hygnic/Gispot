@@ -11,7 +11,7 @@ import arcpy
 def split_attribyte():
 	mxd1 = arcpy.mapping.MapDocument("CURRENT")
 	layer = arcpy.mapping.ListLayers(mxd1)[0]
-	with arcpy.da.UpdateCursor(layer,("QSDWMC","CJQYMC","XJQYMC")) as cursor:
+	with arcpy.da.UpdateCursor(layer,("ZLDWMC_JLL","CJQYMC","XJQYMC")) as cursor:
 		for row in cursor:
 			split_index = 4
 			XJQYMC = row[0][:split_index]
@@ -22,7 +22,7 @@ def split_attribyte():
 			row[1] = CJQYMC
 			cursor.updateRow(row)
 		# cursor.reset()
-		# arcpy.RefreshActiveView()
-		# arcpy.RefreshTOC()
+		arcpy.RefreshActiveView()
+		arcpy.RefreshTOC()
 
 split_attribyte()

@@ -14,7 +14,10 @@ from multiprocessing import Process
 # from threading import Thread
 from GUIconfig import multication
 import tooltk
+from GUIconfig import paths
 # import subprocess
+
+em_path = paths.DocPath.doc_em
 
 def explode_m(qq, shp_p, new_shp):
 	"""
@@ -53,7 +56,7 @@ class App(tooltk.Tooltk):
 		:param master_eem: mian_f, a widget from entrance.py
 		"""
 		super(App, self).__init__(master_eem,
-								  "../docs/explode_mulitp.gc",
+								  em_path,
 								  self.confirm_method_e)
 		# s = self.window.winfo_children()
 		# for i in s:

@@ -15,6 +15,7 @@ _paths_gispot = os.path.abspath(sys.argv[0])  # G:\MoveOn\Gispot_copy\bin\Gispot
 _paths_bin = os.path.dirname(_paths_gispot)  # G:\MoveOn\Gispot_copy\bin
 _Groot = os.path.dirname(_paths_bin)  # E:\move on move on\gispot
 _GUIs_p = os.path.join(_Groot, "GUIs")
+_Docs_p = os.path.join(_Groot, "docs")
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on move on\gispot\GUIs\Icons
 
 # G:\MoveOn\GUIs\Icons\GitHub_32.gif
@@ -33,10 +34,12 @@ _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on 
 def code2exe():
 	"""配置doc文件和图片，用于py2exe封装"""
 	global _base_icons_path
-	py2exe_path = "images"
-	_base_icons_path = py2exe_path
+	global _Docs_p
+	# py2exe_path = "images"
+	_base_icons_path = "images"
+	_Docs_p = "gisdocs"
 
-# code2exe()
+code2exe()
 
 
 
@@ -69,7 +72,18 @@ class GifPath(object):
 	
 	# 应用于toolbar_viewer中的按钮图标
 	gif_python = os.path.join(_base_icons_path, "python_48.gif")
-	
+
+# G:\MoveOn\Gispot\docs
+class DocPath(object):
+	doc_me = os.path.join(_Docs_p, "multiplexport.gc")
+	doc_em = os.path.join(_Docs_p, "explode_mulitp.gc")
+	doc_trans_fbt = os.path.join(_Docs_p, "trans_fbt.gc")
+	doc_trans_gst = os.path.join(_Docs_p, "trans_gst.gc")
+	doc_gstrename = os.path.join(_Docs_p, "gstrename.gc")
+	doc_task_dispatch = os.path.join(_Docs_p, "task_dispatch.gc")
+
+
+
 	
 if __name__ == '__main__':
 	aa = GifPath.gif_github

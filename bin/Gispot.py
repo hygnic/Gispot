@@ -5,7 +5,7 @@
 import os
 import sys
 from site import addsitedir # py2exe
-
+from xml.etree.ElementTree import ElementTree
 # ------------ py2exe
 interpreter = sys.executable
 sitepkg = os.path.dirname(interpreter) + "\\site-packages"

@@ -62,9 +62,9 @@ for img in imgs:
 gisdocs = []
 docs = os.listdir(rbdoc)
 for doc in docs:
-	doc_p = os.path.join(rbg_Icons,doc)
+	doc_p = os.path.join(rbdoc,doc)
 	if os.path.isfile(doc_p):
-		images.append(doc_p)
+		gisdocs.append(doc_p)
 
 setup(windows=["Gispot.py"], options=options,
 	  data_files=[('images',images),("gisdocs",gisdocs)]

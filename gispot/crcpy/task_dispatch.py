@@ -15,10 +15,11 @@ import Tkinter as tk
 import os
 
 from multiprocessing import Process
-from GUIconfig import multication
+from GUIconfig import multication,paths
 from ccutility import databutcher
 import tooltk
 
+td_path = paths.DocPath.doc_task_dispatch
 
 def path_detect(path_d):
 	"""检测目录是否存在并建立"""
@@ -112,7 +113,7 @@ class StartApp(tooltk.Tooltk):
 		:param master_f: mian_f , a widget from entrance.py
 		"""
 		super(StartApp, self).__init__(master_f,
-										"../docs/task_dispatch.gc",
+										td_path,
 									   self.confirm)
 		# block1
 		self.single_file_block(

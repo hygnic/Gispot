@@ -13,11 +13,13 @@ import Tkinter as tk
 import os
 from multiprocessing import Process,Queue
 # from threading import Thread
-
+from GUIconfig import paths
 from GUIconfig import multication
 # sys.path.append("../GUIs")
 import tooltk
 
+
+doc_path = paths.DocPath.doc_me
 
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
@@ -84,7 +86,7 @@ class MultipExp(tooltk.Tooltk):
         :param master1: mian_f , a widget from tool_entrance.py
         """
         super(MultipExp, self).__init__(master1,
-                                        "../docs/multiplexport.gc",
+                                        doc_path,
                                         self.confirm_mu)
         # block1
         self.single_dir_block(u"mxd文档文件夹")
