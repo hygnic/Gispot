@@ -2,9 +2,13 @@
 # User: liaochenchen, hygnic
 # Date: 2019/11/10
 # python2.7
+
+# explode.py: import arcpy
+
 import os
 import sys
 from site import addsitedir # py2exe
+import multiprocessing
 from xml.etree.ElementTree import ElementTree
 # ------------ py2exe
 interpreter = sys.executable
@@ -31,6 +35,7 @@ sys.path.append(os.path.join(root_p, "GUIs"))
 import entrance
 
 if __name__ == '__main__':
+	multiprocessing.freeze_support()
 	# print sys.path
 	print "ProcessID:{}\n".format(os.getpid())
 	entrance = entrance.AppEntrance()

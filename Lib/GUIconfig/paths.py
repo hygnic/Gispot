@@ -38,7 +38,7 @@ def code2exe():
 	# py2exe_path = "images"
 	_base_icons_path = "images"
 	_Docs_p = "gisdocs"
-
+# 不封装时关闭该函数
 code2exe()
 
 

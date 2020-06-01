@@ -9,13 +9,15 @@ main function: make multiple-parts to single.
 使用了多线程技术 牛逼！！！！！！！！！
 """
 
-# import arcpy
-from multiprocessing import Process
+import arcpy
+import multiprocessing
 # from threading import Thread
 from GUIconfig import multication
 import tooltk
+# from GUIs import entrance
 from GUIconfig import paths
 # import subprocess
+
 
 em_path = paths.DocPath.doc_em
 
@@ -58,6 +60,8 @@ class App(tooltk.Tooltk):
 		super(App, self).__init__(master_eem,
 								  em_path,
 								  self.confirm_method_e)
+		
+		
 		# s = self.window.winfo_children()
 		# for i in s:
 		# 	print type(i) # <type 'instance'>
@@ -71,7 +75,7 @@ class App(tooltk.Tooltk):
 		# 获取列表
 		v = self.get_blockvalue(self.input_sfb, self.input_sb)
 		# p = Process(target=self.commu.decor, args=( explode_m, v[0], v[1],))
-		p = Process(target=self.commu.decor, args=(self.commu.que,
+		p = multiprocessing.Process(target=self.commu.decor, args=(self.commu.que,
 												   explode_m, v[0], v[1],))
 		p.start()
 		print "process_communication begin"
