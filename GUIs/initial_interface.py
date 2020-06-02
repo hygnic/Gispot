@@ -13,6 +13,7 @@ from GUIconfig import newidgets
 from GUIconfig import paths
 import vitems
 
+
 class InitialInterface(object):
     """
     entrance界面左侧的toolbar区域以及entrance界面右侧的viewer中的工具，脚本等
@@ -20,9 +21,9 @@ class InitialInterface(object):
     def __init__(self, master1,master2):
         
         # 引入toolbar中的图标
-        self.toolbar()
-        self.window1 = master1
-        self.window2 = master2
+        self.toolbar_icon()
+        self.window1 = master1 # 左边
+        self.window2 = master2 # 右边
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
         self.button_viewer = newidgets.HoverButton(self.window1,
                                                    width=45,
@@ -35,22 +36,24 @@ class InitialInterface(object):
                                                 image = self.icon_dos,
                                                 height = 45, command =self.second_viewer)
         self.button_dos.pack(side ="top", anchor ="nw")
-        # 第san个button，工具button
+        # 第san个button，工具箱button
         self.button_tool = newidgets.HoverButton(self.window1,
                                                 width=45,
                                                 image=self.icon_tool,
                                                 height=45,
-                                                command=None)
+                                                command=self.open_viewer3)
         self.button_tool.pack(side="top", anchor="nw")
         # self.window1.mainloop()
 		
-    def toolbar(self):
-        """界面左侧的toolbar；必须加入file（arcgis10.6）"""
+    def toolbar_icon(self):
+        """初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
+        
         # toolbar中直接使用dos命令行的工具（暂定）#TODO 应该不止这些
         self.icon_dos = tk.PhotoImage(file = paths.GifPath.gif_dos)
         # 对应second_viewer
         self.icon_editor = tk.PhotoImage(file=paths.GifPath.gif_editor)
         self.icon_tool = tk.PhotoImage(file=paths.GifPath.gif_tool)
+        self.toolbar_viewer_icon1= tk.PhotoImage(file=paths.GifPath.gif_python32)
 
         
     # toolbar第yi个图标(一个查看器)打开的物品集 browser
@@ -68,9 +71,34 @@ class InitialInterface(object):
         newidgets.destroy_child(master1)"""
         newidgets.destroy_child(self.window2)
         vitems.export_s(self.window2)
-        
+
+    def open_viewer3(self):
+        """调用Third_Viewer类"""
+        newidgets.destroy_child(self.window2)
+        Third_Viewer(self.window2,  self.toolbar_viewer_icon1)
         
     # -------------------------
     # 将带有参数的类变成方法和button绑定
     # def show_first_viewer(self):
-    
+
+class Third_Viewer(object):
+    """
+    用于显示工具箱button中的内容
+    点击工具箱button启动该类
+    """
+    def __init__(self, master, icon):
+        """
+        :param master: tkinter 父部件
+        :param icon: 图标地址
+        """
+        self.window = master
+        self.icon = icon # paths.GifPath.gif_python32
+        # print "icon:",icon
+        button1_1 = newidgets.HoverButton(self.window,
+                                          width=32,
+                                          image=self.icon,
+                                          height=32,
+                                          command=None)
+        button1_1.pack(side="top", anchor="nw")
+        
+        

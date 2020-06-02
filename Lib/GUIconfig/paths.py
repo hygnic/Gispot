@@ -39,7 +39,7 @@ def code2exe():
 	_base_icons_path = "images"
 	_Docs_p = "gisdocs"
 # 不封装时关闭该函数
-code2exe()
+# code2exe()
 
 
 
@@ -72,6 +72,7 @@ class GifPath(object):
 	
 	# 应用于toolbar_viewer中的按钮图标
 	gif_python = os.path.join(_base_icons_path, "python_48.gif")
+	gif_python32 = os.path.join(_base_icons_path, "python_32.gif")
 
 # G:\MoveOn\Gispot\docs
 class DocPath(object):
