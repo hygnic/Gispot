@@ -82,6 +82,7 @@ class DocPath(object):
 	doc_trans_gst = os.path.join(_Docs_p, "trans_gst.gc")
 	doc_gstrename = os.path.join(_Docs_p, "gstrename.gc")
 	doc_task_dispatch = os.path.join(_Docs_p, "task_dispatch.gc")
+	doc_saveacopy = os.path.join(_Docs_p, "save_acopy.gc")
 
 
 

@@ -11,9 +11,13 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from hybag import base
-import tooltk
-
+from hybag import hybase
+try:
+	import tooltk
+	import tkinter as tk
+	from GUIconfig import paths
+except ImportError as e:
+	print e
 
 def main(dir_p,new_dir,version=None):
 	"""
@@ -21,7 +25,7 @@ def main(dir_p,new_dir,version=None):
 	Provides an option to save a map document ( .mxd ) to a new file, and optionally, to a previous version.
 	 dir_p(String):
 	 new_dir(String):
-	 version(String):
+	 version(Float):
 	*10.3: Version
 		10.3
 		
@@ -47,7 +51,7 @@ def main(dir_p,new_dir,version=None):
 	suff = "mxd"
 	version = str(version)
 	# 获取文件夹下所有文件
-	path_list = base.recur_search(path,suff,False)
+	path_list = hybase.HBgetfile(path, suff, False)
 	for i in path_list:
 		i_base = os.path.basename(i)
 		name = os.path.splitext(i_base)[0]
@@ -56,11 +60,25 @@ def main(dir_p,new_dir,version=None):
 		# print mxd_p
 		mxd1 = arcpy.mapping.MapDocument(i)
 		mxd1.saveACopy(new_path+"\\"+name+".mxd",version=version)
-
+		
+doc_path = paths.DocPath.doc_saveacopy
 class SaveACopy(tooltk.Tooltk):
-	pass
-	
 
+	def __init__(self, master):
+		super(SaveACopy, self).__init__(master,
+										doc_path,
+										self.confirm)
+		# block1
+		self.single_dir_block(u"文件夹路径")
+		# block2 取消按钮
+		self.single_dir_block2(u"保存文件夹路径")
+		
+	def confirm(self):
+		para = self.get_blockvalue(self.input_sdb,self.input_sdb2)
+		p1 = para[0]
+		p2 = para[1]
+		main(p1,p2,10.1)
+	
 if __name__ == '__main__':
-	main(ur"G:\正安县\正安县分布图\成果\标志牌图\新建文件夹 (2)",
-		 ur"G:\正安县\正安县分布图\成果\标志牌图\新建文件夹",10.3)
+	main(ur"G:\正安县\正安县分布图\成果",
+		 ur"G:\正安县\正安县分布图\test",10.3)

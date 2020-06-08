@@ -7,7 +7,7 @@
 """
 Description: # python2 arcgis10.6 10.3
 	# 导出图片 001
-	# 递归查询 002.0
+	# 获取文件 递归查询 getfile 002.0
 	# 列表筛选（根据大小和字符串匹配） 002.5
 	# 添加shp文件到mxd 003
 	# 字段展示其 获取图层中某单个字段的所有值 004
@@ -46,7 +46,7 @@ def export(path,resolution):										 # 001
 				pass
 
 __getall_items = []
-def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
+def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	"""
 	import os
 	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
@@ -69,7 +69,7 @@ def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 			print "\t" * counter + "dir:", file_p
 			# 递归
 			if recur:
-				recur_search(file_path, suffix, recur, counter + 1)
+				HBgetfile(file_path, suffix, recur, counter + 1)
 		else:
 			# print "\t"*counter+file_p
 			if suffix:
@@ -78,8 +78,8 @@ def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					# stage 1 筛选后缀
 					base_name = os.path.basename(file_path)
 					name_and_suffix = os.path.splitext(base_name)
-					f_suffix = name_and_suffix[1][1:]
-					f_name = name_and_suffix[0]
+					f_suffix = name_and_suffix[1][1:].lower()
+					# f_name = name_and_suffix[0]
 					if f_suffix == suffix:
 						print "\t" * counter, base_name
 						__getall_items.append(file_path)
@@ -99,7 +99,7 @@ def recur_search(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	return __getall_items
 
 
-def filter_list(raw_list, matchword, size_limit=None):					# 002.5
+def HBfilter(raw_list, matchword, size_limit=None):					# 002.5
 	"""
 	使用字符匹配和文件大小（如果列表元素是地址的话）对列表中进行筛选
 	import os

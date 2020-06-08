@@ -8,7 +8,7 @@ cmd 默认识别cp936编码的中文
 
 尝试加入 u"输入文件夹" 失败
 """
-from hybag import base
+from hybag import hybase
 
 # import arcpy, os
 #
@@ -44,7 +44,7 @@ def func():
 	# dir_path = ur"G:\test\gst"
 	res = int(raw_input('分辨率：'))
 	# res = 3
-	base.export(dir_path, res)
+	hybase.export(dir_path, res)
 	
 	
 

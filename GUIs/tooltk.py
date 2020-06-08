@@ -164,12 +164,13 @@ class Tooltk(object):
 		读取帮助信息并插入帮助框中
 		:return:
 		"""
-		filename = self.helppath
-		with open(filename, "r") as read_msgs:
-			for read_line in read_msgs.readlines():
-				self.help_text.insert(tk.END, read_line)
-			self.help_text["state"] = "disabled"
-	
+		if self.helppath is not None:
+			filename = self.helppath
+			with open(filename, "r") as read_msgs:
+				for read_line in read_msgs.readlines():
+					self.help_text.insert(tk.END, read_line)
+				self.help_text["state"] = "disabled"
+		
 	# print read_line
 	
 	def create_button(self):
@@ -339,6 +340,39 @@ class Tooltk(object):
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 	
+	def single_dir_block2(self, sdb_name):
+		"""
+		sdb_name: label name;ues to describe function
+		主Frame中的功能块之一，将通过Filedialog获取的 文件夹  传递更新给Entry,
+		同时可以获取 用户直接在Entry中输入的文件路径
+		"""
+		
+		def select_file():
+			# global file_path
+			file_path = tkFileDialog.askdirectory()
+			# 刷新normal_single_block() 中的Entry
+			input_msg1.set(file_path)
+		
+		label_2 = tk.Label(self.frame_major, text=sdb_name)
+		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
+		# 将Entry和按钮整齐的放到一起
+		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
+		# Entry
+		input_msg1 = tk.StringVar()
+		self.input_sdb2 = newidgets.NeewwEntry(frame_one,
+											  textvariable=input_msg1, bd=0)
+		self.input_sdb2.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X,
+							padx=10)
+		# input_msg.set(one_file_path)
+		self.addfile_button = newidgets.HoverButton(frame_one,
+													command=select_file,
+													image=self.gif_folder,
+													width=self._button_size,
+													height=self._button_size)
+		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+		return 1
+	
 	def single_vari_block(self, gib_name, input_msg1):
 		"""
 		主Frame中的功能块之一，直接通过Entry获取变量值，
@@ -436,7 +470,10 @@ class Tooltk(object):
 											relief = "flat", height = 10)
 		self.input_tb.pack(expand=True, fill="both")
 		# text.grid(column = 0,sticky = "nesw")
-		
+	
+	
+	# def
+	
 	def divider_bar_block(self, master, color11, color22):
 		"""
 		最下面的那个分隔栏

@@ -11,11 +11,11 @@ Usage:
 # ---------------------------------------------------------------------------
 # import arcpy
 import os
-from hybag import base
+from hybag import hybase
 
 path = ur"G:\正安县\正安县分布图\成果\标志牌图\新建文件夹 (2)"
 suff = "mxd"
-path_list = base.recur_search(path,suff,False)
+path_list = hybase.HBgetfile(path, suff, False)
 
 for i in path_list:
 	i_base = os.path.basename(i)

@@ -12,6 +12,7 @@ import Tkinter as tk
 from GUIconfig import newidgets
 from GUIconfig import paths
 import vitems
+from crcpy import save_acopy
 
 
 class InitialInterface(object):
@@ -91,14 +92,16 @@ class Third_Viewer(object):
         :param master: tkinter 父部件
         :param icon: 图标地址
         """
-        self.window = master
+        self.master = master
         self.icon = icon # paths.GifPath.gif_python32
         # print "icon:",icon
-        button1_1 = newidgets.HoverButton(self.window,
+        button1_1 = newidgets.HoverButton(self.master,
                                           width=32,
                                           image=self.icon,
                                           height=32,
-                                          command=None)
+                                          command=self.button1)
         button1_1.pack(side="top", anchor="nw")
         
-        
+    def button1(self):
+        newidgets.destroy_child(self.master)
+        save_acopy.SaveACopy(self.master)
