@@ -30,6 +30,10 @@ def labelsetting(layer):
 
 
 def main(mxdpath):
+	"""添加标志牌（更新数据源方式）、显示标志牌图层、设置标注样式和显示
+	:param mxdpath: {String} mxd文档地址
+	:return:
+	"""
 	mxd = arcpy.mapping.MapDocument(mxdpath)
 	df = arcpy.mapping.ListDataFrames(mxd)[0]
 	
@@ -47,8 +51,8 @@ def main(mxdpath):
 	# source_layer = arcpy.mapping.Layer(BZP)
 	# arcpy.mapping.UpdateLayer(df, update_layer, source_layer, False)
 	# # -----
-	
 	mxd.save()
+	del mxd
 
 
 dir_p = ur"G:\古蔺县\古蔺县分布图\成果"
@@ -56,3 +60,6 @@ names = os.listdir(dir_p)
 mxd_path = hybase.HBgetfile(dir_p, "mxd", False)
 for amxd in mxd_path:
 	main(amxd)
+	
+
+	
