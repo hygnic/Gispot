@@ -8,6 +8,8 @@
 """
 import os
 import sys
+import Tkinter as tk
+
 
 # 不使用该方法
 _paths_gispot = os.path.abspath(sys.argv[0])  # G:\MoveOn\Gispot_copy\bin\Gispot.py
@@ -73,7 +75,10 @@ class GifPath(object):
 	# 应用于toolbar_viewer中的按钮图标
 	gif_python = os.path.join(_base_icons_path, "python_48.gif")
 	gif_python32 = os.path.join(_base_icons_path, "python_32.gif")
-
+	# def __init__(self):
+	# 	self.addfile = tk.PhotoImage(file=self.gif_add_file)
+	
+	
 # G:\MoveOn\Gispot\docs
 class DocPath(object):
 	doc_me = os.path.join(_Docs_p, "multiplexport.gc")

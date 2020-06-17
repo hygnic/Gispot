@@ -15,26 +15,17 @@ from GUIconfig import paths
 # from GUIconfig.paths import GifPath
 
 class GIF(object):
-	"""导入tk gif图片"""
-	text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-	addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
-	folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-	close = tk.PhotoImage(file=paths.GifPath.gif_close)
-	quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-	help = tk.PhotoImage(file=paths.GifPath.gif_info)
-	confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
-	empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
-	
 	def __init__(self):
 		self.text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
 		self.addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		
 		self.folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
 		self.close = tk.PhotoImage(file=paths.GifPath.gif_close)
 		self.quit = tk.PhotoImage(file=paths.GifPath.gif_close)
 		self.help = tk.PhotoImage(file=paths.GifPath.gif_info)
 		self.confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
+		
 		self.empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
-
 
 class Tooltk(object):
 	"""工具的GUI界面"""
@@ -494,9 +485,6 @@ class Tooltk(object):
 		self.input_tb.pack(expand=True, fill="both")
 		# text.grid(column = 0,sticky = "nesw")
 	
-	
-	# def
-	
 	def divider_bar_block(self, master, color11, color22):
 		"""
 		最下面的那个分隔栏
@@ -507,7 +495,6 @@ class Tooltk(object):
 			height= 10,bd = 0
 		).pack(fill = "x")
 		
-	
 	def get_blockvalue(self, *arg):
 		"""
 		列表初始化
@@ -540,16 +527,21 @@ class Tooltk(object):
 # self.block_list.append(got_msg1)
 # self.block_list.append(got_msg2)
 
-
 # 测试用
-
-
 class SingleFileBlock(object):
 	"""单个文件选择功能块"""
+	_button_size = 24
 	def __init__(self,master,filetype,name):
 		self.master = master # self.frame_major
+		gif = GIF()
+		global a_gif
+		a_gif = gif.addfile
+		# print "self.addfile:",gif.gif_add_file
+		# img = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		# self.but_image = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		self.but_image = a_gif
 		self.single_file_block(filetype,name)
-		self.image = image
+		# self.image = image
 	def single_file_block(self, sfb_filetype, sfb_name):
 		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
@@ -577,22 +569,23 @@ class SingleFileBlock(object):
 							fill=tk.X, padx=10)
 		self.addfile_button = newidgets.HoverButton(frame_one, text=u"选择",
 													command=select_file,
-													width=_button_size,
-													height=_button_size)
+													image = self.but_image,
+													width=self._button_size,
+													height=self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		return 1
 
 
 
+
 if __name__ == '__main__':
-	_button_size = 2
-	class App(Tooltk):
+	
+	class TstApp(Tooltk):
 		def __init__(self):
 			master = tk.Tk()
-			super(App, self).__init__(master, None,
-									  self.confirm_method)
+			super(TstApp, self).__init__(master, None,
+										 self.confirm_method)
 			self.button_confirm["command"] = self.confirm_method
-			
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
 								   u"文本文档")
@@ -625,7 +618,7 @@ if __name__ == '__main__':
 			"""
 	
 	
-	app = App()
+	app = TstApp()
 
 	app.window.mainloop()
 # print app.block_list

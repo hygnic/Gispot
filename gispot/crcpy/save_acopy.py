@@ -52,7 +52,7 @@ def main(dir_p,new_dir,version=None):
 	suff = "mxd"
 	version = str(version)
 	# 获取文件夹下所有文件
-	path_list = hybase.HBgetfile(path, suff, False)
+	path_list = hybasic.HBgetfile(path, suff, False)
 	for i in path_list:
 		i_base = os.path.basename(i)
 		name = os.path.splitext(i_base)[0]
@@ -73,6 +73,8 @@ class SaveACopy(tooltk.Tooltk):
 		self.single_dir_block(u"文件夹路径")
 		# block2 取消按钮
 		self.single_dir_block2(u"保存文件夹路径")
+		
+		tooltk.SingleFileBlock(self.frame_major,[(u'文本文档', '*.txt'), ('All Files', '*')],"io")
 		
 	def confirm(self):
 		para = self.get_blockvalue(self.input_sdb,self.input_sdb2)
