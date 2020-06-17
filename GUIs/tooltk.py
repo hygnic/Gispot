@@ -67,6 +67,13 @@ class Tooltk(object):
 		# color   "SystemHighlight","SystemMenuText"
 		self.read_help()
 	
+	@property
+	def FirstFrame(self):
+		return self.frame_major
+	
+	
+	
+	
 	def color_mylife(self):
 		self.color1 = "#F1F1F1"  # 帮助栏颜色
 		self.color5 = "#808000"  # 橄榄色，显示text
@@ -170,7 +177,7 @@ class Tooltk(object):
 		self.text_major_msg.pack(side="top", anchor="n", expand=True,
 								 fill="both", padx=2)
 		s_bar.config(command=self.text_major_msg.yview)
-		return 1
+		return self.frame_major
 	
 	# 读取帮助信息并插入帮助框中
 	def read_help(self):
@@ -208,7 +215,7 @@ class Tooltk(object):
 		def inner_quit():
 			"""
 			使用该方法来删除main_f下的子部件，如果直接使用
-			command=self.windows.destory ,会删除掉main_f，
+			command=self.windows.destory ,会删除掉main_f,
 			导致打开其他功能时找不到main_f而报错
 			:return:
 			"""
@@ -533,15 +540,12 @@ class SingleFileBlock(object):
 	_button_size = 24
 	def __init__(self,master,filetype,name):
 		self.master = master # self.frame_major
+		self.single_file_block(filetype, name)
 		gif = GIF()
+		# tk.PhotoImage需要设置成全局变量才生效，一个bug
 		global a_gif
 		a_gif = gif.addfile
-		# print "self.addfile:",gif.gif_add_file
-		# img = tk.PhotoImage(file=paths.GifPath.gif_add_file)
-		# self.but_image = tk.PhotoImage(file=paths.GifPath.gif_add_file)
 		self.but_image = a_gif
-		self.single_file_block(filetype,name)
-		# self.image = image
 	def single_file_block(self, sfb_filetype, sfb_name):
 		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径

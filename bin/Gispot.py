@@ -35,6 +35,7 @@ sys.path.append(os.path.join(root_p, "GUIs"))
 import entrance
 
 if __name__ == '__main__':
+	# 支持多进程打包为可执行文件
 	multiprocessing.freeze_support()
 	# print sys.path
 	print "ProcessID:{}\n".format(os.getpid())
