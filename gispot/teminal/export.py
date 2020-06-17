@@ -8,7 +8,8 @@ cmd 默认识别cp936编码的中文
 
 尝试加入 u"输入文件夹" 失败
 """
-from hybag import hybase
+from hybag import hybasic
+
 
 # import arcpy, os
 #

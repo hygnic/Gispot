@@ -11,7 +11,7 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from hybag import hybase
+from hybase import hybase
 
 
 # BZP = ur"G:\古蔺县\古蔺县分布图\古蔺县标志牌点位-旭普.shp"

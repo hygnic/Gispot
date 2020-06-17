@@ -11,7 +11,7 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from hybag import hybase
+from hybase import hybase
 
 
 def main(dir_p, new_dir, version=None):

@@ -7,7 +7,7 @@ import os
 import Tkinter as tk
 from GUIconfig import newidgets
 from GUIconfig import paths
-from ccmd import export
+from teminal import export
 
 
 """viewer items

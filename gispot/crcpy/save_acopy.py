@@ -11,7 +11,8 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from hybag import hybase
+from hybag import hybasic
+
 try:
 	import tooltk
 	import tkinter as tk

@@ -12,40 +12,17 @@ import ScrolledText as stt
 # 导入配置包、地址包
 from GUIconfig import newidgets
 from GUIconfig import paths
-# from GUIconfig.paths import GifPath
-
-class GIF(object):
-	"""导入tk gif图片"""
-	text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-	addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
-	folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-	close = tk.PhotoImage(file=paths.GifPath.gif_close)
-	quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-	help = tk.PhotoImage(file=paths.GifPath.gif_info)
-	confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
-	empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
-	
-	def __init__(self):
-		self.text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-		self.addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
-		self.folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-		self.close = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.help = tk.PhotoImage(file=paths.GifPath.gif_info)
-		self.confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
-		self.empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
 
 
 class Tooltk(object):
 	"""工具的GUI界面"""
-	# 如果是图片，表示 24 像素单位，否则不是
 	_button_size = 24
 	
 	# 调用类变量也要加self
 	def __init__(self, master, help_path, confirm_method):
 		"""
 		:param master:
-		:param help_path: 帮助文档的路径（可以取None值）
+		:param help_path: 帮助文档的路径
 		:param confirm_method: 按下确认键后的响应事件
 		"""
 		self.block_list = []
@@ -539,66 +516,22 @@ class Tooltk(object):
 # got_msg2 = arg[1].get()
 # self.block_list.append(got_msg1)
 # self.block_list.append(got_msg2)
-
-
-# 测试用
-
-
-class SingleFileBlock(object):
-	"""单个文件选择功能块"""
-	def __init__(self,master,filetype,name):
-		self.master = master # self.frame_major
-		self.single_file_block(filetype,name)
-		self.image = image
-	def single_file_block(self, sfb_filetype, sfb_name):
-		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
-		同时可以获取 用户直接在Entry中输入的文件路径
-		sfb_filetype: {List} tkFileDialog
-			Example: sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
-		sfb_name: {String} label name;ues to describe function
-		"""
-		# 文件选取菜单功能
-		def select_file():
-			file_path = tkFileDialog.askopenfilename(filetypes=sfb_filetype)
-			# 刷新normal_single_block() 中的Entry
-			string_value.set(file_path)
-			
-		label_1 = tk.Label(self.master, text=sfb_name)
-		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 块一
-		# 整齐排列Entry和按钮
-		frame_one = tk.Frame(self.master)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# Entry
-		string_value = tk.StringVar()
-		self.input_sfb = newidgets.NeewwEntry(frame_one,
-											  textvariable=string_value, border=0)
-		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
-							fill=tk.X, padx=10)
-		self.addfile_button = newidgets.HoverButton(frame_one, text=u"选择",
-													command=select_file,
-													width=_button_size,
-													height=_button_size)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
+	
 
 
 
 if __name__ == '__main__':
-	_button_size = 2
 	class App(Tooltk):
 		def __init__(self):
-			master = tk.Tk()
-			super(App, self).__init__(master, None,
+			super(App, self).__init__(u"本地实验", "docs/explode_mulitp.gc",
 									  self.confirm_method)
 			self.button_confirm["command"] = self.confirm_method
-			
 			# block 1
 			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
 								   u"文本文档")
 			# block2
 			self.single_dir_block(u"图片文件夹")
-			SingleFileBlock(self.frame_major,[(u'文本文档', '*.txt'), ('All Files', '*')],u"功能说明")
+		
 		# self.addfile_button["state"] = "disabled"
 		# self.addfile_button.pack_forget() # 隐藏模块
 		# self.addfile_button.destroy()	# 隐藏模块
@@ -626,6 +559,5 @@ if __name__ == '__main__':
 	
 	
 	app = App()
-
 	app.window.mainloop()
 # print app.block_list

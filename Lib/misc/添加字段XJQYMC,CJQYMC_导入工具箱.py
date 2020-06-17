@@ -5,32 +5,36 @@
 # Created on: 2020/4/7 10:00
 # Reference:
 """
-Description:快速添加CJQYDM、MC;XJQYDM、MC
+Description:快速添加shp文件字段CJQYDM、MC;XJQYDM、MC
 Usage: 已经导入自定义工具箱 @村、乡字段添加
 """
 # ---------------------------------------------------------------------------
 import arcpy
-
+# from ezarcpy import ezlayer
+# ezlayer.add_field()
 def add_field(layer, names, f_type, f_length):
-	"""
-	
-	:param layer:
-	:param names:
-	:param f_type:
-	:param f_length:
-	:return:
+	"""添加字段
+	:param layer:{String} shp文件路径
+	:param names:{List} 新增字段名称
+	:param f_type: {String} 字段类型
+	:param f_length: {Long} 字段长度
+	:return: 返回当前的图层对象
 	"""
 	the_fields = arcpy.ListFields(layer)
 	# 当前图层的字段名称列表
 	fields_array = []
 	for field in the_fields:
-		fields_array.append(field.aliasName)
+		# fields_array.append(field.aliasName)
+		fields_array.append(field.name)
 	arcpy.AddMessage("\n")
 	for name in names:
 		if name not in fields_array:
 			arcpy.AddField_management(layer, name, f_type, field_length = f_length)
 			# arcpy.AddMessage("\n")
 			arcpy.AddMessage(name)
+	return layer
+	
+	
 
 if __name__ == '__main__':
 	

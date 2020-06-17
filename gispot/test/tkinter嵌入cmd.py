@@ -242,9 +242,9 @@ def Video_Hierarchy():
 	if (lock_my == 0):
 		lock_my = 1
 		
-		os.chdir(pathDir + '/hqzy/Demo/')
+		# os.chdir(pathDir + '/hqzy/Demo/')
 		
-		status = os.system('./Video_Hierarchy')
+		status = os.system('input_test.py')
 		
 		lock_my = 0
 

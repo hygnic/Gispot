@@ -66,22 +66,22 @@ for bfile in os.listdir(layoutdir):
      for elm in arcpy.mapping.ListLayoutElements(mxd2, "TEXT_ELEMENT"):
       if elm.text == "BT":
        elm.text = row.getValue("XZQMC")+row.getValue("XJQYMC")+row.getValue("CJQYMC")+u"“"+u"两区"+u"”"+u"划定公示图"
-      if elm.text == "LQPKDM1":
-       elm.text = row.getValue("标注1")
-      if elm.text == "LQPKDM2":
-       elm.text = row.getValue("标注2")
-      if elm.text == "LQPKDM3":
-       elm.text = row.getValue("标注3")
-      if elm.text == "LQPKDM4":
-       elm.text = row.getValue("标注4")
-      if elm.text == "LQPKDM5":
-       elm.text = row.getValue("标注5")
-      if elm.text == "LQPKDM6":
-       elm.text = row.getValue("标注6")
-      if elm.text == "LQPKDM7":
-       elm.text = row.getValue("标注7")
-      if elm.text == "LQPKDM8":
-       elm.text = row.getValue("标注8")
+      # if elm.text == "LQPKDM1":
+      #  elm.text = row.getValue("标注1")
+      # if elm.text == "LQPKDM2":
+      #  elm.text = row.getValue("标注2")
+      # if elm.text == "LQPKDM3":
+      #  elm.text = row.getValue("标注3")
+      # if elm.text == "LQPKDM4":
+      #  elm.text = row.getValue("标注4")
+      # if elm.text == "LQPKDM5":
+      #  elm.text = row.getValue("标注5")
+      # if elm.text == "LQPKDM6":
+      #  elm.text = row.getValue("标注6")
+      # if elm.text == "LQPKDM7":
+      #  elm.text = row.getValue("标注7")
+      # if elm.text == "LQPKDM8":
+      #  elm.text = row.getValue("标注8")
       if elm.text == "HCSJ":
        elm.text = row.getValue("DCRQ")
       if elm.text == "ZTY":

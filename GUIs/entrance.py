@@ -8,9 +8,7 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
-
 # from PIL import Image, ImageTk
-
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
@@ -33,21 +31,18 @@ rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
 rb_libs = os.path.join(root_base, "Lib")
 rb_GUIconfig = os.path.join(rb_libs, "GUIconfig")
-
-giscat_paths = [root_base,
+giscat_paths = (root_base,
                 rb_GisCat,
                 rb_GUIs,
                 rbg_Icons,
                 rbdoc,
                 rb_bin,
                 rb_libs,
-                rb_GUIconfig]
+                rb_GUIconfig)
 for giscat_path in giscat_paths:
     sys.path.append(giscat_path)
-print "sys.path:",sys.path
-
+# print "sys.path:",sys.path
 # import LQHD # 识别不了gstrename
-
 # from gispot.LQHD import gstrename
 # from gispot.crcpy import multip_ejpg
 # from gispot.crcpy import explode_mulitp
@@ -59,7 +54,6 @@ import LQHD.gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
-import ccmd.export
 # 配置包导入
 from GUIconfig import newidgets
 from GUIconfig import paths
