@@ -127,7 +127,7 @@ class StartApp(tooltk.Tooltk):
 		# block4
 		self.single_text_block(u"分组")
 		self.divider_bar_block(
-			self.frame_major, color11="#F1F1F1", color22="#F1F1F1"
+			self.block_frame, color11="#F1F1F1", color22="#F1F1F1"
 		)
 		# self.help_text.destroy()
 		self.window.mainloop()
@@ -153,5 +153,5 @@ class StartApp(tooltk.Tooltk):
 		)
 		print "task_dispatch___running"
 		p.start()
-		self.commu.process_communication(self.text_major_msg)
+		self.commu.process_communication(self.major_msgframe)
 		

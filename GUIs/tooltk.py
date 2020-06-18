@@ -68,10 +68,16 @@ class Tooltk(object):
 		self.read_help()
 	
 	@property
-	def FirstFrame(self):
-		return self.frame_major
-	
-	
+	def blockFrame(self):
+		return self.block_frame
+	#静态框（右上角）
+	@property
+	def StaticFrame(self):
+		return self.msgframe
+	#动态信息框（右下角）
+	@property
+	def DynamicFrame(self):
+		return self.major_msgframe
 	
 	
 	def color_mylife(self):
@@ -122,10 +128,10 @@ class Tooltk(object):
 										border=0, relief="flat")
 		self.frame_left_side.pack(side="left",
 								  expand=True, fill="both")
-		# 里面 的 上部分
-		self.frame_major = tk.Frame(self.frame_left_side, width=696,
+		# 上部分 用于盛放block模块
+		self.block_frame = tk.Frame(self.frame_left_side, width=696,
 									relief="flat")
-		self.frame_major.pack(expand=True, fill="both")
+		self.block_frame.pack(expand=True, fill="both")
 		# 主框下的底部栏
 		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
 										 bg=self.color6)  # ffc851
@@ -134,8 +140,8 @@ class Tooltk(object):
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
 		# x轴（左右）方向上会拉伸
 		# 左边主框中的帮助信息
-		help_f = tk.Frame(self.frame_major,
-						  relief=tk.GROOVE,bd=2,padx = 3)
+		help_f = tk.Frame(self.block_frame,
+						  relief=tk.GROOVE, bd=2, padx = 3)
 		# help_f.pack_propagate(0)
 		help_f.pack(side=tk.BOTTOM, anchor="s",
 					expand=True, fill="both")
@@ -153,31 +159,31 @@ class Tooltk(object):
 			右边主框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
 		下半部分显示动态信息"""
 		# 上栏
-		self.text = stt.ScrolledText(self.frame_right_side, height="10",
-									 width="90")
+		self.msgframe = stt.ScrolledText(self.frame_right_side, height="10",
+										 width="90")
 		# 不起作用，将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
-		self.text.insert(tk.END,
+		self.msgframe.insert(tk.END,
 						 "Python 2.7.12 (v2.7.12:d33e0cf91556,Jun 27 2016, "
 						 "15:19:22) author: Liaochenchen 2019#00#00")  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
-		self.text.pack(side="top", anchor="n", expand=True, fill="both",
-					   padx=2)
+		self.msgframe.pack(side="top", anchor="n", expand=True, fill="both",
+						   padx=2)
 		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(self.frame_right_side, relief="flat",
 							 elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.text_major_msg = newidgets.NeewwText(self.frame_right_side, height="60",
+		self.major_msgframe = newidgets.NeewwText(self.frame_right_side, height="60",
 												  yscrollcommand=s_bar.set)
 		# 配置字体颜色
-		self.text_major_msg.tag_config("tag_1", backgroun="yellow",
-						foreground="red", )
+		self.major_msgframe.tag_config("tag_1", backgroun="yellow",
+									   foreground="red", )
 		# 支持撤销操作，支持换行 wrap = "char"
 		# self.text_major_msg.insert(tk.END, ">>>" * 80)
-		self.text_major_msg.pack(side="top", anchor="n", expand=True,
+		self.major_msgframe.pack(side="top", anchor="n", expand=True,
 								 fill="both", padx=2)
-		s_bar.config(command=self.text_major_msg.yview)
-		return self.frame_major
+		s_bar.config(command=self.major_msgframe.yview)
+		# return self.frame_major
 	
 	# 读取帮助信息并插入帮助框中
 	def read_help(self):
@@ -274,11 +280,11 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		label_1 = tk.Label(self.frame_major, text=sfb_name)
+		label_1 = tk.Label(self.block_frame, text=sfb_name)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 	
 		# Entry
@@ -309,11 +315,11 @@ class Tooltk(object):
 			# print lis
 			input_msg1.set(file_path)
 		
-		name_label = tk.Label(self.frame_major, text=sfb_name)
+		name_label = tk.Label(self.block_frame, text=sfb_name)
 		name_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
@@ -342,10 +348,10 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		label_2 = tk.Label(self.frame_major, text=sdb_name)
+		label_2 = tk.Label(self.block_frame, text=sdb_name)
 		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -374,10 +380,10 @@ class Tooltk(object):
 			# 刷新normal_single_block() 中的Entry
 			input_msg1.set(file_path)
 		
-		label_2 = tk.Label(self.frame_major, text=sdb_name)
+		label_2 = tk.Label(self.block_frame, text=sdb_name)
 		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
@@ -402,11 +408,11 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		label_3 = tk.Label(self.frame_major, text=gib_name)
+		label_3 = tk.Label(self.block_frame, text=gib_name)
 		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		# input_msg1 = tk.StringVar()
@@ -430,11 +436,11 @@ class Tooltk(object):
 		:param gib_name: label name;ues to describe function
 		:return:
 		"""
-		_label = tk.Label(self.frame_major, text=gib_name)
+		_label = tk.Label(self.block_frame, text=gib_name)
 		_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.frame_major)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		int_button_2 = newidgets.HoverButton(
@@ -465,9 +471,9 @@ class Tooltk(object):
 		:return:
 		"""
 		# 块名称
-		tk.Label(self.frame_major, text=stb_name).\
+		tk.Label(self.block_frame, text=stb_name).\
 			pack(side=tk.TOP, anchor=tk.NW, padx=40)
-		frame_one = tk.Frame(self.frame_major)
+		frame_one = tk.Frame(self.block_frame)
 		frame_one.pack(side="top", anchor="center",
 					  expand = True,fill = "both")
 		# 右边障碍要素
@@ -523,7 +529,7 @@ class Tooltk(object):
 				# unicode格式的直接加进去
 				self.block_list.append(msg)
 			# 将信息显示到右上角
-			self.text.insert("end", "\n  " + msg)
+			self.msgframe.insert("end", "\n  " + msg)
 		# print len(self.block_list)
 		# print self.block_list[3]
 		return self.block_list
@@ -534,18 +540,56 @@ class Tooltk(object):
 # self.block_list.append(got_msg1)
 # self.block_list.append(got_msg2)
 
+def _handlevalue(var,frame):
+	"""
+	:param var: {Var} such as: Tkinter.StringVar; Tkinter.IntVar
+	:param frame: {Tkinter.Framne} Tooltk中的self.text(右上角的显示框)
+	:return: {String/Int} msg 返回每个块（block）的值
+	"""
+	block_list = []
+	# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
+	# 将str转换为unicode
+	msg = var.get()
+	# print msg
+	# print type(msg)
+	if type(msg) == type("str"):  # unicode
+		msg = msg.decode("cp936")
+		# block_list.append(msg)
+		# self.text.insert("end", "\n  " + msg)
+		frame.insert("end", "\n  " + msg)
+		return msg
+	else:
+		# unicode格式的直接加进去
+		frame.insert("end", "\n  " + msg)
+		return msg
+
+
+
 # 测试用
 class SingleFileBlock(object):
 	"""单个文件选择功能块"""
 	_button_size = 24
-	def __init__(self,master,filetype,name):
-		self.master = master # self.frame_major
+	def __init__(self,frames,filetype,name,):
+		"""
+		:param frames: {Tuple} （self.block_frame,self.msgframe,self.major_msgframe）
+			self.block_frame 父组件
+		:param filetype: tkFileDialog 文件选择类型
+		:param name: {String} 块（Block）名字
+		"""
+		self.master = frames[0] # self.frame_major
+		self.image()
 		self.single_file_block(filetype, name)
+		self.static = frames[1]
+		self.dymnic = frames[2]
+		
+	# 设置图片
+	def image(self):
 		gif = GIF()
 		# tk.PhotoImage需要设置成全局变量才生效，一个bug
 		global a_gif
 		a_gif = gif.addfile
 		self.but_image = a_gif
+		
 	def single_file_block(self, sfb_filetype, sfb_name):
 		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
@@ -577,7 +621,10 @@ class SingleFileBlock(object):
 													width=self._button_size,
 													height=self._button_size)
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
+		
+	def handlevalue(self):
+		_handlevalue(self.input_sfb,self.static)
+		
 
 
 
@@ -595,7 +642,7 @@ if __name__ == '__main__':
 								   u"文本文档")
 			# block2
 			self.single_dir_block(u"图片文件夹")
-			SingleFileBlock(self.frame_major,[(u'文本文档', '*.txt'), ('All Files', '*')],u"功能说明")
+			SingleFileBlock(self.block_frame, [(u'文本文档', '*.txt'), ('All Files', '*')], u"功能说明")
 		# self.addfile_button["state"] = "disabled"
 		# self.addfile_button.pack_forget() # 隐藏模块
 		# self.addfile_button.destroy()	# 隐藏模块

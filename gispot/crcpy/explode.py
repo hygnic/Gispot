@@ -81,7 +81,7 @@ class App(tooltk.Tooltk):
 		print "process_communication begin"
 		# t = Thread(target=self.process_communication)
 		# t.start()
-		self.commu.process_communication(self.text_major_msg)
+		self.commu.process_communication(self.major_msgframe)
 		# self.process_communication(self.q)
 		# explode_m(v[0], v[1])
 	

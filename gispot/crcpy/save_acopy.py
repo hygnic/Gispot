@@ -73,8 +73,8 @@ class SaveACopy(tooltk.Tooltk):
 		self.single_dir_block(u"文件夹路径")
 		# block2 取消按钮
 		self.single_dir_block2(u"保存文件夹路径")
-		
-		tooltk.SingleFileBlock(self.frame_major,[(u'文本文档', '*.txt'), ('All Files', '*')],"io")
+		frame = (self.block_frame,self.msgframe,self.major_msgframe)
+		ss = tooltk.SingleFileBlock(frame, [(u'文本文档', '*.txt'), ('All Files', '*')], "io")
 		
 	def confirm(self):
 		para = self.get_blockvalue(self.input_sdb,self.input_sdb2)

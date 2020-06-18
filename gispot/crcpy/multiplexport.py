@@ -125,7 +125,7 @@ class MultipExp(tooltk.Tooltk):
             print "\t" + "进程通道已打开 " + str(p.pid)
             print "process start"
             print "start process communication"
-            self.commu.process_communication(self.text_major_msg)
+            self.commu.process_communication(self.major_msgframe)
             # t = Thread(target=self.process_communication, args=(p,))
             # t.start()
         # 初始化列表，以免二次输入时报错
