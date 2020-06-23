@@ -658,8 +658,9 @@ class SingleFileBlock(object):
 	# 	_value = _handlevalue(self._newEntry, self.__static)
 	# 	return _value
 
-def blockDIR(frame):
-	SingleFileBlock(frames, name,tkFileDialogFunc,filetype,image)
+# 文件夹模块
+def blockDIR(frames,name):
+	return SingleFileBlock(frames, name,tkFileDialog.askdirectory,None,"folder")
 	
 
 
