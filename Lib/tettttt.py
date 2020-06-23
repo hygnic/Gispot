@@ -9,24 +9,16 @@ Description:
 Usage:
 """
 # ---------------------------------------------------------------------------
-test_list = [1,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,34,3,67,8,98,39,98,]
-a_group = []
+
+class A(object):
+	name = 'python'
+	@staticmethod
+	def func():
+		return 'A()类的方法func()'
 
 
-def sub_list(father,son,son_len):
-	"""选择
-	:param father: {List} 父列表，我们的主要列表
-	:param son: {List} 一个子列表，父列表的一个切片
-	:param son_len: {Int} 切片长度，使用pop方法
-	:return: {List} son 返回一个子列表
-	"""
-	# g_father = father
-	# global g_father
-	son=[]
-	for ii7 in xrange(son_len):
-		son.append(father.pop(0))
-	# print "son:",son
-	return son
-for i in xrange(3):
-	ss = sub_list(test_list,a_group,6)
-	print ss
+
+print hasattr(A, 'func')
+aa = A()
+ss = getattr(A, 'func')
+print ss()

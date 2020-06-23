@@ -63,16 +63,16 @@ class Tooltk(object):
 	
 	def icon_set(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
-		self.gif_text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		self.gif_text = tk.PhotoImage(file=paths.GifPath.textfile)
+		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.add_file)
 		
-		self.gif_folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-		self.gif_close = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.gif_quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.gif_help = tk.PhotoImage(file=paths.GifPath.gif_info)
-		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
+		self.gif_folder = tk.PhotoImage(file=paths.GifPath.folder)
+		self.gif_close = tk.PhotoImage(file=paths.GifPath.close)
+		self.gif_quit = tk.PhotoImage(file=paths.GifPath.close)
+		self.gif_help = tk.PhotoImage(file=paths.GifPath.info)
+		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.confirm)
 		
-		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
+		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
@@ -240,9 +240,9 @@ class Tooltk(object):
 		return 1
 	
 	def single_file_block(self, sfb_filetype, sfb_name):
-		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
-		sfb_filetype: tkFileDialog type
+		__sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
@@ -274,10 +274,10 @@ class Tooltk(object):
 		return 1
 	
 	def save_path_block(self, sfb_filetype, sfb_name):
-		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
-		sfb_filetype: tkFileDialog type
+		__sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		"""
 		# 文件选取菜单

@@ -74,7 +74,11 @@ def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p, file_p)
 		if os.path.isdir(file_path):
-			print "\t" * counter + "dir:", file_p
+			try:
+				# print "\t" * counter + "dir:", file_p
+				print "\t*{0} dir: {1}".format(int(counter),file_p.encode("utf8")) # 出现带中文的子文件夹，不带encode会出错
+			except Exception:
+				print "<<<{0}>>>".format(__name__),"HBgetfile error occured, skipped"
 			# 递归
 			if recur:
 				HBgetfile(file_path, suffix, recur, counter + 1)

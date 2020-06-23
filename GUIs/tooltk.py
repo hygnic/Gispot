@@ -4,7 +4,7 @@
 # python2.7
 """
 GUI  所用工具和脚本用GUI"""
-
+import os
 import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
@@ -12,20 +12,26 @@ import ScrolledText as stt
 # 导入配置包、地址包
 from GUIconfig import newidgets
 from GUIconfig import paths
-# from GUIconfig.paths import GifPath
+from GUIconfig.paths import GifPath
 
 class GIF(object):
+	gif_list = {
+	
+	}
 	def __init__(self):
-		self.text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-		self.addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		self.text = tk.PhotoImage(file=paths.GifPath.textfile)
+		self.addfile = tk.PhotoImage(file=paths.GifPath.add_file)
 		
-		self.folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-		self.close = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.help = tk.PhotoImage(file=paths.GifPath.gif_info)
-		self.confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
+		self.folder = tk.PhotoImage(file=paths.GifPath.folder)
+		self.close = tk.PhotoImage(file=paths.GifPath.close)
+		self.quit = tk.PhotoImage(file=paths.GifPath.close)
+		self.help = tk.PhotoImage(file=paths.GifPath.info)
+		self.confirm = tk.PhotoImage(file=paths.GifPath.confirm)
+		self.empty_1 = tk.PhotoImage(file=paths.GifPath.empty1)
 		
-		self.empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
+	# @staticmethod
+	# def dd():
+	# 	empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
 
 class Tooltk(object):
 	"""工具的GUI界面"""
@@ -90,16 +96,16 @@ class Tooltk(object):
 	
 	def icon_set(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
-		self.gif_text = tk.PhotoImage(file=paths.GifPath.gif_textfile)
-		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.gif_add_file)
+		self.gif_text = tk.PhotoImage(file=paths.GifPath.textfile)
+		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.add_file)
 		
-		self.gif_folder = tk.PhotoImage(file=paths.GifPath.gif_folder)
-		self.gif_close = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.gif_quit = tk.PhotoImage(file=paths.GifPath.gif_close)
-		self.gif_help = tk.PhotoImage(file=paths.GifPath.gif_info)
-		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.gif_confirm)
+		self.gif_folder = tk.PhotoImage(file=paths.GifPath.folder)
+		self.gif_close = tk.PhotoImage(file=paths.GifPath.close)
+		self.gif_quit = tk.PhotoImage(file=paths.GifPath.close)
+		self.gif_help = tk.PhotoImage(file=paths.GifPath.info)
+		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.confirm)
 		
-		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.gif_empty1)
+		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
@@ -267,9 +273,9 @@ class Tooltk(object):
 		return 1
 	
 	def single_file_block(self, sfb_filetype, sfb_name):
-		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
-		sfb_filetype: tkFileDialog type
+		__sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
@@ -301,10 +307,10 @@ class Tooltk(object):
 		return 1
 	
 	def save_path_block(self, sfb_filetype, sfb_name):
-		# sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
 		"""
 		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
-		sfb_filetype: tkFileDialog type
+		__sfb_filetype: tkFileDialog type
 		sfb_name: label name;ues to describe function
 		"""
 		# 文件选取菜单
@@ -520,10 +526,12 @@ class Tooltk(object):
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
 			msg = i.get()
-			# print msg
-			# print type(msg)
+			print "msg:",msg
+			print "msg's type:",type(msg)
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("cp936")
+				print "msg:", msg
+				print "msg's type:", type(msg)
 				self.block_list.append(msg)
 			else:
 				# unicode格式的直接加进去
@@ -534,97 +542,125 @@ class Tooltk(object):
 		# print self.block_list[3]
 		return self.block_list
 
-# got_msg1 = arg[0].get()
-# # .decode("cp936")
-# got_msg2 = arg[1].get()
-# self.block_list.append(got_msg1)
-# self.block_list.append(got_msg2)
-
-def _handlevalue(var,frame):
-	"""
-	:param var: {Var} such as: Tkinter.StringVar; Tkinter.IntVar
-	:param frame: {Tkinter.Framne} Tooltk中的self.text(右上角的显示框)
-	:return: {String/Int} msg 返回每个块（block）的值
-	"""
-	block_list = []
-	# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
-	# 将str转换为unicode
-	msg = var.get()
-	# print msg
-	# print type(msg)
-	if type(msg) == type("str"):  # unicode
-		msg = msg.decode("cp936")
-		# block_list.append(msg)
-		# self.text.insert("end", "\n  " + msg)
-		frame.insert("end", "\n  " + msg)
-		return msg
-	else:
-		# unicode格式的直接加进去
-		frame.insert("end", "\n  " + msg)
-		return msg
 
 
-
-# 测试用
 class SingleFileBlock(object):
-	"""单个文件选择功能块"""
-	_button_size = 24
-	def __init__(self,frames,filetype,name,):
+	"""单个文件选择功能块
+	ss = tooltk.SingleFileBlock(frame, "添加文件",
+									tkFileDialog.askopenfilename，[(u'文本文档', '*.txt'), ('All Files', '*')],
+									"add_file")"""
+	_button_pixel_size = 24
+	def __init__(self, frames, name,tkFileDialogFunc,filetype,image):
 		"""
-		:param frames: {Tuple} （self.block_frame,self.msgframe,self.major_msgframe）
-			self.block_frame 父组件
-		:param filetype: tkFileDialog 文件选择类型
+		:param frames: {Tuple} GUI界面中几个主要框架
+			*self.block_frame,self.msgframe,self.major_msgframe
+			 self.block_frame 父组件，左上界面
+			 self.msgframe 右上 静态信息界面
+			 self.major_msgframe 右下 动态信息界面
+			
 		:param name: {String} 块（Block）名字
-		"""
-		self.master = frames[0] # self.frame_major
-		self.image()
-		self.single_file_block(filetype, name)
-		self.static = frames[1]
-		self.dymnic = frames[2]
 		
-	# 设置图片
-	def image(self):
-		gif = GIF()
+		:param tkFileDialogFunc: tkFileDialog 模块名称
+			*tkFileDialog.askopenfilename: 获取单个文件的位置和名称
+				file_path = tkFileDialog.askopenfilename([(u'文本文档', '*.txt'), ('All Files', '*')])
+			*tkFileDialog.askdirectory:
+				file_path = tkFileDialog.askdirectory()
+		
+		:param filetype: tkFileDialog {List} 文件选择类型
+			*__sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		
+		:param image: {String} 按键图片名字，用于反射
+			* "add_file"
+		"""
+		# 传入参数
+		self.__master = frames[0] # self.frame_major
+		self.__static = frames[1]
+		self.__dymnic = frames[2]
+		self.__sfb_filetype = filetype
+		self.dialoge_type = tkFileDialogFunc
+		# self.tkFileDialog.askopenfilename = tkFileDialog.askopenfilename
+		
+		# 内部建立自用
+		self.var = tk.StringVar()
+		
+		self.image(image)
+		self.single_file_block(name)
+	
+	# 设置图片,使用了反射
+	def image(self,image):
+		# print "getattr(GifPath,image):",getattr(GifPath,image)
+		raw_p = getattr(GifPath,image)
 		# tk.PhotoImage需要设置成全局变量才生效，一个bug
 		global a_gif
-		a_gif = gif.addfile
+		a_gif = tk.PhotoImage(file=raw_p)
 		self.but_image = a_gif
 		
-	def single_file_block(self, sfb_filetype, sfb_name):
+	# 打开 文件/文件夹 选取窗口
+	def dialog(self):
+		file_path = self.dialoge_type(filetypes=self.__sfb_filetype)
+		
+		# file_path = tkFileDialog.askopenfilename(
+		# 		[(u'文本文档', '*.txt'), ('All Files', '*')])
+		# 刷新normal_single_block() 中的Entry
+		self.var.set(file_path)
+	
+	def single_file_block(self, sfb_name):
 		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
-		sfb_filetype: {List} tkFileDialog
-			Example: sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
+		__sfb_filetype: {List} tkFileDialog
+		
 		sfb_name: {String} label name;ues to describe function
 		"""
-		# 文件选取菜单功能
-		def select_file():
-			file_path = tkFileDialog.askopenfilename(filetypes=sfb_filetype)
-			# 刷新normal_single_block() 中的Entry
-			string_value.set(file_path)
-			
-		label_1 = tk.Label(self.master, text=sfb_name)
+		label_1 = tk.Label(self.__master, text=sfb_name)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 整齐排列Entry和按钮
-		frame_one = tk.Frame(self.master)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self.__master)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
-		string_value = tk.StringVar()
-		self.input_sfb = newidgets.NeewwEntry(frame_one,
-											  textvariable=string_value, border=0)
-		self.input_sfb.pack(side=tk.LEFT, anchor=tk.W, expand=True,
+		self._newEntry = newidgets.NeewwEntry(frame_one,
+										 textvariable=self.var, border=0)
+		self._newEntry.pack(side=tk.LEFT, anchor=tk.W, expand=True,
 							fill=tk.X, padx=10)
-		self.addfile_button = newidgets.HoverButton(frame_one, text=u"选择",
-													command=select_file,
-													image = self.but_image,
-													width=self._button_size,
-													height=self._button_size)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		
-	def handlevalue(self):
-		_handlevalue(self.input_sfb,self.static)
-		
+		_button = newidgets.HoverButton(frame_one, text=u"选择",
+										command=self.dialog,
+										image = self.but_image,
+										width=self._button_pixel_size,
+										height=self._button_pixel_size)
+		_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+	
+	# 点击确认键的时候获取Entry中的值
+	def get(self):
+		block_list = []
+		# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
+		# 将str转换为unicode
+		msg = self._newEntry.get()
+		frame  = self.__static
+		print "msg", msg
+		print "msg's type", type(msg)
+		if type(msg) == type("str"):  # unicode
+			msg = msg.decode("cp936")
+			# block_list.append(msg)
+			# self.text.insert("end", "\n  " + msg)
+			frame.insert("end", "\n  " + msg)
+			# print "msg1", msg
+			# print "msg's type1", type(msg)
+			return msg
+		else:
+			# unicode格式的直接加进去
+			frame.insert("end", "\n  " + msg)
+			# print "msg2", msg
+			# print "msg's type2", type(msg)
+			# print os.path.isdir(msg)
+			return msg
+	
+	# def get(self):
+	# 	_value = _handlevalue(self._newEntry, self.__static)
+	# 	return _value
+
+def blockDIR(frame):
+	SingleFileBlock(frames, name,tkFileDialogFunc,filetype,image)
+	
 
 
 
@@ -642,7 +678,11 @@ if __name__ == '__main__':
 								   u"文本文档")
 			# block2
 			self.single_dir_block(u"图片文件夹")
-			SingleFileBlock(self.block_frame, [(u'文本文档', '*.txt'), ('All Files', '*')], u"功能说明")
+			frame = (self.block_frame, self.msgframe, self.major_msgframe)
+			SingleFileBlock(frame, u"TEST",
+							tkFileDialog.askopenfilename,[(u'文本文档', '*.txt'),
+														  ('All Files', '*')],
+														 "add_file")
 		# self.addfile_button["state"] = "disabled"
 		# self.addfile_button.pack_forget() # 隐藏模块
 		# self.addfile_button.destroy()	# 隐藏模块
@@ -667,9 +707,5 @@ if __name__ == '__main__':
 			filedialog: E:/move on move on/公示图  type:  <type 'unicode'>
 			结论:
 			"""
-	
-	
 	app = TstApp()
-
 	app.window.mainloop()
-# print app.block_list

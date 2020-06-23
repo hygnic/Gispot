@@ -50,31 +50,31 @@ class GifPath(object):
 	gif图片的路径
 	"""
 	# _base_icons_path
-	gif_forbid = os.path.join(_base_icons_path, "forbit.gif")
-	gif_close = os.path.join(_base_icons_path, "close30_4.gif")
-	gif_folder = os.path.join(_base_icons_path, "folder1.gif")
+	forbid = os.path.join(_base_icons_path, "forbit.gif")
+	close = os.path.join(_base_icons_path, "close30_4.gif")
+	folder = os.path.join(_base_icons_path, "folder1.gif")
 	
-	gif_textfile = os.path.join(_base_icons_path, "Text_File16.gif")
-	gif_add_file = os.path.join(_base_icons_path, "file3.gif")
+	textfile = os.path.join(_base_icons_path, "Text_File16.gif")
+	add_file = os.path.join(_base_icons_path, "file3.gif")
 	
-	gif_info = os.path.join(_base_icons_path, "help_info_3.gif")
-	gif_confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
+	info = os.path.join(_base_icons_path, "help_info_3.gif")
+	confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
 	
-	gif_github= os.path.join(_base_icons_path, "GitHub_32.gif")
+	github= os.path.join(_base_icons_path, "GitHub_32.gif")
 	# gif_github= os.path.join(ur"G:\MoveOn\Gispot_copy\bin\dist\images", "GitHub_32.gif")
 	# gif_github= os.path.join(ur"images", "GitHub_32.gif")
 	
-	gif_empty1 =os.path.join(_base_icons_path, "empty.gif")
+	empty1 =os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
 	
 	# 应用于toolbar中的按钮图标
-	gif_dos = os.path.join(_base_icons_path, "dos.gif")
-	gif_editor = os.path.join(_base_icons_path, "editor.gif")
-	gif_tool = os.path.join(_base_icons_path,"toolbox.gif")
+	dos = os.path.join(_base_icons_path, "dos.gif")
+	editor = os.path.join(_base_icons_path, "editor.gif")
+	tool = os.path.join(_base_icons_path, "toolbox.gif")
 	
 	# 应用于toolbar_viewer中的按钮图标
-	gif_python = os.path.join(_base_icons_path, "python_48.gif")
-	gif_python32 = os.path.join(_base_icons_path, "python_32.gif")
+	python = os.path.join(_base_icons_path, "python_48.gif")
+	python32 = os.path.join(_base_icons_path, "python_32.gif")
 	# def __init__(self):
 	# 	self.addfile = tk.PhotoImage(file=self.gif_add_file)
 	
@@ -93,7 +93,7 @@ class DocPath(object):
 
 	
 if __name__ == '__main__':
-	aa = GifPath.gif_github
+	aa = GifPath.github
 	print os.path.exists(aa)
 
 

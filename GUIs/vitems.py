@@ -20,7 +20,7 @@ from teminal import export
 def export_s(master):
 	frame = newidgets.ButtonFrame(
 		master,
-		tk.PhotoImage(file=paths.GifPath.gif_python),
+		tk.PhotoImage(file=paths.GifPath.python),
 		"导出图片",command=export.func)
 	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
@@ -50,11 +50,11 @@ class Filter(object):
 	
 	def icon_selector(self):
 		if self.flag1==1:
-			newidgets.ButtonFrame(self.master,tk.PhotoImage(file=paths.GifPath.gif_python),
-			self.name, command=None)
+			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=paths.GifPath.python),
+								  self.name, command=None)
 		elif self.flag1==2:
-			newidgets.ButtonFrame(self.master,tk.PhotoImage(file=paths.GifPath.gif_python),
-			self.name, command=None)
+			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=paths.GifPath.python),
+								  self.name, command=None)
 			
 if __name__ == '__main__':
 # 	path = ur"G:\MoveOn\Gispot\Lib\misc"

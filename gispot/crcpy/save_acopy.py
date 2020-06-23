@@ -12,6 +12,7 @@ Usage:
 import arcpy
 import os
 from hybag import hybasic
+import tkFileDialog
 
 try:
 	import tooltk
@@ -69,19 +70,47 @@ class SaveACopy(tooltk.Tooltk):
 		super(SaveACopy, self).__init__(master,
 										doc_path,
 										self.confirm)
+		frame = (self.block_frame, self.msgframe, self.major_msgframe)
 		# block1
-		self.single_dir_block(u"文件夹路径")
-		# block2 取消按钮
-		self.single_dir_block2(u"保存文件夹路径")
-		frame = (self.block_frame,self.msgframe,self.major_msgframe)
-		ss = tooltk.SingleFileBlock(frame, [(u'文本文档', '*.txt'), ('All Files', '*')], "io")
+		# self.single_dir_block(u"文件夹路径")
+		block1 = tooltk.SingleFileBlock(frame, u"文件夹路径1",
+									tkFileDialog.askdirectory, 	None,
+									"folder")
+		# block2
+		# self.single_dir_block2(u"保存文件夹路径")
+		block2 = tooltk.SingleFileBlock(frame, u"保存文件夹路径2",
+										tkFileDialog.askdirectory, None,
+										"folder")
+
+		
+
+		self.value1 = block1.get
+		self.value2 = block2.get
 		
 	def confirm(self):
-		para = self.get_blockvalue(self.input_sdb,self.input_sdb2)
-		p1 = para[0]
-		p2 = para[1]
+		# para = self.get_blockvalue(self.input_sdb,self.input_sdb2)
+		# p1= para[0]
+		# p2 = para[1]
+		p1 =self.value1()
+		p2 =self.value2()
+		#
+		# p1 =self.block1.gett_entry()
+		# p2 =self.block2.gett_entry()
+		print "p1",p1
+		
+		print "p2",p2
+		# with open(p3,"r") as e:
+		# 	print e.readlines()
 		main(p1,p2,10.1)
-	
+		
+		# msg: G:\内江市\市中区分布图\MXD\10.3
+		# 版本
+		# msg's type: <type 'unicode'>
+		# msg: G:\内江市\市中区分布图\MXD\10.3
+		# 版本\新建文件夹
+		# msg's type: <type 'unicode'>
+
+		
 if __name__ == '__main__':
 	main(ur"G:\正安县\正安县分布图\成果",
 		 ur"G:\正安县\正安县分布图\test",10.3)

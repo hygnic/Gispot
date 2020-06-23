@@ -50,11 +50,11 @@ class InitialInterface(object):
         """初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
         
         # toolbar中直接使用dos命令行的工具（暂定）#TODO 应该不止这些
-        self.icon_dos = tk.PhotoImage(file = paths.GifPath.gif_dos)
+        self.icon_dos = tk.PhotoImage(file = paths.GifPath.dos)
         # 对应second_viewer
-        self.icon_editor = tk.PhotoImage(file=paths.GifPath.gif_editor)
-        self.icon_tool = tk.PhotoImage(file=paths.GifPath.gif_tool)
-        self.toolbar_viewer_icon1= tk.PhotoImage(file=paths.GifPath.gif_python32)
+        self.icon_editor = tk.PhotoImage(file=paths.GifPath.editor)
+        self.icon_tool = tk.PhotoImage(file=paths.GifPath.tool)
+        self.toolbar_viewer_icon1= tk.PhotoImage(file=paths.GifPath.python32)
 
         
     # toolbar第yi个图标(一个查看器)打开的物品集 browser
