@@ -59,6 +59,10 @@ class HoverButton(tk.Button):
 		if not self["state"] == "disabled":
 			self.bind("<Enter>", self.on_enter)
 			self.bind("<Leave>", self.on_leave)
+	#解除绑定
+	def close(self):
+		self.unbind("<Enter>")
+		self.unbind("<Leave>")
 	
 	def on_enter(self, event=None):
 		self['background'] = self['activebackground']

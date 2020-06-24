@@ -8,11 +8,13 @@ import os
 import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
+from PIL import Image, ImageTk
 
 # 导入配置包、地址包
 from GUIconfig import newidgets
 from GUIconfig import paths
 from GUIconfig.paths import GifPath
+from GUIconfig.paths import Png
 
 class GIF(object):
 	gif_list = {
@@ -74,15 +76,15 @@ class Tooltk(object):
 		self.read_help()
 	
 	@property
-	def blockFrame(self):
+	def Frame(self):
 		return self.block_frame
 	#静态框（右上角）
 	@property
-	def StaticFrame(self):
+	def FrameStatic(self):
 		return self.msgframe
 	#动态信息框（右下角）
 	@property
-	def DynamicFrame(self):
+	def FrameDynamic(self):
 		return self.major_msgframe
 	
 	
@@ -587,14 +589,26 @@ class SingleFileBlock(object):
 		self.single_file_block(name)
 	
 	# 设置图片,使用了反射
-	def image(self,image):
+	 # 方案一：使用gif图片
+	# def image(self,image):
+	# 	# print "getattr(GifPath,image):",getattr(GifPath,image)
+	# 	raw_p = getattr(GifPath,image)
+	# 	# tk.PhotoImage需要设置成全局变量才生效，一个bug
+	# 	global a_gif
+	# 	a_gif = tk.PhotoImage(file=raw_p)
+	# 	self.but_image = a_gif
+	def image(self, image):
 		# print "getattr(GifPath,image):",getattr(GifPath,image)
-		raw_p = getattr(GifPath,image)
-		# tk.PhotoImage需要设置成全局变量才生效，一个bug
-		global a_gif
-		a_gif = tk.PhotoImage(file=raw_p)
-		self.but_image = a_gif
+		raw_p = getattr(Png, image)
+		img = Image.open(raw_p)
+		photo = ImageTk.PhotoImage(img)
 		
+		# tk.PhotoImage需要设置成全局变量才生效，一个bug
+		# global a_gif
+		# a_gif = tk.PhotoImage(file=raw_p)
+		self.but_image = photo
+
+
 	# 打开 文件/文件夹 选取窗口
 	def dialog(self):
 		file_path = self.dialoge_type(filetypes=self.__sfb_filetype)
@@ -617,24 +631,25 @@ class SingleFileBlock(object):
 		# 整齐排列Entry和按钮
 		frame_one = tk.Frame(self.__master)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
+		
 		# Entry
-		self._newEntry = newidgets.NeewwEntry(frame_one,
-										 textvariable=self.var, border=0)
-		self._newEntry.pack(side=tk.LEFT, anchor=tk.W, expand=True,
-							fill=tk.X, padx=10)
-		_button = newidgets.HoverButton(frame_one, text=u"选择",
+		self.__newEntry = newidgets.NeewwEntry(frame_one,
+											   textvariable=self.var, border=0)
+		self.__newEntry.pack(side=tk.LEFT, anchor=tk.W, expand=True,
+							 fill=tk.X, padx=10)
+		self.__button = newidgets.HoverButton(frame_one, text=u"选择",
 										command=self.dialog,
 										image = self.but_image,
 										width=self._button_pixel_size,
 										height=self._button_pixel_size)
-		_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
+		self.__button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 	
 	# 点击确认键的时候获取Entry中的值
 	def get(self):
 		block_list = []
 		# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 		# 将str转换为unicode
-		msg = self._newEntry.get()
+		msg = self.__newEntry.get()
 		frame  = self.__static
 		print "msg", msg
 		print "msg's type", type(msg)
@@ -653,18 +668,30 @@ class SingleFileBlock(object):
 			# print "msg's type2", type(msg)
 			# print os.path.isdir(msg)
 			return msg
-	
 	# def get(self):
-	# 	_value = _handlevalue(self._newEntry, self.__static)
+	# 	_value = _handlevalue(self.__newEntry, self.__static)
 	# 	return _value
 
+	@property
+	def block_button(self):
+		return self.__button
+
 # 文件夹模块
-def blockDIR(frames,name):
-	return SingleFileBlock(frames, name,tkFileDialog.askdirectory,None,"folder")
-	
+def blockDIR_in(frames,name):
+	return SingleFileBlock(frames, name,tkFileDialog.askdirectory,None,"folder1")
 
-
-
+def blockDIR_out(frames, name):
+	return SingleFileBlock(frames, name, tkFileDialog.askdirectory, None,
+						   "folder2")
+# 数字输入模块
+def blockInt(frames, name):
+	inner = SingleFileBlock(frames, name, tkFileDialog.askdirectory, None,
+						   "empty")
+	# inner.block_button["state"] ="disabled"  #不行
+	# inner.block_button.config(state ="disabled") # 不行
+	# 解除绑定
+	inner.block_button.close() # state = "disabled",  normal,active
+	return inner
 
 if __name__ == '__main__':
 	

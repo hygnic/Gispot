@@ -90,6 +90,10 @@ class DocPath(object):
 	doc_saveacopy = os.path.join(_Docs_p, "save_acopy.gc")
 
 
+class Png(object):
+	folder1 = os.path.join(_base_icons_path, "folder1.png")
+	folder2 = os.path.join(_base_icons_path, "folder2.png")
+	empty = os.path.join(_base_icons_path, "empty.gif")
 
 	
 if __name__ == '__main__':

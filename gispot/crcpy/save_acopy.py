@@ -12,14 +12,11 @@ Usage:
 import arcpy
 import os
 from hybag import hybasic
-import tkFileDialog
+from GUIconfig import paths
+import tooltk
+# import tkFileDialog
+# import tkinter as tk
 
-try:
-	import tooltk
-	import tkinter as tk
-	from GUIconfig import paths
-except ImportError as e:
-	print e
 
 def main(dir_p,new_dir,version=None):
 	"""
@@ -70,18 +67,20 @@ class SaveACopy(tooltk.Tooltk):
 		super(SaveACopy, self).__init__(master,
 										doc_path,
 										self.confirm)
-		frame = (self.block_frame, self.msgframe, self.major_msgframe)
+		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
 		# self.single_dir_block(u"文件夹路径")
-		block1 = tooltk.SingleFileBlock(frame, u"文件夹路径1",
-									tkFileDialog.askdirectory, 	None,
-									"folder")
+		# block1 = tooltk.SingleFileBlock(frame, u"文件夹路径1",
+		# 							tkFileDialog.askdirectory, 	None,
+		# 							"folder")
+		block1 = tooltk.blockDIR_in(frame, u"文件夹路径")
 		# block2
 		# self.single_dir_block2(u"保存文件夹路径")
-		block2 = tooltk.SingleFileBlock(frame, u"保存文件夹路径2",
-										tkFileDialog.askdirectory, None,
-										"folder")
-
+		# block2 = tooltk.SingleFileBlock(frame, u"保存文件夹路径2",
+		# 								tkFileDialog.askdirectory, None,
+		# 								"folder")
+		block2 = tooltk.blockInt(frame, u"保存文件夹路径")
+		# block2 = tooltk.blockDIR_out(frame, u"保存文件夹路径")
 		
 
 		self.value1 = block1.get

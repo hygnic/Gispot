@@ -88,15 +88,17 @@ class MultipExp(tooltk.Tooltk):
         super(MultipExp, self).__init__(master1,
                                         doc_path,
                                         self.confirm_mu)
+        frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
         # block1
-        self.single_dir_block(u"mxd文档文件夹")
+        # self.single_dir_block(u"mxd文档文件夹")
+        self.block1 = tooltk.blockDIR_in(frame, u"mxd文档文件夹")
         # block2 取消按钮
-        input_msgg = tk.StringVar()
-        self.single_vari_block(u"进程数", input_msgg)
-        
+        # input_msgg = tk.StringVar()
+        # self.single_vari_block(u"进程数", input_msgg)
+        self.block2 = tooltk.blockInt(frame, u"进程数")
         # self.addfile_button.config(state = "disable")
         # block3 取消按钮
-        self.single_int_block2(u"出图分辨率")
+        self.block3 = tooltk.blockInt(frame,u"出图分辨率")
         # self.addfile_button.config(state = "disable")
         # self.addfile_button.pack_forget()  # 隐藏模块
 
@@ -105,8 +107,10 @@ class MultipExp(tooltk.Tooltk):
     def confirm_mu(self):
         # 获取Entry的值
         # 第一个是文件夹，第二个是进程数，第三个是分辨率
-        v = self.get_blockvalue(self.input_sdb, self.input_svb,
-                                self.input_sib2)
+        # v = self.get_blockvalue(self.input_sdb, self.input_svb,
+        #                         self.input_sib2)
+        v =[self.block1.get(),self.block2.get(),self.block3.get()]
+        
         # 进程数
         core = int(v[1])
         print core, "type: ", type(core)
