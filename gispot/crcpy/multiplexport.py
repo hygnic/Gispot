@@ -95,10 +95,10 @@ class MultipExp(tooltk.Tooltk):
         # block2 取消按钮
         # input_msgg = tk.StringVar()
         # self.single_vari_block(u"进程数", input_msgg)
-        self.block2 = tooltk.blockInt(frame, u"进程数")
+        self.block2 = tooltk.blockValue(frame, u"进程数")
         # self.addfile_button.config(state = "disable")
         # block3 取消按钮
-        self.block3 = tooltk.blockInt(frame,u"出图分辨率")
+        self.block3 = tooltk.blockValue(frame, u"出图分辨率")
         # self.addfile_button.config(state = "disable")
         # self.addfile_button.pack_forget()  # 隐藏模块
 
