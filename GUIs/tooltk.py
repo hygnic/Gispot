@@ -673,8 +673,13 @@ class SingleFileBlock(object):
 	# 	return _value
 
 	@property
-	def block_button(self):
+	def button(self):
 		return self.__button
+	
+	@property
+	def entry(self):
+		return self.__newEntry
+
 
 # 文件夹模块
 def blockDIR_in(frames,name):
@@ -690,7 +695,7 @@ def blockValue(frames, name):
 	# inner.block_button["state"] ="disabled"  #不行
 	# inner.block_button.config(state ="disabled") # 不行
 	# 解除绑定
-	inner.block_button.close() # state = "disabled",  normal,active
+	inner.button.close() # state = "disabled",  normal,active
 	return inner
 
 

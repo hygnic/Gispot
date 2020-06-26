@@ -74,6 +74,7 @@ class SaveACopy(tooltk.Tooltk):
 		# 							tkFileDialog.askdirectory, 	None,
 		# 							"folder")
 		block1 = tooltk.blockDIR_in(frame, u"文件夹地址")
+		block1.entry.focus_force()
 		# block2
 		# self.single_dir_block2(u"保存文件夹路径")
 		# block2 = tooltk.SingleFileBlock(frame, u"保存文件夹路径2",

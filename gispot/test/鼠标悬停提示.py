@@ -9,12 +9,12 @@ Description:
 Usage:
 """
 # ---------------------------------------------------------------------------
-from Tkinter import *
+# from Tkinter import *
 import Tkinter as tk
 from time import time, localtime, strftime
 
 
-class ToolTip(Toplevel):
+class ToolTip(tk.Toplevel):
 	"""
 	Provides a ToolTip widget for Tkinter.
 	To apply a ToolTip to any Tkinter widget, simply pass the widget to the
@@ -34,13 +34,13 @@ class ToolTip(Toplevel):
 		"""
 		self.wdgt = wdgt
 		self.parent = self.wdgt.master  # The parent of the ToolTip is the parent of the ToolTips widget
-		Toplevel.__init__(self, self.parent, bg='black', padx=1,
+		tk.Toplevel.__init__(self, self.parent, bg='black', padx=1,
 						  pady=1)  # Initalise the Toplevel
 		self.withdraw()  # Hide initially
 		self.overrideredirect(
 			True)  # The ToolTip Toplevel should have no frame or title bar
 		
-		self.msgVar = StringVar()  # The msgVar will contain the text displayed by the ToolTip
+		self.msgVar = tk.StringVar()  # The msgVar will contain the text displayed by the ToolTip
 		if msg == None:
 			self.msgVar.set('No message provided')
 		else:
@@ -148,7 +148,7 @@ def print_time():
 
 
 def main():
-	root = Tk()
+	root = tk.Tk()
 	btnList = []
 	for (i, j) in range2d(6, 4):
 		text = 'delay=%i\n' % i
@@ -167,10 +167,10 @@ def main():
 			msg = 'Button at %s' % str((i, j))
 			msgFunc = None
 			text += 'Static Message'
-		btnList.append(Button(root, text=text))
+		btnList.append(tk.Button(root, text=text))
 		ToolTip(btnList[-1], msg=msg, msgFunc=msgFunc, follow=follow,
 				delay=delay)
-		btnList[-1].grid(row=i, column=j, sticky=N + S + E + W)
+		btnList[-1].grid(row=i, column=j, sticky=tk.N + tk.S + tk.E + tk.W)
 	root.mainloop()
 
 
