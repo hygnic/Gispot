@@ -12,11 +12,10 @@ Description: # python2
 +++++++++++++++++++++++++++++++++++FUNCTION+++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++FUNCTION:++++++++++++++++++++++++++++++++++++
 Python2.7
-	# export: 导出图片 001
+	# export: export mxd to jpeg 001
 	# HBgetfile: 获取文件 递归查询 getfile 002.0
 	# HBfilter: 列表筛选（根据大小和字符串匹配） 002.5
 	# data_distribute: 数据分发，将列表（data_list）中的元素平均分配多个子列表
-	#
 	#
 +++++++++++++++++++++++++++++++++++FUNCTION+++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++FUNCTION+++++++++++++++++++++++++++++++++++++
@@ -194,6 +193,8 @@ def data_distribute(data_list, core):
 	print "@" * 50
 	return result_groups
 	
-
+class HyMath(object):
+	def __init__(self):
+		pass
 	
 
