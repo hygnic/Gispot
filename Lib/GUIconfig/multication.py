@@ -47,14 +47,14 @@ class MuCation(object):
 		:param args: the set of paths
 		:return:
 		"""
-		info1 = u"<ProcessID: {}> 进程开始\n".format(os.getpid())
+		info1 = u"<ProcessID: {}> begin\n".format(os.getpid())
 		queue.put(info1)
 		# queue.put(information)
 		# print queue
 		# print queue.qsize()  # 1
 		# print queue.empty()  # Ture
 		func(queue, *args)
-		info2 = u"<ProcessID: {}> 进程结束\n".format(os.getpid())
+		info2 = u"<ProcessID: {}> end\n".format(os.getpid())
 		queue.put(info2)
 	
 	

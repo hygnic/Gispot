@@ -52,8 +52,8 @@ def export(path,resolution):										 # 001
 			else:
 				pass
 
-__getall_items = []
-def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
+_getall_items = []
+def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	"""
 	import os
 	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
@@ -68,7 +68,8 @@ def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	:param counter: 计数 用于缩进\t
 	:return: list
 	"""
-	global __getall_items
+	global _getall_items
+	
 	# global __getall_items
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p, file_p)
@@ -80,7 +81,7 @@ def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 				print "<<<{0}>>>".format(__name__),"HBgetfile error occured, skipped"
 			# 递归
 			if recur:
-				HBgetfile(file_path, suffix, recur, counter + 1)
+				getfiles(file_path, suffix, recur, counter + 1)
 		else:
 			# print "\t"*counter+file_p
 			if suffix:
@@ -93,7 +94,7 @@ def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					# f_name = name_and_suffix[0]
 					if f_suffix == suffix:
 						print "\t" * counter, base_name
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 				# 多个后缀组成列表
 				else:
 					base_name = os.path.basename(file_path)
@@ -102,12 +103,12 @@ def HBgetfile(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					f_name = name_and_suffix[0]
 					if f_suffix in suffix:
 						print "\t" * counter, base_name
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 			# 无后缀要求，获取所有文件
 			else:
-				__getall_items.append(file_path)
-	
-	return __getall_items
+				_getall_items.append(file_path)
+	print "$"*80
+	return _getall_items
 
 
 def HBfilter(raw_list, matchword, size_limit=None):					# 002.5

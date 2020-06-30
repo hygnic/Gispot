@@ -13,7 +13,7 @@ import os
 from win32com.client import Dispatch
 import xlwings as xw
 
-__getall_items = []
+_getall_items = []
 def recur_search(dirs_p, suffix, recur, counter=0):  # 002.0
 	"""
 	import os
@@ -29,7 +29,7 @@ def recur_search(dirs_p, suffix, recur, counter=0):  # 002.0
 	:param counter: 计数 用于缩进\t
 	:return: list
 	"""
-	global __getall_items
+	global _getall_items
 	# global __getall_items
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p, file_p)

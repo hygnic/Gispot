@@ -41,7 +41,7 @@ def code2exe():
 	_base_icons_path = "images"
 	_Docs_p = "gisdocs"
 # 不封装时关闭该函数
-# code2exe()
+code2exe()
 
 
 
@@ -94,6 +94,7 @@ class Png(object):
 	folder1 = os.path.join(_base_icons_path, "folder1.png")
 	folder2 = os.path.join(_base_icons_path, "folder2.png")
 	empty = os.path.join(_base_icons_path, "empty.gif")
+	add_file = os.path.join(_base_icons_path, "file3.gif")
 
 	
 if __name__ == '__main__':

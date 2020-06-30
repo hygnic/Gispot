@@ -8,7 +8,7 @@ import os
 # a = os.path.getsize(path)
 # print a
 
-__getall_items = []
+_getall_items = []
 def hybag_getall_item(dirs_p, suffix, matchword=None):
 	"""
 	import os
@@ -19,7 +19,7 @@ def hybag_getall_item(dirs_p, suffix, matchword=None):
 	:param matchword: 匹配字段，简单筛选出符合匹配字段的项目
 	:return: list
 	"""
-	global __getall_items
+	global _getall_items
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p,file_p)
 		if os.path.isdir(file_path):

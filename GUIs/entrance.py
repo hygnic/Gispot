@@ -54,6 +54,7 @@ import LQHD.gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
+import teminal.ZLDJ
 # 配置包导入
 from GUIconfig import newidgets
 from GUIconfig import paths
@@ -181,6 +182,13 @@ class AppEntrance(object):
                                      command=self.explode_mulitp)
         self.menubar_map.add_command(label=u'任务分配',
                                      command=self.start_dispatch_task)
+
+        # 高标准农田
+        self.menubar_GBZ = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=u"高标准农田", menu=self.menubar_GBZ)
+        self.menubar_GBZ.add_command(label=u'修改质量等级',
+                                     command=self.start_ZLDJ)
+        
         # 关于 栏
         self.menubar_about = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"关于", menu=self.menubar_about)
@@ -245,6 +253,13 @@ class AppEntrance(object):
         newidgets.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
         crcpy.task_dispatch.StartApp(self.interface_frame)
+        
+    def start_ZLDJ(self):
+        newidgets.destroy_child(self.interface_frame)
+        # task_dispatch.StartApp(self.main_f)
+        teminal.ZLDJ.AppGUI(self.interface_frame)
+        
+    
     # ----------------------------------------
     
     def run_toolbar_viewer(self):

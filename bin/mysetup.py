@@ -47,10 +47,17 @@ for giscat_path in giscat_paths:
 	sys.path.append(giscat_path)
 
 options = {
-	"py2exe":{
-		"excludes": ["arcpy"]
+	"py2exe":{"includes": ["matplotlib"],
+
+				"excludes": ["arcpy"],
+				"dll_excludes": ["MSVCP90.dll"]
 	}
 }
+
+# py2exe打包过程中遇到该问题 Could not find the matplotlib data files
+import matplotlib
+setup(data_files=matplotlib.get_py2exe_datafiles(),)
+
 # 添加图片
 images = []
 imgs = os.listdir(rbg_Icons)
@@ -66,9 +73,13 @@ for doc in docs:
 	if os.path.isfile(doc_p):
 		gisdocs.append(doc_p)
 
-setup(windows=["Gispot.py"], options=options,
+# windows 独立窗口
+# console 带dos界面
+setup(console=[{'script':'Gispot.py', 'icon_resources': [(0, 'icon.ico')]}],
+	  options=options,
+	  name = 'LCC',
 	  data_files=[('images',images),("gisdocs",gisdocs)]
 	  )
 
-data_files=[('images', ['..\GUIs\Icons\close30_4.gif','..\GUIs\Icons\GitHub_32.gif'])]
+# data_files=[('images', ['..\GUIs\Icons\close30_4.gif','..\GUIs\Icons\GitHub_32.gif'])]
 # setup(console=["Gispot.py"], options=options)

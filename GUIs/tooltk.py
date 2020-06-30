@@ -685,6 +685,9 @@ class SingleFileBlock(object):
 def blockDIR_in(frames,name):
 	return SingleFileBlock(frames, name,tkFileDialog.askdirectory,None,"folder1")
 
+def blockSheet(frames,name):
+	return SingleFileBlock(frames, name,tkFileDialog.askopenfilename,[(u'工作簿', '*.xlsx'),(u'工作簿', '*.xls'), ('All Files', '*')],"add_file")
+
 def blockDIR_out(frames, name):
 	return SingleFileBlock(frames, name, tkFileDialog.askdirectory, None,
 						   "folder2")

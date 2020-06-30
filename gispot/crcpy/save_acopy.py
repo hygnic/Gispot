@@ -50,7 +50,7 @@ def main(dir_p,new_dir,version=None):
 	suff = "mxd"
 	version = str(version)
 	# 获取文件夹下所有文件
-	path_list = hybasic.HBgetfile(path, suff, False)
+	path_list = hybasic.getfiles(path, suff, False)
 	for i in path_list:
 		i_base = os.path.basename(i)
 		name = os.path.splitext(i_base)[0]
