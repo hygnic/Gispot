@@ -19,6 +19,13 @@ from hybag import hybasic
 from GUIconfig import paths
 from GUIconfig import multication
 
+# import sys,codecs
+# sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+#
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 def main(qq_pip,folder, excel):
 	# 确定质量等级的入库清单excel
 	# excel_path = "path"
@@ -36,7 +43,6 @@ def main(qq_pip,folder, excel):
 		wb1 = app1.books.open(excel_path)
 		ws1 = wb1.sheets[0]
 		# v1 = sheet1.range("a1:a7").value
-		# v1 = sheet1.range("d1:d300").expand().value #TODO 不清楚expand的作用
 		wbs1_rowcount = ws1.api.UsedRange.Rows.count
 		# 质量等级
 		ZLDJ = ws1.range("I1:I" + str(wbs1_rowcount))
@@ -59,11 +65,18 @@ def main(qq_pip,folder, excel):
 	GBZ_shpfiles=hybasic.HBfilter(shpfiles,"GBZ",100)
 	print "GBZ_shpfiles's len:",len(GBZ_shpfiles)
 	for path in GBZ_shpfiles:
+		print path
+		print "type:",type(path)
+		print os.path.isfile(path)
 		for ii in XMMC_ZLDJ:
 			basename = os.path.basename(path)  # GBZ2012510321CZ2011年现代农业生产发展项目YS.shp
 			basename = basename[15:-6]
 			if ii[0] == basename:
 				new_ZLDJ = ii[1]
+				# ly = arcpy.mapping.Layer(path)
+				# with arcpy.da.UpdateCursor(ly, ("ZLDJ",)) as cursor:
+				# path.encode('gb2312')
+				print "arcpy.Exists:",arcpy.Exists(path)
 				with arcpy.da.UpdateCursor(path,("ZLDJ",)) as cursor:
 					for row in cursor:
 						row[0] = new_ZLDJ
@@ -79,6 +92,8 @@ def main(qq_pip,folder, excel):
 			basename = basename[14:-6]
 			if ii[0] == basename:
 				new_ZLDJ = ii[1]
+				print "arcpy.Exists:",arcpy.Exists(path)
+				# path.encode('gb2312')
 				with arcpy.da.UpdateCursor(path,("ZLDJ",)) as cursor:
 					for row in cursor:
 						row[0] = new_ZLDJ
@@ -194,6 +209,11 @@ class AppGUI(tooltk.Tooltk):
 		# main(v[0], v[1])
 
 if __name__ == '__main__':
-	excel_paths = u"C:/Users/Administrator/Desktop/高标最后一次/自贡市/荣县/自贡市荣县.xlsx"
-	db_paths = u"C:/Users/Administrator/Desktop/高标准成果/荣县/510000高标准农田建设上图入库数据20200630"
-	# main(db_paths, excel_paths)
+	excel_paths = u"F:/新建文件夹 (2)/天全县/510000项目清单20200701.xlsx"
+	db_paths = u"F:/新建文件夹 (2)/天全县/510000高标准农田建设上图入库数据20200701"
+	
+	# 荣县
+	# excel_paths = u"C:/Users/Administrator/Desktop/荣县导出/510000高标准农田建设上图入库数据20200628/510000项目清单20200628.xlsx"
+	# db_paths = u"C:/Users/Administrator/Desktop/荣县导出/510000高标准农田建设上图入库数据20200628"
+	ss = 0
+	main(ss,db_paths, excel_paths)
