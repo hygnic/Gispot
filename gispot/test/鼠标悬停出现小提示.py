@@ -52,8 +52,9 @@ class ToolTip(tk.Toplevel):
 		self.lastMotion = 0
 		tk.Message(self, textvariable=self.msgVar, bg='#FFFFDD',
 				aspect=1000).grid()  # The test of the ToolTip is displayed in a Message widget
-		self.wdgt.bind('<Enter>', self.spawn,
-					   '+')  # Add bindings to the widget.  This will NOT override bindings that the widget already has
+		# <Enter>: The mouse pointer entered the widget
+		self.wdgt.bind('<Enter>', self.spawn
+					   )  # Add bindings to the widget.  This will NOT override bindings that the widget already has
 		self.wdgt.bind('<Leave>', self.hide, '+')
 		self.wdgt.bind('<Motion>', self.move, '+')
 	
@@ -76,7 +77,7 @@ class ToolTip(tk.Toplevel):
 		if self.visible == 1 and time() - self.lastMotion > self.delay:
 			self.visible = 2
 		if self.visible == 2:
-			self.deiconify()
+			self.deiconify() # show Toplevel widget
 	
 	def move(self, event):
 		"""

@@ -10,3 +10,4 @@
 /bin/dist
 /bin/build/
 /bin/build
+/bin/build/bdist.win32/winexe/collect-2.7

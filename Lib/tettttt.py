@@ -9,16 +9,16 @@ Description:
 Usage:
 """
 # ---------------------------------------------------------------------------
-
-class A(object):
-	name = 'python'
-	@staticmethod
-	def func():
-		return 'A()类的方法func()'
+def decorator(cls):
+	print "6666666"
+	return cls
 
 
+@decorator
+class Model(object):
+	def __init__(self):
+		print "model created"
 
-print hasattr(A, 'func')
-aa = A()
-ss = getattr(A, 'func')
-print ss()
+
+if __name__ == '__main__':
+	model = Model()

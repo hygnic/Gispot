@@ -13,13 +13,11 @@ from PIL import Image, ImageTk
 # 导入配置包、地址包
 from GUIconfig import newidgets
 from GUIconfig import paths
-from GUIconfig.paths import GifPath
+# from GUIconfig.paths import GifPath
 from GUIconfig.paths import PngIcon
 
 class GIF(object):
-	gif_list = {
-	
-	}
+
 	def __init__(self):
 		self.text = tk.PhotoImage(file=paths.GifPath.textfile)
 		self.addfile = tk.PhotoImage(file=paths.GifPath.add_file)
@@ -44,7 +42,7 @@ class Tooltk(object):
 	def __init__(self, master, help_path, confirm_method):
 		"""
 		:param master:
-		:param help_path: 帮助文档的路径（可以取None值）
+		:param help_path: path of help information file（can be None）
 		:param confirm_method: 按下确认键后的响应事件
 		"""
 		self.block_list = []
@@ -70,7 +68,7 @@ class Tooltk(object):
 		# self.input_int = tk.IntVar()
 		self.color_mylife()  # 颜色
 		self.icon_set()  # 配置图片
-		self.create_frames()  # 配置框架
+		self.frames_initial()  # 配置框架
 		self.create_button()  # 配置按钮
 		# color   "SystemHighlight","SystemMenuText"
 		self.read_help()
@@ -78,19 +76,19 @@ class Tooltk(object):
 	@property
 	def Frame(self):
 		return self.block_frame
-	#静态框（右上角）
+	# static information box(Upper right corner)
 	@property
 	def FrameStatic(self):
 		return self.msgframe
-	#动态信息框（右下角）
+	# dynamic information box(lower right corner)
 	@property
 	def FrameDynamic(self):
 		return self.major_msgframe
 	
 	
 	def color_mylife(self):
-		self.color1 = "#F1F1F1"  # 帮助栏颜色
-		self.color5 = "#808000"  # 橄榄色，显示text
+		self.color1 = "#F1F1F1"  # help bar
+		self.color5 = "#808000"  # Olive,显示text
 		self.color3 = "#F1F1F1"  # 主框的上半部分颜色 侧栏颜色
 		# self.color4 = "Cornsilk" # 侧栏颜色
 		self.color2 = "#E1E1E1"  # 茶色 较深
@@ -123,7 +121,7 @@ class Tooltk(object):
 		self.ph_im = ImageTk.PhotoImage(im)
 		"""
 	
-	def create_frames(self):
+	def frames_initial(self):
 		# 1192/2 = 596
 		# 右边的主框
 		self.frame_right_side = tk.Frame(self.window, width=496,
@@ -193,12 +191,8 @@ class Tooltk(object):
 		s_bar.config(command=self.major_msgframe.yview)
 		# return self.frame_major
 	
-	# 读取帮助信息并插入帮助框中
+	# Read help information and insert in help box
 	def read_help(self):
-		"""
-		读取帮助信息并插入帮助框中
-		:return:
-		"""
 		if self.helppath is not None:
 			filename = self.helppath
 			with open(filename, "r") as read_msgs:
@@ -206,38 +200,39 @@ class Tooltk(object):
 					self.help_text.insert(tk.END, read_line)
 				self.help_text["state"] = "disabled"
 		
-	# print read_line
 	
 	def create_button(self):
 		"""
-		create second window button
+		Make three button:
+		 1.button_confirm: the main function start up button
+		 2.button_quit: back button
+		 3.button_help: jump to a website which shows help information (most unused)
 		"""
-		
-		# self.confirm_method 确认按键所触发的方法
-		self.button_confirm = newidgets.HoverButton(self.frame_bottom_bar,
+		self.button_confirm = newidgets.HoverButton(self.frame_bottom_bar,msg="OK",
 													image=self.gif_confirm,
 													command=self.confirm_method,
 													width =self._button_size,
 													height =self._button_size)
+		
 		# print "tooltk.py>>Border:", self.button_confirm["borderwidth"] # 2
 		# height = 18, width = 18,
-		self.button_help = newidgets.HoverButton(self.frame_bottom_bar,
+		# help button
+		self.button_help = newidgets.HoverButton(self.frame_bottom_bar,msg="Info",
 												 image=self.gif_help,
 												 width=self._button_size,
 												 height=self._button_size)
 		
-		def inner_quit():
+		def __quit_inner():
 			"""
 			使用该方法来删除main_f下的子部件，如果直接使用
 			command=self.windows.destory ,会删除掉main_f,
 			导致打开其他功能时找不到main_f而报错
-			:return:
 			"""
 			newidgets.destroy_child(self.window)
-		
-		self.button_quit = newidgets.HoverButton(self.frame_bottom_bar,
+		# Back button
+		self.button_quit = newidgets.HoverButton(self.frame_bottom_bar,msg="Cancel",
 												 image=self.gif_quit,
-												 command=inner_quit,
+												 command=__quit_inner,
 												 width=self._button_size,
 												 height=self._button_size)
 		# pack

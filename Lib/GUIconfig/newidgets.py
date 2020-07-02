@@ -12,6 +12,7 @@
 """
 
 import Tkinter as tk
+from time import time
 
 def screen_cetre(master, width=None, height=None):
 	# 窗口居中
@@ -39,6 +40,7 @@ def destroy_child(master):
 			i.destroy()
 
 
+
 class HoverButton(tk.Button):
 	"""
 	继承Button.实现鼠标悬停时，按键变化的效果
@@ -46,12 +48,15 @@ class HoverButton(tk.Button):
 		图片按键和文字按键的width和height的度量单位不一样
 	"""
 	
-	def __init__(self, master, **kw):
+	def __init__(self, master, msg=None,follow = True,**kw):
 		"""
 		:param master: 该组件的父
 		:param kw:
 		"""
+		# , msg, msgfunc, delay = 1, follow = True
 		tk.Button.__init__(self, master=master, **kw)
+		self.msg = msg
+		self.follow = follow
 		self.defaultBackground = self["background"]
 		self.config(relief="flat",
 					activebackground="#ffc851")
@@ -59,17 +64,45 @@ class HoverButton(tk.Button):
 		if not self["state"] == "disabled":
 			self.bind("<Enter>", self.on_enter)
 			self.bind("<Leave>", self.on_leave)
+			if msg:
+				self.bind("<Motion>", self.on_move)
+			
 	#解除绑定
 	def close(self):
 		self.unbind("<Enter>")
 		self.unbind("<Leave>")
-	
-	def on_enter(self, event=None):
+		
+	def on_enter(self, event):
 		self['background'] = self['activebackground']
-	
+		# self.config(relief="groove")
+		if self.msg:
+			self.tip = tk.Toplevel(self,bg='black', padx=1,
+						  pady=1)
+			# self.tip.withdraw()
+			# self.tip.geometry('+%i+%i' % (event.x_root + 10,
+			# 						  event.y_root + 10))
+			self.tip.overrideredirect(True) # remove
+			output = tk.StringVar()
+			output.set(self.msg)
+			# "#ffc851" '#FFFFDD'
+			tk.Message(self.tip, textvariable=output, bg="#FFFFDD",
+					   aspect=1000).grid() # aspect: use to modify size
+			# self.on_move(event)
 	def on_leave(self, event=None):
 		self['background'] = self.defaultBackground
-
+		# self.config(relief="flat")
+		if self.msg:
+			self.tip.withdraw()
+	
+	# let tooltip follow you mouse pointer's motion
+	def on_move(self,event):
+		self.tip.geometry('+%i+%i' % (event.x_root + 10,
+								  event.y_root + 10))
+	
+	
+	# def tip(self):
+	# 	if self.msg:
+	
 
 class NeewwEntry(tk.Entry):
 	"""
@@ -175,3 +208,103 @@ class ButtonFrame(tk.Frame):
 		button.pack(side="top",fill=None,expand=False)
 		label = tk.Label(wrap_frame,text =self.name)
 		label.pack(side="top",fill=None,expand=False)
+
+
+class ToolTip(tk.Toplevel):
+	"""
+	Provides a ToolTip widget for Tkinter.
+	To apply a ToolTip to any Tkinter widget, simply pass the widget to the
+	ToolTip constructor
+	Example: ToolTip(self.button_help, "CANCEL", None, 0.5)
+	"""
+	
+	def __init__(self, wdgt, msg=None, msgFunc=None, delay=1, follow=True):
+		"""
+		Initialize the ToolTip
+
+		Arguments:
+		  wdgt: The widget this ToolTip is assigned to
+		  msg:  A static string message assigned to the ToolTip
+		  msgFunc: A function that retrieves a string to use as the ToolTip text
+		  delay:   The delay in seconds before the ToolTip appears(may be float)
+		  follow:  If True, the ToolTip follows motion, otherwise hides
+		"""
+		self.wdgt = wdgt
+		self.parent = self.wdgt.master  # The parent of the ToolTip is the parent of the ToolTips widget
+		tk.Toplevel.__init__(self, self.parent, bg='black', padx=1,
+							 pady=1)  # Initalise the Toplevel
+		self.withdraw()  # Hide initially
+		self.overrideredirect(
+			True)  # The ToolTip Toplevel should have no frame or title bar
+		
+		self.msgVar = tk.StringVar()  # The msgVar will contain the text displayed by the ToolTip
+		if msg == None:
+			self.msgVar.set('No message provided')
+		else:
+			self.msgVar.set(msg)
+		self.msgFunc = msgFunc
+		self.delay = delay
+		self.follow = follow
+		self.visible = 0
+		self.lastMotion = 0
+		tk.Message(self, textvariable=self.msgVar, bg='#FFFFDD',
+				   aspect=1000).grid()  # The test of the ToolTip is displayed in a Message widget
+		# <Enter>: The mouse pointer entered the widget
+		self.wdgt.bind('<Enter>', self.spawn
+					   )  # Add bindings to the widget.  This will NOT override bindings that the widget already has
+		self.wdgt.bind('<Leave>', self.hide, '+')
+		self.wdgt.bind('<Motion>', self.move, '+')
+	
+	def spawn(self, event=None):
+		"""
+		Spawn the ToolTip.  This simply makes the ToolTip eligible for display.
+		Usually this is caused by entering the widget
+
+		Arguments:
+		  event: The event that called this funciton
+		"""
+		self.visible = 1
+		self.after(int(self.delay * 1000),
+				   self.show)  # The after function takes a time argument in miliseconds
+	
+	def show(self):
+		"""
+		Displays the ToolTip if the time delay has been long enough
+		"""
+		if self.visible == 1 and time() - self.lastMotion > self.delay:
+			self.visible = 2
+		if self.visible == 2:
+			self.deiconify()  # show Toplevel widget
+	
+	def move(self, event):
+		"""
+		Processes motion within the widget.
+
+		Arguments:
+		  event: The event that called this function
+		"""
+		self.lastMotion = time()
+		if self.follow == False:  # If the follow flag is not set, motion within the widget will make the ToolTip dissapear
+			self.withdraw()
+			self.visible = 1
+		self.geometry('+%i+%i' % (event.x_root + 10,
+								  event.y_root + 10))  # Offset the ToolTip 10x10 pixes southwest of the pointer
+		try:
+			self.msgVar.set(
+				self.msgFunc())  # Try to call the message function.  Will not change the message if the message function is None or the message function fails
+		except:
+			pass
+		self.after(int(self.delay * 1000), self.show)
+	
+	def hide(self, event=None):
+		"""
+		Hides the ToolTip.  Usually this is caused by leaving the widget
+
+		Arguments:
+		  event: The event that called this function
+		"""
+		self.visible = 0
+		self.withdraw()
+
+class HoverButtonANDToolTip(HoverButton,ToolTip):
+	pass
