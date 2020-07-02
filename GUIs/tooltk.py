@@ -14,7 +14,7 @@ from PIL import Image, ImageTk
 from GUIconfig import newidgets
 from GUIconfig import paths
 from GUIconfig.paths import GifPath
-from GUIconfig.paths import Png
+from GUIconfig.paths import PngIcon
 
 class GIF(object):
 	gif_list = {
@@ -599,7 +599,7 @@ class SingleFileBlock(object):
 	# 	self.but_image = a_gif
 	def image(self, image):
 		# print "getattr(GifPath,image):",getattr(GifPath,image)
-		raw_p = getattr(Png, image)
+		raw_p = getattr(PngIcon, image)
 		img = Image.open(raw_p)
 		photo = ImageTk.PhotoImage(img)
 		

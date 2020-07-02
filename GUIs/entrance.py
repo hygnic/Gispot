@@ -26,27 +26,30 @@ rb_GisCat = os.path.join(root_base, "gispot")
 # E:\move on move on\gispot\GUIs
 rb_GUIs = os.path.join(root_base, "GUIs")
 # E:\move on move on\gispot\GUIs\Icons
-rbg_Icons = os.path.join(rb_GUIs, "Icons")
+# rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
 rb_libs = os.path.join(root_base, "Lib")
 rb_GUIconfig = os.path.join(rb_libs, "GUIconfig")
-giscat_paths = (root_base,
-                rb_GisCat,
-                rb_GUIs,
-                rbg_Icons,
-                rbdoc,
-                rb_bin,
-                rb_libs,
-                rb_GUIconfig)
-for giscat_path in giscat_paths:
-    sys.path.append(giscat_path)
+
+# giscat_paths = (root_base,
+#                 rb_GisCat,
+#                 rb_GUIs,
+#                 rbg_Icons,
+#                 rbdoc,
+#                 rb_bin,
+#                 rb_libs,
+#                 rb_GUIconfig)
+# for giscat_path in giscat_paths:
+#     sys.path.append(giscat_path)
 # print "sys.path:",sys.path
 # import LQHD # 识别不了gstrename
 # from gispot.LQHD import gstrename
 # from gispot.crcpy import multip_ejpg
 # from gispot.crcpy import explode_mulitp
 # from gispot.crcpy import task_dispatch
+
+
 # 界面模块导入
 import initial_interface
 # 功能模块导入
@@ -59,6 +62,9 @@ import teminal.ZLDJ
 from GUIconfig import newidgets
 from GUIconfig import paths
 
+# Gispot图标
+icon = paths.PngIcon.icon
+
 import Tix
 # from Tkconstants import *
 class AppEntrance(object):
@@ -68,8 +74,8 @@ class AppEntrance(object):
         self.rootwindow = tk.Tk()
         self.rootwindow.title("GISPOT")
         newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
-        # self.rootwindow.iconbitmap(default=
-        #                            os.path.join(rbg_Icons,"icon.ico")) #TODO 暂时关闭图标
+        self.rootwindow.iconbitmap(default=
+                                   icon) #TODO 暂时关闭图标
         self.rootwindow.resizable(False, False)
         self.menu()
         # bt.pack(side='left')

@@ -6,4 +6,8 @@
 /.idea/vcs.xml
 /.idea
 /build/
-/dist/
+/build/bdist.win32
+dist
+dist/
+dist/gisdocs
+
