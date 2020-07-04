@@ -7,9 +7,10 @@
 
 import os
 import sys
-from site import addsitedir # py2exe
+from site import addsitedir  # py2exe
 import multiprocessing
 from xml.etree.ElementTree import ElementTree
+
 # ------------ py2exe
 interpreter = sys.executable
 sitepkg = os.path.dirname(interpreter) + "\\site-packages"
@@ -25,12 +26,11 @@ addsitedir(sitepkg)
 """
 
 bin_p = os.path.abspath(os.path.dirname(sys.argv[0]))
-print "bin_p",bin_p
+print "bin_p", bin_p
 # real:  E:\move on move on\gispot\bin
 root_p = os.path.abspath(os.path.dirname(bin_p))  # E:/move on move on/gispot
 # print "root_P:",root_p
 sys.path.append(os.path.join(root_p, "GUIs"))
-
 
 import entrance
 
@@ -43,15 +43,7 @@ if __name__ == '__main__':
 	entrance.menu()
 	# 操控所有循环
 	entrance.rootwindow.mainloop()
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 # sys.path.append(r"D:\Python27\ArcGIS10.7\tcl\tcl8.5")
 # apppath = r"bin\entrance.py"
 # sys.path.append("../docs")
