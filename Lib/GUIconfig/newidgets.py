@@ -43,7 +43,10 @@ def destroy_child(master):
 
 class HoverButton(tk.Button):
 	"""
-	继承Button.实现鼠标悬停时，按键变化的效果
+	features detail:
+		1.继承Button.实现鼠标悬停时，按键变化的效果
+		2.bind info bubbles to button
+	
 	注意事项：
 		图片按键和文字按键的width和height的度量单位不一样
 	"""
@@ -75,33 +78,45 @@ class HoverButton(tk.Button):
 	def on_enter(self, event):
 		self['background'] = self['activebackground']
 		# self.config(relief="groove")
+		# ToolTip, set message bubble
+		# self.after(int(self.delay * 1000),
+		# 		   self.show)
 		if self.msg:
-			self.tip = tk.Toplevel(self,bg='black', padx=1,
-						  pady=1)
-			# self.tip.withdraw()
-			# self.tip.geometry('+%i+%i' % (event.x_root + 10,
-			# 						  event.y_root + 10))
-			self.tip.overrideredirect(True) # remove
-			output = tk.StringVar()
-			output.set(self.msg)
-			# "#ffc851" '#FFFFDD'
-			tk.Message(self.tip, textvariable=output, bg="#FFFFDD",
-					   aspect=1000).grid() # aspect: use to modify size
-			# self.on_move(event)
-	def on_leave(self, event=None):
+			self.spawn_tip(event)
+			self.after(600,self.show_tip)
+			
+	def on_leave(self, event):
 		self['background'] = self.defaultBackground
 		# self.config(relief="flat")
 		if self.msg:
-			self.tip.withdraw()
+			self.hide_tip(event)
+			
+	def on_move(self, event):
+		# pass
+		self.tip.geometry('+%i+%i' % (event.x_root + 10,event.y_root + 10))
+		# self.after(1000, self.show_tip)
 	
+	# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	# bind info bubble to a button
 	# let tooltip follow you mouse pointer's motion
-	def on_move(self,event):
-		self.tip.geometry('+%i+%i' % (event.x_root + 10,
-								  event.y_root + 10))
+	def spawn_tip(self, event):
+		self.tip = tk.Toplevel(self, bg='black', padx=1,
+							   pady=1)
+		self.tip.overrideredirect(True)  # remove
+		self.tip.withdraw()
+		output = tk.StringVar()
+		output.set(self.msg)
+		# "#ffc851" '#FFFFDD'
+		tk.Message(self.tip, textvariable=output, bg="#FFFFDD",
+				   aspect=1000).grid()  # aspect: use to modify size
 	
+	def show_tip(self):
+		self.tip.deiconify()
+		
+	def hide_tip(self,event):
+		self.tip.withdraw()
 	
-	# def tip(self):
-	# 	if self.msg:
+
 	
 
 class NeewwEntry(tk.Entry):

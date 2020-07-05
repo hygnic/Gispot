@@ -16,8 +16,11 @@ Usage:
 """
 
 import Tkinter as tk
+from collections import OrderedDict
+from PIL import  ImageTk,Image
+
 from GUIconfig import newidgets
-from GUIconfig import paths
+from GUIconfig.paths import PngIcon,GifPath
 import vitems
 from crcpy import save_acopy
 
@@ -29,7 +32,7 @@ class InitialInterface(object):
     def __init__(self, master1,master2):
         
         # 引入toolbar中的图标
-        self.toolbar_icon()
+        self.interface_image()
         self.window1 = master1 # 左边
         self.window2 = master2 # 右边
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
@@ -44,8 +47,8 @@ class InitialInterface(object):
                                                 image = self.icon_dos,
                                                 height = 45, command =self.second_viewer)
         self.button_dos.pack(side ="top", anchor ="nw")
-        # 第san个button，工具箱button
-        self.button_tool = newidgets.HoverButton(self.window1,
+        # Tool button,the Third button which shows some features button
+        self.button_tool = newidgets.HoverButton(self.window1,msg= "Tools",
                                                 width=45,
                                                 image=self.icon_tool,
                                                 height=45,
@@ -53,15 +56,17 @@ class InitialInterface(object):
         self.button_tool.pack(side="top", anchor="nw")
         # self.window1.mainloop()
 		
-    def toolbar_icon(self):
+    def interface_image(self):
         """初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
-        
-        # toolbar中直接使用dos命令行的工具（暂定）#TODO 应该不止这些
-        self.icon_dos = tk.PhotoImage(file = paths.GifPath.dos)
+        # <PIL>
+        self.icon_dos = tk.PhotoImage(file = GifPath.dos)
         # 对应second_viewer
-        self.icon_editor = tk.PhotoImage(file=paths.GifPath.editor)
-        self.icon_tool = tk.PhotoImage(file=paths.GifPath.tool)
-        self.toolbar_viewer_icon1= tk.PhotoImage(file=paths.GifPath.python32)
+        self.icon_editor = tk.PhotoImage(file=GifPath.editor)
+        # self.icon_tool = tk.PhotoImage(file=paths.GifPath.tool)
+        self.icon_tool = ImageTk.PhotoImage(Image.open(PngIcon.toolbox_45))
+        self.toolset = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
+        # dd = paths.PngIcon()
+        # self.circle= dd.circle_icon_fun()
 
         
     # toolbar第yi个图标(一个查看器)打开的物品集 browser
@@ -83,24 +88,68 @@ class InitialInterface(object):
     def open_viewer3(self):
         """调用Third_Viewer类"""
         newidgets.destroy_child(self.window2)
-        Third_Viewer(self.window2,  self.toolbar_viewer_icon1)
+        ToolSet(self.window2)
+        # Third_Viewer(self.window2, self.circle)
         
     # -------------------------
     # 将带有参数的类变成方法和button绑定
     # def show_first_viewer(self):
 
-class Third_Viewer(object):
+def func1():
+    # name: 坐标系转换
+    print "func1"
+    
+def func2():
+    # name: Excel转shp
+    print "func2"
+
+
+def func3():
+    # name: 坐标系转换
+    print "func1"
+
+
+def func4():
+    # name: Excel转shp
+    print "func2"
+
+func_name = {
+    u"转换工具":(1,
+        (func1,u"坐标系转换"),
+        (func2,u"Excel转shp")
+    ),
+    u"高标准农田":(2,
+        (func3,u"坐标系转换2"),
+        (func4,u"Excel转shp2")
+    )
+}
+
+func_name2 = OrderedDict()
+func_name2[u"转换工具"] = (
+        (func1,u"坐标系转换"),
+        (func2,u"Excel转shp")
+    )
+func_name2[u"高标准农田"] =  (
+        (func3,u"坐标系转换2"),
+        (func4,u"Excel转shp2")
+    )
+# func_name2 = (u"转换工具",((func1,u"坐标系转换"),(func2,u"Excel转shp")),u"高标准农田",((func3,u"坐标系转换2"),(func4,u"Excel转shp2")))
+
+for k,v in func_name2.items():
+    print k,v
+
+
+class ToolSet(object):
     """
     用于显示工具箱button中的内容
     点击工具箱button启动该类
     """
-    def __init__(self, master, icon):
+    def __init__(self, master, f_n):
         """
         :param master: tkinter 父部件
-        :param icon: 图标地址
         """
         self.master = master
-        self.icon = icon # paths.GifPath.gif_python32
+        self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
         # print "icon:",icon
         button1_1 = newidgets.HoverButton(self.master,
                                           width=32,
@@ -108,6 +157,11 @@ class Third_Viewer(object):
                                           height=32,
                                           command=self.button1)
         button1_1.pack(side="top", anchor="nw")
+        
+        
+    def tool_images(self):
+        names = ()
+        
         
     def button1(self):
         newidgets.destroy_child(self.master)

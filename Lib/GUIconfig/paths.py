@@ -8,6 +8,8 @@
 """
 import os
 import sys
+
+# from PIL import  ImageTk,Image
 # import Tkinter as tk
 
 
@@ -72,9 +74,6 @@ class GifPath(object):
 	editor = os.path.join(_base_icons_path, "editor.gif")
 	tool = os.path.join(_base_icons_path, "toolbox.gif")
 	
-	# 应用于toolbar_viewer中的按钮图标
-	python = os.path.join(_base_icons_path, "python_48.gif")
-	python32 = os.path.join(_base_icons_path, "python_32.gif")
 	# def __init__(self):
 	# 	self.addfile = tk.PhotoImage(file=self.gif_add_file)
 	
@@ -96,6 +95,12 @@ class PngIcon(object):
 	empty = os.path.join(_base_icons_path, "empty.gif")
 	add_file = os.path.join(_base_icons_path, "file3.gif")
 	icon = os.path.join(_base_icons_path, "icon.ico")
+	toolbox_45 = os.path.join(_base_icons_path, "toolbox-45.png")
+	toolset_image =os.path.join(_base_icons_path, "Utilities-circle40.png")
+	# def circle_icon_fun(self):
+	# 	img = Image.open(self.circle_icon)
+	# 	photo = ImageTk.PhotoImage(img)
+	# 	return photo
 
 	
 if __name__ == '__main__':

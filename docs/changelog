@@ -22,3 +22,7 @@ detail
     2020 03 17
         1.新增toolbar和右侧的viewer界面
         2.打开Dos界面，大小位置进行调整
+    v2.0
+    2020 07
+        1.Successfully compiled into an executable file (use py2exe).
+        2.Added info bubbles for button.
