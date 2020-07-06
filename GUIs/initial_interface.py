@@ -11,13 +11,15 @@
 程序打开的初始界面
     包含：
     1.toolbar 左侧工具栏
+………………………………………………………………………………………………Description………………………………………………………………………………………
+………………………………………………………………………………………………Description………………………………………………………………………………………
 Usage:
 # ---------------------------------------------------------------------------
 """
 
 import Tkinter as tk
-from collections import OrderedDict
-from PIL import  ImageTk,Image
+import ttk
+from PIL import ImageTk,Image
 
 from GUIconfig import newidgets
 from GUIconfig.paths import PngIcon,GifPath
@@ -55,6 +57,7 @@ class InitialInterface(object):
                                                 command=self.open_viewer3)
         self.button_tool.pack(side="top", anchor="nw")
         # self.window1.mainloop()
+        
 		
     def interface_image(self):
         """初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
@@ -88,7 +91,7 @@ class InitialInterface(object):
     def open_viewer3(self):
         """调用Third_Viewer类"""
         newidgets.destroy_child(self.window2)
-        ToolSet(self.window2)
+        ToolSet(self.window2,func_name)
         # Third_Viewer(self.window2, self.circle)
         
     # -------------------------
@@ -114,29 +117,32 @@ def func4():
     print "func2"
 
 func_name = {
-    u"转换工具":(1,
+	u"顺序":(
+		u"转换工具",u"高标准农田"
+	),
+    u"转换工具":(
         (func1,u"坐标系转换"),
         (func2,u"Excel转shp")
     ),
-    u"高标准农田":(2,
+    u"高标准农田":(
         (func3,u"坐标系转换2"),
         (func4,u"Excel转shp2")
     )
 }
 
-func_name2 = OrderedDict()
-func_name2[u"转换工具"] = (
-        (func1,u"坐标系转换"),
-        (func2,u"Excel转shp")
-    )
-func_name2[u"高标准农田"] =  (
-        (func3,u"坐标系转换2"),
-        (func4,u"Excel转shp2")
-    )
-# func_name2 = (u"转换工具",((func1,u"坐标系转换"),(func2,u"Excel转shp")),u"高标准农田",((func3,u"坐标系转换2"),(func4,u"Excel转shp2")))
-
-for k,v in func_name2.items():
-    print k,v
+# func_name2 = OrderedDict()
+# func_name2[u"转换工具"] = (
+#         (func1,u"坐标系转换"),
+#         (func2,u"Excel转shp")
+#     )
+# func_name2[u"高标准农田"] =  (
+#         (func3,u"坐标系转换2"),
+#         (func4,u"Excel转shp2")
+#     )
+# # func_name2 = (u"转换工具",((func1,u"坐标系转换"),(func2,u"Excel转shp")),u"高标准农田",((func3,u"坐标系转换2"),(func4,u"Excel转shp2")))
+#
+# for k,v in func_name2.items():
+#     print k,v
 
 
 class ToolSet(object):
@@ -144,23 +150,58 @@ class ToolSet(object):
     用于显示工具箱button中的内容
     点击工具箱button启动该类
     """
-    def __init__(self, master, f_n):
+    def __init__(self, master, toolset_dict):
         """
         :param master: tkinter 父部件
         """
         self.master = master
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
+        self.toolset_dict = toolset_dict
         # print "icon:",icon
-        button1_1 = newidgets.HoverButton(self.master,
-                                          width=32,
+        self.make_widget2()
+        
+    def make_widget(self,set_name):
+        labelframe=tk.LabelFrame(self.master,text=set_name,)
+        labelframe.pack(anchor = "nw", fill="x")
+        frame = tk.Frame(labelframe,relief = "flat")
+        # frame.pack(anchor = "w")
+        frame.grid()
+        # print "frame.grab_set():",frame.grab_set() # None
+        # tk.LabelFrame
+        button1_1 = newidgets.HoverButton(frame,
+                                          width=38,
                                           image=self.icon,
-                                          height=32,
+                                          height=38,
                                           command=self.button1)
-        button1_1.pack(side="top", anchor="nw")
+        button1_1.pack(side="top", anchor="center")
+        label = tk.Label(frame,text=u"修改质量等级")
+        label.pack()
+    
+    def make_widget2(self):
+        # The order of tool frame type:List
+        frame_order = self.toolset_dict.pop(u"顺序")
+        for i in frame_order:
+            feature_set = self.toolset_dict[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
+            labelframe = tk.LabelFrame(self.master, text=i)
+            labelframe.pack(anchor="nw", fill="x")
+            for a_feature in feature_set:
+                tool_func = a_feature[0]
+                tool_name = a_feature[1]
+                
+                frame = tk.Frame(labelframe, relief="flat")
+                frame.pack(anchor = "w")
+                # frame.grid()
+                # print "frame.grab_set():",frame.grab_set() # None
+                # tk.LabelFrame
+                button1_1 = newidgets.HoverButton(frame,
+                                                  width=38,
+                                                  image=self.icon,
+                                                  height=38,
+                                                  command=tool_func)
+                button1_1.pack(side="top", anchor="center")
+                label = tk.Label(frame, text=tool_name)
+                label.pack()
         
-        
-    def tool_images(self):
-        names = ()
         
         
     def button1(self):

@@ -60,6 +60,9 @@ class HoverButton(tk.Button):
 		tk.Button.__init__(self, master=master, **kw)
 		self.msg = msg
 		self.follow = follow
+		self.state = 0 # there is no tip bubble
+			# self.state = 1 # exist tip bubble but no enought time to show tip bubble
+							 # mouse pointer leaves	button while tip bubble hide.
 		self.defaultBackground = self["background"]
 		self.config(relief="flat",
 					activebackground="#ffc851")
@@ -82,6 +85,7 @@ class HoverButton(tk.Button):
 		# self.after(int(self.delay * 1000),
 		# 		   self.show)
 		if self.msg:
+			self.state = 0
 			self.spawn_tip(event)
 			self.after(600,self.show_tip)
 			
@@ -89,6 +93,7 @@ class HoverButton(tk.Button):
 		self['background'] = self.defaultBackground
 		# self.config(relief="flat")
 		if self.msg:
+			self.state = 1 # 防止鼠标在
 			self.hide_tip(event)
 			
 	def on_move(self, event):
@@ -111,10 +116,13 @@ class HoverButton(tk.Button):
 				   aspect=1000).grid()  # aspect: use to modify size
 	
 	def show_tip(self):
-		self.tip.deiconify()
+		if self.state != 1:
+			self.tip.deiconify()
+		
 		
 	def hide_tip(self,event):
 		self.tip.withdraw()
+		# self.tip.destroy()
 	
 
 	
