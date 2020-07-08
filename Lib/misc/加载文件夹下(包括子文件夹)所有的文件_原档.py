@@ -59,10 +59,10 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 					if size_limit and os.path.getsize(file_path)!=size_limit:
 						print type(matchword)
 						print matchword
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 					# 没有使用大小限制
 					elif not size_limit:
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 					# 使用了大小限制，符合大小要求
 					else:
 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
@@ -75,10 +75,10 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 					if size_limit and os.path.getsize(file_path) != size_limit:
 						print type(matchword)
 						print matchword
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 					# 没有使用大小限制
 					elif not size_limit:
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 					# 使用了大小限制，符合大小要求
 					else:
 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
@@ -88,11 +88,13 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 					# print type(matchword)
 					# print matchword
 					# __getall_items.append(file_path)
-	return __getall_items
+	return _getall_items
 
 
-dir_path = arcpy.GetParameterAsText(0)
-match_w = arcpy.GetParameterAsText(1)
+# dir_path = arcpy.GetParameterAsText(0)
+dir_path = ur"F:\19-20年威远县\威远11-18年\510000高标准农田建设上图入库数据20200702"
+# match_w = arcpy.GetParameterAsText(1)
+match_w = "GBZ"
 arcpy.AddMessage(match_w)
 arcpy.AddMessage(type(match_w))
 

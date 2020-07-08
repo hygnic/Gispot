@@ -5,6 +5,7 @@
 """
 GUI  所用工具和脚本用GUI"""
 import os
+import ttk
 import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
@@ -702,6 +703,7 @@ if __name__ == '__main__':
 	class TstApp(Tooltk):
 		def __init__(self):
 			master = tk.Tk()
+			# master = ThemedTk(theme="arc")
 			super(TstApp, self).__init__(master, None,
 										 self.confirm_method)
 			self.button_confirm["command"] = self.confirm_method

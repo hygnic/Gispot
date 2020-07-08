@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 # User: liaochenchen, hygnic
 # Date: 2019/10/19
-"""该工具的主体界面"""
+
+"""
+*************************************该工具的主体界面****************************
+********************************************************************************
+*************************************CLASS: AppEntrance*************************
+*************************************MAIN FEATURES:*****************************
+                                menu: menu
+                                run_toolbar_viewer: Toolbar
+                                
+********************************************************************************
+********************************************************************************
+"""
 import os
 import Tkinter as tk
 import sys
@@ -73,6 +84,7 @@ class AppEntrance(object):
     def __init__(self):
         self.rootwindow = tk.Tk()
         self.rootwindow.title("GISPOT")
+        # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
         newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
         self.rootwindow.iconbitmap(default=
                                    icon) #TODO 暂时关闭图标

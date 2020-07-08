@@ -91,44 +91,44 @@ class InitialInterface(object):
     def open_viewer3(self):
         """调用Third_Viewer类"""
         newidgets.destroy_child(self.window2)
-        ToolSet(self.window2,func_name)
+        ToolSet(self.window2)
         # Third_Viewer(self.window2, self.circle)
         
     # -------------------------
     # 将带有参数的类变成方法和button绑定
     # def show_first_viewer(self):
 
-def func1():
-    # name: 坐标系转换
-    print "func1"
-    
-def func2():
-    # name: Excel转shp
-    print "func2"
-
-
-def func3():
-    # name: 坐标系转换
-    print "func1"
-
-
-def func4():
-    # name: Excel转shp
-    print "func2"
-
-func_name = {
-	u"顺序":(
-		u"转换工具",u"高标准农田"
-	),
-    u"转换工具":(
-        (func1,u"坐标系转换"),
-        (func2,u"Excel转shp")
-    ),
-    u"高标准农田":(
-        (func3,u"坐标系转换2"),
-        (func4,u"Excel转shp2")
-    )
-}
+# def func1():
+#     # name: 坐标系转换
+#     print "func1"
+#
+# def func2():
+#     # name: Excel转shp
+#     print "func2"
+#
+#
+# def func3():
+#     # name: 坐标系转换
+#     print "func1"
+#
+#
+# def func4():
+#     # name: Excel转shp
+#     print "func2"
+#
+# func_name = {
+# 	u"顺序":(
+# 		u"转换工具",u"高标准农田"
+# 	),
+#     u"转换工具":(
+#         (func1,u"坐标系转换"),
+#         (func2,u"Excel转shp")
+#     ),
+#     u"高标准农田":(
+#         (func3,u"坐标系转换2"),
+#         (func4,u"Excel转shp2")
+#     )
+# }
 
 # func_name2 = OrderedDict()
 # func_name2[u"转换工具"] = (
@@ -144,24 +144,25 @@ func_name = {
 # for k,v in func_name2.items():
 #     print k,v
 
-
+        
 class ToolSet(object):
     """
     用于显示工具箱button中的内容
     点击工具箱button启动该类
     """
-    def __init__(self, master, toolset_dict):
+    
+    def __init__(self, master):
         """
         :param master: tkinter 父部件
         """
         self.master = master
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
-        self.toolset_dict = toolset_dict
-        # print "icon:",icon
+        self.toolset_dict = self.make_dict()
         self.make_widget2()
         
-    def make_widget(self,set_name):
-        labelframe=tk.LabelFrame(self.master,text=set_name,)
+    def make_widget(self,set_name): # 5294e2
+        labelframe=tk.LabelFrame(self.master,text=set_name,bg="blue")
+        
         labelframe.pack(anchor = "nw", fill="x")
         frame = tk.Frame(labelframe,relief = "flat")
         # frame.pack(anchor = "w")
@@ -179,27 +180,37 @@ class ToolSet(object):
     
     def make_widget2(self):
         # The order of tool frame type:List
-        frame_order = self.toolset_dict.pop(u"顺序")
+        frame_order = self.toolset_dict[u"顺序"]
         for i in frame_order:
             feature_set = self.toolset_dict[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
-            labelframe = tk.LabelFrame(self.master, text=i)
-            labelframe.pack(anchor="nw", fill="x")
+            
+            # font=('Times',10,'bold','italic') # ,bg="#5294e2"
+            # foreground="#5294e2", background= "#ffffff" #f5f6f7 SystemWindow
+            color1 = "#f5f6f7" # 浅灰白
+            labelframe = tk.LabelFrame(
+                self.master, text=i, labelanchor="nw",width=10,
+                relief="flat",borderwidth =10,background= color1
+            )
+            
+            labelframe.pack(anchor="nw",fill="x")
+            print labelframe.winfo_class()
             for a_feature in feature_set:
                 tool_func = a_feature[0]
+                # print "tool_func:",tool_func
                 tool_name = a_feature[1]
                 
-                frame = tk.Frame(labelframe, relief="flat")
-                frame.pack(anchor = "w")
+                frame = tk.Frame(labelframe, relief="flat",background= color1)
+                frame.pack(anchor = "w",side="left") # 保证横向排列
                 # frame.grid()
                 # print "frame.grab_set():",frame.grab_set() # None
                 # tk.LabelFrame
-                button1_1 = newidgets.HoverButton(frame,
+                button1_1 = newidgets.HoverButton(frame,background= color1,
                                                   width=38,
                                                   image=self.icon,
                                                   height=38,
                                                   command=tool_func)
                 button1_1.pack(side="top", anchor="center")
-                label = tk.Label(frame, text=tool_name)
+                label = tk.Label(frame, text=tool_name,width=10,background= color1)
                 label.pack()
         
         
@@ -207,3 +218,39 @@ class ToolSet(object):
     def button1(self):
         newidgets.destroy_child(self.master)
         save_acopy.SaveACopy(self.master)
+        
+    def button2(self):
+        # newidgets.destroy_child(self.master)
+        print "ok"
+        
+    def func1(self):
+        # name: 坐标系转换
+        print "func1"
+
+    def func2(self):
+        # name: Excel转shp
+        print "func2"
+
+    def func3(self):
+        # name: 坐标系转换
+        print "func1"
+
+    def func4(self):
+        # name: Excel转shp
+        print "func2"
+    
+    def make_dict(self):
+        func_name = {
+            u"顺序": (
+                u"转换工具", u"高标准农田"
+            ),
+            u"转换工具": (
+                (self.func1, u"坐标系转换"),
+                (self.func2, u"Excel转shp")
+            ),
+            u"高标准农田": (
+                (self.func3, u"坐标系转换2"),
+                (self.func4, u"Excel转shp2")
+            )
+        }
+        return func_name
