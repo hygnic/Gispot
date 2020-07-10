@@ -22,7 +22,7 @@ import ttk
 from PIL import ImageTk,Image
 
 from GUIconfig import newidgets
-from GUIconfig.paths import PngIcon,GifPath
+from GUIconfig.guisetting import PngIcon,GifPath,Colour
 import vitems
 from crcpy import save_acopy
 
@@ -39,24 +39,22 @@ class InitialInterface(object):
         self.window2 = master2 # 右边
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
         self.button_viewer = newidgets.HoverButton(self.window1,
-                                                   width=45,
+                                                   width=45, height=45,
                                                    image = self.icon_editor,
-                                                   height = 45, command =self.first_viewer)
+                                                   command =self.first_viewer)
         self.button_viewer.pack(side ="top", anchor ="nw")
         # 第er个button，作用是调出dos命令等（暂时）
         self.button_dos = newidgets.HoverButton(self.window1,
-                                                width=45,
+                                                width=45, height = 45,
                                                 image = self.icon_dos,
-                                                height = 45, command =self.second_viewer)
+                                                command =self.second_viewer)
         self.button_dos.pack(side ="top", anchor ="nw")
         # Tool button,the Third button which shows some features button
         self.button_tool = newidgets.HoverButton(self.window1,msg= "Tools",
-                                                width=45,
+                                                width=45, height=45,
                                                 image=self.icon_tool,
-                                                height=45,
                                                 command=self.open_viewer3)
         self.button_tool.pack(side="top", anchor="nw")
-        # self.window1.mainloop()
         
 		
     def interface_image(self):
@@ -156,62 +154,83 @@ class ToolSet(object):
         :param master: tkinter 父部件
         """
         self.master = master
+        self.white_light = Colour.white_light
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
-        self.toolset_dict = self.make_dict()
-        self.make_widget2()
-        
-    def make_widget(self,set_name): # 5294e2
-        labelframe=tk.LabelFrame(self.master,text=set_name,bg="blue")
-        
-        labelframe.pack(anchor = "nw", fill="x")
-        frame = tk.Frame(labelframe,relief = "flat")
-        # frame.pack(anchor = "w")
-        frame.grid()
-        # print "frame.grab_set():",frame.grab_set() # None
-        # tk.LabelFrame
-        button1_1 = newidgets.HoverButton(frame,
-                                          width=38,
-                                          image=self.icon,
-                                          height=38,
-                                          command=self.button1)
-        button1_1.pack(side="top", anchor="center")
-        label = tk.Label(frame,text=u"修改质量等级")
-        label.pack()
+        frames = self.main_widget(self.make_test_dict())
+        # for a_f in frames:
+        #     a_f.bind("<Enter>", self.on_enter)
+
+    # def on_enter(event):
+    #     labelframe["relief"] = "groove"
+    #
+    # def on_leave(event):
+    #     labelframe["relief"] = "flat"
+    #
+    # labelframe.bind("<Enter>", on_enter)
+    # labelframe.bind("<Leave>", on_leave)
     
-    def make_widget2(self):
+    
+    def main_widget(self,funcs):
+        """
+         funcs(Dict): a function which return a dictionary containing feature widget(function)
+         such as :
+            def make_test_dict(self):
+                func_name = {
+                    u"顺序": (
+                        u"转换工具", u"高标准农田"
+                    ),
+                    u"转换工具": (
+                        (self.test_func1, u"坐标系转换"),
+                        (self.test_func2, u"Excel转shp")
+                    ),
+                    u"高标准农田": (
+                        (self.test_func3, u"坐标系转换2"),
+                        (self.test_func4, u"Excel转shp2")
+                    )
+                }
+                return func_name
+        :return:
+        """
+        _widgets_l = []
         # The order of tool frame type:List
-        frame_order = self.toolset_dict[u"顺序"]
+        frame_order = funcs[u"顺序"]
         for i in frame_order:
-            feature_set = self.toolset_dict[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
-            
+            feature_set = funcs[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
+        
             # font=('Times',10,'bold','italic') # ,bg="#5294e2"
             # foreground="#5294e2", background= "#ffffff" #f5f6f7 SystemWindow
-            color1 = "#f5f6f7" # 浅灰白
-            labelframe = tk.LabelFrame(
+            # tk.LabelFrame; newidgets.NeewwLabelFrame
+            labelframe = newidgets.NeewwLabelFrame(
                 self.master, text=i, labelanchor="nw",width=10,
-                relief="flat",borderwidth =10,background= color1
-            )
-            
+                relief="flat",borderwidth =3,background= self.white_light)
             labelframe.pack(anchor="nw",fill="x")
-            print labelframe.winfo_class()
+            # print labelframe.winfo_class() # Labelframe
+            
+            _widgets_l.append(labelframe)
+            # A SET OF BUTTONS**************************************************
             for a_feature in feature_set:
                 tool_func = a_feature[0]
                 # print "tool_func:",tool_func
                 tool_name = a_feature[1]
-                
-                frame = tk.Frame(labelframe, relief="flat",background= color1)
+            
+                frame = tk.Frame(labelframe, relief="flat",background= self.white_light)
                 frame.pack(anchor = "w",side="left") # 保证横向排列
                 # frame.grid()
                 # print "frame.grab_set():",frame.grab_set() # None
                 # tk.LabelFrame
-                button1_1 = newidgets.HoverButton(frame,background= color1,
+                button1_1 = newidgets.HoverButton(frame,background= self.white_light,
                                                   width=38,
                                                   image=self.icon,
                                                   height=38,
                                                   command=tool_func)
                 button1_1.pack(side="top", anchor="center")
-                label = tk.Label(frame, text=tool_name,width=10,background= color1)
+                label = tk.Label(frame, text=tool_name,width=10,background= self.white_light)
                 label.pack()
+            #*******************************************************************
+    
+        return _widgets_l
+
+        
         
         
         
@@ -219,38 +238,34 @@ class ToolSet(object):
         newidgets.destroy_child(self.master)
         save_acopy.SaveACopy(self.master)
         
-    def button2(self):
-        # newidgets.destroy_child(self.master)
-        print "ok"
-        
-    def func1(self):
+    def test_func1(self):
         # name: 坐标系转换
         print "func1"
 
-    def func2(self):
+    def test_func2(self):
         # name: Excel转shp
         print "func2"
 
-    def func3(self):
+    def test_func3(self):
         # name: 坐标系转换
         print "func1"
 
-    def func4(self):
+    def test_func4(self):
         # name: Excel转shp
         print "func2"
     
-    def make_dict(self):
+    def make_test_dict(self):
         func_name = {
             u"顺序": (
                 u"转换工具", u"高标准农田"
             ),
             u"转换工具": (
-                (self.func1, u"坐标系转换"),
-                (self.func2, u"Excel转shp")
+                (self.test_func1, u"坐标系转换"),
+                (self.test_func2, u"Excel转shp")
             ),
             u"高标准农田": (
-                (self.func3, u"坐标系转换2"),
-                (self.func4, u"Excel转shp2")
+                (self.test_func3, u"坐标系转换2"),
+                (self.test_func4, u"Excel转shp2")
             )
         }
         return func_name

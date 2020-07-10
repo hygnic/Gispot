@@ -15,10 +15,10 @@ GST CJQYDM 08001
 
 import os,re
 import tooltk
-from GUIconfig import paths
+from GUIconfig import guisetting
 # print "name:GSTrename"
 
-gstname_path = paths.DocPath.doc_gstrename
+gstname_path = guisetting.DocPath.doc_gstrename
 
 def gst_rename(txt_path, jpg_path):
 	"""

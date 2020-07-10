@@ -65,9 +65,9 @@ def getvalue_from_attribute(layer, txt_output,strrr, class_field, value_field):
 
 
 if __name__ == '__main__':
-	txt_path = ur"G:\高标准分布图\510604罗江县_没有出图\out.txt"
+	txt_path = ur"G:\12.txt"
 	mxd = arcpy.mapping.MapDocument("CURRENT")
-	layer_dltb= arcpy.mapping.ListLayers(mxd, "DLTB_allfield")[0]
+	layer_dltb= arcpy.mapping.ListLayers(mxd, "DLTB5108122018_SpatialJoin")[0]
 	layer_GBZ= arcpy.mapping.ListLayers(mxd,"GBZ*") # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
 	print "GBZ_count:",len(layer_GBZ)
 	for i in layer_GBZ:
@@ -75,12 +75,12 @@ if __name__ == '__main__':
 		real_name = i.name[15:-2]
 		try:
 			arcpy.SelectLayerByLocation_management(layer_dltb, "WITHIN", i,
-											   "", "NEW_SELECTION",
-											   "NOT_INVERT")
+											   "", "NEW_SELECTION") # 10.1只有五个要素
 		except arcpy.ExecuteError as e:
 			print e.message
 			continue
-		getvalue_from_attribute(layer_dltb, txt_path,real_name,"MC_new", "TBDLMJ")
+		getvalue_from_attribute(layer_dltb, txt_path,real_name,u"行政区名称", u"图斑地类面")
+		# getvalue_from_attribute(layer_dltb, txt_path,real_name,"MC_new", "TBDLMJ")
 
 
 # def getvalue_from_attribute(area, name, xx):

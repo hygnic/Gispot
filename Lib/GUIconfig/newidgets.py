@@ -118,8 +118,7 @@ class HoverButton(tk.Button):
 	def show_tip(self):
 		if self.state != 1:
 			self.tip.deiconify()
-		
-		
+	
 	def hide_tip(self,event):
 		self.tip.withdraw()
 		# self.tip.destroy()
@@ -167,7 +166,24 @@ class NeewwText(tk.Text):
 		"""Return the text from INDEX1 to INDEX2 (not included)."""
 		return self.tk.call(self._w, 'get', index1, index2)
 
-	
+
+class NeewwLabelFrame(tk.LabelFrame):
+	#TODO
+	def __init__(self, master, **kw):
+		tk.LabelFrame.__init__(self, master=master, **kw)
+		# self.deaf = self["relief"]
+		self.deaf = "flat"
+		self.bind("<Enter>", self.f_enter)
+		self.bind("<Leave>", self.f_leave)
+		
+	def f_enter(self, event):
+		# self["relief"] = "groove"
+		self.config(relief = "groove" )
+		
+	def f_leave(self, event):
+		# self["relief"] = self.deaf
+		self.config(relief=self.deaf)
+
 class GradientCanvas(tk.Canvas):
 	"""
 	from Bryan Oakley on (https://stackoverflow.com/questions/26178869/

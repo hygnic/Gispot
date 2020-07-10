@@ -6,7 +6,7 @@
 import os
 import Tkinter as tk
 from GUIconfig import newidgets
-from GUIconfig import paths
+from GUIconfig import guisetting
 from teminal import export
 
 
@@ -20,7 +20,7 @@ from teminal import export
 def export_s(master):
 	frame = newidgets.ButtonFrame(
 		master,
-		tk.PhotoImage(file=paths.GifPath.python),
+		tk.PhotoImage(file=guisetting.GifPath.python),
 		"导出图片",command=export.func)
 	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
@@ -50,10 +50,10 @@ class Filter(object):
 	
 	def icon_selector(self):
 		if self.flag1==1:
-			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=paths.GifPath.python),
+			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=guisetting.GifPath.python),
 								  self.name, command=None)
 		elif self.flag1==2:
-			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=paths.GifPath.python),
+			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=guisetting.GifPath.python),
 								  self.name, command=None)
 			
 if __name__ == '__main__':

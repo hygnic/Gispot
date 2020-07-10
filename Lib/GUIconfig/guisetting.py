@@ -1,11 +1,21 @@
-# -*- coding: utf-8 -*-
-# User: liaochenchen, hygnic
-# Date: 2019/11/30
+#!/usr/bin/env python
+# -*- coding:utf-8 -
+# python2 arcgis10.6
+"""
+# Author: LiaoChenchen,hygnic
+# Created on: 2019/11/30
+# Reference:
+………………………………………………………………………………………………Description………………………………………………………………………………………
+………………………………………………………………………………………………Description:……………………………………………………………………………………
+1.图片地址的配置
+2.GUI 界面的颜色配置
+………………………………………………………………………………………………Description………………………………………………………………………………………
+………………………………………………………………………………………………Description………………………………………………………………………………………
+Usage:
+# ---------------------------------------------------------------------------
+"""
 
-"""
-锚点文件,
-从__file__改用sys.args[0]
-"""
+# 锚点文件,从__file__改用sys.args[0]
 import os
 import sys
 
@@ -88,6 +98,10 @@ class DocPath(object):
 	doc_task_dispatch = os.path.join(_Docs_p, "task_dispatch.gc")
 	doc_saveacopy = os.path.join(_Docs_p, "save_acopy.gc")
 
+class Colour(object):
+	# GUI colour settings
+	white_light = "#f5f6f7"  # 浅灰白
+
 
 class PngIcon(object):
 	folder1 = os.path.join(_base_icons_path, "folder1.png")
@@ -97,34 +111,9 @@ class PngIcon(object):
 	icon = os.path.join(_base_icons_path, "icon.ico")
 	toolbox_45 = os.path.join(_base_icons_path, "toolbox-45.png")
 	toolset_image =os.path.join(_base_icons_path, "Utilities-circle40.png")
-	# def circle_icon_fun(self):
-	# 	img = Image.open(self.circle_icon)
-	# 	photo = ImageTk.PhotoImage(img)
-	# 	return photo
+
 
 	
 if __name__ == '__main__':
 	aa = GifPath.github
 	print os.path.exists(aa)
-
-
-# class Path_GC(object):
-# 	"""
-# 	GC帮助文档的配置地址
-# 	"""
-# 	@property
-# 	def explode_mulitp(self):
-# 		return _explode_mulitp
-#
-# 	@property
-# 	def gstrename(self):
-# 		return _gstrename
-#
-# 	@property
-# 	def multip_ejpg(self):
-# 		return _multip_ejpg
-#
-#
-#
-# if __name__ == '__main__':
-# 	pass

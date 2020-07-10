@@ -13,13 +13,13 @@ import arcpy
 import os
 from multiprocessing import Process,Queue
 # from threading import Thread
-from GUIconfig import paths
+from GUIconfig import guisetting
 from GUIconfig import multication
 # sys.path.append("../GUIs")
 import tooltk
 
 
-doc_path = paths.DocPath.doc_me
+doc_path = guisetting.DocPath.doc_me
 
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）

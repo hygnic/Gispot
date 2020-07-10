@@ -71,10 +71,10 @@ import crcpy.task_dispatch
 import teminal.ZLDJ
 # 配置包导入
 from GUIconfig import newidgets
-from GUIconfig import paths
+from GUIconfig import guisetting
 
 # Gispot图标
-icon = paths.PngIcon.icon
+icon = guisetting.PngIcon.icon
 
 import Tix
 # from Tkconstants import *
@@ -140,8 +140,8 @@ class AppEntrance(object):
         def open_u():
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
             weberopen(update_url, new=0, autoraise=True)
-        print paths.GifPath.github
-        self.image_octacat = tk.PhotoImage(file = paths.GifPath.github)
+        print guisetting.GifPath.github
+        self.image_octacat = tk.PhotoImage(file = guisetting.GifPath.github)
         ap_button = newidgets.HoverButton(master=self.gradient_canv,
                                           command=open_u, bd = 2,
                                           image = self.image_octacat,

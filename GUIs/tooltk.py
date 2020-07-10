@@ -13,22 +13,22 @@ from PIL import Image, ImageTk
 
 # 导入配置包、地址包
 from GUIconfig import newidgets
-from GUIconfig import paths
+from GUIconfig import guisetting
 # from GUIconfig.paths import GifPath
-from GUIconfig.paths import PngIcon
+from GUIconfig.guisetting import PngIcon
 
 class GIF(object):
 
 	def __init__(self):
-		self.text = tk.PhotoImage(file=paths.GifPath.textfile)
-		self.addfile = tk.PhotoImage(file=paths.GifPath.add_file)
+		self.text = tk.PhotoImage(file=guisetting.GifPath.textfile)
+		self.addfile = tk.PhotoImage(file=guisetting.GifPath.add_file)
 		
-		self.folder = tk.PhotoImage(file=paths.GifPath.folder)
-		self.close = tk.PhotoImage(file=paths.GifPath.close)
-		self.quit = tk.PhotoImage(file=paths.GifPath.close)
-		self.help = tk.PhotoImage(file=paths.GifPath.info)
-		self.confirm = tk.PhotoImage(file=paths.GifPath.confirm)
-		self.empty_1 = tk.PhotoImage(file=paths.GifPath.empty1)
+		self.folder = tk.PhotoImage(file=guisetting.GifPath.folder)
+		self.close = tk.PhotoImage(file=guisetting.GifPath.close)
+		self.quit = tk.PhotoImage(file=guisetting.GifPath.close)
+		self.help = tk.PhotoImage(file=guisetting.GifPath.info)
+		self.confirm = tk.PhotoImage(file=guisetting.GifPath.confirm)
+		self.empty_1 = tk.PhotoImage(file=guisetting.GifPath.empty1)
 		
 	# @staticmethod
 	# def dd():
@@ -97,16 +97,16 @@ class Tooltk(object):
 	
 	def icon_set(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
-		self.gif_text = tk.PhotoImage(file=paths.GifPath.textfile)
-		self.gif_addfile = tk.PhotoImage(file=paths.GifPath.add_file)
+		self.gif_text = tk.PhotoImage(file=guisetting.GifPath.textfile)
+		self.gif_addfile = tk.PhotoImage(file=guisetting.GifPath.add_file)
 		
-		self.gif_folder = tk.PhotoImage(file=paths.GifPath.folder)
-		self.gif_close = tk.PhotoImage(file=paths.GifPath.close)
-		self.gif_quit = tk.PhotoImage(file=paths.GifPath.close)
-		self.gif_help = tk.PhotoImage(file=paths.GifPath.info)
-		self.gif_confirm = tk.PhotoImage(file=paths.GifPath.confirm)
+		self.gif_folder = tk.PhotoImage(file=guisetting.GifPath.folder)
+		self.gif_close = tk.PhotoImage(file=guisetting.GifPath.close)
+		self.gif_quit = tk.PhotoImage(file=guisetting.GifPath.close)
+		self.gif_help = tk.PhotoImage(file=guisetting.GifPath.info)
+		self.gif_confirm = tk.PhotoImage(file=guisetting.GifPath.confirm)
 		
-		self.gif_empty_1 = tk.PhotoImage(file=paths.GifPath.empty1)
+		self.gif_empty_1 = tk.PhotoImage(file=guisetting.GifPath.empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
