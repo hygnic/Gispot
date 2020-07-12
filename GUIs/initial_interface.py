@@ -156,20 +156,17 @@ class ToolSet(object):
         self.master = master
         self.white_light = Colour.white_light
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
-        frames = self.main_widget(self.make_test_dict())
-        # for a_f in frames:
-        #     a_f.bind("<Enter>", self.on_enter)
-
-    # def on_enter(event):
-    #     labelframe["relief"] = "groove"
-    #
-    # def on_leave(event):
-    #     labelframe["relief"] = "flat"
-    #
-    # labelframe.bind("<Enter>", on_enter)
-    # labelframe.bind("<Leave>", on_leave)
-    
-    
+        self.main_widget(self.make_test_dict())
+        self.master["pady"] = 4
+        self.master["padx"] = 4
+        self.make_canve()
+        
+    def make_canve(self):
+        # "#5294e2"
+        cav = tk.Canvas(self.master,height = 4,width =4)
+        cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
+        cav.pack()
+        
     def main_widget(self,funcs):
         """
          funcs(Dict): a function which return a dictionary containing feature widget(function)
@@ -191,29 +188,40 @@ class ToolSet(object):
                 return func_name
         :return:
         """
-        _widgets_l = []
+        label_spec = tk.Label(
+            self.master,
+            relief="flat",borderwidth =-10
+        ) # background="#ffc851",
+
+        # label_spec.pack(anchor="nw", fill="x")
         # The order of tool frame type:List
         frame_order = funcs[u"顺序"]
+        
         for i in frame_order:
             feature_set = funcs[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
-        
             # font=('Times',10,'bold','italic') # ,bg="#5294e2"
             # foreground="#5294e2", background= "#ffffff" #f5f6f7 SystemWindow
-            # tk.LabelFrame; newidgets.NeewwLabelFrame
-            labelframe = newidgets.NeewwLabelFrame(
-                self.master, text=i, labelanchor="nw",width=10,
-                relief="flat",borderwidth =3,background= self.white_light)
-            labelframe.pack(anchor="nw",fill="x")
+            # tk.Frame; newidgets.NeewwFrame
+            big_frame = tk.Frame(
+                self.master,relief="flat",height=20,
+                borderwidth =4,background= self.white_light,
+            )
+            big_frame.pack(anchor="nw",fill="x")
+            label_name = tk.Label(
+                big_frame,text =i,background= self.white_light,
+                font=('bold',10),relief = "flat"
+            )
+            label_name.pack(anchor = "nw",fill = None)
+            label_spec.pack(anchor="nw", fill="x")
             # print labelframe.winfo_class() # Labelframe
             
-            _widgets_l.append(labelframe)
             # A SET OF BUTTONS**************************************************
             for a_feature in feature_set:
                 tool_func = a_feature[0]
                 # print "tool_func:",tool_func
                 tool_name = a_feature[1]
             
-                frame = tk.Frame(labelframe, relief="flat",background= self.white_light)
+                frame = tk.Frame(big_frame, relief="flat",background= self.white_light)
                 frame.pack(anchor = "w",side="left") # 保证横向排列
                 # frame.grid()
                 # print "frame.grab_set():",frame.grab_set() # None
@@ -228,7 +236,6 @@ class ToolSet(object):
                 label.pack()
             #*******************************************************************
     
-        return _widgets_l
 
         
         

@@ -167,23 +167,25 @@ class NeewwText(tk.Text):
 		return self.tk.call(self._w, 'get', index1, index2)
 
 
-class NeewwLabelFrame(tk.LabelFrame):
-	#TODO
+class NeewwFrame(tk.LabelFrame):
 	def __init__(self, master, **kw):
 		tk.LabelFrame.__init__(self, master=master, **kw)
 		# self.deaf = self["relief"]
-		self.deaf = "flat"
+		self.pre_colour = self["background"]
 		self.bind("<Enter>", self.f_enter)
 		self.bind("<Leave>", self.f_leave)
 		
 	def f_enter(self, event):
 		# self["relief"] = "groove"
-		self.config(relief = "groove" )
+		# SystemWindow
+		self["background"] = "SystemWindow"
+		# self.config(relief = "groove" )
 		
 	def f_leave(self, event):
-		# self["relief"] = self.deaf
-		self.config(relief=self.deaf)
-
+		# self["relief"] = "groove"
+		# self["borderwidth"] = 4
+		self["background"] = self.pre_colour
+	
 class GradientCanvas(tk.Canvas):
 	"""
 	from Bryan Oakley on (https://stackoverflow.com/questions/26178869/
@@ -240,14 +242,19 @@ class ButtonFrame(tk.Frame):
 		self.name = name
 		self.command = command
 		wrap_frame = tk.Frame(self.master, relief="groove",bd=10)
-		# wrap_frame.pack(side="left",anchor="nw",fill=None,expand=False)
+		wrap_frame.pack(side="left",anchor="nw",fill=None,expand=False)
 		# wrap_frame.grid(column=0,row=0)
-		button = HoverButton(wrap_frame,image = self.image,
+		self.button = HoverButton(wrap_frame,image = self.image,
 							 command=self.command)
-		button.pack(side="top",fill=None,expand=False)
+		self.button.pack(side="top",fill=None,expand=False)
 		label = tk.Label(wrap_frame,text =self.name)
 		label.pack(side="top",fill=None,expand=False)
-
+		print "ok"
+		
+		
+	@property
+	def framebutton(self):
+		return self.button
 
 class ToolTip(tk.Toplevel):
 	"""
@@ -345,5 +352,4 @@ class ToolTip(tk.Toplevel):
 		self.visible = 0
 		self.withdraw()
 
-class HoverButtonANDToolTip(HoverButton,ToolTip):
-	pass
+

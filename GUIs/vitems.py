@@ -20,7 +20,7 @@ from teminal import export
 def export_s(master):
 	frame = newidgets.ButtonFrame(
 		master,
-		tk.PhotoImage(file=guisetting.GifPath.python),
+		tk.PhotoImage(file=guisetting.GifPath.confirm),
 		"导出图片",command=export.func)
 	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
