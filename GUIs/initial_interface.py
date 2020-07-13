@@ -164,7 +164,7 @@ class ToolSet(object):
     def make_canve(self):
         # "#5294e2"
         cav = tk.Canvas(self.master,height = 4,width =4)
-        cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
+        # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
         cav.pack()
         
     def main_widget(self,funcs):
