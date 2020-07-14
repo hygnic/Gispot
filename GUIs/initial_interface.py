@@ -156,16 +156,20 @@ class ToolSet(object):
         self.master = master
         self.white_light = Colour.white_light
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
-        self.main_widget(self.make_test_dict())
         self.master["pady"] = 4
         self.master["padx"] = 4
+        self.main_widget(self.make_test_dict())
         self.make_canve()
+        
         
     def make_canve(self):
         # "#5294e2"
-        cav = tk.Canvas(self.master,height = 4,width =4)
-        # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
+        # cav = tk.Canvas(self.master,height =20,width =20)
+        cav = tk.Canvas(self.master,width=100, height=100,background = self.white_light)
         cav.pack()
+        # cav.create_line(0, 70, 70, 90, fill="red", ) # dash=(4, 4)
+        cav.create_line(20, 0, 20, 30, fill="red", ) # dash=(4, 4)
+        # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
         
     def main_widget(self,funcs):
         """
