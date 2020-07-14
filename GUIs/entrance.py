@@ -37,23 +37,25 @@ rb_GisCat = os.path.join(root_base, "gispot")
 # E:\move on move on\gispot\GUIs
 rb_GUIs = os.path.join(root_base, "GUIs")
 # E:\move on move on\gispot\GUIs\Icons
-# rbg_Icons = os.path.join(rb_GUIs, "Icons")
+rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
 rb_libs = os.path.join(root_base, "Lib")
 rb_GUIconfig = os.path.join(rb_libs, "GUIconfig")
 
-# giscat_paths = (root_base,
-#                 rb_GisCat,
-#                 rb_GUIs,
-#                 rbg_Icons,
-#                 rbdoc,
-#                 rb_bin,
-#                 rb_libs,
-#                 rb_GUIconfig)
-# for giscat_path in giscat_paths:
-#     sys.path.append(giscat_path)
+giscat_paths = (root_base,
+                rb_GisCat,
+                rb_GUIs,
+                rbg_Icons,
+                rbdoc,
+                rb_bin,
+                rb_libs,
+                rb_GUIconfig)
+for giscat_path in giscat_paths:
+    sys.path.append(giscat_path)
+    
 # print "sys.path:",sys.path
+
 # import LQHD # 识别不了gstrename
 # from gispot.LQHD import gstrename
 # from gispot.crcpy import multip_ejpg
@@ -70,11 +72,11 @@ import crcpy.explode
 import crcpy.task_dispatch
 import teminal.ZLDJ
 # 配置包导入
-from GUIconfig import newidgets
-from GUIconfig import guisetting
+from GUIconfig import GUI,hyini
+from GUIconfig import GUIpath
 
 # Gispot图标
-icon = guisetting.PngIcon.icon
+icon = GUIpath.PngIcon.icon
 
 import Tix
 # from Tkconstants import *
@@ -85,7 +87,7 @@ class AppEntrance(object):
         self.rootwindow = tk.Tk()
         self.rootwindow.title("GISPOT")
         # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
-        newidgets.screen_cetre(self.rootwindow, width=1192, height=650)
+        GUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)
         self.rootwindow.iconbitmap(default=
                                    icon) #TODO 暂时关闭图标
         self.rootwindow.resizable(False, False)
@@ -118,7 +120,7 @@ class AppEntrance(object):
         # 界面
         self.run_menu()
         self.run_toolbar_viewer()
-    
+
     def prograssbar(self):
         self.prograss_int +=10
         bb = Tix.Meter(self.interface_frame, value=self.prograss_int,
@@ -131,7 +133,7 @@ class AppEntrance(object):
         #
        
     def gradient_bar(self):
-        self.gradient_canv = newidgets.GradientCanvas(self.rootwindow,
+        self.gradient_canv = GUI.GradientCanvas(self.rootwindow,
                                                   "#ffc851", "#808000", relief= "flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
         self.gradient_canv.create_text(32,18,text = "gispot 1")
@@ -140,12 +142,12 @@ class AppEntrance(object):
         def open_u():
             update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
             weberopen(update_url, new=0, autoraise=True)
-        print guisetting.GifPath.github
-        self.image_octacat = tk.PhotoImage(file = guisetting.GifPath.github)
-        ap_button = newidgets.HoverButton(master=self.gradient_canv,
-                                          command=open_u, bd = 2,
-                                          image = self.image_octacat,
-                                          width = 30, height = 30)
+        print GUIpath.GifPath.github
+        self.image_octacat = tk.PhotoImage(file = GUIpath.GifPath.github)
+        ap_button = GUI.HoverButton(master=self.gradient_canv,
+                                    command=open_u, bd = 2,
+                                    image = self.image_octacat,
+                                    width = 30, height = 30)
         ap_button.pack(side='top', expand='yes', anchor="se")
         # exxp = tk.Text(self.gradient_canv,height = 1)
         # exxp.pack()
@@ -252,28 +254,28 @@ class AppEntrance(object):
             之前存在的GUI界面
     """
     def open_GSTrename(self):
-        newidgets.destroy_child(self.interface_frame)
+        GUI.destroy_child(self.interface_frame)
         # gstrename.App(self.main_f)
         LQHD.gstrename.App(self.interface_frame)
     
     def open_Multip_exp(self):
-        newidgets.destroy_child(self.interface_frame)
+        GUI.destroy_child(self.interface_frame)
         # multip_ejpg.MultipExp(self.main_f)
         crcpy.multiplexport.MultipExp(self.interface_frame)
     
     # 多进程导出JPEG图片
     def explode_mulitp(self):
-        newidgets.destroy_child(self.interface_frame)
+        GUI.destroy_child(self.interface_frame)
         # explode_mulitp.App(self.main_f)
         crcpy.explode.App(self.interface_frame)
     
     def start_dispatch_task(self):
-        newidgets.destroy_child(self.interface_frame)
+        GUI.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
         crcpy.task_dispatch.StartApp(self.interface_frame)
         
     def start_ZLDJ(self):
-        newidgets.destroy_child(self.interface_frame)
+        GUI.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
         teminal.ZLDJ.AppGUI(self.interface_frame)
         

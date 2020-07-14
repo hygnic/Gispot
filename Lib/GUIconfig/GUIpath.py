@@ -98,10 +98,6 @@ class DocPath(object):
 	doc_task_dispatch = os.path.join(_Docs_p, "task_dispatch.gc")
 	doc_saveacopy = os.path.join(_Docs_p, "save_acopy.gc")
 
-class Colour(object):
-	# GUI colour settings
-	white_light = "#f5f6f7"  # 浅灰白
-
 
 class PngIcon(object):
 	folder1 = os.path.join(_base_icons_path, "folder1.png")

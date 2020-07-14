@@ -12,7 +12,7 @@ Usage:
 import arcpy
 import os
 from hybag import hybasic
-from GUIconfig import guisetting
+from GUIconfig import GUIpath
 import tooltk
 # import tkFileDialog
 # import tkinter as tk
@@ -60,7 +60,7 @@ def main(dir_p,new_dir,version=None):
 		mxd1 = arcpy.mapping.MapDocument(i)
 		mxd1.saveACopy(new_path+"\\"+name+".mxd",version=version)
 		
-doc_path = guisetting.DocPath.doc_saveacopy
+doc_path = GUIpath.DocPath.doc_saveacopy
 class SaveACopy(tooltk.Tooltk):
 
 	def __init__(self, master):

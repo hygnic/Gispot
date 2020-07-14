@@ -5,8 +5,8 @@
 
 import os
 import Tkinter as tk
-from GUIconfig import newidgets
-from GUIconfig import guisetting
+from GUIconfig import GUI
+from GUIconfig import GUIpath
 from teminal import export
 
 
@@ -18,9 +18,9 @@ from teminal import export
 
 # 单进程导出图片JPEG(适用于文件夹和单个mxd文件)
 def export_s(master):
-	frame = newidgets.ButtonFrame(
+	frame = GUI.ButtonFrame(
 		master,
-		tk.PhotoImage(file=guisetting.GifPath.confirm),
+		tk.PhotoImage(file=GUIpath.GifPath.confirm),
 		"导出图片",command=export.func)
 	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
@@ -50,11 +50,11 @@ class Filter(object):
 	
 	def icon_selector(self):
 		if self.flag1==1:
-			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=guisetting.GifPath.python),
-								  self.name, command=None)
+			GUI.ButtonFrame(self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
+							self.name, command=None)
 		elif self.flag1==2:
-			newidgets.ButtonFrame(self.master, tk.PhotoImage(file=guisetting.GifPath.python),
-								  self.name, command=None)
+			GUI.ButtonFrame(self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
+							self.name, command=None)
 			
 if __name__ == '__main__':
 # 	path = ur"G:\MoveOn\Gispot\Lib\misc"

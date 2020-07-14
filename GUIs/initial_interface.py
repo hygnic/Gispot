@@ -21,8 +21,8 @@ import Tkinter as tk
 import ttk
 from PIL import ImageTk,Image
 
-from GUIconfig import newidgets
-from GUIconfig.guisetting import PngIcon,GifPath,Colour
+from GUIconfig import GUI,hyini
+from GUIconfig.GUIpath import PngIcon,GifPath
 import vitems
 from crcpy import save_acopy
 
@@ -38,22 +38,22 @@ class InitialInterface(object):
         self.window1 = master1 # 左边
         self.window2 = master2 # 右边
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
-        self.button_viewer = newidgets.HoverButton(self.window1,
-                                                   width=45, height=45,
-                                                   image = self.icon_editor,
-                                                   command =self.first_viewer)
+        self.button_viewer = GUI.HoverButton(self.window1,
+                                             width=45, height=45,
+                                             image = self.icon_editor,
+                                             command =self.first_viewer)
         self.button_viewer.pack(side ="top", anchor ="nw")
         # 第er个button，作用是调出dos命令等（暂时）
-        self.button_dos = newidgets.HoverButton(self.window1,
-                                                width=45, height = 45,
-                                                image = self.icon_dos,
-                                                command =self.second_viewer)
+        self.button_dos = GUI.HoverButton(self.window1,
+                                          width=45, height = 45,
+                                          image = self.icon_dos,
+                                          command =self.second_viewer)
         self.button_dos.pack(side ="top", anchor ="nw")
         # Tool button,the Third button which shows some features button
-        self.button_tool = newidgets.HoverButton(self.window1,msg= "Tools",
-                                                width=45, height=45,
-                                                image=self.icon_tool,
-                                                command=self.open_viewer3)
+        self.button_tool = GUI.HoverButton(self.window1, msg="Tools",
+                                           width=45, height=45,
+                                           image=self.icon_tool,
+                                           command=self.open_viewer3)
         self.button_tool.pack(side="top", anchor="nw")
         
 		
@@ -73,7 +73,7 @@ class InitialInterface(object):
     # toolbar第yi个图标(一个查看器)打开的物品集 browser
     # 查看器，不可运行
     def first_viewer(self):
-        newidgets.destroy_child(self.window2)
+        GUI.destroy_child(self.window2)
         pass
         # vitems.Filter(self.window2)
 
@@ -83,12 +83,12 @@ class InitialInterface(object):
         master2  interface_frame
         master2
         newidgets.destroy_child(master1)"""
-        newidgets.destroy_child(self.window2)
+        GUI.destroy_child(self.window2)
         vitems.export_s(self.window2)
 
     def open_viewer3(self):
         """调用Third_Viewer类"""
-        newidgets.destroy_child(self.window2)
+        GUI.destroy_child(self.window2)
         ToolSet(self.window2)
         # Third_Viewer(self.window2, self.circle)
         
@@ -154,22 +154,25 @@ class ToolSet(object):
         :param master: tkinter 父部件
         """
         self.master = master
-        self.white_light = Colour.white_light
+        self.light_white = hyini.light_white
         self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
         self.master["pady"] = 4
         self.master["padx"] = 4
+        
         self.main_widget(self.make_test_dict())
-        self.make_canve()
         
-        
-    def make_canve(self):
+    def make_canve(self,color):
         # "#5294e2"
         # cav = tk.Canvas(self.master,height =20,width =20)
-        cav = tk.Canvas(self.master,width=100, height=100,background = self.white_light)
-        cav.pack()
-        # cav.create_line(0, 70, 70, 90, fill="red", ) # dash=(4, 4)
-        cav.create_line(20, 0, 20, 30, fill="red", ) # dash=(4, 4)
-        # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
+        width = 100
+        height = 10
+        cav = tk.Canvas(self.master, width=width, height=height,
+                        background = self.light_white, bd=0)
+        cav.pack(fill="x")
+        for i in xrange(hyini.width):
+            # cav.create_line(0, 70, 70, 90, fill="red", ) # dash=(4, 4)
+            cav.create_line(i, 0, i, height, fill=color, ) # dash=(4, 4)
+            # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
         
     def main_widget(self,funcs):
         """
@@ -192,10 +195,6 @@ class ToolSet(object):
                 return func_name
         :return:
         """
-        label_spec = tk.Label(
-            self.master,
-            relief="flat",borderwidth =-10
-        ) # background="#ffc851",
 
         # label_spec.pack(anchor="nw", fill="x")
         # The order of tool frame type:List
@@ -208,16 +207,15 @@ class ToolSet(object):
             # tk.Frame; newidgets.NeewwFrame
             big_frame = tk.Frame(
                 self.master,relief="flat",height=20,
-                borderwidth =4,background= self.white_light,
+                borderwidth =4,background= self.light_white,
             )
             big_frame.pack(anchor="nw",fill="x")
             label_name = tk.Label(
-                big_frame,text =i,background= self.white_light,
+                big_frame,text =i,background= self.light_white,
                 font=('bold',10),relief = "flat"
             )
             label_name.pack(anchor = "nw",fill = None)
-            label_spec.pack(anchor="nw", fill="x")
-            # print labelframe.winfo_class() # Labelframe
+            self.make_canve(hyini.light_blue)
             
             # A SET OF BUTTONS**************************************************
             for a_feature in feature_set:
@@ -225,18 +223,18 @@ class ToolSet(object):
                 # print "tool_func:",tool_func
                 tool_name = a_feature[1]
             
-                frame = tk.Frame(big_frame, relief="flat",background= self.white_light)
+                frame = tk.Frame(big_frame, relief="flat", background= self.light_white)
                 frame.pack(anchor = "w",side="left") # 保证横向排列
                 # frame.grid()
                 # print "frame.grab_set():",frame.grab_set() # None
                 # tk.LabelFrame
-                button1_1 = newidgets.HoverButton(frame,background= self.white_light,
-                                                  width=38,
-                                                  image=self.icon,
-                                                  height=38,
-                                                  command=tool_func)
+                button1_1 = GUI.HoverButton(frame, background= self.light_white,
+                                            width=38,
+                                            image=self.icon,
+                                            height=38,
+                                            command=tool_func)
                 button1_1.pack(side="top", anchor="center")
-                label = tk.Label(frame, text=tool_name,width=10,background= self.white_light)
+                label = tk.Label(frame, text=tool_name, width=10, background= self.light_white)
                 label.pack()
             #*******************************************************************
     
@@ -246,7 +244,7 @@ class ToolSet(object):
         
         
     def button1(self):
-        newidgets.destroy_child(self.master)
+        GUI.destroy_child(self.master)
         save_acopy.SaveACopy(self.master)
         
     def test_func1(self):

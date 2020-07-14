@@ -16,7 +16,7 @@ from multiprocessing import Process,Queue
 
 import tooltk
 from hybag import hybasic
-from GUIconfig import guisetting
+from GUIconfig import GUIpath
 from GUIconfig import multication
 
 # import sys,codecs

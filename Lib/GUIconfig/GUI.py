@@ -14,6 +14,7 @@
 import Tkinter as tk
 from time import time
 
+
 def screen_cetre(master, width=None, height=None):
 	# 窗口居中
 	screenwidth = master.winfo_screenwidth()

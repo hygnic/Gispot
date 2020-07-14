@@ -15,11 +15,11 @@ import multiprocessing
 from GUIconfig import multication
 import tooltk
 # from GUIs import entrance
-from GUIconfig import guisetting
+from GUIconfig import GUIpath
 # import subprocess
 
 
-em_path = guisetting.DocPath.doc_em
+em_path = GUIpath.DocPath.doc_em
 
 def explode_m(qq, shp_p, new_shp):
 	"""

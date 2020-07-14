@@ -15,11 +15,11 @@ import Tkinter as tk
 import os
 
 from multiprocessing import Process
-from GUIconfig import multication,guisetting
+from GUIconfig import multication,GUIpath
 from ccutility import databutcher
 import tooltk
 
-td_path = guisetting.DocPath.doc_task_dispatch
+td_path = GUIpath.DocPath.doc_task_dispatch
 
 def path_detect(path_d):
 	"""检测目录是否存在并建立"""
