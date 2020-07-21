@@ -31,6 +31,7 @@ def hybag_addshp(shp_path,fresh=True):
 		arcpy.RefreshTOC()  # 刷新内容列表
 
 _getall_items = []
+_not_get = []
 def recur_search(dirs_p, suffix,size_limit, matchword=None):
 	"""
 	import os
@@ -43,6 +44,7 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 	:return: list
 	"""
 	global _getall_items
+	global _not_get
 	matchword=str(matchword)
 	for file_p in os.listdir(dirs_p):
 		file_path = os.path.join(dirs_p,file_p)
@@ -66,6 +68,7 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 					# 使用了大小限制，符合大小要求
 					else:
 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
+						_not_get.append(file_path)
 						arcpy.AddMessage("空项目/未添加项：")
 						arcpy.AddMessage(os.path.splitext(os.path.basename(file_path))[0])
 			else:
@@ -82,6 +85,7 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 					# 使用了大小限制，符合大小要求
 					else:
 						# 得在开头添加 cp936才行，不让arctoolbox报错EOL error
+						_not_get.append(file_path)
 						arcpy.AddMessage("空项目/未添加项：")
 						arcpy.AddMessage(
 							os.path.splitext(os.path.basename(file_path))[0])
@@ -91,10 +95,10 @@ def recur_search(dirs_p, suffix,size_limit, matchword=None):
 	return _getall_items
 
 
-# dir_path = arcpy.GetParameterAsText(0)
-dir_path = ur"F:\19-20年威远县\威远11-18年\510000高标准农田建设上图入库数据20200702"
-# match_w = arcpy.GetParameterAsText(1)
-match_w = "GBZ"
+dir_path = arcpy.GetParameterAsText(0)
+# dir_path = ur"F:\19-20年威远县\威远11-18年\510000高标准农田建设上图入库数据20200702"
+match_w = arcpy.GetParameterAsText(1)
+# match_w = "GBZ"
 arcpy.AddMessage(match_w)
 arcpy.AddMessage(type(match_w))
 
@@ -106,11 +110,14 @@ arcpy.AddMessage(type(match_w))
 
 filelist = recur_search(dir_path, "shp",100, matchword=match_w)
 count = len(filelist)
+count1 = len(_not_get)
 arcpy.AddMessage("\n"+"loading...")
 for afile in filelist:
 	hybag_addshp(afile)
 msg1 = str(count)+ " files loaded"
+msg2 = str(count1)+ " files not loaded"
 arcpy.AddMessage("\n"+msg1)
+arcpy.AddMessage(msg2)
 
 # if __name__ == '__main__':
 # 	files = hybag_getall_item(
