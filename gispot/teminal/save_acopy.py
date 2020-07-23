@@ -11,7 +11,7 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from hybase import hybase
+from hybag import hybasic
 
 
 def main(dir_p, new_dir, version=None):
@@ -46,7 +46,7 @@ def main(dir_p, new_dir, version=None):
 	suff = "mxd"
 	version = str(version)
 	# 获取文件夹下所有文件
-	path_list = hybase.HBgetfile(path, suff, False)
+	path_list = hybasic.getfiles(path, suff, False)
 	for i in path_list:
 		i_base = os.path.basename(i)
 		name = os.path.splitext(i_base)[0]
@@ -54,7 +54,14 @@ def main(dir_p, new_dir, version=None):
 		# mxd_p =os.path.join(path,i)
 		# print mxd_p
 		mxd1 = arcpy.mapping.MapDocument(i)
-		mxd1.saveACopy(new_path + "\\" + name + ".mxd", version=version)
+		print "here1"
+		# mxd1.saveACopy(new_path + "\\" + name + ".mxd", version=version)
+		mxd1.saveACopy(ur"D:\test\df.mxd", version=version)
+
 
 if __name__ == '__main__':
-	main(ur"G:\内江市\市中区分布图\MXD",ur"G:\内江市\市中区分布图\MXD\10.3版本",version=10.1)
+	# main(ur"G:\内江市\市中区分布图\MXD",ur"G:\内江市\市中区分布图\MXD\10.3版本",version=10.1)
+	# main(ur"G:\高标准分布图\大邑县", ur"D:\test", version=10.1)
+	mxd = arcpy.mapping.MapDocument(ur"G:\高标准分布图\崇州\崇州市.mxd")
+	# mxd = arcpy.mapping.MapDocument(ur"G:\19_20年高标准\眉山东坡区\东坡区.mxd")
+	mxd.saveACopy(ur"D:\test\df.mxd", version="10.1")
