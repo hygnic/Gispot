@@ -170,7 +170,7 @@ class Tooltk(object):
 		下半部分显示动态信息"""
 		# 上栏
 		self.msgframe = stt.ScrolledText(
-			self.frame_right_side, height="10", width="90")
+			self.frame_right_side, height="10", width="50",wrap="char") #width="90"  font=('黑体', 12, 'bold'),
 		# 不起作用，将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.msgframe.insert(
@@ -180,7 +180,7 @@ class Tooltk(object):
 		)  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.msgframe.pack(
-			side="top", anchor="n", expand=True, fill="both", padx=2)
+			side="top", anchor="n", expand=False, fill="both", padx=2)
 		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(
 			self.frame_right_side, relief="flat", elementborderwidth=-15)
