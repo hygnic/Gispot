@@ -56,7 +56,6 @@ def code2exe():
 # code2exe()
 
 
-
 class GifPath(object):
 	"""
 	gif图片的路径
@@ -70,13 +69,13 @@ class GifPath(object):
 	add_file = os.path.join(_base_icons_path, "file3.gif")
 	
 	info = os.path.join(_base_icons_path, "help_info_3.gif")
-	confirm= os.path.join(_base_icons_path, "confirm32_9.gif")
+	confirm = os.path.join(_base_icons_path, "confirm32_9.gif")
 	
-	github= os.path.join(_base_icons_path, "GitHub_32.gif")
+	github = os.path.join(_base_icons_path, "GitHub_32.gif")
 	# gif_github= os.path.join(ur"G:\MoveOn\Gispot_copy\bin\dist\images", "GitHub_32.gif")
 	# gif_github= os.path.join(ur"images", "GitHub_32.gif")
 	
-	empty1 =os.path.join(_base_icons_path, "empty.gif")
+	empty1 = os.path.join(_base_icons_path, "empty.gif")
 	# gif_test= os.path.join(_base_icons_path, "folder_1.gif")
 	
 	# 应用于toolbar中的按钮图标
@@ -109,7 +108,6 @@ class PngIcon(object):
 	toolset_image =os.path.join(_base_icons_path, "Utilities-circle40.png")
 
 
-	
 if __name__ == '__main__':
 	aa = GifPath.github
 	print os.path.exists(aa)

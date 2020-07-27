@@ -20,13 +20,14 @@ def screen_cetre(master, width=None, height=None):
 	screenwidth = master.winfo_screenwidth()
 	screenheight = master.winfo_screenheight()
 	if width is None:
-		width, height = 800,660
-	geometry_size = "{}x{}+{}+{}".format(width, height,
-										 (screenwidth - width) / 2-200,
-										 (screenheight - height) / 2)
+		width, height = 800, 660
+	geometry_size = "{}x{}+{}+{}".format(
+		width, height, (screenwidth - width) / 2-200,
+		(screenheight - height) / 2)
 	master.geometry(geometry_size)
 	# geometry = '%dx%d+%d+%d' % (
 	# width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+	
 	
 def destroy_child(master):
 	"""
@@ -39,7 +40,6 @@ def destroy_child(master):
 	if widget_set:
 		for i in widget_set:
 			i.destroy()
-
 
 
 class HoverButton(tk.Button):
@@ -61,12 +61,11 @@ class HoverButton(tk.Button):
 		tk.Button.__init__(self, master=master, **kw)
 		self.msg = msg
 		self.follow = follow
-		self.state = 0 # there is no tip bubble
+		self.state = 0  # there is no tip bubble
 			# self.state = 1 # exist tip bubble but no enought time to show tip bubble
 							 # mouse pointer leaves	button while tip bubble hide.
 		self.defaultBackground = self["background"]
-		self.config(relief="flat",
-					activebackground="#ffc851")
+		self.config(relief="flat", activebackground="#ffc851")
 		# print self["state"] # disabled normal
 		if not self["state"] == "disabled":
 			self.bind("<Enter>", self.on_enter)
@@ -74,7 +73,7 @@ class HoverButton(tk.Button):
 			if msg:
 				self.bind("<Motion>", self.on_move)
 			
-	#解除绑定
+	# 解除绑定
 	def close(self):
 		self.unbind("<Enter>")
 		self.unbind("<Leave>")
@@ -106,25 +105,23 @@ class HoverButton(tk.Button):
 	# bind info bubble to a button
 	# let tooltip follow you mouse pointer's motion
 	def spawn_tip(self, event):
-		self.tip = tk.Toplevel(self, bg='black', padx=1,
-							   pady=1)
+		self.tip = tk.Toplevel(self, bg='black', padx=1, pady=1)
 		self.tip.overrideredirect(True)  # remove
 		self.tip.withdraw()
 		output = tk.StringVar()
 		output.set(self.msg)
 		# "#ffc851" '#FFFFDD'
-		tk.Message(self.tip, textvariable=output, bg="#FFFFDD",
-				   aspect=1000).grid()  # aspect: use to modify size
+		tk.Message(
+			self.tip, textvariable=output, bg="#FFFFDD",
+			aspect=1000).grid()  # aspect: use to modify size
 	
 	def show_tip(self):
 		if self.state != 1:
 			self.tip.deiconify()
 	
-	def hide_tip(self,event):
+	def hide_tip(self, event):
 		self.tip.withdraw()
 		# self.tip.destroy()
-	
-
 	
 
 class NeewwEntry(tk.Entry):
@@ -157,12 +154,13 @@ class NeewwText(tk.Text):
 	"""
 	def __init__(self, master, **kw):
 		tk.Text.__init__(self, master=master, **kw)
-		self.config( maxundo=15, undo=True)
-		self.bind_class("Text","<Control-a>", self.selectall)
+		self.config(maxundo=15, undo=True)
+		self.bind_class("Text", "<Control-a>", self.selectall)
 	
 	def selectall(self, event):
 		event.widget.tag_add("sel","1.0","end")
 	# 重新复写tk.Text().get()方法，默认其获得全部信息
+	
 	def get(self, index1="0.0", index2="end"):
 		"""Return the text from INDEX1 to INDEX2 (not included)."""
 		return self.tk.call(self._w, 'get', index1, index2)
@@ -187,6 +185,7 @@ class NeewwFrame(tk.LabelFrame):
 		# self["borderwidth"] = 4
 		self["background"] = self.pre_colour
 	
+	
 class GradientCanvas(tk.Canvas):
 	"""
 	from Bryan Oakley on (https://stackoverflow.com/questions/26178869/
@@ -204,7 +203,7 @@ class GradientCanvas(tk.Canvas):
 		self._color1 = color1
 		self._color2 = color2
 		self.bind("<Configure>", self._draw_gradient)
-		self.config(relief = "flat",highlightthickness = 0)
+		self.config(relief="flat", highlightthickness=0)
 
 	def _draw_gradient(self, event=None):
 		"""Draw the gradient"""
@@ -223,13 +222,13 @@ class GradientCanvas(tk.Canvas):
 			ng = int(g1 + (g_ratio * i))
 			nb = int(b1 + (b_ratio * i))
 			color = "#%4.4x%4.4x%4.4x" % (nr,ng,nb)
-			self.create_line(i,0,i,height, tags=("gradient",), fill=color)
+			self.create_line(i, 0, i, height, tags=("gradient",), fill=color)
 		self.lower("gradient")
 		
 		
 class ButtonFrame(tk.Frame):
 	"""图标按钮与名称的组合frame"""
-	def __init__(self, master,image,name,command, **kw):
+	def __init__(self, master, image, name, command, **kw):
 		"""
 		:param master:
 		:param image: 图标地址
@@ -242,20 +241,20 @@ class ButtonFrame(tk.Frame):
 		self.image = image
 		self.name = name
 		self.command = command
-		wrap_frame = tk.Frame(self.master, relief="groove",bd=10)
-		wrap_frame.pack(side="left",anchor="nw",fill=None,expand=False)
+		wrap_frame = tk.Frame(self.master, relief="groove", bd=10)
+		wrap_frame.pack(side="left", anchor="nw", fill=None, expand=False)
 		# wrap_frame.grid(column=0,row=0)
-		self.button = HoverButton(wrap_frame,image = self.image,
-							 command=self.command)
-		self.button.pack(side="top",fill=None,expand=False)
-		label = tk.Label(wrap_frame,text =self.name)
-		label.pack(side="top",fill=None,expand=False)
+		self.button = HoverButton(
+			wrap_frame, image=self.image, command=self.command)
+		self.button.pack(side="top", fill=None, expand=False)
+		label = tk.Label(wrap_frame, text=self.name)
+		label.pack(side="top", fill=None, expand=False)
 		print "ok"
-		
 		
 	@property
 	def framebutton(self):
 		return self.button
+
 
 class ToolTip(tk.Toplevel):
 	"""
@@ -278,14 +277,14 @@ class ToolTip(tk.Toplevel):
 		"""
 		self.wdgt = wdgt
 		self.parent = self.wdgt.master  # The parent of the ToolTip is the parent of the ToolTips widget
-		tk.Toplevel.__init__(self, self.parent, bg='black', padx=1,
-							 pady=1)  # Initalise the Toplevel
+		tk.Toplevel.__init__(
+			self, self.parent, bg='black', padx=1, pady=1)  # Initalise the Toplevel
 		self.withdraw()  # Hide initially
 		self.overrideredirect(
 			True)  # The ToolTip Toplevel should have no frame or title bar
 		
 		self.msgVar = tk.StringVar()  # The msgVar will contain the text displayed by the ToolTip
-		if msg == None:
+		if msg is None:
 			self.msgVar.set('No message provided')
 		else:
 			self.msgVar.set(msg)
@@ -294,11 +293,12 @@ class ToolTip(tk.Toplevel):
 		self.follow = follow
 		self.visible = 0
 		self.lastMotion = 0
-		tk.Message(self, textvariable=self.msgVar, bg='#FFFFDD',
-				   aspect=1000).grid()  # The test of the ToolTip is displayed in a Message widget
+		tk.Message(
+			self, textvariable=self.msgVar, bg='#FFFFDD', aspect=1000).grid()  # The test of the ToolTip is displayed in a Message widget
 		# <Enter>: The mouse pointer entered the widget
-		self.wdgt.bind('<Enter>', self.spawn
-					   )  # Add bindings to the widget.  This will NOT override bindings that the widget already has
+		self.wdgt.bind(
+			'<Enter>', self.spawn
+		)  # Add bindings to the widget.  This will NOT override bindings that the widget already has
 		self.wdgt.bind('<Leave>', self.hide, '+')
 		self.wdgt.bind('<Motion>', self.move, '+')
 	

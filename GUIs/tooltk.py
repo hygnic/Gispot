@@ -122,30 +122,28 @@ class Tooltk(object):
 		from PIL import Image, ImageTk
 		self.gif_comfirm = ph
 		# test
-		im = Image.open(r"E:\move on move on\Gispot\GUIs\66.png")
+		im = Image.open(r"E:/move on move on/Gispot/GUIs/66.png")
 		self.ph_im = ImageTk.PhotoImage(im)
 		"""
 	
 	def frames_initial(self):
 		# 1192/2 = 596
 		# 右边的主框
-		self.frame_right_side = tk.Frame(self.window, width=496,
-										 border=0, relief="flat")
-		self.frame_right_side.pack(side="right",
-								   expand=True, fill="both")
+		self.frame_right_side = tk.Frame(
+			self.window, width=496, border=0, relief="flat")
+		self.frame_right_side.pack(side="right", expand=True, fill="both")
 		# self.frame_right_side.propagate(False)
 		# 左边的主框
-		self.frame_left_side = tk.Frame(self.window, width=696,
-										border=0, relief="flat")
-		self.frame_left_side.pack(side="left",
-								  expand=True, fill="both")
+		self.frame_left_side = tk.Frame(
+			self.window, width=696, border=0, relief="flat")
+		self.frame_left_side.pack(side="left", expand=True, fill="both")
 		# 上部分 用于盛放block模块
-		self.block_frame = tk.Frame(self.frame_left_side, width=696,
-									relief="flat")
+		self.block_frame = tk.Frame(
+			self.frame_left_side, width=600, relief="flat")
 		self.block_frame.pack(expand=True, fill="both")
 		# 主框下的底部栏
-		self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60",
-										 bg=self.color6)  # ffc851
+		self.frame_bottom_bar = tk.Frame(
+			self.frame_left_side, height="60", bg=self.color6)  # ffc851
 		# self.frame_bottom_bar.pack_propagate(0)
 		self.frame_bottom_bar.pack(expand=False, fill="both")
 		# expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
@@ -170,7 +168,7 @@ class Tooltk(object):
 		下半部分显示动态信息"""
 		# 上栏
 		self.msgframe = stt.ScrolledText(
-			self.frame_right_side, height="10", width="90")
+			self.frame_right_side, height="10", wrap="word")  # width="50"
 		# 不起作用，将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.msgframe.insert(
@@ -302,8 +300,7 @@ class Tooltk(object):
 		
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb = GUI.NeewwEntry(frame_one, textvariable=input_msg1,
-										border=0)
+		self.input_sfb = GUI.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sfb.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		self.addfile_button = GUI.HoverButton(
@@ -408,7 +405,8 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb2 = GUI.NeewwEntry(frame_one, textvariable=input_msg1, bd=0)
+		self.input_sdb2 = GUI.NeewwEntry(
+			frame_one, textvariable=input_msg1, bd=0)
 		self.input_sdb2.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
@@ -440,8 +438,8 @@ class Tooltk(object):
 		self.input_svb = GUI.NeewwEntry(
 			frame_one, textvariable=input_msg1, border=0
 		)
-		self.input_svb.pack(side=tk.LEFT, anchor=tk.W,
-							expand=True, fill=tk.X, padx=10)
+		self.input_svb.pack(
+			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
 		int_button_1 = GUI.HoverButton(
@@ -496,8 +494,7 @@ class Tooltk(object):
 		tk.Label(self.block_frame, text=stb_name). \
 			pack(side=tk.TOP, anchor=tk.NW, padx=40)
 		frame_one = tk.Frame(self.block_frame)
-		frame_one.pack(side="top", anchor="center",
-					   expand=True, fill="both")
+		frame_one.pack(side="top", anchor="center", expand=True, fill="both")
 		# 右边障碍要素
 		GUI.HoverButton(
 			frame_one, state="disabled",
@@ -515,8 +512,7 @@ class Tooltk(object):
 		
 		# frame_one.columnconfigure(0, weight=1)
 		# frame_one.columnconfigure(1, weight=1)
-		self.input_tb = GUI.NeewwText(frame_one, wrap="none",
-									  relief="flat", height=10)
+		self.input_tb = GUI.NeewwText(frame_one, wrap="none", relief="flat", height=10)
 		self.input_tb.pack(expand=True, fill="both")
 	
 	# text.grid(column = 0,sticky = "nesw")
@@ -706,8 +702,8 @@ def blockDIR_in(frames, name):
 def blockSheet(frames, name):
 	return SingleFileBlock(
 		frames, name, tkFileDialog.askopenfilename,
-		[(u'工作簿', '*.xlsx'), (u'工作簿', '*.xls'),
-		('All Files', '*')], "add_file"
+		[(u'工作簿', '*.xlsx'), (u'工作簿', '*.xls'), ('All Files', '*')],
+		"add_file"
 	)
 
 
@@ -718,7 +714,8 @@ def blockDIR_out(frames, name):
 
 # 数字输入模块（没有button）
 def blockValue(frames, name):
-	inner = SingleFileBlock(frames, name, tkFileDialog.askdirectory, None ,"empty")
+	inner = SingleFileBlock(
+		frames, name, tkFileDialog.askdirectory, None, "empty")
 	# inner.block_button["state"] ="disabled"  #不行
 	# inner.block_button.config(state ="disabled") # 不行
 	# 解除绑定
@@ -732,19 +729,17 @@ if __name__ == '__main__':
 		def __init__(self):
 			master = tk.Tk()
 			# master = ThemedTk(theme="arc")
-			super(TstApp, self).__init__(master, None,
-										 self.confirm_method)
+			super(TstApp, self).__init__(master, None, self.confirm_method)
 			self.button_confirm["command"] = self.confirm_method
 			# block 1
-			self.single_file_block([(u'文本文档', '*.txt'), ('All Files', '*')],
-								   u"文本文档")
+			self.single_file_block(
+				[(u'文本文档', '*.txt'), ('All Files', '*')], u"文本文档")
 			# block2
 			self.single_dir_block(u"图片文件夹")
 			frame = (self.block_frame, self.msgframe, self.major_msgframe)
-			SingleFileBlock(frame, u"TEST",
-							tkFileDialog.askopenfilename, [(u'文本文档', '*.txt'),
-														   ('All Files', '*')],
-							"add_file")
+			SingleFileBlock(
+				frame, u"TEST", tkFileDialog.askopenfilename,
+				[(u'文本文档', '*.txt'), ('All Files', '*')], "add_file")
 		
 		# self.addfile_button["state"] = "disabled"
 		# self.addfile_button.pack_forget() # 隐藏模块

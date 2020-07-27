@@ -23,7 +23,8 @@ import codecs
 	写出
 """
 
-def getvalue_from_attribute(layer, txt_output,strrr, class_field, value_field):
+
+def getvalue_from_attribute(layer, txt_output, strrr, class_field, value_field):
 	# 获取layer图层属性表中所有相同值的和，比如获取一个同一个乡镇下，所有TBDLMJ的和
 	"""
 	:param layer:  图层
@@ -34,9 +35,9 @@ def getvalue_from_attribute(layer, txt_output,strrr, class_field, value_field):
 	:return:
 	"""
 	field_list = [class_field, value_field]
-	with arcpy.da.UpdateCursor(layer,field_list) as cursor:
-		name=None
-		class_field_list=[]
+	with arcpy.da.UpdateCursor(layer, field_list) as cursor:
+		name = None
+		class_field_list = []
 		# get the names with list format
 		for row in cursor:
 			if row[0] not in class_field_list:
@@ -54,32 +55,42 @@ def getvalue_from_attribute(layer, txt_output,strrr, class_field, value_field):
 					# mj+=roww[0]
 			cursor.reset()
 			# mian ji dan wei   mu
-			msgg = "," +name +"," + str(mjm) + "\n"
+			msgg = "," + name + "," + str(mjm) + "\n"
 			print msgg
-			f = codecs.open(txt_output,"a", "utf8")
+			f11 = codecs.open(txt_output, "a", "utf8")
 			# f=open(txt_output,"a")
-			f.write(strrr)
-			f.write(msgg)
-		f.write("\n")
-		f.close()
+			f11.write(strrr)
+			f11.write(msgg)
+		f11.write("\n")
+		f11.close()
 
 
 if __name__ == '__main__':
+	# 需要注意的是：GBZ农田不能是空表 空表报以下错，以后再解决
+	"""
+	Runtime error
+	Traceback (most recent call last):
+	File "<string>", line 84, in <module>
+	File "<string>", line 64, in getvalue_from_attribute
+		UnboundLocalError: local variable 'f11' referenced before assignment
+	"""
+	
 	txt_path = ur"G:\12.txt"
 	mxd = arcpy.mapping.MapDocument("CURRENT")
-	layer_dltb= arcpy.mapping.ListLayers(mxd, "DLTB5108122018_SpatialJoin")[0]
-	layer_GBZ= arcpy.mapping.ListLayers(mxd,"GBZ*") # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
-	print "GBZ_count:",len(layer_GBZ)
+	layer_dltb = arcpy.mapping.ListLayers(mxd, "DLTB_SpatialJoin5")[0]
+	layer_GBZ = arcpy.mapping.ListLayers(mxd, "GBZ*")  # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
+	print "GBZ_count:", len(layer_GBZ)
 	for i in layer_GBZ:
-		print "GBZ_name:",i.name
+		print "GBZ_name:", i.name
 		real_name = i.name[15:-2]
 		try:
-			arcpy.SelectLayerByLocation_management(layer_dltb, "WITHIN", i,
-											   "", "NEW_SELECTION") # 10.1只有五个要素
+			arcpy.SelectLayerByLocation_management(
+				layer_dltb, "WITHIN", i, "", "NEW_SELECTION")  # 10.1只有五个要素
 		except arcpy.ExecuteError as e:
 			print e.message
 			continue
-		getvalue_from_attribute(layer_dltb, txt_path,real_name,u"行政区名称", u"图斑地类面")
+		# 需要对DLTB做空间连接 赋予行政区名字属性
+		getvalue_from_attribute(layer_dltb, txt_path, real_name, "CJQYMC", "TBDLMJ")
 		# getvalue_from_attribute(layer_dltb, txt_path,real_name,"MC_new", "TBDLMJ")
 
 
