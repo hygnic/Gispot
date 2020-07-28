@@ -19,10 +19,10 @@ Usage:
 
 import Tkinter as tk
 import ttk
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
 
-from GUIconfig import GUI,hyini
-from GUIconfig.GUIpath import PngIcon,GifPath
+from GUIconfig import GUI, hyini
+from GUIconfig.GUIpath import PngIcon, GifPath
 import vitems
 from crcpy import save_acopy
 
@@ -40,15 +40,15 @@ class InitialInterface(object):
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
         self.button_viewer = GUI.HoverButton(self.window1,
                                              width=45, height=45,
-                                             image = self.icon_editor,
-                                             command =self.first_viewer)
-        self.button_viewer.pack(side ="top", anchor ="nw")
+                                             image=self.icon_editor,
+                                             command=self.first_viewer)
+        self.button_viewer.pack(side="top", anchor="nw")
         # 第er个button，作用是调出dos命令等（暂时）
         self.button_dos = GUI.HoverButton(self.window1,
-                                          width=45, height = 45,
-                                          image = self.icon_dos,
-                                          command =self.second_viewer)
-        self.button_dos.pack(side ="top", anchor ="nw")
+                                          width=45, height=45,
+                                          image=self.icon_dos,
+                                          command=self.second_viewer)
+        self.button_dos.pack(side="top", anchor="nw")
         # Tool button,the Third button which shows some features button
         self.button_tool = GUI.HoverButton(self.window1, msg="Tools",
                                            width=45, height=45,
@@ -56,7 +56,6 @@ class InitialInterface(object):
                                            command=self.open_viewer3)
         self.button_tool.pack(side="top", anchor="nw")
         
-		
     def interface_image(self):
         """初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
         # <PIL>
@@ -69,7 +68,6 @@ class InitialInterface(object):
         # dd = paths.PngIcon()
         # self.circle= dd.circle_icon_fun()
 
-        
     # toolbar第yi个图标(一个查看器)打开的物品集 browser
     # 查看器，不可运行
     def first_viewer(self):
@@ -142,7 +140,7 @@ class InitialInterface(object):
 # for k,v in func_name2.items():
 #     print k,v
 
-        
+
 class ToolSet(object):
     """
     用于显示工具箱button中的内容
@@ -161,20 +159,20 @@ class ToolSet(object):
         
         self.main_widget(self.make_test_dict())
         
-    def make_canve(self,color):
+    def make_canve(self, color):
         # "#5294e2"
         # cav = tk.Canvas(self.master,height =20,width =20)
         width = 100
         height = 10
         cav = tk.Canvas(self.master, width=width, height=height,
-                        background = self.light_white, bd=0)
+                        background=self.light_white, bd=0)
         cav.pack(fill="x")
         for i in xrange(hyini.width):
             # cav.create_line(0, 70, 70, 90, fill="red", ) # dash=(4, 4)
-            cav.create_line(i, 0, i, height, fill=color, ) # dash=(4, 4)
+            cav.create_line(i, 0, i, height, fill=color, )  # dash=(4, 4)
             # cav.create_line(height=4, fill="#5294e2") #  tags=("gradient",),
         
-    def main_widget(self,funcs):
+    def main_widget(self, funcs):
         """
          funcs(Dict): a function which return a dictionary containing feature widget(function)
          such as :
@@ -201,20 +199,20 @@ class ToolSet(object):
         frame_order = funcs[u"顺序"]
         
         for i in frame_order:
-            feature_set = funcs[i] # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
+            feature_set = funcs[i]  # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
             # font=('Times',10,'bold','italic') # ,bg="#5294e2"
             # foreground="#5294e2", background= "#ffffff" #f5f6f7 SystemWindow
             # tk.Frame; newidgets.NeewwFrame
             big_frame = tk.Frame(
-                self.master,relief="flat",height=20,
-                borderwidth =4,background= self.light_white,
+                self.master, relief="flat", height=20,
+                borderwidth=4, background=self.light_white,
             )
-            big_frame.pack(anchor="nw",fill="x")
+            big_frame.pack(anchor="nw", fill="x")
             label_name = tk.Label(
-                big_frame,text =i,background= self.light_white,
-                font=('bold',10),relief = "flat"
+                big_frame, text =i, background=self.light_white,
+                font=('bold', 10), relief="flat"
             )
-            label_name.pack(anchor = "nw",fill = None)
+            label_name.pack(anchor="nw", fill=None)
             self.make_canve(hyini.light_blue)
             
             # A SET OF BUTTONS**************************************************
@@ -236,12 +234,7 @@ class ToolSet(object):
                 button1_1.pack(side="top", anchor="center")
                 label = tk.Label(frame, text=tool_name, width=10, background= self.light_white)
                 label.pack()
-            #*******************************************************************
-    
-
-        
-        
-        
+            # *******************************************************************
         
     def button1(self):
         GUI.destroy_child(self.master)

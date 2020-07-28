@@ -25,8 +25,9 @@ Usage:
 import arcpy
 import os
 
+
 # arcpy 导出JPEG，适用于文件夹或者单个mxd
-def export(path,resolution):										 # 001
+def export(path, resolution):										 # 001
 	arcpy.env.overwriteOutput = True
 	if not os.path.isdir(path) and path[-3:].lower() == 'mxd':
 		print "file"
@@ -52,14 +53,15 @@ def export(path,resolution):										 # 001
 			else:
 				pass
 
+
 _getall_items = []
 def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	"""
 	import os
 	遍历获得一个文件夹（包含子文件夹）下所有的符合后缀的item
-	ss = recur_search(ur"G:\高标准","",True)
-	ss = recur_search(ur"G:\高标准","xlsx",True)
-	ss = recur_search(ur"G:\高标准",["xlsx","xls"],True)
+	ss = recur_search(u"G:/高标准", "", True)
+	ss = recur_search(u"G:/高标准", "xlsx",True)
+	ss = recur_search(u"G:/高标准", ["xlsx","xls"],True)
 
 	recur 使用递归，特别注意，层数不要太多
 	:param recur: bool 是否启用递归
@@ -176,8 +178,8 @@ def data_distribute(data_list, core):
 		result_groups.append(l_slice)
 	# remained_item_amount 主要数据列表中剩余的元素的个数
 	remained_item_amount = lenn - slice_amount * core
-	msg1 = "remained_item:{0} ; remained_item_amount:{1}".format(data_list,
-																 remained_item_amount)
+	msg1 = "remained_item:{0} ; remained_item_amount:{1}".format(
+		data_list, remained_item_amount)
 	print msg1
 	# 将主要列表中的值取完才结束
 	while data_list:
@@ -194,8 +196,7 @@ def data_distribute(data_list, core):
 	print "@" * 50
 	return result_groups
 	
+	
 class HyMath(object):
 	def __init__(self):
 		pass
-	
-
