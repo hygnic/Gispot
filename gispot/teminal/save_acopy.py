@@ -62,6 +62,6 @@ def main(dir_p, new_dir, version=None):
 if __name__ == '__main__':
 	# main(ur"G:\内江市\市中区分布图\MXD",ur"G:\内江市\市中区分布图\MXD\10.3版本",version=10.1)
 	# main(ur"G:\高标准分布图\大邑县", ur"D:\test", version=10.1)
-	mxd = arcpy.mapping.MapDocument(ur"G:\高标准分布图\东坡\东坡.mxd")
+	mxd = arcpy.mapping.MapDocument(ur"G:\高标准分布图\眉山市彭山区“十二五”以来高标准农田建设项目分布图.mxd")
 	# mxd = arcpy.mapping.MapDocument(ur"G:\19_20年高标准\眉山东坡区\东坡区.mxd")
-	mxd.saveACopy(ur"G:\高标准分布图\东坡\东坡103.mxd", version="10.1")
+	mxd.saveACopy(ur"G:\高标准分布图\彭山区分布图数据\彭山区.mxd", version="10.1")
