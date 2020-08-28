@@ -4,8 +4,6 @@
 # python2.7
 """
 GUI  所用工具和脚本用GUI"""
-import os
-import ttk
 import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
@@ -14,6 +12,7 @@ from PIL import Image, ImageTk
 # 导入配置包、地址包
 from GUIconfig import GUI
 from GUIconfig import GUIpath
+from GUIconfig import hyini
 # from GUIconfig.paths import GifPath
 from GUIconfig.GUIpath import PngIcon
 
@@ -187,7 +186,9 @@ class Tooltk(object):
 			self.frame_right_side, height="60", yscrollcommand=s_bar.set)
 		# 配置字体颜色
 		self.major_msgframe.tag_config(
-			"tag_1", backgroun="yellow", foreground="red", )
+			"tag_warn", backgroun="yellow", foreground="red")
+		self.major_msgframe.tag_config(
+			"tag_info", backgroun=hyini.light_blue, foreground=hyini.white)
 		# 支持撤销操作，支持换行 wrap = "char"
 		# self.text_major_msg.insert(tk.END, ">>>" * 80)
 		self.major_msgframe.pack(

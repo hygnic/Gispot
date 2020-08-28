@@ -1,13 +1,18 @@
+#!/usr/bin/env python
 # -*- coding:cp936 -*-
-# 2019 1104
-# 廖晨辰
+# ---------------------------------------------------------------------------
+# Author: 廖晨辰
+# Created on: 2019 1104
+# Reference:
 # python2.7
 """
-
-运用多进程技术导出图片
-集成Tkinter
-使用了多进程技术
+Description:
+    运用多进程技术导出图片
+    集成Tkinter
+    使用了多进程技术
 """
+# ---------------------------------------------------------------------------
+
 import Tkinter as tk
 import arcpy
 import os
@@ -20,7 +25,6 @@ import tooltk
 
 
 doc_path = GUIpath.DocPath.doc_me
-
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
 
@@ -80,7 +84,7 @@ def export_jpeg(me_queue, path_slice_set, res):
 class MultipExp(tooltk.Tooltk):
     
     commu = multication.MuCation()
-    ququ = Queue() #TODO 有用吗？删除？
+    # ququ = Queue() #TODO 有用吗？删除？
     def __init__(self,master1):
         """
         :param master1: mian_f , a widget from tool_entrance.py
@@ -122,8 +126,11 @@ class MultipExp(tooltk.Tooltk):
         for set_li in sets_lists:
             # print path_slice_set
             p = Process(target=self.commu.decor,
-                        args=(self.commu.que,export_jpeg,set_li, res)
+                        args=(export_jpeg,set_li, res)
                         )
+            # p = Process(target=self.commu.decor,
+            #             args=(self.commu.que, export_jpeg, set_li, res)
+            #             )
             p.deamon = True
             p.start()
             print "\t" + "进程通道已打开 " + str(p.pid)

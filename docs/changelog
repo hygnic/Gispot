@@ -17,12 +17,15 @@ detail
     2019 12 16
         1.尝试gradient颜色渐变效果
     2019 12 19
-        1.封装全新的Entry和Text类，实现Ctrl+a全选功能。
-        2.更改程序icon和主程序左上角图标。
+        1.封装全新的Entry和Text类，实现Ctrl+a全选功能
+        2.更改程序icon和主程序左上角图标
     2020 03 17
         1.新增toolbar和右侧的viewer界面
         2.打开Dos界面，大小位置进行调整
     v2.0
     2020 07
         1.Successfully compiled into an executable file (use py2exe).
-        2.Added info bubbles for button.
+        2.Add Info_bubbles for button.
+    2020 07 ..
+        1.Start to use png instead of gif
+        2.优化

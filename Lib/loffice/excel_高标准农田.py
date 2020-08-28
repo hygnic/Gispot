@@ -5,25 +5,18 @@
 # Created on: 2020/5/9 10:14
 # Reference:
 """
-Description:将附件三的信息快速与复核表匹配并赋值
+Description:
+	将附件三（XX县“十二五”以来高标准农田建设清理检查数据统计表.xlsx）的主要信息填入到指定模板中，
+	可以对单个附件三进行转换，也可以对文件夹中的所有附件三进行转换
 Usage:
 """
 # ---------------------------------------------------------------------------
 import os
-import datetime
-import sys
 try:
 	import xlwings as xw
 except ImportError as e:
 	print e
 
-# input_dir = "xx"
-# # xpath =ur"G:\高标准农田\甘孜州 附件：“十二五”以来高标准农田建设评估复核统计表（以此为准）.xlsx"
-# xpath =ur"G:\高标准农田\附件：“十二五”以来高标准农田建设评估复核统计表（以此为准） - 副本.xlsx"
-# os.chdir(os.path.dirname(xpath))
-# fujian_path = ur"甘孜县“十二五”以来高标准农田建设清理检查数据统计表.xlsx"
-# XJXZQ = u"甘孜州"
-# output_dir = ur"G:\高标准农田\新建文件夹"
 
 def cellvalue_geter(rrange, col_name, sheet):
 	"""
@@ -349,7 +342,7 @@ if __name__ == '__main__':
 	# dir_p= ur"G:\高标准农田\复核\甘孜州\乡城县“十二五”以来高标准农田建设清理检查数据统计表.xlsx"
 	dir_p= ur"G:\高标准农田\复核\清理统计表\新建文件夹"
 	XJXZQ_name = u"**"
-	out = ur"G:\高标准农田\复核"
+	out = ur"G:\高标准农田\复核\清理统计表\新建文件夹 (2)"
 	if os.path.isdir(dir_p):
 		dirrs = os.listdir(dir_p)
 		for dirr in dirrs:

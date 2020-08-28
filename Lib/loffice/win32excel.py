@@ -5,7 +5,7 @@
 # Created on: 2020/5/21 17:55
 # Reference:
 """
-Description:
+Description: 在 高标准农田建设评估复核统计表 中添加一列数据
 Usage:
 """
 # ---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ def recur_search(dirs_p, suffix, recur, counter=0):  # 002.0
 					f_name = name_and_suffix[0]
 					if f_suffix == suffix:
 						print "\t" * counter, base_name
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 				# 多个后缀组成列表
 				else:
 					base_name = os.path.basename(file_path)
@@ -59,12 +59,12 @@ def recur_search(dirs_p, suffix, recur, counter=0):  # 002.0
 					f_name = name_and_suffix[0]
 					if f_suffix in suffix:
 						print "\t" * counter, base_name
-						__getall_items.append(file_path)
+						_getall_items.append(file_path)
 			# 无后缀要求，获取所有文件
 			else:
-				__getall_items.append(file_path)
+				_getall_items.append(file_path)
 	
-	return __getall_items
+	return _getall_items
 
 
 
@@ -116,7 +116,7 @@ def mian(path_excel):
 
 
 def main_2(path, clo, list_m):
-	"""插入空白行，然后匹配、赋值"""
+	"""插入空白行，然后填充值"""
 	try:
 		app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
 		app1.display_alerts = False  # 关闭Excel的提示和警告信息

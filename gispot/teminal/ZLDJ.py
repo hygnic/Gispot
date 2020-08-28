@@ -6,6 +6,9 @@
 # Reference:
 """
 Description: 调整质量等级
+	将 上图入库数据库 中的shp文件、excel文件中的质量等级修改为 项目清单.xlsx 中的
+	对应的质量等级
+	
 Usage:
 """
 # ---------------------------------------------------------------------------
@@ -32,7 +35,7 @@ def main(qq_pip,folder, excel):
 	excel_path = excel
 	db_path = folder
 	# db_path = u"C:/Users/Administrator/Desktop/高标最后一次/自贡市/荣县/测试/510000高标准农田建设上图入库数据20200110"
-	
+	qq_pip.put("okok")
 	try:
 		print "\n"
 		app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
@@ -178,11 +181,8 @@ def mian_wrap(q_pip,p1,p2):
 	print "Done!"
 
 
-
-
 class AppGUI(tooltk.Tooltk):
 	commu = multication.MuCation()
-	ququ = Queue()  # TODO 有用吗？删除？
 	
 	def __init__(self, master1):
 		super(AppGUI, self).__init__(master1,
@@ -198,22 +198,23 @@ class AppGUI(tooltk.Tooltk):
 		zldj_folder = v[0]
 		zldj_sheet = v[1]
 		p = Process(target=self.commu.decor,
-					args=(self.commu.que, mian_wrap,zldj_folder, zldj_sheet)
+					args=(mian_wrap,zldj_folder, zldj_sheet)
 					)
 		# p.deamon = True
 		p.start()
 		print "\t" + "进程通道已打开 " + str(p.pid)
 		print "process start"
 		print "start process communication"
+		# 将信息输出到右下方的动态信息栏
 		self.commu.process_communication(self.major_msgframe)
 		# main(v[0], v[1])
+
 
 if __name__ == '__main__':
 	excel_paths = u"F:/新建文件夹 (2)/天全县/510000项目清单20200701.xlsx"
 	db_paths = u"F:/新建文件夹 (2)/天全县/510000高标准农田建设上图入库数据20200701"
-	
 	# 荣县
 	# excel_paths = u"C:/Users/Administrator/Desktop/荣县导出/510000高标准农田建设上图入库数据20200628/510000项目清单20200628.xlsx"
 	# db_paths = u"C:/Users/Administrator/Desktop/荣县导出/510000高标准农田建设上图入库数据20200628"
-	ss = 0
-	main(ss,db_paths, excel_paths)
+	# ss1 = "0"
+	# main(ss1,db_paths, excel_paths)
