@@ -99,11 +99,11 @@ class DocPath(object):
 
 
 class PngIcon(object):
-	folder1 = os.path.join(_base_icons_path, "folder1.png")
+	folder1 = os.path.join(_base_icons_path, "folder3.png")
 	folder2 = os.path.join(_base_icons_path, "folder2.png")
 	empty = os.path.join(_base_icons_path, "empty.gif")
 	# add_file = os.path.join(_base_icons_path, "file3.gif")
-	add_file = os.path.join(_base_icons_path, "file-icon242.png")
+	add_file = os.path.join(_base_icons_path, "file-icon2433.png")
 	icon = os.path.join(_base_icons_path, "icon.ico")
 	toolbox_45 = os.path.join(_base_icons_path, "toolbox-45.png")
 	toolset_image =os.path.join(_base_icons_path, "Utilities-circle40.png")
