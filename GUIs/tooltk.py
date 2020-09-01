@@ -107,7 +107,11 @@ class Tooltk(object):
 		self.gif_close = tk.PhotoImage(file=GUIpath.GifPath.close)
 		self.gif_quit = tk.PhotoImage(file=GUIpath.GifPath.close)
 		self.gif_help = tk.PhotoImage(file=GUIpath.GifPath.info)
-		self.gif_confirm = tk.PhotoImage(file=GUIpath.GifPath.confirm)
+		self.gif_confirm = tk.PhotoImage(file=GUIpath.GifPath.confirm) # gif
+		
+		self.png_quit = ImageTk.PhotoImage(Image.open(PngIcon.cancel))  # png
+		self.png_help = ImageTk.PhotoImage(Image.open(PngIcon.help_info))  # png
+		self.png_confirm = ImageTk.PhotoImage(Image.open(PngIcon.OK))  # png
 		
 		self.gif_empty_1 = tk.PhotoImage(file=GUIpath.GifPath.empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
@@ -215,7 +219,7 @@ class Tooltk(object):
 		"""
 		self.button_confirm = GUI.HoverButton(
 			self.frame_bottom_bar, msg="OK",
-			image=self.gif_confirm,
+			image=self.png_confirm,
 			command=self.confirm_method,
 			width=self._button_size,
 			height=self._button_size)
@@ -225,7 +229,7 @@ class Tooltk(object):
 		# help button
 		self.button_help = GUI.HoverButton(
 			self.frame_bottom_bar, msg="Info",
-			image=self.gif_help,
+			image=self.png_help,
 			width=self._button_size,
 			height=self._button_size)
 		
@@ -240,7 +244,7 @@ class Tooltk(object):
 		# Back button
 		self.button_quit = GUI.HoverButton(
 			self.frame_bottom_bar, msg="Cancel",
-			image=self.gif_quit,
+			image=self.png_quit,
 			command=__quit_inner,
 			width=self._button_size,
 			height=self._button_size)
