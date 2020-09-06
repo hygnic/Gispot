@@ -21,6 +21,8 @@ import sys
 
 class StdoutQueue(object):
 	"""
+	()Reference:
+		https://stackoverflow.com/questions/23947281/python-multiprocessing-redirect-stdout-of-a-child-process-to-a-tkinter-text
 	TypeError: Error when calling the metaclass bases
 	function() argument 1 must be code, not str
 	"""
