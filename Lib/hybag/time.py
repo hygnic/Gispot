@@ -14,7 +14,6 @@ Usage:
 from __future__ import print_function
 # 由于存在Python自带的标准time模块，所以需要使用绝对导入
 from __future__ import absolute_import
-
 import time
 
 # 装饰函数 计算程序运行时间
@@ -23,7 +22,7 @@ def timewrap(func):
 		start = time.time()
 		func()
 		end = time.time()
-		print('Program time consuming: ',end - start)
+		print('Time consuming: ',end - start)
 	return inner
 
 # 装饰函数 计算CPU执行时间
@@ -34,5 +33,3 @@ def timewrap_cpu(func):
 		end = time.clock()
 		print('CPU time consuming: ',end - start)
 	return inner
-
-print("OK")

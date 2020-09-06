@@ -10,10 +10,47 @@ Description:
 	The class contains some fuctions about a GUI how to coummnication with
 	we feature function. Mostly use Queue to comply.
 """
-
+from __future__ import absolute_import
 from multiprocessing import Queue
 from threading import Thread
+import threading
 import os
+import sys
+
+
+
+class StdoutQueue(object):
+	"""
+	TypeError: Error when calling the metaclass bases
+	function() argument 1 must be code, not str
+	"""
+	_instance_lock = threading.Lock()
+	def __new__(cls, *args, **kwargs):
+		if not hasattr(StdoutQueue, "_instance"):
+			with StdoutQueue._instance_lock:
+				if not hasattr(StdoutQueue, "_instance"):
+					StdoutQueue._instance = object.__new__(cls)
+		return StdoutQueue._instance
+	
+	def __init__(self,*args,**kwargs):
+		# ctx = multiprocessing.get_context()
+		self.inner_que = Queue()
+		
+	@property
+	def new_stdout(self):
+		return self.inner_que
+		
+	def write(self, msg):
+		self.inner_que.put(msg)
+
+	def put(self,msg):
+		self.inner_que.put(msg)
+
+	def get(self):
+		return self.inner_que.get()
+
+	def flush(self):
+		sys.__stdout__.flush()
 
 
 class MuCation(object):
@@ -21,14 +58,21 @@ class MuCation(object):
 	功能一：新开一个进程执行指定的方法
 	功能二：进程之间的通信
 	"""
-	# instance of multiprocessing.Queue()
-	# _q = Queue()
-	# @property
-	# def que(self):
-	# 	return self._q
-	def __init__(self):
-		self.que = Queue()
+	_instance_lock = threading.Lock()
+	def __new__(cls, *args, **kwargs):
+		if not hasattr(MuCation, "_instance"):
+			with MuCation._instance_lock:
+				if not hasattr(MuCation, "_instance"):
+					MuCation._instance = object.__new__(cls)
+		return MuCation._instance
 	
+	def __init__(self):
+		# self.que = Queue()
+		self.que = StdoutQueue()
+		sys.stdout = self.que
+		aa = "ssssdddd"  # TODO 运行程序时为什么会重复打印4次？
+		print aa
+		print id(self.que)
 	def decor(self, func, *args):
 		"""
 		新开一个进程执行指定的方法
@@ -68,20 +112,28 @@ class MuCation(object):
 		:param output_window: Tkinter.text  我们使用的这个 self.major_msgframe
 		:return:
 		"""
+		
 		def inner():
+			sys.stdout = self.que
 			# 因为是阻塞操作，另起一子线程循环监听Queue，否则会导致GUI界面卡死。
 			while True:
 				i = self.que.get()
 				# 给带有 "<ProcessID" 字符的行整上颜色
 				if i.startswith("<ProcessID"):
 					# tag_1 在 major_msgframe 处已经配置
-					output_window.insert("end", " " + i,"tag_info")
+					output_window.insert("end", " " + i, "tag_info")
 					output_window.see("end")
-					# "\n  " + 反而会冒出一个空行
+				# "\n  " + 反而会冒出一个空行
 				else:
-					output_window.insert("end", " " + i)
+					output_window.insert("end", i)
 					output_window.see("end")
+		
 		t = Thread(target=inner)
+		t.daemon = True
 		t.start()
+		
+		
 
 	
+if __name__ == '__main__':
+	MuCation()

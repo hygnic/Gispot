@@ -12,14 +12,14 @@ Description:
     使用了多进程技术
 """
 # ---------------------------------------------------------------------------
-
-import Tkinter as tk
 import arcpy
 import os
+import sys
 from multiprocessing import Process,Queue
 # from threading import Thread
 from GUIconfig import GUIpath
 from GUIconfig import multication
+from hybag import time
 # sys.path.append("../GUIs")
 import tooltk
 
@@ -78,13 +78,14 @@ def export_jpeg(me_queue, path_slice_set, res):
         del mxd1
         info = os.path.basename(one_path) + " Done! \n"
         print info
-        me_queue.put(info)
+        # me_queue.put(info)
     
 # our_master = tool_entrance.AppEntrance.rootwindow
 class MultipExp(tooltk.Tooltk):
-    
+    # stdout = multication.StdoutQueue()
+    # sys.stdout = stdout.new_stdout
     commu = multication.MuCation()
-    # ququ = Queue() #TODO 有用吗？删除？
+    # ququ = Queue() # TODO 有用吗？删除？
     def __init__(self,master1):
         """
         :param master1: mian_f , a widget from tool_entrance.py
@@ -133,7 +134,7 @@ class MultipExp(tooltk.Tooltk):
             #             )
             p.deamon = True
             p.start()
-            print "\t" + "进程通道已打开 " + str(p.pid)
+            print "\t" + u"进程通道已打开 " + str(p.pid)
             print "process start"
             print "start process communication"
             self.commu.process_communication(self.major_msgframe)
