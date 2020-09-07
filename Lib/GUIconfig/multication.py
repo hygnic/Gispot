@@ -72,9 +72,9 @@ class MuCation(object):
 		# self.que = Queue()
 		self.que = StdoutQueue()
 		sys.stdout = self.que
-		aa = "ssssdddd"  # TODO 运行程序时为什么会重复打印4次？
-		print aa
-		print id(self.que)
+		# aa = "ssssdddd"  # TODO 运行程序时为什么会重复打印4次？
+		# print aa
+		# print id(self.que)
 	def decor(self, func, *args):
 		"""
 		新开一个进程执行指定的方法

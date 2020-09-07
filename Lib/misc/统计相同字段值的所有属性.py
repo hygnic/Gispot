@@ -75,9 +75,9 @@ if __name__ == '__main__':
 		UnboundLocalError: local variable 'f11' referenced before assignment
 	"""
 	
-	txt_path = ur"G:\12.txt"
+	txt_path = ur"G:\121.txt"
 	mxd = arcpy.mapping.MapDocument("CURRENT")
-	layer_dltb = arcpy.mapping.ListLayers(mxd, "DLTB_SpatialJoin5")[0]
+	layer_dltb = arcpy.mapping.ListLayers(mxd, "DLTB_SpatialJoin")[0]
 	layer_GBZ = arcpy.mapping.ListLayers(mxd, "GBZ*")  # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
 	print "GBZ_count:", len(layer_GBZ)
 	for i in layer_GBZ:
@@ -90,41 +90,5 @@ if __name__ == '__main__':
 			print e.message
 			continue
 		# 需要对DLTB做空间连接 赋予行政区名字属性
-		getvalue_from_attribute(layer_dltb, txt_path, real_name, "CJQYMC", "TBDLMJ")
+		getvalue_from_attribute(layer_dltb, txt_path, real_name, "XZQMC", "TBDLMJ")
 		# getvalue_from_attribute(layer_dltb, txt_path,real_name,"MC_new", "TBDLMJ")
-
-
-# def getvalue_from_attribute(area, name, xx):
-# 	# 获取shp属性表中所有相同值的和，比如获取不同乡镇的高标准建成区面积
-# 	"""
-# 	area: 统计面积  name: 名称
-# 	"""
-# 	mxd1 = arcpy.mapping.MapDocument("CURRENT")
-# 	field_list = [area, name]
-#
-# 	layer = arcpy.mapping.ListLayers(mxd1)[-2]
-# 	with arcpy.da.UpdateCursor(layer, field_list) as cursor:
-# 		name = None
-# 		name_list = []
-# 		# get the names with list format
-# 		for row in cursor:
-# 			if row[1] not in name_list:
-# 				name_list.append(row[1])
-# 		cursor.reset()
-# 		for name in name_list:
-# 			mj = 0
-# 			# cursor 只能遍历一次
-# 			for roww in cursor:
-# 				if name == roww[1]:
-# 					tbdlmj = float(roww[0])
-# 					mj += round(tbdlmj * 0.0015, 4)
-# 			# mj+=roww[0]
-# 			cursor.reset()
-# 			# mian ji dan wei   mu
-# 			msgg = name + "," + str(mj) + xx + "\n"
-# 			print msgg
-# 			f = open(ur"G:\高标准分布图\511302顺庆区\123321.txt", "a", )
-# 			f.write(msgg)
-# 		f.write("\n")
-# 		f.close()
-

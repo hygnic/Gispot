@@ -5,11 +5,12 @@
 # Created on: 2020/9/1 17:44
 # Reference:
 """
-Description: gd_membership 耕地隶属度
+Description: gd_membership 耕地隶属第
 Usage:
 """
 # ---------------------------------------------------------------------------
 from __future__ import unicode_literals
+from __future__ import absolute_import
 import arcpy
 import os
 
@@ -25,16 +26,18 @@ arcpy.env.qualifiedFieldNames = False
 """-----------------------------------------------------------------------"""
 
 
-# manager_cell = ur"G:\耕地质量等级\阿坝19年\管理单元_全图斑.shp" # 管理单元_全图斑
-manager_cell = ur"G:\MoveOn\Gispot\Local\耕地质量等级\管理单元_全图斑.shp" # 管理单元_全图斑
+manager_cell = ur"G:\耕地质量等级\阿坝19年\管理单元_全图斑.shp" # 管理单元_全图斑
+# manager_cell = ur"G:\MoveOn\Gispot\Local\耕地质量等级\管理单元_全图斑.shp" # 管理单元_全图斑
 
-fields = ["有效磷","速效钾"]
+# fields = ["有效磷","速效钾"]
+# fields = ["有机质","海拔高度","土壤容重","有效土层厚"]
+fields = ["有效土"] # 字段类型得是数字
 for a_field in fields:
 	
 	# Process: 反距离权重法
 	output_size = "200" # 输出栅格像元大小 200米X200米
-	# point = ur"G:\耕地质量等级\阿坝19年\耕地质量等级调查点位图.shp"
-	point = r"G:\MoveOn\Gispot\Local\耕地质量等级\耕地质量等级调查点位图.shp"
+	point = ur"G:\耕地质量等级\阿坝19年\耕地质量等级调查点位图.shp"
+	# point = r"G:\MoveOn\Gispot\Local\耕地质量等级\耕地质量等级调查点位图.shp"
 	# field = "有效磷"
 	field = a_field
 	IDW1 = "%scratchGDB%\\IDW1"
@@ -61,7 +64,7 @@ for a_field in fields:
 	
 	# Process: 复制要素
 	# result_dir = r"G:\MoveOn\Gispot\gispot\GDZLPJ\we.shp" # 结果输出地址
-	result_dir = ur"G:\MoveOn\Gispot\Local\耕地质量等级\out" # 结果输出地址
+	result_dir = ur"G:\耕地质量等级\阿坝19年\成果0901" # 结果输出地址
 	name = field
 	arcpy.CopyFeatures_management(manager_cell_feature, os.path.join(result_dir,name))
 
