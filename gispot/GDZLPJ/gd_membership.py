@@ -35,6 +35,8 @@ fields = ["有效土"] # 字段类型得是数字
 for a_field in fields:
 	
 	# Process: 反距离权重法
+	arcpy.env.extent = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
+	
 	output_size = "200" # 输出栅格像元大小 200米X200米
 	point = ur"G:\耕地质量等级\阿坝19年\耕地质量等级调查点位图.shp"
 	# point = r"G:\MoveOn\Gispot\Local\耕地质量等级\耕地质量等级调查点位图.shp"
@@ -68,10 +70,50 @@ for a_field in fields:
 	name = field
 	arcpy.CopyFeatures_management(manager_cell_feature, os.path.join(result_dir,name))
 
-
 """-----------------------------------------------------------------------"""
 """-----------------------------test--------------------------------------"""
 """-----------------------------------------------------------------------"""
 
 if __name__ == '__main__':
 	pass
+
+
+
+# Local variables:
+# 输出像元大小 = "200"
+# 耕地质量等级调查点位图 = "耕地质量等级调查点位图"
+# Z_值字段 = "有效磷"
+# 重采样像元大小 = "90 90"
+# 管理单元_全图斑 = "管理单元_全图斑"
+# 区域字段 = "BSMinner"
+# 在计算中忽略_NoData = "true"
+# 统计类型 = "MEAN"
+# 输入连接字段 = "BSMinner"
+# 输出连接字段 = "BSMinner"
+# 范围 = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
+# IDW1 = "%scratchGDB%\\IDW1"
+# IDW_resample = "%scratchGDB%\\IDW_resample"
+# db = "%scratchGDB%\\db"
+# 连接表 = "管理单元_全图斑"
+# 管理单元_全图斑_有效磷lcc = "C:\\Users\\Administrator\\Documents\\ArcGIS\\Default.gdb\\管理单元_全图斑_有效磷lcc"
+#
+# # Process: 反距离权重法
+# tempEnvironment0 = arcpy.env.snapRaster
+# arcpy.env.snapRaster = ""
+# tempEnvironment1 = arcpy.env.extent
+# arcpy.env.extent = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
+# arcpy.gp.Idw_sa(耕地质量等级调查点位图, Z_值字段, IDW1, 输出像元大小, "2", "VARIABLE 12", "")
+# arcpy.env.snapRaster = tempEnvironment0
+# arcpy.env.extent = tempEnvironment1
+#
+# # Process: 重采样
+# arcpy.Resample_management(IDW1, IDW_resample, 重采样像元大小, "NEAREST")
+#
+# # Process: 以表格显示分区统计
+# arcpy.gp.ZonalStatisticsAsTable_sa(管理单元_全图斑, 区域字段, IDW_resample, db, 在计算中忽略_NoData, 统计类型)
+#
+# # Process: 添加连接
+# arcpy.AddJoin_management(管理单元_全图斑, 输入连接字段, db, 输出连接字段, "KEEP_ALL")
+#
+# # Process: 复制要素
+# arcpy.CopyFeatures_management(连接表, 管理单元_全图斑_有效磷lcc, "", "0", "0", "0")

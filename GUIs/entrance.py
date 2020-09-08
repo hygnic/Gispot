@@ -20,6 +20,8 @@ import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
 # from PIL import Image, ImageTk
+from GUIconfig.multication import MuCation
+import multiprocessing
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
@@ -70,7 +72,7 @@ import LQHD.gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
-import teminal.ZLDJ
+import crcpy.ZLDJ
 # 配置包导入
 from GUIconfig import GUI,hyini
 from GUIconfig import GUIpath
@@ -79,6 +81,28 @@ from GUIconfig import GUIpath
 icon = GUIpath.PngIcon.icon
 
 import Tix
+
+
+def kill_pid(pid):
+    # 本函数用于中止传入pid所对应的进程
+    if os.name == 'nt':
+        # Windows系统
+        cmd = 'taskkill /pid ' + str(pid) + ' /f'
+        try:
+            os.system(cmd)
+            print(pid, 'killed')
+        except Exception as e:
+            print(e)
+    elif os.name == 'posix':
+        # Linux系统
+        cmd = 'kill ' + str(pid)
+        try:
+            os.system(cmd)
+            print(pid, 'killed')
+        except Exception as e:
+            print(e)
+    else:
+        print('Undefined os.name')
 
 
 class AppEntrance(object):
@@ -276,9 +300,14 @@ class AppEntrance(object):
         crcpy.task_dispatch.StartApp(self.interface_frame)
         
     def start_ZLDJ(self):
+        # pool_list = MuCation.submultiprocess
+        # while pool_list:
+        #     print dead_p
+        #     dead_p =pool_list.pop()
+        #     kill_pid(dead_p)
         GUI.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
-        teminal.ZLDJ.AppGUI(self.interface_frame)
+        crcpy.ZLDJ.AppGUI(self.interface_frame)
         
     # ----------------------------------------
     

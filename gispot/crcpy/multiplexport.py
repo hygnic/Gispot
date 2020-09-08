@@ -15,11 +15,11 @@ Description:
 import arcpy
 import os
 import sys
-from multiprocessing import Process,Queue
+from multiprocessing import Process
 # from threading import Thread
 from GUIconfig import GUIpath
 from GUIconfig import multication
-from hybag import time
+# from hybag import time
 # sys.path.append("../GUIs")
 import tooltk
 
@@ -36,6 +36,7 @@ def address_clip(mxds, process_core):
     :return: slices_set 包含多个 地址列表的切片包 的列表（列表的列表）
     其他: mxdpath_list = [] # 所有地址的列表
     """
+    slices_set = [] # 初始化列表，避免程序二次运行时重复出图
     global slices_set
     mxdpaths = []
     # paths_list = os.listdir(mxdpath)
@@ -77,8 +78,8 @@ def export_jpeg(me_queue, path_slice_set, res):
                                    resolution=res)
         del mxd1
         info = os.path.basename(one_path) + " Done! \n"
-        print info
-        # me_queue.put(info)
+        # print info
+        me_queue.put(info)
     
 # our_master = tool_entrance.AppEntrance.rootwindow
 class MultipExp(tooltk.Tooltk):
@@ -106,7 +107,6 @@ class MultipExp(tooltk.Tooltk):
         self.block3 = tooltk.blockValue(frame, u"出图分辨率")
         # self.addfile_button.config(state = "disable")
         # self.addfile_button.pack_forget()  # 隐藏模块
-
         # self.addfile_button.destroy()	# 隐藏模块
     
     def confirm_mu(self):
@@ -126,12 +126,9 @@ class MultipExp(tooltk.Tooltk):
         # res = 10
         for set_li in sets_lists:
             # print path_slice_set
-            p = Process(target=self.commu.decor,
-                        args=(export_jpeg,set_li, res)
+            p = Process(
+                target=self.commu.decor, args=(export_jpeg,set_li, res)
                         )
-            # p = Process(target=self.commu.decor,
-            #             args=(self.commu.que, export_jpeg, set_li, res)
-            #             )
             p.deamon = True
             p.start()
             print "\t" + u"进程通道已打开 " + str(p.pid)
@@ -140,9 +137,10 @@ class MultipExp(tooltk.Tooltk):
             self.commu.process_communication(self.major_msgframe)
             # t = Thread(target=self.process_communication, args=(p,))
             # t.start()
+            # p.terminate()
         # 初始化列表，以免二次输入时报错
         self.block_list = []
-
+        
 
 # if __name__ == '__main__':
 #     # 这里实际不会运行的，

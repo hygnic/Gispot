@@ -544,12 +544,10 @@ class Tooltk(object):
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
 			msg = i.get()
-			print "msg:", msg
-			print "msg's type:", type(msg)
+			print "msg: {0}, type: {1}".format(msg, type(msg))
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("cp936")
-				print "msg:", msg
-				print "msg's type:", type(msg)
+				# print "msg: {0}, type: {1}".format(msg, type(msg))
 				self.block_list.append(msg)
 			else:
 				# unicode格式的直接加进去

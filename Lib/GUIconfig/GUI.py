@@ -40,6 +40,8 @@ def destroy_child(master):
 	if widget_set:
 		for i in widget_set:
 			i.destroy()
+			# i.pack_forget()
+			# pass
 
 
 class HoverButton(tk.Button):

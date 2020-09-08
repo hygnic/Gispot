@@ -4,6 +4,10 @@
 # Author: liaochenchen, hygnic
 # Created on: 2019/12/1
 # python2.7
+# Reference:
+# Python multiprocessing redirect stdout of a child process to a Tkinter Text
+# https://stackoverflow.com/questions/23947281/python-multiprocessing-redirect-stdout-of-a-child-process-to-a-tkinter-text
+	
 """
 Description:
 	multiprocess communication两个单词的组合  !!!
@@ -21,11 +25,10 @@ import sys
 
 class StdoutQueue(object):
 	"""
-	()Reference:
-		https://stackoverflow.com/questions/23947281/python-multiprocessing-redirect-stdout-of-a-child-process-to-a-tkinter-text
 	TypeError: Error when calling the metaclass bases
 	function() argument 1 must be code, not str
 	"""
+	# singleton pattern
 	_instance_lock = threading.Lock()
 	def __new__(cls, *args, **kwargs):
 		if not hasattr(StdoutQueue, "_instance"):
@@ -38,10 +41,6 @@ class StdoutQueue(object):
 		# ctx = multiprocessing.get_context()
 		self.inner_que = Queue()
 		
-	@property
-	def new_stdout(self):
-		return self.inner_que
-		
 	def write(self, msg):
 		self.inner_que.put(msg)
 
@@ -53,6 +52,9 @@ class StdoutQueue(object):
 
 	def flush(self):
 		sys.__stdout__.flush()
+	
+	def close(self):
+		self.inner_que.close()
 
 
 class MuCation(object):
@@ -60,6 +62,9 @@ class MuCation(object):
 	功能一：新开一个进程执行指定的方法
 	功能二：进程之间的通信
 	"""
+	submultiprocess = []  # 子进程的列表
+	
+	# singleton pattern
 	_instance_lock = threading.Lock()
 	def __new__(cls, *args, **kwargs):
 		if not hasattr(MuCation, "_instance"):
@@ -71,10 +76,22 @@ class MuCation(object):
 	def __init__(self):
 		# self.que = Queue()
 		self.que = StdoutQueue()
-		sys.stdout = self.que
+		
+		
+		# sys.stdout = self.que
+		# If we redirect stdout to Tkinter text, some errors occur and i
+		# don't know why at all
+		# 1.issue
+		# Sometime, after standalone windows program run a function finished or
+		# error occur, the GUI interface disapper immediately.
+		# 2.issue
+		# Sometime, it just errors occur when I run a function(with standalone
+		# windows program) which I have never encountered before
+	
 		# aa = "ssssdddd"  # TODO 运行程序时为什么会重复打印4次？
 		# print aa
 		# print id(self.que)
+	
 	def decor(self, func, *args):
 		"""
 		新开一个进程执行指定的方法
@@ -102,10 +119,10 @@ class MuCation(object):
 		# print queue.empty()  # Ture
 		func(self.que, *args)
 		info2 = "<ProcessID: {}> CLOSE\n".format(os.getpid())
-		self.que.put("\n")
+		# self.que.put("\n")
+		self.submultiprocess.append(os.getpid()) # 将已结束进程的进程号加入列表
 		self.que.put(info2)
-	
-	
+		
 	def process_communication(self, output_window):
 		"""
 		sharing messages with some Process.
@@ -116,25 +133,22 @@ class MuCation(object):
 		"""
 		
 		def inner():
-			sys.stdout = self.que
 			# 因为是阻塞操作，另起一子线程循环监听Queue，否则会导致GUI界面卡死。
 			while True:
 				i = self.que.get()
 				# 给带有 "<ProcessID" 字符的行整上颜色
 				if i.startswith("<ProcessID"):
 					# tag_1 在 major_msgframe 处已经配置
-					output_window.insert("end", " " + i, "tag_info")
+					output_window.insert("end", " "+i, "tag_info")
 					output_window.see("end")
 				# "\n  " + 反而会冒出一个空行
 				else:
-					output_window.insert("end", i)
+					output_window.insert("end", " "+i)
 					output_window.see("end")
 		
 		t = Thread(target=inner)
 		t.daemon = True
 		t.start()
-		
-		
 
 	
 if __name__ == '__main__':

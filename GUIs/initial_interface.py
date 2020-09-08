@@ -37,6 +37,15 @@ class InitialInterface(object):
         self.interface_image()
         self.window1 = master1 # 左边
         self.window2 = master2 # 右边
+        
+        """-----------------------------------------------------------"""
+        """-----------------------左边工具图标设置---------------------"""
+        """-----------------------------------------------------------"""
+        self.button_home = GUI.HoverButton(self.window1,
+                                             width=45, height=45,
+                                             image=self.icon_home,
+                                             command=None)
+        self.button_home.pack(side="top", anchor="nw")
         # 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
         self.button_viewer = GUI.HoverButton(self.window1,
                                              width=45, height=45,
@@ -64,6 +73,7 @@ class InitialInterface(object):
         self.icon_editor = tk.PhotoImage(file=GifPath.editor)
         # self.icon_tool = tk.PhotoImage(file=paths.GifPath.tool)
         self.icon_tool = ImageTk.PhotoImage(Image.open(PngIcon.toolbox_45))
+        self.icon_home = ImageTk.PhotoImage(Image.open(PngIcon.home))
         self.toolset = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
         # dd = paths.PngIcon()
         # self.circle= dd.circle_icon_fun()

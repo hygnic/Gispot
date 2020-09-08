@@ -5,21 +5,21 @@
 # Created on: 2020/6/30 13:10
 # Reference:
 """
-Description: 调整质量等级
-	将 上图入库数据库 中的shp文件、excel文件中的质量等级修改为 项目清单.xlsx 中的
-	对应的质量等级
-	
+Description:
+调整质量等级
+将 上图入库数据库 中的shp文件、excel文件中的质量等级修改为 项目清单.xlsx 中的
+对应的质量等级
 Usage:
 """
 # ---------------------------------------------------------------------------
 import xlwings as xw
 import os
 import arcpy
-from multiprocessing import Process,Queue
+from multiprocessing import Process
 
 import tooltk
 from hybag import hybasic
-from GUIconfig import GUIpath
+from GUIconfig.GUIpath import DocPath
 from GUIconfig import multication
 
 # import sys,codecs
@@ -27,7 +27,7 @@ from GUIconfig import multication
 #
 import sys
 reload(sys)
-sys.setdefaultencoding('utf-8')
+# sys.setdefaultencoding('utf-8')
 
 def main(qq_pip,folder, excel):
 	# 确定质量等级的入库清单excel
@@ -35,7 +35,7 @@ def main(qq_pip,folder, excel):
 	excel_path = excel
 	db_path = folder
 	# db_path = u"C:/Users/Administrator/Desktop/高标最后一次/自贡市/荣县/测试/510000高标准农田建设上图入库数据20200110"
-	qq_pip.put("okok")
+	qq_pip.put("processing...\n")
 	try:
 		print "\n"
 		app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
@@ -186,11 +186,11 @@ class AppGUI(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(AppGUI, self).__init__(master1,
-									 None,
+									 DocPath.doc_ZLDJ,
 									 self.confirm)
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
-		self.block1 = tooltk.blockDIR_in(frame, u"数据库文件")
+		self.block1 = tooltk.blockDIR_in(frame, u"数据文件地址")
 		self.block2 = tooltk.blockSheet(frame, u"入库清单")
 		
 	def confirm(self):
