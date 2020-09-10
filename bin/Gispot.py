@@ -4,7 +4,6 @@
 # python2.7
 
 # explode.py: import arcpy
-
 import os
 import sys
 from site import addsitedir  # py2exe
@@ -34,16 +33,29 @@ sys.path.append(os.path.join(root_p, "GUIs"))
 
 import entrance
 
+import traceback
+def except_hook_func(tp, val, tb):
+	trace_info_list = traceback.format_exception(tp, val, tb)
+	trace_str = ' '.join(trace_info_list)
+	info1 = 'sys.excepthook'
+	f = open("D:\\1.txt", "a")
+	f.write(info1)
+	f.write(trace_str)
+	sys.stderr.write(info1)
+	sys.stderr.write(trace_str)
+	f.close()
+
 if __name__ == '__main__':
-	# 支持多进程打包为可执行文件
-	multiprocessing.freeze_support()
-	# print sys.path
+	
+	sys.excepthook = except_hook_func
+	
+	multiprocessing.freeze_support() # 支持多进程打包为可执行文件
 	print "ProcessID:{}\n".format(os.getpid())
 	entrance = entrance.AppEntrance()
 	entrance.menu()
 	# 操控所有循环
 	entrance.rootwindow.mainloop()
-
+	
 # sys.path.append(r"D:\Python27\ArcGIS10.7\tcl\tcl8.5")
 # apppath = r"bin\entrance.py"
 # sys.path.append("../docs")

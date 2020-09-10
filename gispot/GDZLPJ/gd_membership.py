@@ -5,12 +5,16 @@
 # Created on: 2020/9/1 17:44
 # Reference:
 """
-Description: gd_membership 耕地隶属第
+Description: gd_membership 耕地隶属度
+根据点文件进行IDW插值（300米），然后重采样到10x10米，进行区域分析获取平均值然后连接属性，
+导出并保存为shp文件
 Usage:
 """
 # ---------------------------------------------------------------------------
 from __future__ import unicode_literals
 from __future__ import absolute_import
+from __future__ import print_function
+from hybag import hytime
 import arcpy
 import os
 
@@ -21,34 +25,35 @@ import os
 arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = True
 arcpy.env.qualifiedFieldNames = False
-"""-----------------------------------------------------------------------"""
-"""-----------------------------------------------------------------------"""
-"""-----------------------------------------------------------------------"""
-
-
+delete_scratchGDB = False # 是否删除中间数据库
 manager_cell = ur"G:\耕地质量等级\阿坝19年\管理单元_全图斑.shp" # 管理单元_全图斑
-# manager_cell = ur"G:\MoveOn\Gispot\Local\耕地质量等级\管理单元_全图斑.shp" # 管理单元_全图斑
+point = ur"G:\耕地质量等级\阿坝19年\耕地质量等级调查点位图.shp" # 点shp
+result_dir = ur"G:\耕地质量等级\阿坝19年\成果090122"  # 结果输出文件夹
+fields = ["有机质","海拔高度","土壤容重","有效土","有效磷","速效钾"] # 字段类型得是数字
+# print(arcpy.env.scratchGDB) # C:\Users\ADMINI~1\AppData\Local\Temp\scratch.gdb
+"""-----------------------------------------------------------------------"""
+"""-----------------------------------------------------------------------"""
+"""-----------------------------------------------------------------------"""
 
-# fields = ["有效磷","速效钾"]
-# fields = ["有机质","海拔高度","土壤容重","有效土层厚"]
-fields = ["有效土"] # 字段类型得是数字
 for a_field in fields:
-	
 	# Process: 反距离权重法
+	# 处理范围
 	arcpy.env.extent = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
-	
+	# 选择感兴趣区
+	arcpy.env.mask = "G:/MoveOn/Gispot/gispot/GDZLPJ/XZQ.shp"
 	output_size = "200" # 输出栅格像元大小 200米X200米
-	point = ur"G:\耕地质量等级\阿坝19年\耕地质量等级调查点位图.shp"
-	# point = r"G:\MoveOn\Gispot\Local\耕地质量等级\耕地质量等级调查点位图.shp"
-	# field = "有效磷"
 	field = a_field
 	IDW1 = "%scratchGDB%\\IDW1"
+	# IDW1 = "IDW1"
 	arcpy.gp.Idw_sa(point, field, IDW1, output_size, "2", "VARIABLE 12", "")
+	print("Idw_sa finished")
 	
 	# Process: 重采样
-	resample_size = "10 10" # 重采样尺寸 米
+	resample_size = "10" # 重采样尺寸 米
 	IDW_resample = "%scratchGDB%\\IDW_resample" # 重采样输出
+	# IDW_resample = "IDW_resample" # 重采样输出
 	arcpy.Resample_management(IDW1, IDW_resample, resample_size, "NEAREST")
+	print("Resample_management finished")
 	
 	# Process: 以表格显示分区统计
 	zone_field = "BSMinner" # 区域统计时使用的字段
@@ -56,6 +61,7 @@ for a_field in fields:
 	static_type = "MEAN" # 选择分区统计的类型
 	db = "%scratchGDB%\\db" # 表格输出
 	arcpy.sa.ZonalStatisticsAsTable(manager_cell, zone_field, IDW_resample, db, ignore_nodata, static_type)
+	print("ZonalStatisticsAsTable finished")
 	
 	# Process: 添加连接
 	input_link_field = "BSMinner" # 要素图层字段
@@ -65,55 +71,10 @@ for a_field in fields:
 	arcpy.AddJoin_management(manager_cell_feature, input_link_field, db, output_link_field, "KEEP_ALL")
 	
 	# Process: 复制要素
-	# result_dir = r"G:\MoveOn\Gispot\gispot\GDZLPJ\we.shp" # 结果输出地址
-	result_dir = ur"G:\耕地质量等级\阿坝19年\成果0901" # 结果输出地址
 	name = field
 	arcpy.CopyFeatures_management(manager_cell_feature, os.path.join(result_dir,name))
-
-"""-----------------------------------------------------------------------"""
-"""-----------------------------test--------------------------------------"""
-"""-----------------------------------------------------------------------"""
-
-if __name__ == '__main__':
-	pass
-
-
-
-# Local variables:
-# 输出像元大小 = "200"
-# 耕地质量等级调查点位图 = "耕地质量等级调查点位图"
-# Z_值字段 = "有效磷"
-# 重采样像元大小 = "90 90"
-# 管理单元_全图斑 = "管理单元_全图斑"
-# 区域字段 = "BSMinner"
-# 在计算中忽略_NoData = "true"
-# 统计类型 = "MEAN"
-# 输入连接字段 = "BSMinner"
-# 输出连接字段 = "BSMinner"
-# 范围 = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
-# IDW1 = "%scratchGDB%\\IDW1"
-# IDW_resample = "%scratchGDB%\\IDW_resample"
-# db = "%scratchGDB%\\db"
-# 连接表 = "管理单元_全图斑"
-# 管理单元_全图斑_有效磷lcc = "C:\\Users\\Administrator\\Documents\\ArcGIS\\Default.gdb\\管理单元_全图斑_有效磷lcc"
-#
-# # Process: 反距离权重法
-# tempEnvironment0 = arcpy.env.snapRaster
-# arcpy.env.snapRaster = ""
-# tempEnvironment1 = arcpy.env.extent
-# arcpy.env.extent = "34361163.3157208 3386128.2038705 34726672.9492604 3799008.23423741"
-# arcpy.gp.Idw_sa(耕地质量等级调查点位图, Z_值字段, IDW1, 输出像元大小, "2", "VARIABLE 12", "")
-# arcpy.env.snapRaster = tempEnvironment0
-# arcpy.env.extent = tempEnvironment1
-#
-# # Process: 重采样
-# arcpy.Resample_management(IDW1, IDW_resample, 重采样像元大小, "NEAREST")
-#
-# # Process: 以表格显示分区统计
-# arcpy.gp.ZonalStatisticsAsTable_sa(管理单元_全图斑, 区域字段, IDW_resample, db, 在计算中忽略_NoData, 统计类型)
-#
-# # Process: 添加连接
-# arcpy.AddJoin_management(管理单元_全图斑, 输入连接字段, db, 输出连接字段, "KEEP_ALL")
-#
-# # Process: 复制要素
-# arcpy.CopyFeatures_management(连接表, 管理单元_全图斑_有效磷lcc, "", "0", "0", "0")
+	print("{0} done".format(name))
+	
+if delete_scratchGDB:
+	arcpy.Delete_management(arcpy.env.scratchGDB)
+	print("Delete success")
