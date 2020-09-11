@@ -22,7 +22,8 @@ def timewrap(func):
 		start = time.time()
 		func()
 		end = time.time()
-		print('Time consuming: ',end - start)
+		msg = 'Time consuming: {}'.format(end-start)
+		print(msg)
 	return inner
 
 # 装饰函数 计算CPU执行时间
@@ -31,5 +32,6 @@ def timewrap_cpu(func):
 		start = time.clock()
 		func()
 		end = time.clock()
-		print('CPU time consuming: ',end - start)
+		msg = 'CPU time consuming: {}'.format(end - start)
+		print(msg)
 	return inner

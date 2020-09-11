@@ -33,21 +33,10 @@ sys.path.append(os.path.join(root_p, "GUIs"))
 
 import entrance
 
-import traceback
-def except_hook_func(tp, val, tb):
-	trace_info_list = traceback.format_exception(tp, val, tb)
-	trace_str = ' '.join(trace_info_list)
-	info1 = 'sys.excepthook'
-	f = open("D:\\1.txt", "a")
-	f.write(info1)
-	f.write(trace_str)
-	sys.stderr.write(info1)
-	sys.stderr.write(trace_str)
-	f.close()
+
 
 if __name__ == '__main__':
 	
-	sys.excepthook = except_hook_func
 	
 	multiprocessing.freeze_support() # 支持多进程打包为可执行文件
 	print "ProcessID:{}\n".format(os.getpid())

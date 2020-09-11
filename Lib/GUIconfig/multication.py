@@ -57,6 +57,19 @@ class StdoutQueue(object):
 		self.inner_que.close()
 
 
+# import traceback
+# def except_hook_func(tp, val, tb):
+# 	trace_info_list = traceback.format_exception(tp, val, tb)
+# 	trace_str = ' '.join(trace_info_list)
+# 	info1 = 'sys.excepthook'
+# 	f = open("D:\\1.txt", "a")
+# 	f.write(info1)
+# 	f.write(trace_str)
+# 	sys.stderr.write(info1)
+# 	sys.stderr.write(trace_str)
+# 	f.close()
+
+
 class MuCation(object):
 	"""
 	功能一：新开一个进程执行指定的方法
@@ -76,8 +89,6 @@ class MuCation(object):
 	def __init__(self):
 		# self.que = Queue()
 		self.que = StdoutQueue()
-		
-		
 		# sys.stdout = self.que
 		# If we redirect stdout to Tkinter text, some errors occur and i
 		# don't know why at all
@@ -147,8 +158,9 @@ class MuCation(object):
 					output_window.see("end")
 		
 		t = Thread(target=inner)
-		t.daemon = True
+		t.setDaemon(True)  # TODO 如果主进程结束，queue管道中尚且有值就被关闭了
 		t.start()
+		# t.join() # 主-子线程同步，开启后会使GUI界面阻塞
 
 	
 if __name__ == '__main__':

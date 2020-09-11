@@ -22,35 +22,33 @@ Python2.7
 Usage:
 """
 # ---------------------------------------------------------------------------
-from __future__ import print_function
-from __future__ import absolute_import
 import arcpy
 import os
-import time
+
 
 # arcpy 导出JPEG，适用于文件夹或者单个mxd
 def export(path, resolution):										 # 001
 	arcpy.env.overwriteOutput = True
 	if not os.path.isdir(path) and path[-3:].lower() == 'mxd':
-		print("file")
+		print "file"
 		mxd1 = arcpy.mapping.MapDocument(path)
-		print('exporting...')
+		print 'exporting...'
 		arcpy.mapping.ExportToJPEG(
 			mxd1, os.path.abspath(path[:-3] + 'jpg'), resolution=resolution)
 		a = os.path.split(path)
-		print(a[1]+" finished")
+		print a[1]+" finished"
 	else:
-		print("folder")
+		print "folder"
 		for afile in os.listdir(path):
 			if afile[-3:].lower() == 'mxd':
 				mxd1 = arcpy.mapping.MapDocument(os.path.join(path, afile))
-				print('exporting...')
+				print 'exporting...'
 				# ExportToJEPG的第二个参数是导出图片的名称和目录设置
 				arcpy.mapping.ExportToJPEG(
 					mxd1, os.path.join(path, afile[:-3] + 'jpg'), resolution=resolution
 				)
-				print(afile + ' finished')
-				print("\n----------------")
+				print afile + ' finished'
+				print "\n----------------"
 				del mxd1
 			else:
 				pass
@@ -79,15 +77,15 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 		file_path = os.path.join(dirs_p, file_p)
 		if os.path.isdir(file_path):
 			try:
-				# print("\t" * counter + "dir:", file_p
-				print("\t*{0} dir: {1}".format(int(counter),file_p.encode("utf8"))) # 出现带中文的子文件夹，不带encode会出错
+				# print "\t" * counter + "dir:", file_p
+				print "\t*{0} dir: {1}".format(int(counter),file_p.encode("utf8")) # 出现带中文的子文件夹，不带encode会出错
 			except Exception:
-				print("<<<{0}>>>".format(__name__),"HBgetfile error occured, skipped")
+				print "<<<{0}>>>".format(__name__),"HBgetfile error occured, skipped"
 			# 递归
 			if recur:
 				getfiles(file_path, suffix, recur, counter + 1)
 		else:
-			# print("\t"*counter+file_p
+			# print "\t"*counter+file_p
 			if suffix:
 				# 单个后缀
 				if not isinstance(suffix, list):
@@ -97,7 +95,7 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					f_suffix = name_and_suffix[1][1:].lower()
 					# f_name = name_and_suffix[0]
 					if f_suffix == suffix:
-						print("\t" * counter, base_name)
+						print "\t" * counter, base_name
 						_getall_items.append(file_path)
 				# 多个后缀组成列表
 				else:
@@ -106,12 +104,12 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					f_suffix = name_and_suffix[1][1:]
 					f_name = name_and_suffix[0]
 					if f_suffix in suffix:
-						print("\t" * counter, base_name)
+						print "\t" * counter, base_name
 						_getall_items.append(file_path)
 			# 无后缀要求，获取所有文件
 			else:
 				_getall_items.append(file_path)
-	print("$"*80)
+	print "$"*80
 	return _getall_items
 
 
@@ -169,58 +167,35 @@ def data_distribute(data_list, core):
 	# 包含所有子列表的列表
 	result_groups = []
 	lenn = len(data_list)
-	# print("list_lence:", lenn
+	# print "list_lence:", lenn
 	# 分为core组，slice_amount为每组的数量
 	slice_amount = lenn // core
-	# print("slice_count:", slice_amount
+	# print "slice_count:", slice_amount
 	for i in xrange(core):
 		# 以core为长度的一个切片
 		l_slice = sub_list(data_list, slice_amount)
-		print("one_slice:", l_slice)
+		print "one_slice:", l_slice
 		result_groups.append(l_slice)
 	# remained_item_amount 主要数据列表中剩余的元素的个数
 	remained_item_amount = lenn - slice_amount * core
 	msg1 = "remained_item:{0} ; remained_item_amount:{1}".format(
 		data_list, remained_item_amount)
-	print(msg1)
+	print msg1
 	# 将主要列表中的值取完才结束
 	while data_list:
 		for i in xrange(remained_item_amount):
 			item = data_list.pop()
 			result_groups[i].append(item)
-	# print("result_groups:",result_groups
+	# print "result_groups:",result_groups
 	j = 0
 	for i in result_groups:
 		i_len = len(i)
-		print("a group's length:", i_len)
+		print "a group's length:", i_len
 		j += i_len
-	print("total:", j)
-	print("@" * 50)
+	print "total:", j
+	print "@" * 50
 	return result_groups
 	
-
-
-
-
-# 装饰函数 计算程序运行时间
-def timewrap(func):
-	def inner():
-		start = time.time()
-		func()
-		end = time.time()
-		print('Time consuming: ',end - start)
-	return inner
-
-# 装饰函数 计算CPU执行时间
-def timewrap_cpu(func):
-	def inner():
-		start = time.clock()
-		func()
-		end = time.clock()
-		print('CPU time consuming: ',end - start)
-	return inner
-
-
 	
 class HyMath(object):
 	def __init__(self):
