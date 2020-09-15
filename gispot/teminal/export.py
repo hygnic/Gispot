@@ -8,6 +8,7 @@ cmd 默认识别cp936编码的中文
 
 尝试加入 u"输入文件夹" 失败
 """
+from __future__ import absolute_import
 from hybag import hybasic
 
 
@@ -41,11 +42,13 @@ from hybag import hybasic
 				
 # 使用此函数调用功能函数，不想直接将用户交互界面写入
 def func():
-	dir_path = raw_input('文件夹或mxd文档：')
-	# dir_path = ur"G:\test\gst"
-	res = int(raw_input('分辨率：'))
-	# res = 3
-	hybase.export(dir_path, res)
+	# dir_path = raw_input(u'文件夹或mxd文档：')
+	dir_path = ur"G:\耕地质量等级\阿坝19年"
+	# res = int(raw_input(u'分辨率：'))
+	res = 100
+	hybasic.export(dir_path, res)
 	
 	
+if __name__ == '__main__':
+	func()
 

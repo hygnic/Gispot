@@ -29,8 +29,9 @@ _paths_gispot = os.path.abspath(sys.argv[0])  # G:\MoveOn\Gispot_copy\bin\Gispot
 _paths_bin = os.path.dirname(_paths_gispot)  # G:\MoveOn\Gispot_copy\bin
 _Groot = os.path.dirname(_paths_bin)  # E:\move on move on\gispot
 _GUIs_p = os.path.join(_Groot, "GUIs")
-_Docs_p = os.path.join(_Groot, "docs")
+Docs_p = os.path.join(_Groot, "docs")
 _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on move on\gispot\GUIs\Icons
+# Docs_p = _Docs_p # 测试用2020 0914
 
 # G:\MoveOn\GUIs\Icons\GitHub_32.gif
 # docs
@@ -48,10 +49,10 @@ _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on 
 def code2exe():
 	"""配置doc文件和图片，用于py2exe封装"""
 	global _base_icons_path
-	global _Docs_p
+	global Docs_p
 	# py2exe_path = "images"
 	_base_icons_path = "images"
-	_Docs_p = "gisdocs"
+	Docs_p = "gisdocs"
 # 不封装时关闭该函数
 # code2exe()
 
@@ -89,14 +90,14 @@ class GifPath(object):
 	
 # G:\MoveOn\Gispot\docs
 class DocPath(object):
-	doc_me = os.path.join(_Docs_p, "multiplexport.gc")
-	doc_em = os.path.join(_Docs_p, "explode_mulitp.gc")
-	doc_trans_fbt = os.path.join(_Docs_p, "trans_fbt.gc")
-	doc_trans_gst = os.path.join(_Docs_p, "trans_gst.gc")
-	doc_gstrename = os.path.join(_Docs_p, "gstrename.gc")
-	doc_task_dispatch = os.path.join(_Docs_p, "task_dispatch.gc")
-	doc_saveacopy = os.path.join(_Docs_p, "save_acopy.gc")
-	doc_ZLDJ = os.path.join(_Docs_p, "ZLDJ.gc")
+	doc_me = os.path.join(Docs_p, "multiplexport.gc")
+	doc_em = os.path.join(Docs_p, "explode_mulitp.gc")
+	doc_trans_fbt = os.path.join(Docs_p, "trans_fbt.gc")
+	doc_trans_gst = os.path.join(Docs_p, "trans_gst.gc")
+	doc_gstrename = os.path.join(Docs_p, "gstrename.gc")
+	doc_task_dispatch = os.path.join(Docs_p, "task_dispatch.gc")
+	doc_saveacopy = os.path.join(Docs_p, "save_acopy.gc")
+	doc_ZLDJ = os.path.join(Docs_p, "ZLDJ.gc")
 
 
 class PngIcon(object):

@@ -8,9 +8,10 @@ import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
 from PIL import Image, ImageTk
+import os
 
 # 导入配置包、地址包
-from GUIconfig import GUI
+from GUIconfig import newGUI
 from GUIconfig import GUIpath
 from GUIconfig import hyini
 # from GUIconfig.paths import GifPath
@@ -158,7 +159,7 @@ class Tooltk(object):
 		# 设置带滚动条的text
 		s_bar = tk.Scrollbar(help_f, relief="flat", elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.help_text = GUI.NeewwText(
+		self.help_text = newGUI.NeewwText(
 			help_f, relief=tk.FLAT, height=20,
 			fg=self.color5, yscrollcommand=s_bar.set
 		)
@@ -186,7 +187,7 @@ class Tooltk(object):
 		s_bar = tk.Scrollbar(
 			self.frame_right_side, relief="flat", elementborderwidth=-15)
 		s_bar.pack(side="right", fill="y")
-		self.major_msgframe = GUI.NeewwText(
+		self.major_msgframe = newGUI.NeewwText(
 			self.frame_right_side, height="60", yscrollcommand=s_bar.set)
 		# 配置字体颜色
 		self.major_msgframe.tag_config(
@@ -204,7 +205,7 @@ class Tooltk(object):
 	# Read help information and insert in help box
 	def read_help(self):
 		if self.helppath is not None:
-			filename = self.helppath
+			filename = os.path.join(GUIpath.Docs_p,self.helppath)
 			with open(filename, "r") as read_msgs:
 				for read_line in read_msgs.readlines():
 					self.help_text.insert(tk.END, read_line)
@@ -217,7 +218,7 @@ class Tooltk(object):
 		 2.button_quit: back button
 		 3.button_help: jump to a website which shows help information (most unused)
 		"""
-		self.button_confirm = GUI.HoverButton(
+		self.button_confirm = newGUI.HoverButton(
 			self.frame_bottom_bar, msg="OK",
 			image=self.png_confirm,
 			command=self.confirm_method,
@@ -227,7 +228,7 @@ class Tooltk(object):
 		# print "tooltk.py>>Border:", self.button_confirm["borderwidth"] # 2
 		# height = 18, width = 18,
 		# help button
-		self.button_help = GUI.HoverButton(
+		self.button_help = newGUI.HoverButton(
 			self.frame_bottom_bar, msg="Info",
 			image=self.png_help,
 			width=self._button_size,
@@ -239,10 +240,10 @@ class Tooltk(object):
 			command=self.windows.destory ,会删除掉main_f,
 			导致打开其他功能时找不到main_f而报错
 			"""
-			GUI.destroy_child(self.window)
+			newGUI.destroy_child(self.window)
 		
 		# Back button
-		self.button_quit = GUI.HoverButton(
+		self.button_quit = newGUI.HoverButton(
 			self.frame_bottom_bar, msg="Cancel",
 			image=self.png_quit,
 			command=__quit_inner,
@@ -305,10 +306,10 @@ class Tooltk(object):
 		
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sfb = GUI.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
+		self.input_sfb = newGUI.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
 		self.input_sfb.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		self.addfile_button = GUI.HoverButton(
+		self.addfile_button = newGUI.HoverButton(
 			frame_one, text=u"选择",
 			command=select_file,
 			image=self.gif_addfile,
@@ -341,7 +342,7 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
 		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = GUI.HoverButton(
+		self.addfile_button = newGUI.HoverButton(
 			frame_one, image=self.gif_addfile,
 			command=select_file,
 			width=self._button_size,
@@ -349,7 +350,7 @@ class Tooltk(object):
 		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sb = GUI.NeewwEntry(
+		self.input_sb = newGUI.NeewwEntry(
 			frame_one, textvariable=input_msg1, border=2, relief=tk.FLAT)
 		self.input_sb.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=15)
@@ -375,12 +376,12 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb = GUI.NeewwEntry(
+		self.input_sdb = newGUI.NeewwEntry(
 			frame_one, textvariable=input_msg1, bd=0)
 		self.input_sdb.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
-		self.addfile_button = GUI.HoverButton(
+		self.addfile_button = newGUI.HoverButton(
 			frame_one,
 			command=select_file,
 			image=self.gif_folder,
@@ -410,12 +411,12 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sdb2 = GUI.NeewwEntry(
+		self.input_sdb2 = newGUI.NeewwEntry(
 			frame_one, textvariable=input_msg1, bd=0)
 		self.input_sdb2.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
-		self.addfile_button = GUI.HoverButton(
+		self.addfile_button = newGUI.HoverButton(
 			frame_one,
 			command=select_file,
 			image=self.gif_folder,
@@ -440,14 +441,14 @@ class Tooltk(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# Entry
 		# input_msg1 = tk.StringVar()
-		self.input_svb = GUI.NeewwEntry(
+		self.input_svb = newGUI.NeewwEntry(
 			frame_one, textvariable=input_msg1, border=0
 		)
 		self.input_svb.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		# input_msg.set(one_file_path)
 		# 按钮
-		int_button_1 = GUI.HoverButton(
+		int_button_1 = newGUI.HoverButton(
 			frame_one, image=self.gif_empty_1,
 			state="disabled",
 			width=self._button_size,
@@ -468,7 +469,7 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		# 按钮
-		int_button_2 = GUI.HoverButton(
+		int_button_2 = newGUI.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=self._button_size,
@@ -477,7 +478,7 @@ class Tooltk(object):
 		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		# Entry
 		input_msg1 = tk.StringVar()
-		self.input_sib2 = GUI.NeewwEntry(
+		self.input_sib2 = newGUI.NeewwEntry(
 			frame_one,
 			textvariable=input_msg1, border=0
 		)
@@ -501,14 +502,14 @@ class Tooltk(object):
 		frame_one = tk.Frame(self.block_frame)
 		frame_one.pack(side="top", anchor="center", expand=True, fill="both")
 		# 右边障碍要素
-		GUI.HoverButton(
+		newGUI.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=60,
 			height=self._button_size
 		).pack(side=tk.RIGHT, padx=10)
 		# 左边障碍要素
-		GUI.HoverButton(
+		newGUI.HoverButton(
 			frame_one, state="disabled",
 			image=self.gif_empty_1,
 			width=13,
@@ -517,7 +518,7 @@ class Tooltk(object):
 		
 		# frame_one.columnconfigure(0, weight=1)
 		# frame_one.columnconfigure(1, weight=1)
-		self.input_tb = GUI.NeewwText(frame_one, wrap="none", relief="flat", height=10)
+		self.input_tb = newGUI.NeewwText(frame_one, wrap="none", relief="flat", height=10)
 		self.input_tb.pack(expand=True, fill="both")
 	
 	# text.grid(column = 0,sticky = "nesw")
@@ -527,7 +528,7 @@ class Tooltk(object):
 		最下面的那个分隔栏
 		:return:
 		"""
-		s = GUI.GradientCanvas(
+		s = newGUI.GradientCanvas(
 			master, color11, color22,
 			height=10, bd=0
 		).pack(fill="x")
@@ -646,11 +647,11 @@ class SingleFileBlock(object):
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		
 		# Entry
-		self.__newEntry = GUI.NeewwEntry(
+		self.__newEntry = newGUI.NeewwEntry(
 			frame_one, textvariable=self.var, border=0)
 		self.__newEntry.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		self.__button = GUI.HoverButton(
+		self.__button = newGUI.HoverButton(
 			frame_one, text=u"选择",
 			command=self.dialog,
 			image=self.but_image,

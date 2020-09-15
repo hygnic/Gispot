@@ -112,5 +112,6 @@ class SaveACopy(tooltk.Tooltk):
 
 		
 if __name__ == '__main__':
-	main(ur"G:\正安县\正安县分布图\成果",
-		 ur"G:\正安县\正安县分布图\test",10.3)
+	# 文件夹 文件夹
+	main(ur"G:\高标准分布图\金堂县",
+		 ur"G:\高标准分布图\金堂县\新建文件夹",10.3)

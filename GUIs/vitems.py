@@ -5,7 +5,7 @@
 
 import os
 import Tkinter as tk
-from GUIconfig import GUI
+from GUIconfig import newGUI
 from GUIconfig import GUIpath
 from teminal import export
 
@@ -19,7 +19,7 @@ from teminal import export
 
 # 单进程导出图片JPEG(适用于文件夹和单个mxd文件)
 def export_s(master):
-	frame = GUI.ButtonFrame(
+	frame = newGUI.ButtonFrame(
 		master,
 		tk.PhotoImage(file=GUIpath.GifPath.confirm),
 		"导出图片",command=export.func)
@@ -50,11 +50,11 @@ class Filter(object):
 	
 	def icon_selector(self):
 		if self.flag1 == 1:
-			GUI.ButtonFrame(
+			newGUI.ButtonFrame(
 				self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
 				self.name, command=None)
 		elif self.flag1 == 2:
-			GUI.ButtonFrame(
+			newGUI.ButtonFrame(
 				self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
 				self.name, command=None)
 	

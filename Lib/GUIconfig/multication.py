@@ -43,10 +43,13 @@ class StdoutQueue(object):
 		
 	def write(self, msg):
 		self.inner_que.put(msg)
-
+		
 	def put(self,msg):
 		self.inner_que.put(msg)
-
+	
+	def append(self, msg):
+		self.inner_que.put(msg)
+		
 	def get(self):
 		return self.inner_que.get()
 
@@ -55,6 +58,8 @@ class StdoutQueue(object):
 	
 	def close(self):
 		self.inner_que.close()
+		
+	
 
 
 # import traceback

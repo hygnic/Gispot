@@ -24,7 +24,6 @@ from GUIconfig import multication
 import tooltk
 
 
-doc_path = GUIpath.DocPath.doc_me
 # mxdpath = "" 地图文档的地址
 slices_set = [] # 包含多个 地址列表的切片包 的列表（列表的列表）
 
@@ -65,7 +64,7 @@ def export_jpeg(me_queue, path_slice_set, res):
 	"""
 	主要的出图功能函数
 	获取地址列表切片进行出图处理
-	:param me_queue:
+	:param me_queue: 进程之间沟通用
 	:param path_slice_set: 地址列表 的 一个切片包（列表）
 	:param res: 分辨率 int
 	:return:
@@ -83,16 +82,13 @@ def export_jpeg(me_queue, path_slice_set, res):
 		
 # our_master = tool_entrance.AppEntrance.rootwindow
 class MultipExp(tooltk.Tooltk):
-	# stdout = multication.StdoutQueue()
-	# sys.stdout = stdout.new_stdout
-	commu = multication.MuCation()
-	# ququ = Queue() # TODO 有用吗？删除？
+	
 	def __init__(self,master1):
 		"""
 		:param master1: mian_f , a widget from tool_entrance.py
 		"""
 		super(MultipExp, self).__init__(master1,
-										doc_path,
+										"multiplexport.gc",
 										self.confirm_mu)
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
@@ -104,6 +100,11 @@ class MultipExp(tooltk.Tooltk):
 		# self.addfile_button.config(state = "disable")
 		# self.addfile_button.pack_forget()  # 隐藏模块
 		# self.addfile_button.destroy()	# 隐藏模块
+		
+		# stdout = multication.StdoutQueue()
+		# sys.stdout = stdout.new_stdout
+		self.commu = multication.MuCation()
+	
 	
 	def confirm_mu(self):
 		# 获取Entry的值
@@ -136,21 +137,3 @@ class MultipExp(tooltk.Tooltk):
 			# p.terminate()
 		# 初始化列表，以免二次输入时报错
 		self.block_list = []
-		
-
-# if __name__ == '__main__':
-#     # 这里实际不会运行的，
-#     app_Multip = MultipExp()
-#     # app_Multip.confirm_method()
-#     app_Multip.window.mainloop()
-
-
-# address_clip(r"G:\test\gst", 5)
-# address_clip(self.block_list[0],core)
-# export_jpeg(slices_set, 20)
-# print "准备开启多进程通道："
-# for path_slice_set in slices_set:
-#     p = Process(target=export_jpeg, args=(path_slice_set, 20))
-#     p.start()
-#     print "\t" + "进程通道已打开 " + str(p.pid)
-#     print "start process"

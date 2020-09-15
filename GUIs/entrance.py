@@ -74,7 +74,7 @@ import crcpy.explode
 import crcpy.task_dispatch
 import crcpy.ZLDJ
 # 配置包导入
-from GUIconfig import GUI,hyini
+from GUIconfig import newGUI,hyini
 from GUIconfig import GUIpath
 
 # Gispot图标
@@ -113,7 +113,7 @@ class AppEntrance(object):
         self.rootwindow = tk.Tk()
         self.rootwindow.title("GISPOT")
         # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
-        GUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)
+        newGUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)
         self.rootwindow.iconbitmap(default=icon)  # TODO 暂时关闭图标
         self.rootwindow.resizable(False, False)
         self.menu()
@@ -158,7 +158,7 @@ class AppEntrance(object):
         #
        
     def gradient_bar(self):
-        self.gradient_canv = GUI.GradientCanvas(
+        self.gradient_canv = newGUI.GradientCanvas(
             self.rootwindow, "#ffc851", "#808000", relief="flat")
         self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
         self.gradient_canv.create_text(32, 18, text="gispot 1")
@@ -169,10 +169,10 @@ class AppEntrance(object):
             weberopen(update_url, new=0, autoraise=True)
         print GUIpath.GifPath.github
         self.image_octacat = tk.PhotoImage(file=GUIpath.GifPath.github)
-        ap_button = GUI.HoverButton(master=self.gradient_canv,
-                                    command=open_u, bd=2,
-                                    image=self.image_octacat,
-                                    width=30, height=30)
+        ap_button = newGUI.HoverButton(master=self.gradient_canv,
+                                       command=open_u, bd=2,
+                                       image=self.image_octacat,
+                                       width=30, height=30)
         ap_button.pack(side='top', expand='yes', anchor="se")
         # exxp = tk.Text(self.gradient_canv,height = 1)
         # exxp.pack()
@@ -279,23 +279,23 @@ class AppEntrance(object):
             之前存在的GUI界面
     """
     def open_GSTrename(self):
-        GUI.destroy_child(self.interface_frame)
+        newGUI.destroy_child(self.interface_frame)
         # gstrename.App(self.main_f)
         LQHD.gstrename.App(self.interface_frame)
     
     def open_Multip_exp(self):
-        GUI.destroy_child(self.interface_frame)
+        newGUI.destroy_child(self.interface_frame)
         # multip_ejpg.MultipExp(self.main_f)
         crcpy.multiplexport.MultipExp(self.interface_frame)
     
     # 多进程导出JPEG图片
     def explode_mulitp(self):
-        GUI.destroy_child(self.interface_frame)
+        newGUI.destroy_child(self.interface_frame)
         # explode_mulitp.App(self.main_f)
         crcpy.explode.App(self.interface_frame)
     
     def start_dispatch_task(self):
-        GUI.destroy_child(self.interface_frame)
+        newGUI.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
         crcpy.task_dispatch.StartApp(self.interface_frame)
         
@@ -305,7 +305,7 @@ class AppEntrance(object):
         #     print dead_p
         #     dead_p =pool_list.pop()
         #     kill_pid(dead_p)
-        GUI.destroy_child(self.interface_frame)
+        newGUI.destroy_child(self.interface_frame)
         # task_dispatch.StartApp(self.main_f)
         crcpy.ZLDJ.AppGUI(self.interface_frame)
         

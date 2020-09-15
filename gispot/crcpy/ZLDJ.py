@@ -170,15 +170,6 @@ def main(qq_pip,folder, excel):
 						# wb1.close()
 						app1.quit()
 				# print "\n close application"
-			
-# 主功能函数的外包装饰函数
-def mian_wrap(q_pip,p1,p2):
-	"""
-	该功能将分组数据的处理、和我们的主功能函数合并放到一个函数中，
-	然后启动一个子进程处理。
-	"""
-	main(q_pip,p1,p2)
-	print "Done!"
 
 
 class AppGUI(tooltk.Tooltk):
@@ -198,16 +189,12 @@ class AppGUI(tooltk.Tooltk):
 		zldj_folder = v[0]
 		zldj_sheet = v[1]
 		p = Process(target=self.commu.decor,
-					args=(mian_wrap,zldj_folder, zldj_sheet)
+					args=(main,zldj_folder, zldj_sheet)
 					)
 		# p.deamon = True
 		p.start()
-		print "\t" + "进程通道已打开 " + str(p.pid)
-		print "process start"
-		print "start process communication"
 		# 将信息输出到右下方的动态信息栏
 		self.commu.process_communication(self.major_msgframe)
-		# main(v[0], v[1])
 
 
 if __name__ == '__main__':
