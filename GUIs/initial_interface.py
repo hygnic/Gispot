@@ -262,6 +262,11 @@ class ToolSet(object):
         newGUI.destroy_child(self.master)
         txt2shp.Funtion(self.master)
 
+    # 将高版本mxd文件转换为低版本的
+    def to_other_version(self):
+        newGUI.destroy_child(self.master)
+        pass
+    
     def test_func3(self):
         # name: 坐标系转换
         print "func1"
@@ -279,7 +284,8 @@ class ToolSet(object):
             u"转换工具": (
                 (self.test_func1, u"坐标系转换"),
                 (self.test_func2, u"Excel转shp"),
-                (self.txt2shp_1, u"txt转shp")
+                (self.txt2shp_1, u"TXT转shp"),
+                (self.to_other_version, u"版本降低")
             ),
             u"高标准农田": (
                 (self.test_func3, u"坐标系转换2"),

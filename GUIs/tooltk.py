@@ -8,6 +8,7 @@ import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
 from PIL import Image, ImageTk
+import ttk
 import os
 
 # 导入配置包、地址包
@@ -70,10 +71,10 @@ class Tooltk(object):
 		# self.input_str_1 = tk.StringVar()
 		# self.input_str_2 = tk.StringVar()
 		# self.input_int = tk.IntVar()
-		self.color_mylife()  # 颜色
-		self.icon_set()  # 配置图片
-		self.frames_initial()  # 配置框架
-		self.create_button()  # 配置按钮
+		self.initial_color()  # 颜色
+		self.initial_icon()  # 配置图片
+		self.initial_frames()  # 配置框架
+		self.initial_buttons()  # 配置按钮
 		# color   "SystemHighlight","SystemMenuText"
 		self.read_help()
 	
@@ -91,7 +92,7 @@ class Tooltk(object):
 	def FrameDynamic(self):
 		return self.major_msgframe
 	
-	def color_mylife(self):
+	def initial_color(self):
 		self.color1 = "#F1F1F1"  # help bar
 		self.color5 = "#808000"  # Olive,显示text
 		self.color3 = "#F1F1F1"  # 主框的上半部分颜色 侧栏颜色
@@ -99,7 +100,7 @@ class Tooltk(object):
 		self.color2 = "#E1E1E1"  # 茶色 较深
 		self.color6 = '#EBEEEE'  # 底栏颜色
 	
-	def icon_set(self):
+	def initial_icon(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
 		self.gif_text = tk.PhotoImage(file=GUIpath.GifPath.textfile)
 		self.gif_addfile = tk.PhotoImage(file=GUIpath.GifPath.add_file)
@@ -130,7 +131,7 @@ class Tooltk(object):
 		self.ph_im = ImageTk.PhotoImage(im)
 		"""
 	
-	def frames_initial(self):
+	def initial_frames(self):
 		# 1192/2 = 596
 		# 右边的主框
 		self.frame_right_side = tk.Frame(
@@ -167,22 +168,39 @@ class Tooltk(object):
 		self.help_text.pack(expand=True, fill="both")
 		s_bar.config(command=self.help_text.yview)
 		
-		""""
-			右边主框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
-		下半部分显示动态信息"""
+		
+		"""----------------------------------------------------------------"""
+		"""----------------------------------------------------------------"""
+			# 右边主框插入文本框，文本框分成上下两部分，上部分显示固定的信息，
+			# 下半部分显示动态信息
+		"""----------------------------------------------------------------"""
+		"""----------------------------------------------------------------"""
 		# 上栏
+		# wrap="word" 如果大段的文字超过容纳限制，就会强制换一行输出
 		self.msgframe = stt.ScrolledText(
-			self.frame_right_side, height="10", wrap="word")  # width="50"
-		# 不起作用，将所用txt都标记了
+			self.frame_right_side, height="10", )  # width="50"
+		# 将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.msgframe.insert(
 			tk.END,
-			"Python 2.7.12 (v2.7.12:d33e0cf91556,Jun 27 2016, "
-			"15:19:22) author: Liaochenchen 2019#00#00"
+			"-----------------Python 2.7 author: Liaochenchen 2019#00#00--------------------\n"
 		)  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.msgframe.pack(
 			side="top", anchor="n", expand=True, fill="both", padx=2)
+		
+		# 将 input_log.log 文件中保存的输入地址等输入信息框
+		input_log = os.path.join(GUIpath.Docs_p, "input_log.log")
+		with open(input_log, "r") as read_msgs:
+			for read_line in read_msgs.readlines():
+				line_msg = read_line.strip()
+				# self.msgframe.insert(tk.END, "  "+line_msg)
+				# 创建历史输入记录的按钮
+				msgb = ttk.Button(self.msgframe,text =line_msg)
+				self.msgframe.window_create("end",window =msgb )
+				self.msgframe.see("end")
+		
+		
 		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(
 			self.frame_right_side, relief="flat", elementborderwidth=-15)
@@ -211,7 +229,7 @@ class Tooltk(object):
 					self.help_text.insert(tk.END, read_line)
 				self.help_text["state"] = "disabled"
 	
-	def create_button(self):
+	def initial_buttons(self):
 		"""
 		Make three button:
 		 1.button_confirm: the main function start up button
@@ -566,6 +584,7 @@ class SingleFileBlock(object):
 									tkFileDialog.askopenfilename，[(u'文本文档', '*.txt'), ('All Files', '*')],
 									"add_file")"""
 	_button_pixel_size = 24
+	focus_flag = 1
 	
 	def __init__(self, frames, name, tkFileDialogFunc, filetype, image):
 		"""
@@ -658,7 +677,10 @@ class SingleFileBlock(object):
 			width=self._button_pixel_size,
 			height=self._button_pixel_size)
 		self.__button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-	
+		if self.focus_flag ==1:
+			self.__newEntry.focus()
+			self.focus_flag =2
+		
 	# 点击确认键的时候获取Entry中的值
 	def get(self):
 		block_list = []
@@ -726,9 +748,25 @@ def blockValue(frames, name):
 	inner.button.close()  # state = "disabled",  normal,active
 	return inner
 
+"""---------------------------shp file -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+def blockShp_save(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.asksaveasfilename,
+		[(u'shapefile', '*.shp'), ('All Files', '*')],
+		"shapefile_out"
+	)
+
+def blockShp_in(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.askopenfilename,
+		[(u'shapefile', '*.shp'), ('All Files', '*')],
+		"shapefile_in"
+	)
+
 
 if __name__ == '__main__':
-	
 	class TstApp(Tooltk):
 		def __init__(self):
 			master = tk.Tk()

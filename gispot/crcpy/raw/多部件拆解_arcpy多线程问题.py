@@ -34,7 +34,7 @@ class App(tooltk.Tooltk):
 	"""
 	def __init__(self):
 		super(App, self).__init__(u"拆分多部件",
-								  "docs/explode_mulitp.gc")
+								  "docs/explode.gc")
 		# s = self.window.winfo_children()
 		# for i in s:
 		# 	print type(i) # <type 'instance'>

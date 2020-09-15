@@ -38,7 +38,7 @@ _base_icons_path = os.path.abspath(os.path.join(_GUIs_p, "Icons")) # E:\move on 
 
 # root = os.path.abspath(os.path.dirname(sys.argv[0]))
 # _docs_p = os.path.join(root,"docs")
-# _explode_mulitp = os.path.join(_docs_p, r"explode_mulitp.gc")
+# _explode_mulitp = os.path.join(_docs_p, r"explode.gc")
 # _gstrename = os.path.join(_docs_p, r"multiplexport.gc")
 # _multip_ejpg = os.path.join(_docs_p, r"multiplexport.gc")
 # _path_bin = os.path.dirname(sys.argv[0])  # G:\MoveOn\Gispot\bin
@@ -90,13 +90,12 @@ class GifPath(object):
 	
 # G:\MoveOn\Gispot\docs
 class DocPath(object):
-	doc_me = os.path.join(Docs_p, "multiplexport.gc")
-	doc_em = os.path.join(Docs_p, "explode_mulitp.gc")
+	# doc_me = os.path.join(Docs_p, "multiplexport.gc")
+	# doc_em = os.path.join(Docs_p, "explode.gc")
 	doc_trans_fbt = os.path.join(Docs_p, "trans_fbt.gc")
 	doc_trans_gst = os.path.join(Docs_p, "trans_gst.gc")
 	doc_gstrename = os.path.join(Docs_p, "gstrename.gc")
 	doc_task_dispatch = os.path.join(Docs_p, "task_dispatch.gc")
-	doc_saveacopy = os.path.join(Docs_p, "save_acopy.gc")
 	doc_ZLDJ = os.path.join(Docs_p, "ZLDJ.gc")
 
 
@@ -107,6 +106,8 @@ class PngIcon(object):
 	# add_file = os.path.join(_base_icons_path, "file3.gif")
 	add_file = os.path.join(_base_icons_path, "file-icon2433.png")
 	icon = os.path.join(_base_icons_path, "icon.ico")
+	shapefile_out = os.path.join(_base_icons_path, "shp_save_28.png")
+	shapefile_in = os.path.join(_base_icons_path, "shp_input_28.png")
 	
 	# 主界面左边工具栏及其相应子界面的图标
 	toolbox_45 = os.path.join(_base_icons_path, "toolbox-45.png")

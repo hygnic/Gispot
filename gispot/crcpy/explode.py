@@ -8,18 +8,14 @@ main function: make multiple-parts to single.
 所以自己弄了一个拆解小程序。
 使用了多线程技术 牛逼！！！！！！！！！
 """
-
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import unicode_literals
 import arcpy
-import multiprocessing
-# from threading import Thread
+from multiprocessing import Process
 from GUIconfig import multication
 import tooltk
-# from GUIs import entrance
-from GUIconfig import GUIpath
-# import subprocess
 
-
-em_path = GUIpath.DocPath.doc_em
 
 def explode_m(qq, shp_p, new_shp):
 	"""
@@ -44,12 +40,11 @@ def explode_m(qq, shp_p, new_shp):
 	else:
 		info = u"无法识别文件，请检查文件名和路径是否正确；\n" \
 			  u"或者重启程序。\n"
-		print info
+		print(info)
 	qq.put(info)
 
 
 class App(tooltk.Tooltk):
-	commu = multication.MuCation()
 	"""
 	main-function's GUI
 	"""
@@ -58,38 +53,23 @@ class App(tooltk.Tooltk):
 		:param master_eem: mian_f, a widget from entrance.py
 		"""
 		super(App, self).__init__(master_eem,
-								  em_path,
+								  "explode.gc",
 								  self.confirm_method_e)
-		
-		
-		# s = self.window.winfo_children()
-		# for i in s:
-		# 	print type(i) # <type 'instance'>
-		self.single_file_block([(u'shapefile', '*.shp'), ('All Files', '*')],
-							   u"选择待处理shp文件")
-		self.save_path_block([(u'shapefile', '*.shp'), ('All Files', '*')],
-							u"选择保存地址")
-		self.window.mainloop()
+		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
+		# block1
+		self.block1 = tooltk.blockShp_in(frame, u"添加SHP文件")
+		# block2 取消按钮
+		self.block2 = tooltk.blockShp_save(frame, u"选择保存路径")
+		self.commu = multication.MuCation()
 		
 	def confirm_method_e(self):
 		# 获取列表
-		v = self.get_blockvalue(self.input_sfb, self.input_sb)
-		# p = Process(target=self.commu.decor, args=( explode_m, v[0], v[1],))
-		p = multiprocessing.Process(target=self.commu.decor, args=(self.commu.que,
-												   explode_m, v[0], v[1],))
+		v =[self.block1.get(),self.block2.get()]
+		p = Process(target=self.commu.decor, args=(explode_m, v[0], v[1],))
+		p.daemon = True
 		p.start()
-		print "process_communication begin"
-		# t = Thread(target=self.process_communication)
-		# t.start()
 		self.commu.process_communication(self.major_msgframe)
-		# self.process_communication(self.q)
-		# explode_m(v[0], v[1])
-	
-		# t = Thread(target=explode_m,args=(v[0], v[1]))
-		# t.setDaemon(True)
-		# t.start()
-		# self.text_major_msg.insert("end", u"多部件拆分...\n")
-		# self.text_major_msg.insert("end", u"多部件已拆解")
+
 
 # if __name__ == '__main__':
 # 	path1 = raw_input(u"待输入处理数据：")
