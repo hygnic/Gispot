@@ -265,7 +265,7 @@ class ToolSet(object):
     # 将高版本mxd文件转换为低版本的
     def to_other_version(self):
         newGUI.destroy_child(self.master)
-        pass
+        save_acopy.SaveACopyFunction(self.master)
     
     def test_func3(self):
         # name: 坐标系转换

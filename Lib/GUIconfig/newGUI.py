@@ -10,7 +10,6 @@
 二:
 	定义新类 HoverButton,NeewwEntry,NeewwText
 """
-
 import Tkinter as tk
 from time import time
 
@@ -37,6 +36,7 @@ def destroy_child(master):
 	:return:
 	"""
 	widget_set = master.winfo_children()
+	
 	if widget_set:
 		for i in widget_set:
 			i.destroy()

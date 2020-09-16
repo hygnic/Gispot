@@ -17,7 +17,6 @@ import os
 import time
 from multiprocessing import Process
 # from threading import Thread
-from GUIconfig import GUIpath
 from GUIconfig import multication
 # from hybag import time
 # sys.path.append("../GUIs")

@@ -577,14 +577,25 @@ class Tooltk(object):
 		# print self.block_list[3]
 		return self.block_list
 
-
+# focus_flag = 1
 class SingleFileBlock(object):
 	"""单个文件选择功能块
 	ss = tooltk.SingleFileBlock(frame, "添加文件",
 									tkFileDialog.askopenfilename，[(u'文本文档', '*.txt'), ('All Files', '*')],
 									"add_file")"""
 	_button_pixel_size = 24
-	focus_flag = 1
+	
+	
+	# def __new__(cls, *args, **kwargs):
+	# 	if not hasattr(SingleFileBlock, "_instance"):
+	# 		global focus_flag
+	# 		focus_flag = 1
+	# 	else:
+	# 		# global focus_flag
+	# 		focus_flag = 2
+	# 	SingleFileBlock._instance = object.__new__(cls)
+	# 	return SingleFileBlock._instance
+	
 	
 	def __init__(self, frames, name, tkFileDialogFunc, filetype, image):
 		"""
@@ -677,9 +688,10 @@ class SingleFileBlock(object):
 			width=self._button_pixel_size,
 			height=self._button_pixel_size)
 		self.__button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		if self.focus_flag ==1:
-			self.__newEntry.focus()
-			self.focus_flag =2
+		
+		# if focus_flag ==1:
+		# 	self.__newEntry.focus()
+		
 		
 	# 点击确认键的时候获取Entry中的值
 	def get(self):
