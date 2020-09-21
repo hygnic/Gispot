@@ -4,11 +4,12 @@
 # python2.7
 """
 GUI  所用工具和脚本用GUI"""
+from __future__ import  print_function
+from __future__ import  absolute_import
 import Tkinter as tk
 import tkFileDialog
 import ScrolledText as stt
 from PIL import Image, ImageTk
-import ttk
 import os
 
 # 导入配置包、地址包
@@ -17,6 +18,10 @@ from GUIconfig import GUIpath
 from GUIconfig import hyini
 # from GUIconfig.paths import GifPath
 from GUIconfig.GUIpath import PngIcon
+
+#----------------------para-------------------------------
+# 将 input_log.log 文件中保存的输入地址等输入信息框
+input_log = os.path.join(GUIpath.Docs_p, "input_log.log")
 
 
 class GIF(object):
@@ -162,12 +167,10 @@ class Tooltk(object):
 		s_bar.pack(side="right", fill="y")
 		self.help_text = newGUI.NeewwText(
 			help_f, relief=tk.FLAT, height=20,
-			fg=self.color5, yscrollcommand=s_bar.set
-		)
+			fg=self.color5, yscrollcommand=s_bar.set)
 		
 		self.help_text.pack(expand=True, fill="both")
 		s_bar.config(command=self.help_text.yview)
-		
 		
 		"""----------------------------------------------------------------"""
 		"""----------------------------------------------------------------"""
@@ -183,20 +186,19 @@ class Tooltk(object):
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.msgframe.insert(
 			tk.END,
-			"-----------------Python 2.7 author: Liaochenchen 2019#00#00--------------------\n"
+			"-----------------Python 2.7 Author: Liaochenchen 2019#00#00--------------------\n"
 		)  # ,"tag1"
 		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
 		self.msgframe.pack(
 			side="top", anchor="n", expand=True, fill="both", padx=2)
 		
-		# 将 input_log.log 文件中保存的输入地址等输入信息框
-		input_log = os.path.join(GUIpath.Docs_p, "input_log.log")
+		
 		with open(input_log, "r") as read_msgs:
 			for read_line in read_msgs.readlines():
 				line_msg = read_line.strip()
 				# self.msgframe.insert(tk.END, "  "+line_msg)
 				# 创建历史输入记录的按钮
-				msgb = ttk.Button(self.msgframe,text =line_msg)
+				msgb = newGUI.clipboardButton(self.msgframe,text =line_msg)
 				self.msgframe.window_create("end",window =msgb )
 				self.msgframe.see("end")
 		
@@ -218,7 +220,6 @@ class Tooltk(object):
 			side="top", anchor="n", expand=True, fill="both", padx=2)
 		s_bar.config(command=self.major_msgframe.yview)
 	
-	# return self.frame_major
 	
 	# Read help information and insert in help box
 	def read_help(self):
@@ -563,7 +564,8 @@ class Tooltk(object):
 			# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 			# 将str转换为unicode
 			msg = i.get()
-			print "msg: {0}, type: {1}".format(msg, type(msg))
+			infoo = "msg: {0}, type: {1}".format(msg, type(msg))
+			print(infoo)
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("cp936")
 				# print "msg: {0}, type: {1}".format(msg, type(msg))
@@ -692,7 +694,6 @@ class SingleFileBlock(object):
 		# if focus_flag ==1:
 		# 	self.__newEntry.focus()
 		
-		
 	# 点击确认键的时候获取Entry中的值
 	def get(self):
 		block_list = []
@@ -700,27 +701,20 @@ class SingleFileBlock(object):
 		# 将str转换为unicode
 		msg = self.__newEntry.get()
 		frame = self.__static
-		print "msg", msg
-		print "msg's type", type(msg)
-		if type(msg) == type("str"):  # unicode
-			msg = msg.decode("cp936")
-			# block_list.append(msg)
-			# self.text.insert("end", "\n  " + msg)
-			frame.insert("end", "\n  " + msg)
-			# print "msg1", msg
-			# print "msg's type1", type(msg)
-			return msg
-		else:
-			# unicode格式的直接加进去
-			frame.insert("end", "\n  " + msg)
-			# print "msg2", msg
-			# print "msg's type2", type(msg)
-			# print os.path.isdir(msg)
-			return msg
-	
-	# def get(self):
-	# 	_value = _handlevalue(self.__newEntry, self.__static)
-	# 	return _value
+		# print("msg", msg)
+		# print("msg's type", type(msg))
+		with open(input_log, "a") as log_file:
+			if type(msg) == type("str"):  # unicode
+				msg = msg.decode("utf8")
+				frame.insert("end", "  parameter: " + msg)
+				log_file.write(msg+"\n")
+				return msg
+			else:
+				# unicode格式的直接加进去
+				frame.insert("end", "  parameter: " + msg)
+				log_file.write(msg+"\n")
+				return msg
+
 	
 	@property
 	def button(self):
@@ -741,7 +735,7 @@ def blockSheet(frames, name):
 	return SingleFileBlock(
 		frames, name, tkFileDialog.askopenfilename,
 		[(u'工作簿', '*.xlsx'), (u'工作簿', '*.xls'), ('All Files', '*')],
-		"add_file"
+		"sheet"
 	)
 
 
@@ -802,9 +796,9 @@ if __name__ == '__main__':
 		
 		def confirm_method(self):
 			self.get_blockvalue(self.input_sfb, self.input_sdb)
-			print "self.block_list: ", self.block_list
+			print("self.block_list: ", self.block_list)
 			for i in self.block_list:
-				print i, " type: ", type(i)
+				print(i, " type: ", type(i))
 			# 重置
 			self.block_list = []
 			"""

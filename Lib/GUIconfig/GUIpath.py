@@ -103,8 +103,7 @@ class PngIcon(object):
 	folder1 = os.path.join(_base_icons_path, "folder3.png") # 最新使用的
 	folder2 = os.path.join(_base_icons_path, "folder2.png")
 	empty = os.path.join(_base_icons_path, "empty.gif")
-	# add_file = os.path.join(_base_icons_path, "file3.gif")
-	add_file = os.path.join(_base_icons_path, "file-icon2433.png")
+	sheet = os.path.join(_base_icons_path, "sheet_28.png")
 	icon = os.path.join(_base_icons_path, "icon.ico")
 	shapefile_out = os.path.join(_base_icons_path, "shp_save_28.png")
 	shapefile_in = os.path.join(_base_icons_path, "shp_input_28.png")

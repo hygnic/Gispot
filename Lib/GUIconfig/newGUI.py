@@ -10,9 +10,12 @@
 二:
 	定义新类 HoverButton,NeewwEntry,NeewwText
 """
+from __future__ import absolute_import
+from __future__ import print_function
 import Tkinter as tk
 from time import time
-
+import win32clipboard
+import GUIconfig.hyini as ini
 
 def screen_cetre(master, width=None, height=None):
 	# 窗口居中
@@ -67,7 +70,7 @@ class HoverButton(tk.Button):
 			# self.state = 1 # exist tip bubble but no enought time to show tip bubble
 							 # mouse pointer leaves	button while tip bubble hide.
 		self.defaultBackground = self["background"]
-		self.config(relief="flat", activebackground="#ffc851")
+		self.config(relief="flat", activebackground=ini.yellow)
 		# print self["state"] # disabled normal
 		if not self["state"] == "disabled":
 			self.bind("<Enter>", self.on_enter)
@@ -124,8 +127,45 @@ class HoverButton(tk.Button):
 	def hide_tip(self, event):
 		self.tip.withdraw()
 		# self.tip.destroy()
-	
 
+
+class clipboardButton(tk.Button):
+	"""点击按键，将信息复制到windows粘贴板上"""
+	def __init__(self, master,text, **kw):
+		tk.Button.__init__(self, master=master, text=text,**kw)
+		self.master = master
+		self.text = text
+		self.default_color = self['background']
+		self["command"] = self.send_to_clibboard
+		
+		self.default_relief = "sunken"
+		self.config(
+			relief=self.default_relief, activebackground=ini.light_blue,
+			cursor ="arrow"
+		)
+		# 绑定
+		self.bind("<Enter>", self.on_enter)
+		self.bind("<Leave>", self.on_leave)
+	
+	
+	def send_to_clibboard(self):
+		"""将数据传入win10剪贴板"""
+		win32clipboard.OpenClipboard()
+		win32clipboard.EmptyClipboard()
+		# win32clipboard.CF_UNICODETEXT, self.text.decode("utf8") 不然会乱码
+		win32clipboard.SetClipboardData(
+			win32clipboard.CF_UNICODETEXT, self.text.decode("utf8"))
+		win32clipboard.CloseClipboard()
+	
+	def on_leave(self, event):
+		self['background'] = self.default_color
+		self["relief"] = self.default_relief
+		
+	def on_enter(self, event):
+		self['background'] = ini.more_light_blue
+		self["relief"] = "raised"
+		
+	
 class NeewwEntry(tk.Entry):
 	"""
 	from https://stackoverflow.com/questions/41477428/
@@ -136,7 +176,9 @@ class NeewwEntry(tk.Entry):
 	def __init__(self, master, **kw):
 		tk.Entry.__init__(self, master=master, **kw)
 		self.bind("<Control-a>", self.select_all)
-	
+		# new_textvariable = self["textvariable"]
+		# self["textvariable"] = new_textvariable.decode("utf8")
+		
 	@staticmethod
 	def select_all(event):
 		# select text
@@ -145,6 +187,8 @@ class NeewwEntry(tk.Entry):
 		event.widget.icursor('end')
 		# stop propagation
 		return 'break'
+	
+		
 
 
 class NeewwText(tk.Text):
@@ -161,8 +205,8 @@ class NeewwText(tk.Text):
 	
 	def selectall(self, event):
 		event.widget.tag_add("sel","1.0","end")
-	# 重新复写tk.Text().get()方法，默认其获得全部信息
 	
+	# 重新复写tk.Text().get()方法，默认其获得全部信息
 	def get(self, index1="0.0", index2="end"):
 		"""Return the text from INDEX1 to INDEX2 (not included)."""
 		return self.tk.call(self._w, 'get', index1, index2)
@@ -251,7 +295,7 @@ class ButtonFrame(tk.Frame):
 		self.button.pack(side="top", fill=None, expand=False)
 		label = tk.Label(wrap_frame, text=self.name)
 		label.pack(side="top", fill=None, expand=False)
-		print "ok"
+		print("ok")
 		
 	@property
 	def framebutton(self):
@@ -355,4 +399,11 @@ class ToolTip(tk.Toplevel):
 		self.visible = 0
 		self.withdraw()
 
-
+if __name__ == '__main__':
+	def send_to_clibboard():
+		import win32clipboard
+		win32clipboard.OpenClipboard()
+		win32clipboard.EmptyClipboard()
+		win32clipboard.SetClipboardData(win32clipboard.CF_TEXT, "hello")
+		win32clipboard.CloseClipboard()
+	send_to_clibboard()

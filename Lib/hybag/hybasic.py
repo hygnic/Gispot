@@ -15,8 +15,8 @@ Python2.7
 	# export: export mxd to jpeg 001
 	# HBgetfile: 获取文件 递归查询 getfile 002.0
 	# HBfilter: 列表筛选（根据大小和字符串匹配） 002.5
-	# data_distribute: 数据分发，将列表（data_list）中的元素平均分配多个子列表
-	#
+	# make_chunk: 数据分发，将列表（data_list）中的元素平均分配多个子列表
+	# timewrap、timewrap_cpu: 装饰函数，计算程序运行时间
 +++++++++++++++++++++++++++++++++++FUNCTION+++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++FUNCTION+++++++++++++++++++++++++++++++++++++
 Usage:
@@ -104,7 +104,7 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 					base_name = os.path.basename(file_path)
 					name_and_suffix = os.path.splitext(base_name)
 					f_suffix = name_and_suffix[1][1:]
-					f_name = name_and_suffix[0]
+					# f_name = name_and_suffix[0]
 					if f_suffix in suffix:
 						print("\t" * counter, base_name)
 						_getall_items.append(file_path)
@@ -138,7 +138,7 @@ def HBfilter(raw_list, matchword, size_limit=None):					# 002.5
 	return _bridge_list
 
 
-def data_distribute(data_list, core):
+def make_chunk(data_list, chunk_num):
 	"""将列表（data_list）中的元素平均分配多个子列表
 		such as:
 			i_list = [1, 34, 3, 67, 8, 98, 39, 98, 34, 3, 67, 8, 98, 39, 98, 34,
@@ -148,10 +148,10 @@ def data_distribute(data_list, core):
 			result_list = data_distribute(i_list,6)
 
 	:param data_list: {List} 主要数据列表
-	:param core: {Int} 核心数（子列表个数）
+	:param chunk_num: {Int} 组块数（子列表个数）
 	:return: {List} 包含所有子列表的列表
 	"""
-	
+	msg_info = []
 	def sub_list(main_list, l_len):
 		"""选择
 		:param main_list: {List} 父列表，我们的主要列表
@@ -171,18 +171,18 @@ def data_distribute(data_list, core):
 	lenn = len(data_list)
 	# print("list_lence:", lenn
 	# 分为core组，slice_amount为每组的数量
-	slice_amount = lenn // core
+	slice_amount = lenn // chunk_num
 	# print("slice_count:", slice_amount
-	for i in xrange(core):
+	for i in xrange(chunk_num):
 		# 以core为长度的一个切片
 		l_slice = sub_list(data_list, slice_amount)
-		print("one_slice:", l_slice)
+		# print("one_slice:", l_slice)
 		result_groups.append(l_slice)
 	# remained_item_amount 主要数据列表中剩余的元素的个数
-	remained_item_amount = lenn - slice_amount * core
+	remained_item_amount = lenn - slice_amount * chunk_num
 	msg1 = "remained_item:{0} ; remained_item_amount:{1}".format(
 		data_list, remained_item_amount)
-	print(msg1)
+	# print(msg1)
 	# 将主要列表中的值取完才结束
 	while data_list:
 		for i in xrange(remained_item_amount):
@@ -192,23 +192,24 @@ def data_distribute(data_list, core):
 	j = 0
 	for i in result_groups:
 		i_len = len(i)
-		print("a group's length:", i_len)
+		info = "Chunk's count: {}".format(i_len)
+		print(info)
+		msg_info.append(info)
 		j += i_len
-	print("total:", j)
+	info = "total: {}".format(j)
+	print(info)
 	print("@" * 50)
-	return result_groups
+	msg_info.append(info)
+	return result_groups, msg_info
 	
-
-
-
-
 # 装饰函数 计算程序运行时间
 def timewrap(func):
 	def inner():
 		start = time.time()
 		func()
 		end = time.time()
-		print('Time consuming: ',end - start)
+		msg = 'Time consuming: {}'.format(end-start)
+		print(msg)
 	return inner
 
 # 装饰函数 计算CPU执行时间
@@ -217,8 +218,10 @@ def timewrap_cpu(func):
 		start = time.clock()
 		func()
 		end = time.clock()
-		print('CPU time consuming: ',end - start)
+		msg = 'CPU time consuming: {}'.format(end - start)
+		print(msg)
 	return inner
+
 
 
 	
