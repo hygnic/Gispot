@@ -105,8 +105,9 @@ class PngIcon(object):
 	empty = os.path.join(_base_icons_path, "empty.gif")
 	sheet = os.path.join(_base_icons_path, "sheet_28.png")
 	icon = os.path.join(_base_icons_path, "icon.ico")
-	shapefile_out = os.path.join(_base_icons_path, "shp_save_28.png")
-	shapefile_in = os.path.join(_base_icons_path, "shp_input_28.png")
+	shapefile = os.path.join(_base_icons_path, "shp_28.png")
+	mxd = os.path.join(_base_icons_path, "mxd_28.png")
+	text = os.path.join(_base_icons_path, "text_28.png")
 	
 	# 主界面左边工具栏及其相应子界面的图标
 	toolbox_45 = os.path.join(_base_icons_path, "toolbox-45.png")

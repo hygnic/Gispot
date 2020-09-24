@@ -107,7 +107,6 @@ class Tooltk(object):
 	
 	def initial_icon(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
-		self.gif_text = tk.PhotoImage(file=GUIpath.GifPath.textfile)
 		self.gif_addfile = tk.PhotoImage(file=GUIpath.GifPath.add_file)
 		
 		self.gif_folder = tk.PhotoImage(file=GUIpath.GifPath.folder)
@@ -188,21 +187,32 @@ class Tooltk(object):
 			tk.END,
 			"-----------------Python 2.7 Author: Liaochenchen 2019#00#00--------------------\n"
 		)  # ,"tag1"
-		# self.text.tag_config("tag1",underline = True,foreground = "Ivory")
+		# self.text.tag_config("tag1", underline=True, foreground="Ivory")
 		self.msgframe.pack(
 			side="top", anchor="n", expand=True, fill="both", padx=2)
 		
-		
 		with open(input_log, "r") as read_msgs:
+			text_cont = 0 #
 			for read_line in read_msgs.readlines():
+				# 显示20条参数数据
+				if text_cont == 20:
+					break
+				text_cont += 1
 				line_msg = read_line.strip()
 				# self.msgframe.insert(tk.END, "  "+line_msg)
 				# 创建历史输入记录的按钮
-				msgb = newGUI.clipboardButton(self.msgframe,text =line_msg)
-				self.msgframe.window_create("end",window =msgb )
-				self.msgframe.see("end")
-		
-		
+				msgb = newGUI.clipboardButton(
+					self.msgframe, text=line_msg, msg=u"复制到剪贴板"
+					)
+				self.msgframe.window_create("end", window=msgb)
+				
+				# msgb = newGUI.HoverButton(
+				# 	self.msgframe, msg=u"点击复制",text=line_msg,
+				#  cursor ="arrow",hover=("raised","flat",
+				# 						hyini.light_system_grey, hyini.more_light_blue))
+				# msgb.config(command = msgb.send_to_clibboard)
+				# self.msgframe.window_create("end", window=msgb )
+				
 		# 下栏 主要的动态信息显示栏
 		s_bar = tk.Scrollbar(
 			self.frame_right_side, relief="flat", elementborderwidth=-15)
@@ -229,6 +239,7 @@ class Tooltk(object):
 				for read_line in read_msgs.readlines():
 					self.help_text.insert(tk.END, read_line)
 				self.help_text["state"] = "disabled"
+	
 	
 	def initial_buttons(self):
 		"""
@@ -599,7 +610,7 @@ class SingleFileBlock(object):
 	# 	return SingleFileBlock._instance
 	
 	
-	def __init__(self, frames, name, tkFileDialogFunc, filetype, image):
+	def __init__(self, frames, name, tkFileDialogFunc, filetype, image, info):
 		"""
 		:param frames: {Tuple} GUI界面中几个主要框架
 			*self.block_frame,self.msgframe,self.major_msgframe
@@ -627,6 +638,7 @@ class SingleFileBlock(object):
 		self.__dymnic = frames[2]
 		self.__sfb_filetype = filetype
 		self.dialoge_type = tkFileDialogFunc
+		self.__info = info
 		# self.tkFileDialog.askopenfilename = tkFileDialog.askopenfilename
 		
 		# 内部建立自用
@@ -684,7 +696,7 @@ class SingleFileBlock(object):
 		self.__newEntry.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		self.__button = newGUI.HoverButton(
-			frame_one, text=u"选择",
+			frame_one, text=u"选择",msg=self.__info,
 			command=self.dialog,
 			image=self.but_image,
 			width=self._button_pixel_size,
@@ -728,26 +740,25 @@ class SingleFileBlock(object):
 # 文件夹模块
 def blockDIR_in(frames, name):
 	return SingleFileBlock(
-		frames, name, tkFileDialog.askdirectory, None, "folder1")
+		frames, name, tkFileDialog.askdirectory, None, "folder1",u"文件夹")
 
 
 def blockSheet(frames, name):
 	return SingleFileBlock(
 		frames, name, tkFileDialog.askopenfilename,
 		[(u'工作簿', '*.xlsx'), (u'工作簿', '*.xls'), ('All Files', '*')],
-		"sheet"
-	)
+		"sheet", u"工作簿")
 
 
 def blockDIR_out(frames, name):
 	return SingleFileBlock(
-		frames, name, tkFileDialog.askdirectory, None, "folder2")
+		frames, name, tkFileDialog.askdirectory, None, "folder2",u"文件夹")
 
 
 # 数字输入模块（没有button）
 def blockValue(frames, name):
 	inner = SingleFileBlock(
-		frames, name, tkFileDialog.askdirectory, None, "empty")
+		frames, name, tkFileDialog.askdirectory, None, "empty",u"输入值")
 	# inner.block_button["state"] ="disabled"  #不行
 	# inner.block_button.config(state ="disabled") # 不行
 	# 解除绑定
@@ -757,19 +768,56 @@ def blockValue(frames, name):
 """---------------------------shp file -------------------------------------"""
 """----------------------------------- -------------------------------------"""
 """----------------------------------- -------------------------------------"""
-def blockShp_save(frames, name):
-	return SingleFileBlock(
-		frames, name, tkFileDialog.asksaveasfilename,
-		[(u'shapefile', '*.shp'), ('All Files', '*')],
-		"shapefile_out"
-	)
-
 def blockShp_in(frames, name):
 	return SingleFileBlock(
 		frames, name, tkFileDialog.askopenfilename,
 		[(u'shapefile', '*.shp'), ('All Files', '*')],
-		"shapefile_in"
+		"shapefile",u"shapefile"
 	)
+
+def blockShp_out(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.asksaveasfilename,
+		[(u'shapefile', '*.shp'), ('All Files', '*')],
+		"shapefile",u"shapefile"
+	)
+"""---------------------------mxd file -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+def blockMXD_in(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.askopenfilename,
+		[(u'地图文档', '*.mxd'), ('All Files', '*')],
+		"mxd",u"mxd"
+	)
+
+def blockMXD_out(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.asksaveasfilename,
+		[(u'地图文档', '*.mxd'), ('All Files', '*')],
+		"mxd",u"mxd"
+	)
+"""---------------------------text file -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+"""----------------------------------- -------------------------------------"""
+def blockTEXT_in(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.askopenfilename,
+		[(u'txt', '*.txt'), ('All Files', '*')],
+		"text",u"txt"
+	)
+
+def blockTEXT_out(frames, name):
+	return SingleFileBlock(
+		frames, name, tkFileDialog.asksaveasfilename,
+		[(u'txt', '*.txt'), ('All Files', '*')],
+		"text",u"txt"
+	)
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -210,7 +210,6 @@ class ToolSet(object):
         for i in frame_order:
             feature_set = funcs[i]  # ((func3, u"坐标系转换2"),(func4, u"Excel转shp2"))
             # font=('Times',10,'bold','italic') # ,bg="#5294e2"
-            # SystemWindow
             # tk.Frame; newidgets.NeewwFrame
             big_frame = tk.Frame(
                 self.master, relief="flat", height=20,

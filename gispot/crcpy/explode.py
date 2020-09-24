@@ -59,7 +59,7 @@ class App(tooltk.Tooltk):
 		# block1
 		self.block1 = tooltk.blockShp_in(frame, u"添加SHP文件")
 		# block2 取消按钮
-		self.block2 = tooltk.blockShp_save(frame, u"选择保存路径")
+		self.block2 = tooltk.blockShp_out(frame, u"选择保存路径")
 		self.commu = multication.MuCation()
 		
 	def confirm_method_e(self):

@@ -81,9 +81,9 @@ class SaveACopyFunction(tooltk.Tooltk):
 			master1, "save_acopy.gc", self.confirm)
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
-		self.block1 = tooltk.blockShp_in(frame, u"MXD文件")
+		self.block1 = tooltk.blockMXD_in(frame, u"MXD文件")
 		# block2
-		self.block2 = tooltk.blockShp_save(frame, u"保存路径")
+		self.block2 = tooltk.blockMXD_out(frame, u"保存路径")
 		self.commu = multication.MuCation()
 		
 	def confirm(self):

@@ -52,21 +52,22 @@ class HoverButton(tk.Button):
 	features detail:
 		1.继承Button.实现鼠标悬停时，按键变化的效果
 		2.bind info bubbles to button
+		3.点击可以将信息复制到 win10 粘贴板
 	
 	注意事项：
 		图片按键和文字按键的width和height的度量单位不一样
 	"""
 	
-	def __init__(self, master, msg=None,follow = True,**kw):
+	def __init__(self, master, msg=None, follow = True,**kw):
 		"""
-		:param master: 该组件的父
-		:param kw:
+		follow(Boolean): 提示气泡是否跟随鼠标
+		msg(Unicode): 提示消息
 		"""
-		# , msg, msgfunc, delay = 1, follow = True
 		tk.Button.__init__(self, master=master, **kw)
 		self.msg = msg
 		self.follow = follow
-		self.state = 0  # there is no tip bubble
+		self.state = 0
+			# there is no tip bubble
 			# self.state = 1 # exist tip bubble but no enought time to show tip bubble
 							 # mouse pointer leaves	button while tip bubble hide.
 		self.defaultBackground = self["background"]
@@ -78,14 +79,13 @@ class HoverButton(tk.Button):
 			if msg:
 				self.bind("<Motion>", self.on_move)
 			
-	# 解除绑定
+	# unbind
 	def close(self):
 		self.unbind("<Enter>")
 		self.unbind("<Leave>")
 		
 	def on_enter(self, event):
 		self['background'] = self['activebackground']
-		# self.config(relief="groove")
 		# ToolTip, set message bubble
 		# self.after(int(self.delay * 1000),
 		# 		   self.show)
@@ -96,13 +96,11 @@ class HoverButton(tk.Button):
 			
 	def on_leave(self, event):
 		self['background'] = self.defaultBackground
-		# self.config(relief="flat")
 		if self.msg:
 			self.state = 1 # 防止鼠标在
 			self.hide_tip(event)
 			
 	def on_move(self, event):
-		# pass
 		self.tip.geometry('+%i+%i' % (event.x_root + 10,event.y_root + 10))
 		# self.after(1000, self.show_tip)
 	
@@ -129,16 +127,15 @@ class HoverButton(tk.Button):
 		# self.tip.destroy()
 
 
-class clipboardButton(tk.Button):
+class clipboardButton(HoverButton):
 	"""点击按键，将信息复制到windows粘贴板上"""
-	def __init__(self, master,text, **kw):
-		tk.Button.__init__(self, master=master, text=text,**kw)
+	def __init__(self, master,msg, **kw):
+		HoverButton.__init__(self, master, msg=msg, follow = True,**kw)
 		self.master = master
-		self.text = text
+		# self.text = text
 		self.default_color = self['background']
 		self["command"] = self.send_to_clibboard
-		
-		self.default_relief = "sunken"
+		self.default_relief = "raised"
 		self.config(
 			relief=self.default_relief, activebackground=ini.light_blue,
 			cursor ="arrow"
@@ -154,16 +151,23 @@ class clipboardButton(tk.Button):
 		win32clipboard.EmptyClipboard()
 		# win32clipboard.CF_UNICODETEXT, self.text.decode("utf8") 不然会乱码
 		win32clipboard.SetClipboardData(
-			win32clipboard.CF_UNICODETEXT, self.text.decode("utf8"))
+			win32clipboard.CF_UNICODETEXT, self["text"].decode("utf8"))
 		win32clipboard.CloseClipboard()
 	
 	def on_leave(self, event):
 		self['background'] = self.default_color
 		self["relief"] = self.default_relief
-		
+		if self.msg:
+			self.state = 1  # 防止鼠标在
+			self.hide_tip(event)
+	
 	def on_enter(self, event):
 		self['background'] = ini.more_light_blue
-		self["relief"] = "raised"
+		self["relief"] = "flat"
+		if self.msg:
+			self.state = 0
+			self.spawn_tip(event)
+			self.after(600,self.show_tip)
 		
 	
 class NeewwEntry(tk.Entry):
