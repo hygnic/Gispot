@@ -89,14 +89,14 @@ class GifPath(object):
 	
 	
 # G:\MoveOn\Gispot\docs
-class DocPath(object):
-	# doc_me = os.path.join(Docs_p, "multiplexport.gc")
-	# doc_em = os.path.join(Docs_p, "explode.gc")
-	doc_trans_fbt = os.path.join(Docs_p, "trans_fbt.gc")
-	doc_trans_gst = os.path.join(Docs_p, "trans_gst.gc")
-	doc_gstrename = os.path.join(Docs_p, "gstrename.gc")
-	doc_task_dispatch = os.path.join(Docs_p, "task_dispatch.gc")
-	doc_ZLDJ = os.path.join(Docs_p, "ZLDJ.gc")
+# class DocPath(object):
+# 	# doc_me = os.path.join(Docs_p, "multiplexport.gc")
+# 	# doc_em = os.path.join(Docs_p, "explode.gc")
+# 	doc_trans_fbt = os.path.join(Docs_p, "trans_fbt.gc")
+# 	doc_trans_gst = os.path.join(Docs_p, "trans_gst.gc")
+# 	doc_gstrename = os.path.join(Docs_p, "gstrename.gc")
+# 	doc_task_dispatch = os.path.join(Docs_p, "task_dispatch.gc")
+# 	doc_ZLDJ = os.path.join(Docs_p, "ZLDJ.gc")
 
 
 class PngIcon(object):

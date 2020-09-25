@@ -19,15 +19,13 @@ from multiprocessing import Process
 
 import tooltk
 from hybag import hybasic
-from GUIconfig.GUIpath import DocPath
 from GUIconfig import multication
 
 # import sys,codecs
 # sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 #
 import sys
-reload(sys)
-# sys.setdefaultencoding('utf-8')
+
 
 def main(qq_pip,folder, excel):
 	# 确定质量等级的入库清单excel
@@ -177,7 +175,7 @@ class AppGUI(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(AppGUI, self).__init__(master1,
-									 DocPath.doc_ZLDJ,
+									"ZLDJ.gc",
 									 self.confirm)
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1

@@ -22,7 +22,7 @@ def get_float(msg,allow_zero):
 			if not allow_zero and abs(x) < sys.float_info.epsilon:
 			#在python中float是双精度，精度不够，在比较时容易出错，所以需要用函数sys.float_info.epsilon
 			#sys.float_info.epsilon代表无限接近 0，是机器可以区分出的两个浮点数的最小区别
-				print('不允许为0')
+				print(u'不允许为0')
 				x = None
 		except ValueError as err:
 			print(err)

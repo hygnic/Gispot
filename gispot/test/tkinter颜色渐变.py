@@ -3,7 +3,7 @@
 # Date: 2019/12/16
 
 import Tkinter as tk      # py2
-# import tkinter as tk    # py3
+# import tkinter as tk    # py379
 
 class Example(tk.Frame):
 	def __init__(self, parent):

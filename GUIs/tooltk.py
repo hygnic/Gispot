@@ -815,11 +815,6 @@ def blockTEXT_out(frames, name):
 	)
 
 
-
-
-
-
-
 if __name__ == '__main__':
 	class TstApp(Tooltk):
 		def __init__(self):
