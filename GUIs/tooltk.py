@@ -205,6 +205,7 @@ class Tooltk(object):
 					self.msgframe, text=line_msg, msg=u"复制到剪贴板"
 					)
 				self.msgframe.window_create("end", window=msgb)
+				# self.msgframe.window_create("2.0", window=msgb) # 第二行，第一列
 				
 				# msgb = newGUI.HoverButton(
 				# 	self.msgframe, msg=u"点击复制",text=line_msg,
@@ -715,16 +716,23 @@ class SingleFileBlock(object):
 		frame = self.__static
 		# print("msg", msg)
 		# print("msg's type", type(msg))
-		with open(input_log, "a") as log_file:
+		with open(input_log, "r+") as log_file:
 			if type(msg) == type("str"):  # unicode
-				msg = msg.decode("utf8")
+				msg = msg.decode("cp936")
 				frame.insert("end", "  parameter: " + msg)
-				log_file.write(msg+"\n")
+				# 将参数写入记录文本中
+				content = log_file.read()
+				log_file.seek(0, 0)
+				log_file.write(msg+"\n"+content)
+				# log_file.write(msg.encode("cp936")+"\n")
 				return msg
 			else:
 				# unicode格式的直接加进去
 				frame.insert("end", "  parameter: " + msg)
-				log_file.write(msg+"\n")
+				# 将参数写入记录文本中
+				content = log_file.read()
+				log_file.seek(0, 0)
+				log_file.write(msg.encode("cp936")+"\n"+content)
 				return msg
 
 	

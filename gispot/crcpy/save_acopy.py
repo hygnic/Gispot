@@ -69,7 +69,7 @@ def new_mian(qq,input_file, out_file, version):
 	# print(info1)
 	qq.append(info1)
 	mxd.saveACopy(out_file, version=version)
-	qq.append("COMPLETE")
+	qq.append("COMPLETE\n")
 	
 class SaveACopyFunction(tooltk.Tooltk):
 	"""

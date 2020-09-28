@@ -7,8 +7,12 @@
 """
 Description: 快速添加标志牌shp,设置定义查询
 *******************************FUNCTION*****************************************
+*******************************FUNCTION*****************************************
 *******************************FUNCTION:****************************************
+
+
 Python2.7
+	@@initialize_environment():初始化环境，配置默认工作环境
 	@@label: 是否显示图层且更改图层的标注
 	@@add_field: 添加相同类型和长度的多个或者单个字段(如果存在相同名字的字段则不
 								会添加字段)
@@ -17,25 +21,46 @@ Python2.7
 								最后删除该字段)
 	@@add_shp2mxd: 加载shp文件到mxd
 	@@field_shower:获取图层中某单个字段的所有值(没多大价值，暂时留着)
+	
+	
+*******************************FUNCTION*****************************************
 *******************************FUNCTION*****************************************
 *******************************FUNCTION*****************************************
 Usage:
 """
 # ---------------------------------------------------------------------------
 import arcpy
+import os
+from GUIconfig import hyini
 
 
-def label(layer,expression):
+def initialize_environment():
+	"""
+	1. 初始化工作环境，配置工作空间文件夹和数据库（没有数据库自动建立数据库）
+	2. arcpy.env.overwriteOutput = True
+	return: 默认工作文件夹， 默认工作数据库
+	"""
+	scratch_path = hyini.workspace
+	if not os.path.isdir(scratch_path):
+		os.mkdir(scratch_path)
+	# make gdb
+	scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
+	if not arcpy.Exists(scratch_gdb):
+		arcpy.CreateFileGDB_management(scratch_path, "Scratch")
+	arcpy.env.workspace = scratch_path
+	arcpy.env.overwriteOutput = True
+	return scratch_path, scratch_gdb
+	
+
+def label(layer,expression, show=True):
 	"""是否显示图层且更改图层的标注
-	 layer{Layer}:
-	图层对象
-	 expression{String}:
-	标注表达式:
-	红色18号字体 "\"<CLR red=\'255\'><FNT size = \'18\'>\" + [BZPBH] + \"</FNT></CLR>\""
+	 layer{Layer}: 图层对象
+	 expression{String}: 标注表达式:
+	  红色18号字体 "\"<CLR red=\'255\'><FNT size = \'18\'>\" + [BZPBH] + \"</FNT></CLR>\""
 	return longName
 		"""
 	if layer.supports("LABELCLASSES"):
-		layer.showLabels = True
+		layer.showLabels = show
 		for lblClass in layer.labelClasses:
 			lblClass.expression = expression
 			# print "Class Name:  " + lblClass.className
@@ -47,15 +72,17 @@ def label(layer,expression):
 
 
 def add_field(layer, names, f_type, f_length):
-	"""添加相同类型和长度的多个或者单个字段(如果存在相同名字的字段则不会添加字段)
+	"""添加相同类型和长度的多个或者单个字段，只支持要素图层(如果存在相同名字的字段则不会添加字段)
 	  <特别注意因为字段类型和长度造成的后续错误>
 	  such as: add_field(layer_p,["ZWMC1","ZWMC2"],"TEXT",50)
-	:param layer:{String} shp文件路径
-	  #TODO 按理应该可以使用图层对象，arcpy.mapping.Layer(path)，但是报错（arcgis10.3）
-	:param names:{List} 新增字段名称
-	:param f_type: {String} 字段类型
-	:param f_length: {Long} 字段长度
-	:return: 返回当前的图层对象
+	layer{String}: shp文件对象
+	  # TODO 按理应该可以使用图层对象，arcpy.mapping.Layer(path)，但是报错（arcgis10.3）
+	  	# 已经解决： 因为arcpy.AddField_management 只支持要素图层，如果是shp文件地址的话
+	  	# 需要使用arcpy.MakeFeatureLayer_management函数将要素类转为要素图层
+	names{List}: 新增字段名称
+	f_type{String}: 字段类型
+	f_length{Long}: 字段长度
+	return: 返回当前的图层对象
 	"""
 	the_fields = arcpy.ListFields(layer)
 	# 当前图层的字段名称列表
@@ -108,13 +135,13 @@ def setZWMC(layer, reference_field, target_field1, target_field2):
 					pass
 
 
-def merger(layer):
+def merger_all(layer):
 	"""
 	一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，最后删除
 	该字段)
 		<特别注意新合成的图层名称，是否会覆盖>
-	:param layer: (String) shp或者lyr文件地址，或者图层对象
-	:return: 合并后的新图层 默认返回图层名字为 newlayer_945
+	layer(String): shp或者lyr文件地址，或者图层对象
+	return: 合并后的新图层 默认返回图层名字为 newlayer_945
 	"""
 	arcpy.env.addOutputsToMap = True
 	arcpy.env.overwriteOutput = True

@@ -10,7 +10,7 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 # import arcpy
-from ezarcpy import ezlayer
+from hybag import ezarcpy
 
 # def add_field(layer, names, f_type, f_length):
 # 	"""添加相同类型和长度的多个或者单个字段
@@ -76,7 +76,7 @@ from ezarcpy import ezlayer
 if __name__ == '__main__':
 	layer_p = ur"G:\内江市\工作文件_lcc_19_7\内江出图\基本数据\0615新DK、PK\LQDK5110022019.shp"
 	# mxd_layer = arcpy.mapping.Layer(layer_p)
-	new_layer = ezlayer.add_field(layer_p,["ZWMC1","ZWMC2"],"TEXT",50)
-	ezlayer.setZWMC(layer_p, "LQLX", "ZWMC1", "ZWMC2")
+	new_layer = ezarcpy.add_field(layer_p, ["ZWMC1", "ZWMC2"], "TEXT", 50)
+	ezarcpy.setZWMC(layer_p, "LQLX", "ZWMC1", "ZWMC2")
 	# ezlayer.setZWMC(new_layer,"LQLX","ZWMC1","ZWMC2")
 	print "close"
