@@ -150,8 +150,12 @@ class clipboardButton(HoverButton):
 		win32clipboard.OpenClipboard()
 		win32clipboard.EmptyClipboard()
 		# win32clipboard.CF_UNICODETEXT, self.text.decode("utf8") 不然会乱码
-		win32clipboard.SetClipboardData(
-			win32clipboard.CF_UNICODETEXT, self["text"].decode("utf8"))
+		try:
+			win32clipboard.SetClipboardData(
+				win32clipboard.CF_UNICODETEXT, self["text"].decode("utf8"))
+		except UnicodeEncodeError:
+			win32clipboard.SetClipboardData(
+				win32clipboard.CF_UNICODETEXT, self["text"].decode("utf8"))
 		win32clipboard.CloseClipboard()
 	
 	def on_leave(self, event):

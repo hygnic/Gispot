@@ -718,7 +718,7 @@ class SingleFileBlock(object):
 		# print("msg's type", type(msg))
 		with open(input_log, "r+") as log_file:
 			if type(msg) == type("str"):  # unicode
-				msg = msg.decode("cp936")
+				msg = msg.decode("utf8")
 				frame.insert("end", "  parameter: " + msg)
 				# 将参数写入记录文本中
 				content = log_file.read()
@@ -732,7 +732,7 @@ class SingleFileBlock(object):
 				# 将参数写入记录文本中
 				content = log_file.read()
 				log_file.seek(0, 0)
-				log_file.write(msg.encode("cp936")+"\n"+content)
+				log_file.write(msg.encode("utf8")+"\n"+content)
 				return msg
 
 	
