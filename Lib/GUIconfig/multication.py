@@ -21,7 +21,9 @@ import threading
 import os
 import sys
 
+from hybag import hybasic
 
+hyt = hybasic.HyTime()
 
 class StdoutQueue(object):
 	"""
@@ -47,12 +49,22 @@ class StdoutQueue(object):
 	def put(self,msg):
 		self.inner_que.put(msg)
 	
+	# 可传输tag内容
+	# def append_tag(self,msg,tag):
+	# 	self.inner_que.put(msg)
+	# 	self.inner_que.put(tag)
+	
 	def append(self, msg):
 		self.inner_que.put(msg)
 		
 	def get(self):
 		return self.inner_que.get()
-
+	
+	# def get_tag(self):
+	# 	msg = self.inner_que.get()
+	# 	tag = self.inner_que.get()
+	# 	return msg,tag
+		
 	def flush(self):
 		sys.__stdout__.flush()
 	
@@ -126,26 +138,36 @@ class MuCation(object):
 		:param args:
 		:return:
 		"""
-		info1 = "<ProcessID: {}> BEGIN\n".format(os.getpid())
-		# self.que.put("\n")
-		self.que.put(info1)
+		pid = os.getpid()
+		begin_info1 = "<ProcessID: {}> Running\n".format(pid) # BEGIN\n
+		begin_time = hyt.time_now
+		begin_info2 = "<ProcessID: {}> Begin time: {}\n".format(pid,begin_time[1])
+		self.que.put(begin_info1)
+		self.que.put(begin_info2)
+		self.que.put("\n")
 		# queue.put(information)
 		# print queue
 		# print queue.qsize()  # 1
 		# print queue.empty()  # Ture
 		func(self.que, *args)
-		info2 = "<ProcessID: {}> CLOSE\n".format(os.getpid())
-		# self.que.put("\n")
+		end_time = hyt.time_now
+		end_info = "<ProcessID: {}> CLOSE\n".format(pid)
+		end_info2 = "<ProcessID: {}> End time: {}\n".format(pid,end_time[1])
+		self.que.put("\n")
+		self.que.put(end_info)
+		self.que.put(end_info2)
+		elapsed_time = hyt.elapsed_time(begin_time[0], end_time[0])
+		end_info3 = "<ProcessID: {}> {}\n".format(pid, elapsed_time)
+		self.que.put(end_info3)
+		
 		self.submultiprocess.append(os.getpid()) # 将已结束进程的进程号加入列表
-		self.que.put(info2)
 		
 	def process_communication(self, output_window):
 		"""
 		sharing messages with some Process.
 		The main process starts a child thread to get messages from another
 		(child process)
-		:param output_window: Tkinter.text  我们使用的这个 self.major_msgframe
-		:return:
+		output_window(): Tkinter.text  我们使用的这个 self.major_msgframe
 		"""
 		
 		def inner():

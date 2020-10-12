@@ -24,9 +24,11 @@ Usage:
 # ---------------------------------------------------------------------------
 from __future__ import print_function
 from __future__ import absolute_import
+from __future__ import division
 import arcpy
 import os
 import time
+from datetime import datetime
 
 # arcpy 导出JPEG，适用于文件夹或者单个mxd
 def export(path, resolution):										 # 001
@@ -223,7 +225,35 @@ def timewrap_cpu(func):
 	return inner
 
 
-
+class HyTime(object):
+	"""时间管理模块"""
+	def __init__(self):
+		# 将字符串转换为时间格式
+		time2 = datetime.strptime("2019-9-1", "%Y-%m-%d")
+		
+	
+	@property
+	def time_now(self):
+		now = datetime.now()
+		# 格式化时间，转换为字符串
+		time_now_str = datetime.strftime(now, "%Y %m %d %H:%M:%S")
+		# 返回当前时间以及当前时间的字符串数据
+		return now, time_now_str
+	
+	# 记录运行时间
+	def elapsed_time(self, early_time, after_time):
+		"""
+		early_time(时间格式):
+		after_time(时间格式):
+		:return:
+		"""
+		delta_time = (after_time-early_time) # -408 days, 13:40:14.996000 <type 'datetime.timedelta'>
+		day = delta_time.days # # -408 <type 'int'>
+		hours = round(delta_time.seconds/3600,3)
+		total_seconds = delta_time.total_seconds()
+		elapsed_time = "Elapsed_time: {0} day, {1} hours (Totally: {2} second)".format(day,hours,total_seconds)
+		return elapsed_time
+	
 	
 class HyMath(object):
 	def __init__(self):

@@ -40,26 +40,26 @@ Description: 将国土土地报备坐标txt文本处理生成shp文件
 		 [
 			   [
 			   [3.0, 8.0],
-               [1.0, 8.0],
-               [2.0, 10.0],
-               [3.0, 8.0]
-               ]
-               ,
-               [
-               [9.0, 11.0],
-               [9.0, 8.0],
-               [6.0, 8.0],
-               [6.0, 11.0],
-               [9.0, 11.0]
-               ]
-               ,
-               [
-               [7.0, 10.0],
-               [7.0, 9.0],
-               [8.0, 9.0],
-               [8.0, 10.0],
-               [7.0, 10.0]
-               ]
+			   [1.0, 8.0],
+			   [2.0, 10.0],
+			   [3.0, 8.0]
+			   ]
+			   ,
+			   [
+			   [9.0, 11.0],
+			   [9.0, 8.0],
+			   [6.0, 8.0],
+			   [6.0, 11.0],
+			   [9.0, 11.0]
+			   ]
+			   ,
+			   [
+			   [7.0, 10.0],
+			   [7.0, 9.0],
+			   [8.0, 9.0],
+			   [8.0, 10.0],
+			   [7.0, 10.0]
+			   ]
 		 ]
 每一个会闭合的线都组成一个单独的列表，防止因为首尾不接导致闭合面错误
 Usage:
@@ -72,7 +72,7 @@ from multiprocessing import Process
 
 from GUIconfig import multication
 import tooltk
-from GUIconfig import GUIpath
+
 
 def points_genarator(txt_file):
 	"""
@@ -89,10 +89,12 @@ def points_genarator(txt_file):
 	input_data = [x.strip() for x in input_data if "@" not in x]  # 去除带@的行
 	# 去除非J行
 	while True: # 去除前13行
-		# 如果首行没有j字母
-		# if input_data[0][:1] != "1":
-		if input_data[0][:2] != "J1":
+		# 如果首行字符不在下列元组中的文本行
+		first=("J","1","0","2","3","4","5","6","7","8","9")
+		if input_data[0][0] not in first:
 			del input_data[0]
+		# elif :
+		# 	del input_data[0]
 		else:
 			break
 	# input_data = input_data[12:]  # 去除前13行
@@ -212,7 +214,7 @@ def main(qq,txt_folder, output_folder):
 			# print "feature: " + repr(p)
 			Rows.insertRow([p])
 			del Rows
-			write_sth = "Write done: " + os.path.join(output_folder, name)+"\n"
+			write_sth = "Write done: " + os.path.join(output_folder, name)+"\n\n"
 			# print write_sth
 			qq.append(write_sth)
 			
@@ -231,7 +233,7 @@ def main(qq,txt_folder, output_folder):
 				roww[0] = name
 				cursor2.updateRow(roww)
 			del cursor2
-		qq.append("Done \n")
+		# qq.append("Done \n")
 
 # 连通GUI界面的接口
 class Funtion(tooltk.Tooltk):
