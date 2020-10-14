@@ -71,8 +71,6 @@ class StdoutQueue(object):
 	def close(self):
 		self.inner_que.close()
 		
-	
-
 
 # import traceback
 # def except_hook_func(tp, val, tb):
