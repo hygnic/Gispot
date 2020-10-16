@@ -24,7 +24,7 @@ Description: 将国土土地报备坐标txt文本处理生成shp文件
 	41,0,1,0,面,0,0,,@
   - J1,1,3.0, 8.0
 	J2,1,1.0, 8.0
-	J3,2,1.0, 10.0
+	J3,1,2.0, 10.0
 	J4,1,3.0, 8.0
 	555,0,1,0,面,0,0,,@
 	J1,1,9.0, 11.0
@@ -135,7 +135,7 @@ def points_genarator(txt_file):
 	return polygon_list
 
 
-def makepoly(coord_list, SR, y, x):
+def draw_poly(coord_list, sr, y, x):
 	"""
 	Convert a Python list of coordinates to an ArcPy polygon feature
 	Reference from : Curtis Price, USGS, cprice@usgs.gov
@@ -156,7 +156,7 @@ def makepoly(coord_list, SR, y, x):
 				['J6', '5', '3536556.9520', '35762586.9410']
 			]
 		]
-	 SR: 投影系
+	 sr: 投影系
 	  y(Int): y坐标行数
 	  x(Int): x坐标行数
 	"""
@@ -182,7 +182,7 @@ def makepoly(coord_list, SR, y, x):
 	# if single-part (only one part) remove nesting
 	if len(parts) == 1:
 		parts = parts.getObject(0)
-	return arcpy.Polygon(parts, SR)
+	return arcpy.Polygon(parts, sr)
 	
 	
 def main(qq,txt_folder, output_folder):
@@ -210,7 +210,7 @@ def main(qq,txt_folder, output_folder):
 			Rows = arcpy.da.InsertCursor(blank_shp, "SHAPE@")
 			
 			# print "coords: " + repr(f)
-			p = makepoly(f, SR=None, y=3, x=2)
+			p = draw_poly(f, sr=None, y=3, x=2)
 			# print "feature: " + repr(p)
 			Rows.insertRow([p])
 			del Rows
