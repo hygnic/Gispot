@@ -4,8 +4,7 @@
 # arcgis 10.3
 # Author: LiaoChenchen
 # Created on: 2020/4/8 16:33
-# Reference: G:\高标准分布图\崇州\下载文件txt\问题
-#  https://gis.stackexchange.com/questions/14952/arcgis-10-0-arcpy-how-to-create-a-polygon-geometry-froam-inner-and-outer-ring-po
+# Reference:
 
 """
 Description: 将国土土地报备坐标txt文本处理生成shp文件
@@ -37,7 +36,7 @@ Description: 将国土土地报备坐标txt文本处理生成shp文件
   -	J2,2,7.0, 9.0
   -	J3,2,8.0, 9.0
   -	J4,2,8.0, 10.0
-  
+
 处理为如下列表：
 		 [
 			   [
@@ -70,16 +69,12 @@ Usage:
 import re
 import arcpy
 import os
-from multiprocessing import Process
-
-from GUIconfig import multication
-import tooltk
 
 
 def points_genarator(txt_file):
 	"""
 	points_genarator(txt_file)   return list
-	txt_file 文本文件地址
+	txt_file：文本文件地址
 	将txt转换为可以使用的点集列表
 	"""
 	fffs = open(txt_file, "r")
@@ -90,9 +85,9 @@ def points_genarator(txt_file):
 	# input_data = input_data[2:]  # 去除前13行
 	input_data = [x.strip() for x in input_data if "@" not in x]  # 去除带@的行
 	# 去除非J行
-	while True: # 去除前13行
+	while True:  # 去除前13行
 		# 如果首行字符不在下列元组中
-		first=("J","1","0","2","3","4","5","6","7","8","9")
+		first = ("J", "1", "0", "2", "3", "4", "5", "6", "7", "8", "9")
 		if input_data[0][0] not in first:
 			del input_data[0]
 		# elif :
@@ -107,23 +102,23 @@ def points_genarator(txt_file):
 	polygon_list = []
 	while input_data:
 		row = input_data.pop(0)
-		row1= row.split(",") # ['J1', '1', '3405133.8969', '35353662.0113']
+		row1 = row.split(",")  # ['J1', '1', '3405133.8969', '35353662.0113']
 		# 去除字母和数字组合中的字母 如 "J1" 只保留 "1"
-		row_num = re.findall(r'[0-9]+|[a-z]+',row1[0]) # ['1']
+		row_num = re.findall(r'[0-9]+|[a-z]+', row1[0])  # ['1']
 		row_num2 = row1[1]  # '1'
-		if not line_closed: # 为空时
+		if not line_closed:  # 为空时
 			line_closed.append(row1)
 			flag1 = int(row_num[0])  # 1 第一列数字
 			# 第二列数字
 			flag2 = row1[1]  # '1'
 		elif int(row_num[0]) > flag1:
-			if row_num2 != flag2: # 第二列出现不一样的，新一轮开始
+			if row_num2 != flag2:  # 第二列出现不一样的，新一轮开始
 				flag2 = row_num2
 				polygon_list.append(line_closed)
 				line_closed = []
 			# 未开始新一轮就接着上一个，如果开始新一轮那么这里就是第一个起始点
 			line_closed.append(row1)
-		elif int(row_num[0]) == flag1: # 新一轮开始
+		elif int(row_num[0]) == flag1:  # 新一轮开始
 			polygon_list.append(line_closed)
 			line_closed = []
 			line_closed.append(row1)
@@ -134,28 +129,11 @@ def points_genarator(txt_file):
 
 def draw_poly(coord_list, sr, y, x):
 	"""
-	Convert a Python list of coordinates to an ArcPy polygon feature
-	Reference from : Curtis Price, USGS, cprice@usgs.gov
-	coord_list(List): list of coordinates, example:
-		[
-			[
-				['J1', '4', '3436538.1950', '34012885.9660'],
-				['J2', '4', '3436540.7970', '34012503.6880'],
-				['J16', '4', '3436517.6030', '34012500.1670'],
-				['J17', '4', '3436520.2950', '34012503.2740']
-			]
-			[
-				['J1', '5', '3465542.0410', '34102863.3320'],
-				['J2', '5', '3436538.9340', '34702571.2020'],
-				['J3', '5', '3536539.5550', '35762578.0360'],
-				['J4', '5', '3536544.1120', '35762582.1780'],
-				['J5', '5', '3536550.5320', '35762585.2840'],
-				['J6', '5', '3536556.9520', '35762586.9410']
-			]
-		]
-	 sr: 投影系
-	  y(Int): y坐标行数
-	  x(Int): x坐标行数
+	创建多边形
+	coord_list(List)：多个点组成的坐标
+	sr: 投影系
+	y(Int): y坐标列
+	x(Int): x坐标列
 	"""
 	parts = arcpy.Array()
 	yuans = arcpy.Array()
@@ -176,18 +154,18 @@ def draw_poly(coord_list, sr, y, x):
 			yuans = yuans.getObject(0)
 		parts.add(yuans)
 		yuans.removeAll()
-	# if single-part (only one part) remove nesting
+	# 只有一个，单个图形
 	if len(parts) == 1:
 		parts = parts.getObject(0)
 	return arcpy.Polygon(parts, sr)
-	
-	
-def main(qq,txt_folder, output_folder):
+
+
+def main(info, txt_folder, output_folder):
 	"""
 	功能实现的主函数
-	qq(List): 存放信息的列表，作为独立脚本使用时没啥用
-	txt_folder(Unicode\String): 包含txt文件的文件夹
-	output_folder(Unicode\String): 导出文件夹
+	info(List): 存放信息的列表，作为独立脚本使用时没啥用
+	txt_folder(Unicode/String): 包含txt文件的文件夹
+	output_folder(Unicode/String): 导出文件夹
 	"""
 	arcpy.env.overwriteOutput = True
 	txts = os.listdir(txt_folder)
@@ -196,10 +174,6 @@ def main(qq,txt_folder, output_folder):
 			txt_p = os.path.join(txt_folder, txt)
 			f = points_genarator(txt_p)
 			name = os.path.splitext(os.path.basename(txt_p))[0]  # 获取名称不带后缀
-			# scratch_folder = "scratchfolder"
-			# if not os.path.isdir(scratch_folder):
-			# 	os.mkdir(scratch_folder)
-			# output_dir = ur"G:\MoveOn\Gispot\Local\txt2shp\scratchfolder"
 			# 创建空白shp
 			blank_shp = arcpy.CreateFeatureclass_management(output_folder,
 															name, "Polygon",
@@ -212,16 +186,15 @@ def main(qq,txt_folder, output_folder):
 			# print "feature: " + repr(p)
 			Rows.insertRow([p])
 			del Rows
-			write_sth = "Write done: " + os.path.join(output_folder, name)+"\n\n"
-			# print write_sth
-			qq.append(write_sth)
+			write_sth = "Write done: " + os.path.join(output_folder,
+													  name)
+			print write_sth
+			info.append(write_sth)
 			
-			# TODO 为什么现在添加字段不行呢？多半是要素图层和要素类的原因，待验证
-			# arcpy.AddField_management(blank_shp,"XMMC","TEXT",field_length =100)
 			
-			# 添加字段且赋值
+			# 给新建的shp文件添加 MC 字段和值
 			shp_name = name + ".shp"
-			newfield_name = "XMMC"
+			newfield_name = "MC"
 			fresh_layer = arcpy.mapping.Layer(
 				os.path.join(output_folder, shp_name))
 			arcpy.AddField_management(fresh_layer, newfield_name, "TEXT",
@@ -231,33 +204,6 @@ def main(qq,txt_folder, output_folder):
 				roww[0] = name
 				cursor2.updateRow(roww)
 			del cursor2
-		# qq.append("Done \n")
-
-# 连通GUI界面的接口
-class Funtion(tooltk.Tooltk):
-	
-	def __init__(self, master1):
-		"""
-		:param master1: self.master, a widget from initial_interface.py
-		"""
-		super(Funtion, self).__init__(master1, "txt2shp.gc", self.confirm)
-		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
-		# block1
-		self.block1 = tooltk.blockDIR_in(frame, u"TXT文件夹")
-		# block2
-		self.block2 = tooltk.blockDIR_in(frame, u"输出地址")
-		self.commu = multication.MuCation()
-		
-	def confirm(self):
-		v =[self.block1.get(),self.block2.get()]
-		# main(v[0], v[1])
-		p = Process(
-			target=self.commu.decor, args=(main, v[0], v[1])
-		)
-		# p.deamon = True
-		p.start()
-		self.commu.process_communication(self.major_msgframe)
-
 
 
 if __name__ == '__main__':
@@ -265,9 +211,9 @@ if __name__ == '__main__':
 	"""---------------------------------------------------------------"""
 	"""------------------------PARA-----------------------------------"""
 	arcpy.env.overwriteOutput = True
-	dir_p = ur"G:\高标准分布图\金堂县\txt" # txt文件夹
-	output_dir = ur"G:\高标准分布图\金堂县\txt2shp" # 输出文件夹
+	dir_p = ur"G:\高标准分布图\西充\txt\新建文件夹"  # txt文件夹
+	output_dir = ur"G:\高标准分布图\西充\txt\1"  # 输出文件夹
 	"""---------------------------------------------------------------"""
 	"""---------------------------------------------------------------"""
-	laji = [] # 仅仅执行脚本时，将数据装进去
-	main(laji,dir_p, output_dir)
+	infos = []
+	main(infos, dir_p, output_dir)
