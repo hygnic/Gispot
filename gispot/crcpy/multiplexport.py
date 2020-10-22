@@ -76,7 +76,7 @@ def export_jpeg(me_queue, path_slice_set, res):
 		arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
 								   resolution=res)
 		del mxd1
-		info = os.path.basename(one_path) + " Done! \n"
+		info = "{} Done! \n".format(os.path.basename(one_path))
 		me_queue.put(info)
 		
 # our_master = tool_entrance.AppEntrance.rootwindow

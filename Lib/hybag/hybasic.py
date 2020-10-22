@@ -149,9 +149,9 @@ def make_chunk(data_list, chunk_num):
 				 8, 98, 39, 98, 34, 3, 67 ]
 			result_list = data_distribute(i_list,6)
 
-	:param data_list: {List} 主要数据列表
-	:param chunk_num: {Int} 组块数（子列表个数）
-	:return: {List} 包含所有子列表的列表
+	data_list{List}: 主要数据列表
+	chunk_num{Int}:  组块数（子列表个数）
+	:return{List}:  返回两个列表：一个包含所有子列表的列表，一个信息组成的列表
 	"""
 	msg_info = []
 	def sub_list(main_list, l_len):

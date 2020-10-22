@@ -40,7 +40,9 @@ def export(path, res):
 		else:
 			print u"\n非MXD文件,跳过"
 			
-#
+if __name__ == '__main__':
+	export("path", 300)
+	
 # app = tooltk.Tooltk()
 # app.GUIexport()
 #
