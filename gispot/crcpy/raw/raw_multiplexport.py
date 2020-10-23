@@ -144,4 +144,4 @@ def main_funtion(path,core,res):
 		p.start()
 
 if __name__ == '__main__':
-	main_funtion(ur"G:\test\gst",3,1)
+	main_funtion(ur"H:\WORKing\test\2019",4,20)
