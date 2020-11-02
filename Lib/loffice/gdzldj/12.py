@@ -14,8 +14,7 @@ from __future__ import division
 import xlwings as xw
 
 path_excel = ur"G:\耕地质量等级\2020112.xls"
-sheet = 3
-
+sheet = 4
 
 try:
 	print "\n"
@@ -30,28 +29,34 @@ try:
 	# v1 = sheet1.range("d1:d300").expand().value #TODO 不清楚expand的作用
 	wbs1_rowcount = ws1.api.UsedRange.Rows.count
 	# 质量等级
-	# ph = ws1.range("J1:J" + str(wbs1_rowcount))
-	# 项目名字
-	# XMMC = ws1.range("C1:C" + str(wbs1_rowcount))
-	# ZLDJ = ZLDJ.value
-	# XMMC = XMMC.value
-	# XMMC_ZLDJ= list(zip(XMMC, ZLDJ)) # [(荣县2011年国家农业综合开发高标准农田建设示范工程,需要提质改造),...]
-	# # for ii in XMMC_ZLDJ:
-		# for i in ii:
-		# 	print i
-	for i in ["B", "C", "D", "E", "F", "G"]:
-		ph = ws1.range(i + "1:" + i + str(wbs1_rowcount))
-		cell_list = ph.value
+	res =[]
+	for i in ["A"]:
+		# ph = ws1.range("J1:J" + str(wbs1_rowcount))
+		ph = ws1.range(i+"1:"+i+str(wbs1_rowcount))
+		# 项目名字
+		# XMMC = ws1.range("C1:C" + str(wbs1_rowcount))
+		# ZLDJ = ZLDJ.value
+		# XMMC = XMMC.value
+		# XMMC_ZLDJ= list(zip(XMMC, ZLDJ)) # [(荣县2011年国家农业综合开发高标准农田建设示范工程,需要提质改造),...]
+		# # for ii in XMMC_ZLDJ:
+			# for i in ii:
+			# 	print i
+		
+		cell_list =ph.value
 		head_name = cell_list[0]
-		cell_list = cell_list[1:]  # 去除表头
+		cell_list = cell_list[1:] # 去除表头
 		
-		
-		
-		
-		by=ph.value[7]
-		by=round(by*100,2)
-		info="土壤{}的变化范围为{}-{}，均值为{}，变异系数为{}%；".format(name,min1,max1,mean,by)
-		print info
+		cell_set = set(cell_list)
+		for ii in cell_set:
+			res.append(ii)
+			res.append(cell_list.count(ii))
+			# print ii+"\n",cell_list.count(ii)
+	infp_res = []
+	while res:
+		info1 = "{}占比达到了{}%".format(res.pop(0),round(res.pop(0)/33050*100,1))
+		infp_res.append(info1)
+	info_2 = "，".join(infp_res)
+	print info_2
 finally:
 	app1.quit()
 	print "\n close application"
