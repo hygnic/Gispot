@@ -128,7 +128,7 @@ def export_jpeg(path_slice_set, res):
 def main_funtion(path,core,res):
 	"""
 	path: 包含mxd的文件夹
-	core{Int}:  开启的多进程数 推荐3~4，新电脑或者高性能CPU可以选7甚至更高
+	study_book{Int}:  开启的多进程数 推荐3~4，新电脑或者高性能CPU可以选7甚至更高
 	res{Int}: 出图分辨率
 	:return: NONE
 	"""
