@@ -20,8 +20,6 @@ import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
 # from PIL import Image, ImageTk
-from GUIconfig.multication import MuCation
-import multiprocessing
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
@@ -68,7 +66,7 @@ for giscat_path in giscat_paths:
 # 界面模块导入
 import initial_interface
 # 功能模块导入
-import LQHD.gstrename
+import gstrename
 import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
@@ -281,7 +279,7 @@ class AppEntrance(object):
     def open_GSTrename(self):
         newGUI.destroy_child(self.interface_frame)
         # gstrename.App(self.main_f)
-        LQHD.gstrename.App(self.interface_frame)
+        gstrename.App(self.interface_frame)
     
     def open_Multip_exp(self):
         newGUI.destroy_child(self.interface_frame)
