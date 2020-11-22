@@ -7,6 +7,7 @@ GUI  所用工具和脚本用GUI"""
 from __future__ import  print_function
 from __future__ import  absolute_import
 import Tkinter as tk
+# from ttkthemes import ThemedTk
 import tkFileDialog
 import ScrolledText as stt
 from PIL import Image, ImageTk
@@ -838,7 +839,8 @@ if __name__ == '__main__':
 			frame = (self.block_frame, self.msgframe, self.major_msgframe)
 			SingleFileBlock(
 				frame, u"TEST", tkFileDialog.askopenfilename,
-				[(u'文本文档', '*.txt'), ('All Files', '*')], "add_file")
+				[(u'文本文档', '*.txt'), ('All Files', '*')], "add_file"
+			)
 		
 		# self.addfile_button["state"] = "disabled"
 		# self.addfile_button.pack_forget() # 隐藏模块
