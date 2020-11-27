@@ -65,8 +65,9 @@ def getvalue_from_attribute(layer, txt_output, strrr, class_field, value_field):
 		f11.close()
 
 
+"""__________________________________________________________________________"""
 if __name__ == '__main__':
-	# 需要注意的是：GBZ农田不能是空表 空表报以下错，以后再解决
+	# 注意：GBZ农田不能是空表 空表报以下错，以后再解决
 	"""
 	Runtime error
 	Traceback (most recent call last):
@@ -74,11 +75,17 @@ if __name__ == '__main__':
 	File "<string>", line 64, in getvalue_from_attribute
 		UnboundLocalError: local variable 'f11' referenced before assignment
 	"""
-	
-	txt_path = ur"G:\121.txt"
+	"""______________________________attention_______________________________"""
+	"""______________________________attention_______________________________"""
+	"""______________________________attention_______________________________"""
+	txt_path = ur"G:\121.txt" # 将 G:\121.txt 替换成你需要保存的txt地址（会自动创建TXT文件）
 	mxd = arcpy.mapping.MapDocument("CURRENT")
-	layer_dltb = arcpy.mapping.ListLayers(mxd, "DLTB_SpatialJoin")[0]
+	layer_dltb = arcpy.mapping.ListLayers(mxd, "DLTB")[0]
 	layer_GBZ = arcpy.mapping.ListLayers(mxd, "GBZ*")  # [...,"GBZ2018510604GT德阳市罗江县鄢家镇高垭村土地整理项目SS",...]
+	"""______________________________attention_______________________________"""
+	"""______________________________attention_______________________________"""
+	"""______________________________attention_______________________________"""
+	
 	print "GBZ_count:", len(layer_GBZ)
 	for i in layer_GBZ:
 		print "GBZ_name:", i.name
