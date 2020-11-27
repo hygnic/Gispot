@@ -19,6 +19,7 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
+# from ttkthemes import ThemedTk
 # from PIL import Image, ImageTk
 
 # 获取当前的文件位置
@@ -109,6 +110,7 @@ class AppEntrance(object):
     
     def __init__(self):
         self.rootwindow = tk.Tk()
+        # self.rootwindow = ThemedTk(theme="arc")
         self.rootwindow.title("GISPOT")
         # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
         newGUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)

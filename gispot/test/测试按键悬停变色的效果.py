@@ -2,8 +2,9 @@
 # User: liaochenchen, hygnic
 # Date: 2019/12/12
 # python2
-
 import Tkinter as tk
+import ttk
+from ttkthemes import ThemedTk
 
 class HoverButton(tk.Button):
     def __init__(self, master, **kw):
@@ -18,9 +19,10 @@ class HoverButton(tk.Button):
     def on_leave(self, e):
         self['background'] = self.defaultBackground
 
-root = tk.Tk()
+# root = tk.Tk()
+root = ThemedTk(theme="arc")
 
-classButton = HoverButton(root,text="Classy Button", activebackground='green')
+classButton = ttk.Button(root,text="Classy Button")
 classButton.grid()
 
 root.mainloop()

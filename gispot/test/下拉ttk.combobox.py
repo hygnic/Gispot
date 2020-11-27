@@ -8,8 +8,10 @@
 
 import Tkinter as tk
 import ttk
+from ttkthemes import ThemedTk
 
-win = tk.Tk()
+# win = tk.Tk()
+win = ThemedTk(theme="arc")
 win.title("Python GUI")  # 添加标题
 
 ttk.Label(win, text="Chooes a number").grid(column=1,
