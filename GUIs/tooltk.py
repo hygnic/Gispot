@@ -7,7 +7,7 @@ GUI  所用工具和脚本用GUI"""
 from __future__ import  print_function
 from __future__ import  absolute_import
 import Tkinter as tk
-# from ttkthemes import ThemedTk
+import ttk
 import tkFileDialog
 import ScrolledText as stt
 from PIL import Image, ImageTk
@@ -17,7 +17,6 @@ import os
 from GUIconfig import newGUI
 from GUIconfig import GUIpath
 from GUIconfig import hyini
-# from GUIconfig.paths import GifPath
 from GUIconfig.GUIpath import PngIcon
 
 #----------------------para-------------------------------
@@ -163,7 +162,8 @@ class Tooltk(object):
 		# help_f.pack_propagate(0)
 		help_f.pack(side=tk.BOTTOM, anchor="s", expand=True, fill="both")
 		# 设置带滚动条的text
-		s_bar = tk.Scrollbar(help_f, relief="flat", elementborderwidth=-15)
+		# s_bar = tk.Scrollbar(help_f, relief="flat", elementborderwidth=-15)
+		s_bar = ttk.Scrollbar(help_f)
 		s_bar.pack(side="right", fill="y")
 		self.help_text = newGUI.NeewwText(
 			help_f, relief=tk.FLAT, height=20,
@@ -180,8 +180,8 @@ class Tooltk(object):
 		"""----------------------------------------------------------------"""
 		# 上栏
 		# wrap="word" 如果大段的文字超过容纳限制，就会强制换一行输出
-		self.msgframe = stt.ScrolledText(
-			self.frame_right_side, height="10", )  # width="50"
+		self.msgframe = tk.Text(self.frame_right_side)  # width="50"
+		
 		# 将所用txt都标记了
 		# self.text.tag_add("tag1","1.end","2.end")
 		self.msgframe.insert(
@@ -190,7 +190,9 @@ class Tooltk(object):
 		)  # ,"tag1"
 		# self.text.tag_config("tag1", underline=True, foreground="Ivory")
 		self.msgframe.pack(
-			side="top", anchor="n", expand=True, fill="both", padx=2)
+			side="top", anchor="n", expand=True, fill="both")
+		upper_bar = ttk.Scrollbar(self.msgframe)
+		upper_bar.pack(side="right", fill="y")
 		
 		with open(input_log, "r") as read_msgs:
 			text_cont = 0 #
@@ -216,11 +218,11 @@ class Tooltk(object):
 				# self.msgframe.window_create("end", window=msgb )
 				
 		# 下栏 主要的动态信息显示栏
-		s_bar = tk.Scrollbar(
-			self.frame_right_side, relief="flat", elementborderwidth=-15)
+		# s_bar = tk.Scrollbar(self.frame_right_side, relief="flat", elementborderwidth=-15)
+		s_bar = ttk.Scrollbar(self.frame_right_side)
 		s_bar.pack(side="right", fill="y")
 		self.major_msgframe = newGUI.NeewwText(
-			self.frame_right_side, height="60", yscrollcommand=s_bar.set)
+			self.frame_right_side, yscrollcommand=s_bar.set, height=30)
 		# 配置字体颜色
 		self.major_msgframe.tag_config(
 			"tag_warn", backgroun="yellow", foreground="red")
@@ -231,6 +233,7 @@ class Tooltk(object):
 		self.major_msgframe.pack(
 			side="top", anchor="n", expand=True, fill="both", padx=2)
 		s_bar.config(command=self.major_msgframe.yview)
+	
 	
 	
 	# Read help information and insert in help box

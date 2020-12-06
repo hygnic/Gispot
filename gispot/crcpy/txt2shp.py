@@ -238,7 +238,7 @@ class Funtion(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		"""
-		:param master1: self.master, a widget from initial_interface.py
+		:param master1: self.master, a widget from interface.py
 		"""
 		super(Funtion, self).__init__(master1, "txt2shp.gc", self.confirm)
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)

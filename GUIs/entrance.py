@@ -19,7 +19,7 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
-# from ttkthemes import ThemedTk
+from ttkthemes import ThemedTk
 # from PIL import Image, ImageTk
 
 # 获取当前的文件位置
@@ -65,7 +65,7 @@ for giscat_path in giscat_paths:
 
 
 # 界面模块导入
-import initial_interface
+import interface
 # 功能模块导入
 import gstrename
 import crcpy.multiplexport
@@ -109,53 +109,37 @@ class AppEntrance(object):
     prograss_int = 0
     
     def __init__(self):
-        self.rootwindow = tk.Tk()
-        # self.rootwindow = ThemedTk(theme="arc")
+        # self.rootwindow = tk.Tk()
+        self.rootwindow = ThemedTk(theme="arc")
         self.rootwindow.title("GISPOT")
         # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
         newGUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)
-        self.rootwindow.iconbitmap(default=icon)  # TODO 暂时关闭图标
-        self.rootwindow.resizable(False, False)
+        self.rootwindow.iconbitmap(default=icon)
+        self.rootwindow.resizable(1, 1)
         self.menu()
         # bt.pack(side='left')
         # self.rootwindow.attributes('-topmost', 0)
         self.gradient_bar()
         self.upgrade_from_github()
         # -------------------------------------
-        # cmb = ttk.Menubutton(self.rootwindow, text="io")
-        # cmb.pack()
-        #
-        # image_octacat = Tix.ComboBox(self.rootwindow)
-        # aa1 = Tix.ComboBox(image_octacat)
-        # image_octacat.pack()
-        # aa1.pack()
-      
-        # -------------------------------------
         # 主界面左侧图标工具栏
                         # Frame的实际大小不仅仅受width控制，如果其中有其它部件，
                             # 以其它部件大小为准
-        self.toolbar = tk.Frame(self.rootwindow, relief="sunken" ,width= 80, bd =1)
-        self.toolbar.pack(side="left", fill="both", expand=False)
+        self.main_face = tk.Frame(self.rootwindow, relief="sunken" ,width= 55, height = 600,bd =1)
+        self.main_face.pack(side="left", fill="both", expand=True)
+        # self.toolbar.place(x=0,y=0)
         # 初始界面右侧的交互界面的框架 interface_frame
-        self.interface_frame = tk.Frame(self.rootwindow, relief="groove")
-        self.interface_frame.pack(side="right", expand=True, fill="both")
+        # self.interface_frame = tk.Frame(self.rootwindow, relief="groove",width= 900, height = 600)
+        # self.interface_frame.pack(side="right", expand=True, fill="both")
+        # self.interface_frame.place(x=55,y=0)
         
         # 绑定退出弹窗与退出功能，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 界面
         self.run_menu()
-        self.run_toolbar_viewer()
+        # self.run_toolbar_viewer()
+        interface.InitialInterface(self.main_face)
 
-    def prograssbar(self):
-        self.prograss_int += 10
-        bb = Tix.Meter(self.interface_frame, value=self.prograss_int,
-                       fillcolor="#ffc851")
-        bb.pack()
-        # impure_data = 0
-        # for i in xrange(10):
-        #     time.sleep(2)
-        #     bb["value"] = i * 10 + impure_data
-        #
        
     def gradient_bar(self):
         self.gradient_canv = newGUI.GradientCanvas(
@@ -181,7 +165,7 @@ class AppEntrance(object):
     
     def menu(self):
         """设置置顶菜单栏"""
-        self.menubar = tk.Menu(self.rootwindow, background  ="#808000")
+        self.menubar = tk.Menu(self.rootwindow)
         # 创建一个File菜单项（默认不下拉，下拉内容包括New，Open，Save，# Exit功能项）
         self.menubar_file = tk.Menu(self.menubar, tearoff=0)
         # 将上面定义的空菜单命名为File，放在菜单栏中，就是装入那个容器中
@@ -192,7 +176,7 @@ class AppEntrance(object):
         self.menubar_file.add_command(label='Open', command=None)
         self.menubar_file.add_command(label='Save', command=None)
         self.menubar_file.add_command(label='Prograss Bar',
-                                      command=self.prograssbar)
+                                      command=None)
         self.menubar_file.add_separator()  # 分隔线
         self.menubar_file.add_command(
             label='Exit', command=self.rootwindow.quit)  # 用tkinter里面自带的quit()函数
@@ -214,31 +198,31 @@ class AppEntrance(object):
         
         # 两区公示图 菜单栏
         self.menubar_gst = tk.Menu(self.menubar, tearoff=0)
-        self.menubar.add_cascade(label=u"两区公示图", menu=self.menubar_gst)
+        self.menubar.add_cascade(label="两区公示图", menu=self.menubar_gst)
         self.menubar_gst.add_command(
-            label=u'公示图命名规范化', command=self.open_GSTrename)
+            label='公示图命名规范化', command=self.open_GSTrename)
         
         # 制图mapping菜单栏
         self.menubar_map = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=u"制图", menu=self.menubar_map)
         self.menubar_map.add_command(
             label=u'多进程批量出图(JPEG)', command=self.open_Multip_exp)
-        self.menubar_map.add_command(label=u'拆分多部件',
+        self.menubar_map.add_command(label='拆分多部件',
                                      command=self.explode_mulitp)
-        self.menubar_map.add_command(label=u'任务分配',
+        self.menubar_map.add_command(label='任务分配',
                                      command=self.start_dispatch_task)
 
         # 高标准农田
         self.menubar_GBZ = tk.Menu(self.menubar, tearoff=0)
-        self.menubar.add_cascade(label=u"高标准农田", menu=self.menubar_GBZ)
-        self.menubar_GBZ.add_command(label=u'修改质量等级',
+        self.menubar.add_cascade(label="高标准农田", menu=self.menubar_GBZ)
+        self.menubar_GBZ.add_command(label='修改质量等级',
                                      command=self.start_ZLDJ)
         
         # 关于 栏
         self.menubar_about = tk.Menu(self.menubar, tearoff=0)
-        self.menubar.add_cascade(label=u"关于", menu=self.menubar_about)
+        self.menubar.add_cascade(label="关于", menu=self.menubar_about)
         self.menubar_about.add_command(
-            label=u'获取更新', command=self.upgrade_from_github)
+            label='获取更新', command=self.upgrade_from_github)
         
     # 配置安放菜单栏，写成方法便于调控纯程序
     def run_menu(self):
@@ -315,7 +299,7 @@ class AppEntrance(object):
         # 使程序主要面板运行起来
         # return 1
         # toolbar_viewer就是建立在input_interface上的
-        button1 = initial_interface.InitialInterface(
+        button1 = interface.InitialInterface(
             self.toolbar, self.interface_frame)
         # button1.config()
         
@@ -331,3 +315,38 @@ class AppEntrance(object):
         # 退出确认功能，防止误触发
         if tkMessageBox.askokcancel("Quit", "   Do you want to quit?"):
             self.rootwindow.destroy()
+            
+if __name__ == '__main__':
+    class AppEntrance2(object):
+        """进行打包的可视化外壳"""
+        prograss_int = 0
+        
+        def __init__(self):
+            # self.rootwindow = tk.Tk()
+            self.rootwindow = ThemedTk(theme="arc")
+            self.rootwindow.title("GISPOT")
+            # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
+            newGUI.screen_cetre(self.rootwindow, width=hyini.width,
+                                height=hyini.height)
+            self.rootwindow.iconbitmap(default=icon)
+            self.rootwindow.resizable(0, 0)
+            # bt.pack(side='left')
+            # self.rootwindow.attributes('-topmost', 0)
+            # self.gradient_bar()
+            # self.upgrade_from_github()
+            # -------------------------------------
+            # 主界面左侧图标工具栏
+            # Frame的实际大小不仅仅受width控制，如果其中有其它部件，
+            # 以其它部件大小为准
+            self.toolbar = tk.Frame(self.rootwindow, relief="sunken", width=45,bg="red",
+                                    height=600, bd=1)
+            # self.toolbar.pack(side="left", fill="both", expand=False)
+            self.toolbar.place(x=0, y=0)
+            # 初始界面右侧的交互界面的框架 interface_frame
+            self.interface_frame = tk.Frame(self.rootwindow, relief="groove",
+                                            width=900, height=600,bg="blue")
+            # self.interface_frame.pack(side="right", expand=True, fill="both")
+            self.interface_frame.place(x=45, y=0)
+            
+    app = AppEntrance2()
+    app.rootwindow.mainloop()

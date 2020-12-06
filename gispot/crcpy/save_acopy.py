@@ -73,7 +73,7 @@ def new_mian(qq,input_file, out_file, version):
 	
 class SaveACopyFunction(tooltk.Tooltk):
 	"""
-	:param master1: self.master, a widget from initial_interface.py
+	:param master1: self.master, a widget from interface.py
 	"""
 	
 	def __init__(self, master1):
