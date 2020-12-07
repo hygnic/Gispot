@@ -111,7 +111,10 @@ class AppEntrance(object):
     def __init__(self):
         # self.rootwindow = tk.Tk()
         self.rootwindow = ThemedTk(theme="arc")
-        self.rootwindow.title("GISPOT")
+        self.rootwindow.title("")
+        # self.rootwindow.title("GISPOT")
+        # self.rootwindow.update_idletasks()
+        # self.rootwindow.overrideredirect(True)
         # self.rootwindow.tk_setPalette(background="#f5f6f7") # 一次性修改所有背景颜色
         newGUI.screen_cetre(self.rootwindow, width=hyini.width, height=hyini.height)
         self.rootwindow.iconbitmap(default=icon)
@@ -136,7 +139,7 @@ class AppEntrance(object):
         # 绑定退出弹窗与退出功能，实现退出功能
         self.rootwindow.protocol("WM_DELETE_WINDOW", self.on_closing)
         # 界面
-        self.run_menu()
+        # self.run_menu()
         # self.run_toolbar_viewer()
         interface.InitialInterface(self.main_face)
 

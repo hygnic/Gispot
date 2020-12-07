@@ -51,7 +51,6 @@ if __name__ == '__main__':
 	multiprocessing.freeze_support() # 支持多进程打包为可执行文件
 	print "ProcessID:{}\n".format(os.getpid())
 	entrance = entrance.AppEntrance()
-	entrance.menu()
 	# 操控所有循环
 	entrance.rootwindow.mainloop()
 	
