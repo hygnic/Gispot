@@ -9,8 +9,8 @@
 ………………………………………………………………………………………………Description………………………………………………………………………………………
 ………………………………………………………………………………………………Description:……………………………………………………………………………………
 程序打开的初始界面
-    包含：
-    1.toolbar 左侧工具栏
+	包含：
+	1.toolbar 左侧工具栏
 ………………………………………………………………………………………………Description………………………………………………………………………………………
 ………………………………………………………………………………………………Description………………………………………………………………………………………
 Usage:
@@ -20,79 +20,109 @@ from __future__ import absolute_import
 import Tkinter as tk
 import ttk
 from PIL import ImageTk, Image
+from os.path import join
 
 from GUIconfig import newGUI, hyini
-from GUIconfig.GUIpath import PngIcon, GifPath
+from GUIconfig.gispotpath import PngIcon, GifPath
+import GUIconfig.gispotpath as gpath
 import vitems
 from crcpy import save_acopy
 from crcpy import txt2shp
 
 
-class InitialInterface(object):
+# class MyImG(object):
+# 	def __init__(self):
+# 		self.img_tab2 = Image.open(join(gpath.base_icons_path, "toolbox-45.png"))
+#
+# 		# img_tab2=img_tab2.resize((40, 40))
+# 		self.tb2 = ImageTk.PhotoImage(self.img_tab2)
+#
+# mi=MyImG()
+
+
+
+class ttknotebook(object):
 	"""
-	entrance界面左侧的toolbar区域以及entrance界面右侧的viewer中的工具，脚本等
+	主界面的Notebook
 	"""
 	def __init__(self, master):
 		
 		# 引入toolbar中的图标
-		self.interface_image()
+		self.image()
 		self.window = master # 左边
 		# self.window2 = master2 # 右边
 		
 		"""-----------------------------------------------------------"""
-		"""----------------------上图标设置 notebook设置---------------------"""
-		"""-----------------------------------------------------------"""
+		"""----------------------NoteBook-----------------------------"""
+		# para
+		self.padding = 3 # notebook padding
+		# para
 		self.mian_notebook = ttk.Notebook(self.window)
 		self.mian_notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
 		self.mian_notebook.configure(takefocus="")
+		"""____________________________image__________________________________"""
+		#TODO:
+			# 问题 在这里使用图片才行，不然报错:
+								# Too early to create image
+			# 或者直接不显示图片
+		global img_tab2, img_tab3, img_tab1, img_tab4
+		self.resize = (20,20) # 缩放大小
+		
+		img1 = Image.open(join(gpath.base_icons_path, "home20.png"))
+		img_tab1 = ImageTk.PhotoImage(img1.resize(self.resize))
+		img2 = Image.open(join(gpath.base_icons_path, "toolbox-20.png"))
+		img_tab2 = ImageTk.PhotoImage(img2.resize(self.resize))
+		img3 = Image.open(join(gpath.base_icons_path, "folder1.png"))
+		img_tab3 = ImageTk.PhotoImage(img3.resize(self.resize))
+		img4 = Image.open(join(gpath.base_icons_path, "option20.png"))
+		img_tab4 = ImageTk.PhotoImage(img4.resize(self.resize))
+		"""____________________________image__________________________________"""
 		# first tab
 		self.notebook_1 = tk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_1, padding=3)
-		self.mian_notebook.tab(0, text="Home", compound="left")
+		self.mian_notebook.add(self.notebook_1, padding=self.padding, image=img_tab1)
+		self.mian_notebook.tab(0, text="首页", compound="left")
 		# second tab
 		self.notebook_2 = tk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_2, padding=3)
-		self.mian_notebook.tab(1, text="工具", compound="left", underline="-1", )
+		self.mian_notebook.add(self.notebook_2, padding=self.padding, image=img_tab2)
+		self.mian_notebook.tab(1, text="工具", compound="left", underline="-1")
 		# third tab
 		self.notebook_3 = tk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_3, padding=3)
-		self.mian_notebook.tab(2, text="文档", compound="left", underline="-1", )
+		self.mian_notebook.add(self.notebook_3, padding=self.padding, image=img_tab3)
+		self.mian_notebook.tab(2, text="文档", compound="left", underline="-1")
 		# 4th tab
 		self.notebook_4 = tk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_4, padding=3)
-		self.mian_notebook.tab(3, text="选项", compound="left", underline="-1", )
+		self.mian_notebook.add(self.notebook_4, padding=self.padding, image=img_tab4)
+		self.mian_notebook.tab(3, text="选项", compound="left", underline="-1")
 		# 5th tab
 		self.notebook_5 = tk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_5, padding=3)
-		self.mian_notebook.tab(4, text="关于", compound="left",
-							   underline="-1", )
+		self.mian_notebook.add(self.notebook_5, padding=self.padding)
+		self.mian_notebook.tab(4, text="关于", compound="left", underline="-1")
+		"""----------------------NoteBook-----------------------------"""
+		"""-----------------------------------------------------------"""
 		
-		# self.button_home = newGUI.HoverButton(self.window1,
-		#                                       width=45, height=45,
-		#                                       image=self.icon_home,
-		#                                       command=None)
-		# self.button_home.pack(side="top", anchor="nw")
-		# 第yi个button,仅仅是一个查看器，方便复制到arcpy的Python脚本栏等
-		# self.button_viewer = newGUI.HoverButton(self.window1,
-		#                                         width=45, height=45,
-		#                                         image=self.icon_editor,
-		#                                         command=self.first_viewer)
-		# self.button_viewer.pack(side="top", anchor="nw")
-		# # 第er个button，作用是调出dos命令等（暂时）
-		# self.button_dos = newGUI.HoverButton(self.window1,
-		#                                      width=45, height=45,
-		#                                      image=self.icon_dos,
-		#                                      command=self.second_viewer)
-		# self.button_dos.pack(side="top", anchor="nw")
-		# # Tool button,the Third button which shows some features button
-		# self.button_tool = newGUI.HoverButton(self.window1, msg="Tools",
-		#                                       width=45, height=45,
-		#                                       image=self.icon_tool,
-		#                                       command=self.open_viewer3)
-		# self.button_tool.pack(side="top", anchor="nw")
+	@property
+	def notebook1(self):
+		return self.notebook_1
 	
-	def interface_image(self):
-		"""初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
+	@property
+	def notebook2(self):
+		return self.notebook_2
+	
+	@property
+	def notebook3(self):
+		return self.notebook_3
+	
+	@property
+	def notebook4(self):
+		return self.notebook_4
+	
+	@property
+	def notebook5(self):
+		return self.notebook_5
+	
+	def image(self):
+		"""notebook tab image
+		初始界面左侧的 toolbar 图标；tk.PhotoImage必须加入file（arcgis10.6）"""
 		# <PIL>
 		self.icon_dos = tk.PhotoImage(file = GifPath.dos)
 		# 对应second_viewer
@@ -100,7 +130,6 @@ class InitialInterface(object):
 		# self.icon_tool = tk.PhotoImage(file=paths.GifPath.tool)
 		self.icon_tool = ImageTk.PhotoImage(Image.open(PngIcon.toolbox_45))
 		self.icon_home = ImageTk.PhotoImage(Image.open(PngIcon.home))
-		self.toolset = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
 		# dd = paths.PngIcon()
 		# self.circle= dd.circle_icon_fun()
 	
@@ -180,20 +209,114 @@ class InitialInterface(object):
 class ToolSet(object):
 	"""
 	用于显示工具箱button中的内容
-	点击工具箱button启动该类
+	点击工具箱启动该类
 	"""
 	
 	def __init__(self, master):
-		"""
-		:param master: tkinter 父部件
-		"""
 		self.master = master
 		self.light_white = hyini.light_white
-		self.icon = ImageTk.PhotoImage(Image.open(PngIcon.toolset_image))
-		self.master["pady"] = 4
-		self.master["padx"] = 4
-		
+		_img = Image.open(join(gpath.base_icons_path, "Utilities-circle30.png"))
+		# self.icon = ImageTk.PhotoImage(_img.resize((30, 30)))
+		self.icon = ImageTk.PhotoImage(_img)
+		# self.master["pady"] = 4
+		# self.master["padx"] = 4
 		self.main_widget(self.make_test_dict())
+		
+		_bgcolor = '#d9d9d9'  # X11 color: 'gray85'
+		_fgcolor = '#000000'  # X11 color: 'black'
+		_compcolor = '#d9d9d9'  # X11 color: 'gray85'
+		_ana1color = '#d9d9d9'  # X11 color: 'gray85'
+		_ana2color = '#ececec'  # Closest X11 color: 'gray92'
+		
+		global _images
+		_images = (
+			
+			tk.PhotoImage("img_close", data='''R0lGODlhDAAMAIQUADIyMjc3Nzk5OT09PT
+						 8/P0JCQkVFRU1NTU5OTlFRUVZWVmBgYGF hYWlpaXt7e6CgoLm5ucLCwszMzNbW
+						 1v//////////////////////////////////// ///////////yH5BAEKAB8ALA
+						 AAAAAMAAwAAAUt4CeOZGmaA5mSyQCIwhCUSwEIxHHW+ fkxBgPiBDwshCWHQfc5
+						 KkoNUtRHpYYAADs= '''),
+			
+			tk.PhotoImage("img_closeactive", data='''R0lGODlhDAAMAIQcALwuEtIzFL46
+						 INY0Fdk2FsQ8IdhAI9pAIttCJNlKLtpLL9pMMMNTP cVTPdpZQOBbQd60rN+1rf
+						 Czp+zLxPbMxPLX0vHY0/fY0/rm4vvx8Pvy8fzy8P//////// ///////yH5BAEK
+						 AB8ALAAAAAAMAAwAAAVHYLQQZEkukWKuxEgg1EPCcilx24NcHGYWFhx P0zANBE
+						 GOhhFYGSocTsax2imDOdNtiez9JszjpEg4EAaA5jlNUEASLFICEgIAOw== '''),
+			
+			tk.PhotoImage("img_closepressed", data='''R0lGODlhDAAMAIQeAJ8nD64qELE
+						 rELMsEqIyG6cyG7U1HLY2HrY3HrhBKrlCK6pGM7lD LKtHM7pKNL5MNtiViNaon
+						 +GqoNSyq9WzrNyyqtuzq+O0que/t+bIwubJw+vJw+vTz+zT z////////yH5BAE
+						 KAB8ALAAAAAAMAAwAAAVJIMUMZEkylGKuwzgc0kPCcgl123NcHWYW Fs6Gp2mYB
+						 IRgR7MIrAwVDifjWO2WwZzpxkxyfKVCpImMGAeIgQDgVLMHikmCRUpMQgA7 ''')
+		)
+		
+		self.style = ttk.Style()
+		self.style.element_create("close", "image", "img_close",
+								  ("active", "pressed", "!disabled",
+								   "img_closepressed"),
+								  ("active", "alternate", "!disabled",
+								   "img_closeactive"), border=8, sticky='')
+		
+		self.style.layout("ClosetabNotebook", [("ClosetabNotebook.client",
+												{"sticky": "nswe"})])
+		self.style.layout("ClosetabNotebook.Tab", [
+			("ClosetabNotebook.tab",
+			 {"sticky": "nswe",
+			  "children": [
+				  ("ClosetabNotebook.padding", {
+					  "side": "top",
+					  "sticky": "nswe",
+					  "children": [
+						  ("ClosetabNotebook.focus", {
+							  "side": "top",
+							  "sticky": "nswe",
+							  "children": [
+								  ("ClosetabNotebook.label", {"side":
+																  "left",
+															  "sticky": ''}),
+								  ("ClosetabNotebook.close", {"side":
+																  "left",
+															  "sticky": ''}), ]})]})]})])
+		
+		PNOTEBOOK = "ClosetabNotebook"
+		
+		self.style.configure('TNotebook.Tab', background=_bgcolor)
+		self.style.configure('TNotebook.Tab', foreground=_fgcolor)
+		self.style.map('TNotebook.Tab', background=
+		[('selected', _compcolor), ('active', _ana2color)])
+		self.PNotebook1 = ttk.Notebook(self.master)
+		self.PNotebook1.place(relx=0.167, rely=0.267, relheight=0.507
+							  , relwidth=0.507)
+		self.PNotebook1.configure(takefocus="")
+		self.PNotebook1.configure(style=PNOTEBOOK)
+		self.PNotebook1_t1 = tk.Frame(self.PNotebook1)
+		self.PNotebook1.add(self.PNotebook1_t1, padding=3)
+		self.PNotebook1.tab(0, text="Page 1", compound="left", underline="-1", )
+		self.PNotebook1_t1.configure(background="#d9d9d9")
+		self.PNotebook1_t1.configure(highlightbackground="#d9d9d9")
+		self.PNotebook1_t1.configure(highlightcolor="black")
+		self.PNotebook1_t2 = tk.Frame(self.PNotebook1)
+		self.PNotebook1.add(self.PNotebook1_t2, padding=3)
+		self.PNotebook1.tab(1, text="Page 2", compound="left", underline="-1", )
+		self.PNotebook1_t2.configure(background="#d9d9d9")
+		self.PNotebook1_t2.configure(highlightbackground="#d9d9d9")
+		self.PNotebook1_t2.configure(highlightcolor="black")
+		self.PNotebook1.bind('<Button-1>', _button_press)
+		self.PNotebook1.bind('<ButtonRelease-1>', _button_release)
+		self.PNotebook1.bind('<Motion>', _mouse_over)
+		
+		
+		# The following code is add to handle mouse events with the close icons
+		# in PNotebooks widgets.
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	def make_canve(self, color):
 		# "#5294e2"
@@ -242,11 +365,12 @@ class ToolSet(object):
 				borderwidth=4, background=self.light_white,
 			)
 			big_frame.pack(anchor="nw", fill="x")
-			label_name = tk.Label(
-				big_frame, text =i, background=self.light_white,
-				font=('bold', 10), relief="flat"
-			)
-			label_name.pack(anchor="nw", fill=None)
+			name_label = ttk.Label(
+				big_frame, text =i, background=self.light_white,relief="flat")
+			name_label.configure(font="-family {Microsoft YaHei UI} -size 9 -weight bold")
+			# print name_label.winfo_name()
+			# print name_label.winfo_class() # Label
+			name_label.pack(anchor="nw", fill=None)
 			self.make_canve(hyini.light_blue)
 			
 			# A SET OF BUTTONS**************************************************
@@ -255,19 +379,12 @@ class ToolSet(object):
 				# print "tool_func:",tool_func
 				tool_name = a_feature[1]
 				
-				frame = tk.Frame(big_frame, relief="flat", background= self.light_white)
+				frame = ttk.Frame(big_frame)
 				frame.pack(anchor = "w",side="left") # 保证横向排列
-				# frame.grid()
-				# print "frame.grab_set():",frame.grab_set() # None
-				# tk.LabelFrame
-				button1_1 = newGUI.HoverButton(frame, background= self.light_white,
-											   width=38,
-											   image=self.icon,
-											   height=38,
-											   command=tool_func)
+				button1_1 = ttk.Button(frame, text=tool_name, command=tool_func)
+				button1_1.configure(image=self.icon)
+				button1_1.configure(compound='top')
 				button1_1.pack(side="top", anchor="center")
-				label = tk.Label(frame, text=tool_name, width=10, background= self.light_white)
-				label.pack()
 			# *******************************************************************
 	
 	def button1(self):
@@ -318,3 +435,37 @@ class ToolSet(object):
 			)
 		}
 		return func_name
+
+# The following code is add to handle mouse events with the close icons
+# in PNotebooks widgets.
+def _button_press(event):
+	widget = event.widget
+	element = widget.identify(event.x, event.y)
+	if "close" in element:
+		index = widget.index("@%d,%d" % (event.x, event.y))
+		widget.state(['pressed'])
+		widget._active = index
+
+def _button_release(event):
+	widget = event.widget
+	if not widget.instate(['pressed']):
+			return
+	element = widget.identify(event.x, event.y)
+	try:
+		index = widget.index("@%d,%d" % (event.x, event.y))
+	except TclError:
+		pass
+	if "close" in element and widget._active == index:
+		widget.forget(index)
+		widget.event_generate("<<NotebookTabClosed>>")
+
+	widget.state(['!pressed'])
+	widget._active = None
+
+def _mouse_over(event):
+	widget = event.widget
+	element = widget.identify(event.x, event.y)
+	if "close" in element:
+		widget.state(['alternate'])
+	else:
+		widget.state(['!alternate'])

@@ -74,10 +74,10 @@ import crcpy.task_dispatch
 import crcpy.ZLDJ
 # 配置包导入
 from GUIconfig import newGUI,hyini
-from GUIconfig import GUIpath
+from GUIconfig import gispotpath
 
 # Gispot图标
-icon = GUIpath.PngIcon.icon
+icon = gispotpath.PngIcon.icon
 
 import Tix
 
@@ -141,7 +141,8 @@ class AppEntrance(object):
 		# 界面
 		# self.run_menu()
 		# self.run_toolbar_viewer()
-		interface.InitialInterface(self.main_face)
+		tnb = interface.ttknotebook(self.main_face)
+		interface.ToolSet(tnb.notebook2)
 	
 	
 	def gradient_bar(self):
@@ -154,8 +155,8 @@ class AppEntrance(object):
 		def open_u():
 			update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
 			weberopen(update_url, new=0, autoraise=True)
-		print GUIpath.GifPath.github
-		self.image_octacat = tk.PhotoImage(file=GUIpath.GifPath.github)
+		print gispotpath.GifPath.github
+		self.image_octacat = tk.PhotoImage(file=gispotpath.GifPath.github)
 		ap_button = newGUI.HoverButton(master=self.gradient_canv,
 									   command=open_u, bd=2,
 									   image=self.image_octacat,
@@ -302,7 +303,7 @@ class AppEntrance(object):
 		# 使程序主要面板运行起来
 		# return 1
 		# toolbar_viewer就是建立在input_interface上的
-		button1 = interface.InitialInterface(
+		button1 = interface.ttknotebook(
 			self.toolbar, self.interface_frame)
 		# button1.config()
 	

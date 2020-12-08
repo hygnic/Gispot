@@ -9,22 +9,20 @@ Description:
 Usage:
 """
 # ---------------------------------------------------------------------------
-import Tkinter as tk # global imports are bad
+from Tkinter import *
 import ttk
-from PIL import Image, ImageTk
 
-root = tk.Tk()
-nb = ttk.Notebook(root)
-nb.pack(fill='both', expand=True)
+root = Tk()
 
-f = tk.Frame(nb)
-tk.Label(f, text="in frame").pack()
+notebook = ttk.Notebook(root)
+notebook.pack()
 
-# must keep a global reference to these two
-im = Image.open(r'G:\MoveOn\Gispot\GUIs\Icons\folder1.png')
-ph = ImageTk.PhotoImage(im)
+frame_main = Frame()
+frame_profile = Frame()
 
-# note use of the PhotoImage rather than the Image
-nb.add(f, text="profile", image=ph, compound=tk.LEFT) # use the tk constants
+prof_img = PhotoImage(file=r'G:\MoveOn\Gispot\GUIs\Icons\file3.gif')
+
+notebook.add(frame_main, text='Main')
+notebook.add(frame_profile, text='Profile', image=prof_img, compound=TOP)
 
 root.mainloop()

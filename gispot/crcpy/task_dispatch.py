@@ -15,7 +15,7 @@ import arcpy
 import os
 
 from multiprocessing import Process
-from GUIconfig import multication,GUIpath
+from GUIconfig import multication,gispotpath
 from ccutility import databutcher
 import tooltk
 

@@ -6,7 +6,7 @@
 import os
 import Tkinter as tk
 from GUIconfig import newGUI
-from GUIconfig import GUIpath
+from GUIconfig import gispotpath
 from teminal import export
 
 
@@ -21,7 +21,7 @@ from teminal import export
 def export_s(master):
 	frame = newGUI.ButtonFrame(
 		master,
-		tk.PhotoImage(file=GUIpath.GifPath.confirm),
+		tk.PhotoImage(file=gispotpath.GifPath.confirm),
 		"导出图片",command=export.func)
 	frame.pack(side="left", anchor="nw", fill=None, expand=False)
 	
@@ -51,11 +51,11 @@ class Filter(object):
 	def icon_selector(self):
 		if self.flag1 == 1:
 			newGUI.ButtonFrame(
-				self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
+				self.master, tk.PhotoImage(file=gispotpath.GifPath.python),
 				self.name, command=None)
 		elif self.flag1 == 2:
 			newGUI.ButtonFrame(
-				self.master, tk.PhotoImage(file=GUIpath.GifPath.python),
+				self.master, tk.PhotoImage(file=gispotpath.GifPath.python),
 				self.name, command=None)
 	
 			
