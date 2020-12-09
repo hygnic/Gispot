@@ -55,7 +55,7 @@ class ttknotebook(object):
 		"""-----------------------------------------------------------"""
 		"""----------------------NoteBook-----------------------------"""
 		# para
-		self.padding = 3 # notebook padding
+		self.padding = 2 # notebook padding
 		# para
 		self.mian_notebook = ttk.Notebook(self.window)
 		self.mian_notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
@@ -78,23 +78,23 @@ class ttknotebook(object):
 		img_tab4 = ImageTk.PhotoImage(img4.resize(self.resize))
 		"""____________________________image__________________________________"""
 		# first tab
-		self.notebook_1 = tk.Frame(self.mian_notebook)
+		self.notebook_1 = ttk.Frame(self.mian_notebook)
 		self.mian_notebook.add(self.notebook_1, padding=self.padding, image=img_tab1)
 		self.mian_notebook.tab(0, text="首页", compound="left")
 		# second tab
-		self.notebook_2 = tk.Frame(self.mian_notebook)
+		self.notebook_2 = ttk.Frame(self.mian_notebook)
 		self.mian_notebook.add(self.notebook_2, padding=self.padding, image=img_tab2)
 		self.mian_notebook.tab(1, text="工具", compound="left", underline="-1")
 		# third tab
-		self.notebook_3 = tk.Frame(self.mian_notebook)
+		self.notebook_3 = ttk.Frame(self.mian_notebook)
 		self.mian_notebook.add(self.notebook_3, padding=self.padding, image=img_tab3)
 		self.mian_notebook.tab(2, text="文档", compound="left", underline="-1")
 		# 4th tab
-		self.notebook_4 = tk.Frame(self.mian_notebook)
+		self.notebook_4 = ttk.Frame(self.mian_notebook)
 		self.mian_notebook.add(self.notebook_4, padding=self.padding, image=img_tab4)
 		self.mian_notebook.tab(3, text="选项", compound="left", underline="-1")
 		# 5th tab
-		self.notebook_5 = tk.Frame(self.mian_notebook)
+		self.notebook_5 = ttk.Frame(self.mian_notebook)
 		self.mian_notebook.add(self.notebook_5, padding=self.padding)
 		self.mian_notebook.tab(4, text="关于", compound="left", underline="-1")
 		"""----------------------NoteBook-----------------------------"""
@@ -215,19 +215,39 @@ class ToolSet(object):
 	def __init__(self, master):
 		self.master = master
 		self.light_white = hyini.light_white
+		# self.notebook_type2()
+		self.notebok()
+		
+	
+	def notebok(self):
 		_img = Image.open(join(gpath.base_icons_path, "Utilities-circle30.png"))
+		"""______________________________notebook_____________________________"""
+		self.padding=0
+		self.tool_notebook = ttk.Notebook(self.master)
+		# self.tool_notebook.place(relx=0.0, rely=0.0, relheight=1.0,relwidth=1.0)
+		self.tool_notebook.pack(expand=True, fill="both")
+		
+		self.notebook_1 = ttk.Frame(self.tool_notebook)
+		self.notebook_1.configure(relief="flat")
+		self.tool_notebook.add(self.notebook_1, padding=self.padding)
+		self.tool_notebook.tab(0, text="toolbar", compound="left", underline="-1")
+		# second tab
+		# self.notebook_2 = ttk.Frame(self.tool_notebook)
+		# self.tool_notebook.add(self.notebook_2, padding=self.padding)
+		# self.tool_notebook.tab(1, text="其它", compound="left", underline="-1")
+		"""______________________________notebook_____________________________"""
 		# self.icon = ImageTk.PhotoImage(_img.resize((30, 30)))
 		self.icon = ImageTk.PhotoImage(_img)
 		# self.master["pady"] = 4
 		# self.master["padx"] = 4
-		self.main_widget(self.make_test_dict())
+		# self.main_widget(self.make_test_dict())
 		
+	def notebook_type2(self):
 		_bgcolor = '#d9d9d9'  # X11 color: 'gray85'
 		_fgcolor = '#000000'  # X11 color: 'black'
 		_compcolor = '#d9d9d9'  # X11 color: 'gray85'
 		_ana1color = '#d9d9d9'  # X11 color: 'gray85'
 		_ana2color = '#ececec'  # Closest X11 color: 'gray92'
-		
 		global _images
 		_images = (
 			
@@ -285,45 +305,29 @@ class ToolSet(object):
 		self.style.map('TNotebook.Tab', background=
 		[('selected', _compcolor), ('active', _ana2color)])
 		self.PNotebook1 = ttk.Notebook(self.master)
-		self.PNotebook1.place(relx=0.167, rely=0.267, relheight=0.507
-							  , relwidth=0.507)
-		self.PNotebook1.configure(takefocus="")
+		self.PNotebook1.place(relx=0, rely=0, relheight=1
+							  , relwidth=1)
+		# self.PNotebook1.configure(takefocus="")
 		self.PNotebook1.configure(style=PNOTEBOOK)
 		self.PNotebook1_t1 = tk.Frame(self.PNotebook1)
-		self.PNotebook1.add(self.PNotebook1_t1, padding=3)
-		self.PNotebook1.tab(0, text="Page 1", compound="left", underline="-1", )
-		self.PNotebook1_t1.configure(background="#d9d9d9")
-		self.PNotebook1_t1.configure(highlightbackground="#d9d9d9")
-		self.PNotebook1_t1.configure(highlightcolor="black")
+		self.PNotebook1.add(self.PNotebook1_t1, padding=2)
+		self.PNotebook1.tab(0, text="Page 1", compound="left")
+		# self.PNotebook1_t1.configure(highlightbackground="#d9d9d9")
 		self.PNotebook1_t2 = tk.Frame(self.PNotebook1)
-		self.PNotebook1.add(self.PNotebook1_t2, padding=3)
-		self.PNotebook1.tab(1, text="Page 2", compound="left", underline="-1", )
-		self.PNotebook1_t2.configure(background="#d9d9d9")
-		self.PNotebook1_t2.configure(highlightbackground="#d9d9d9")
-		self.PNotebook1_t2.configure(highlightcolor="black")
+		self.PNotebook1.add(self.PNotebook1_t2, padding=2)
+		self.PNotebook1.tab(1, text="Page 2", compound="left")
+		# self.PNotebook1_t2.configure(highlightbackground="#d9d9d9")
 		self.PNotebook1.bind('<Button-1>', _button_press)
 		self.PNotebook1.bind('<ButtonRelease-1>', _button_release)
 		self.PNotebook1.bind('<Motion>', _mouse_over)
 		
-		
-		# The following code is add to handle mouse events with the close icons
-		# in PNotebooks widgets.
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	def make_canve(self, color):
 		# "#5294e2"
 		# cav = tk.Canvas(self.master,height =20,width =20)
 		width = 100
 		height = 10
-		cav = tk.Canvas(self.master, width=width, height=height,
+		cav = tk.Canvas(self.tool_notebook, width=width, height=height,
 						background=self.light_white, bd=0)
 		cav.pack(fill="x")
 		for i in xrange(hyini.width):
@@ -361,7 +365,7 @@ class ToolSet(object):
 			# font=('Times',10,'bold','italic') # ,bg="#5294e2"
 			# tk.Frame; newidgets.NeewwFrame
 			big_frame = tk.Frame(
-				self.master, relief="flat", height=20,
+				self.tool_notebook, relief="flat", height=20,
 				borderwidth=4, background=self.light_white,
 			)
 			big_frame.pack(anchor="nw", fill="x")

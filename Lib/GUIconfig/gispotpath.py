@@ -108,6 +108,7 @@ class PngIcon(object):
 	shapefile = os.path.join(base_icons_path, "shp_28.png")
 	mxd = os.path.join(base_icons_path, "mxd_28.png")
 	text = os.path.join(base_icons_path, "text_28.png")
+	github = os.path.join(base_icons_path, "GitHub_15.png")
 	
 	# 主界面左边工具栏及其相应子界面的图标
 	toolbox_45 = os.path.join(base_icons_path, "toolbox-45.png")

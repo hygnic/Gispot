@@ -20,7 +20,7 @@ import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
 from ttkthemes import ThemedTk
-# from PIL import Image, ImageTk
+from PIL import Image, ImageTk
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
@@ -149,23 +149,20 @@ class AppEntrance(object):
 		self.gradient_canv = newGUI.GradientCanvas(
 			self.rootwindow, "#ffc851", "#808000", relief="flat")
 		self.gradient_canv.pack(side="bottom", anchor=tk.SE, fill="x")
-		self.gradient_canv.create_text(32, 18, text="gispot 1")
+		self.gradient_canv.create_text(32, 10, text="gispot 1")
 	
 	def upgrade_from_github(self):
 		def open_u():
 			update_url = r"https://github.com/hygnic/GisCat/archive/master.zip"
 			weberopen(update_url, new=0, autoraise=True)
-		print gispotpath.GifPath.github
-		self.image_octacat = tk.PhotoImage(file=gispotpath.GifPath.github)
+		# self.image_octacat = tk.PhotoImage(file=gispotpath.PngIcon.github)
+		self.image_octacat = ImageTk.PhotoImage(
+			Image.open(gispotpath.PngIcon.github))
 		ap_button = newGUI.HoverButton(master=self.gradient_canv,
 									   command=open_u, bd=2,
 									   image=self.image_octacat,
-									   width=30, height=30)
+									   width=15, height=15)
 		ap_button.pack(side='top', expand='yes', anchor="se")
-		# exxp = tk.Text(self.gradient_canv,height = 1)
-		# exxp.pack()
-		# exxp.insert("end","im ok")
-	
 	
 	def menu(self):
 		"""设置置顶菜单栏"""
