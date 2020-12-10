@@ -51,13 +51,15 @@ class ttknotebook(object):
 		self.image()
 		self.window = master # 左边
 		# self.window2 = master2 # 右边
+		style = ttk.Style(self.window)
+		style.configure('lefttab.TNotebook', tabposition='wn')
 		
 		"""-----------------------------------------------------------"""
 		"""----------------------NoteBook-----------------------------"""
 		# para
-		self.padding = 2 # notebook padding
+		self.padding = 0 # notebook padding
 		# para
-		self.mian_notebook = ttk.Notebook(self.window)
+		self.mian_notebook = ttk.Notebook(self.window, style='lefttab.TNotebook')
 		self.mian_notebook.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
 		self.mian_notebook.configure(takefocus="")
 		"""____________________________image__________________________________"""
@@ -65,7 +67,7 @@ class ttknotebook(object):
 			# 问题 在这里使用图片才行，不然报错:
 								# Too early to create image
 			# 或者直接不显示图片
-		global img_tab2, img_tab3, img_tab1, img_tab4
+		global img_tab2, img_tab3, img_tab1, img_tab4, img_tab5
 		self.resize = (20,20) # 缩放大小
 		
 		img1 = Image.open(join(gpath.base_icons_path, "home20.png"))
@@ -76,6 +78,8 @@ class ttknotebook(object):
 		img_tab3 = ImageTk.PhotoImage(img3.resize(self.resize))
 		img4 = Image.open(join(gpath.base_icons_path, "option20.png"))
 		img_tab4 = ImageTk.PhotoImage(img4.resize(self.resize))
+		img5 = Image.open(join(gpath.base_icons_path, "logo_20.png"))
+		img_tab5 = ImageTk.PhotoImage(img5.resize(self.resize))
 		"""____________________________image__________________________________"""
 		# first tab
 		self.notebook_1 = ttk.Frame(self.mian_notebook)
@@ -95,7 +99,7 @@ class ttknotebook(object):
 		self.mian_notebook.tab(3, text="选项", compound="left", underline="-1")
 		# 5th tab
 		self.notebook_5 = ttk.Frame(self.mian_notebook)
-		self.mian_notebook.add(self.notebook_5, padding=self.padding)
+		self.mian_notebook.add(self.notebook_5, padding=self.padding, image=img_tab5)
 		self.mian_notebook.tab(4, text="关于", compound="left", underline="-1")
 		"""----------------------NoteBook-----------------------------"""
 		"""-----------------------------------------------------------"""
@@ -215,11 +219,15 @@ class ToolSet(object):
 	def __init__(self, master):
 		self.master = master
 		self.light_white = hyini.light_white
-		# self.notebook_type2()
+		# self.notebook_type2() # 自定义notebook tab
 		self.notebok()
-		
+		self.main_widget(self.make_test_dict())  # 工具栏 子部件
 	
 	def notebok(self):
+		# para
+		# self.master["pady"] = 4
+		# self.master["padx"] = 4
+		# para
 		_img = Image.open(join(gpath.base_icons_path, "Utilities-circle30.png"))
 		"""______________________________notebook_____________________________"""
 		self.padding=0
@@ -238,9 +246,7 @@ class ToolSet(object):
 		"""______________________________notebook_____________________________"""
 		# self.icon = ImageTk.PhotoImage(_img.resize((30, 30)))
 		self.icon = ImageTk.PhotoImage(_img)
-		# self.master["pady"] = 4
-		# self.master["padx"] = 4
-		# self.main_widget(self.make_test_dict())
+
 		
 	def notebook_type2(self):
 		_bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -304,7 +310,12 @@ class ToolSet(object):
 		self.style.configure('TNotebook.Tab', foreground=_fgcolor)
 		self.style.map('TNotebook.Tab', background=
 		[('selected', _compcolor), ('active', _ana2color)])
+		
 		self.PNotebook1 = ttk.Notebook(self.master)
+		# 设置竖直的tab
+		# self.PNotebook1 = ttk.Notebook(self.master, style='lefttab.TNotebook')
+		# self.style.configure('lefttab.TNotebook', tabposition='wn')
+		
 		self.PNotebook1.place(relx=0, rely=0, relheight=1
 							  , relwidth=1)
 		# self.PNotebook1.configure(takefocus="")

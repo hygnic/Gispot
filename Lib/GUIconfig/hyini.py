@@ -24,6 +24,7 @@ height = 650
 """--------------------------------------color-------------------------------"""
 
 light_blue = "#5294e2" # 浅蓝色
+light_blue2 = "#5599E9" # 浅蓝色 更浅
 more_light_blue = "#76A8E2" # # 去饱和的蓝色
 light_white = "#f5f6f7"  # 浅灰白
 white = "#ffffff" # 白色

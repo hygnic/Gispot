@@ -227,7 +227,7 @@ class Tooltk(object):
 		self.major_msgframe.tag_config(
 			"tag_warn", backgroun="yellow", foreground="red")
 		self.major_msgframe.tag_config(
-			"tag_info", backgroun=hyini.light_blue, foreground=hyini.white)
+			"tag_info", backgroun=hyini.light_blue2, foreground=hyini.white)
 		# 支持撤销操作，支持换行 wrap = "char"
 		# self.text_major_msg.insert(tk.END, ">>>" * 80)
 		self.major_msgframe.pack(
