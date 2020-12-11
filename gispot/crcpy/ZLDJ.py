@@ -11,8 +11,13 @@ Description:
 对应的质量等级
 Usage:
 """
-# ---------------------------------------------------------------------------
-import xlwings as xw
+# -----
+# ----------------------------------------------------------------------
+try:
+	import xlwings as xw
+except ImportError as e:
+	print(e.message)
+
 import os
 import arcpy
 from multiprocessing import Process

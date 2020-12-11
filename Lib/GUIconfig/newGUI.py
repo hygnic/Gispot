@@ -14,14 +14,18 @@ from __future__ import absolute_import
 from __future__ import print_function
 import Tkinter as tk
 from time import time
-import win32clipboard
+try:
+	import win32clipboard
+except ImportError as e:
+	print(e.message)
+	
 import GUIconfig.hyini as ini
 try:
-    import ttk
-    py3 = False
+	import ttk
+	py3 = False
 except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+	import tkinter.ttk as ttk
+	py3 = True
 
 def screen_cetre(master, width=None, height=None):
 	# 窗口居中

@@ -11,8 +11,10 @@ Usage:
 # ---------------------------------------------------------------------------
 import Tkinter as tk
 import ttk
+from ttkthemes import ThemedTk
 
-root = tk.Tk()
+# root = tk.Tk()
+root = ThemedTk(theme="arc")
 
 style = ttk.Style(root)
 style.configure('lefttab.TNotebook', tabposition='wn')

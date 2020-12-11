@@ -109,8 +109,8 @@ class AppEntrance(object):
 	prograss_int = 0
 	
 	def __init__(self):
-		# self.rootwindow = tk.Tk()
-		self.rootwindow = ThemedTk(theme="arc")
+		self.rootwindow = tk.Tk()
+		# self.rootwindow = ThemedTk(theme="arc")
 		self.rootwindow.title("")
 		# self.rootwindow.title("GISPOT")
 		# self.rootwindow.update_idletasks()
@@ -162,6 +162,9 @@ class AppEntrance(object):
 									   command=open_u, bd=2,
 									   image=self.image_octacat,
 									   width=15, height=15)
+		# ap_button = ttk.Button(master=self.gradient_canv,
+		# 							   command=open_u,
+		# 							   image=self.image_octacat)
 		ap_button.pack(side='top', expand='yes', anchor="se")
 	
 	def menu(self):

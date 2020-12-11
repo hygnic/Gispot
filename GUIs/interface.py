@@ -396,7 +396,10 @@ class ToolSet(object):
 				
 				frame = ttk.Frame(big_frame)
 				frame.pack(anchor = "w",side="left") # 保证横向排列
-				button1_1 = ttk.Button(frame, text=tool_name, command=tool_func)
+				# self.PNotebook1 = ttk.Notebook(self.master, style='lefttab.TNotebook')
+				# self.style.configure('lefttab.TNotebook', tabposition='wn')
+				
+				button1_1 = ttk.Button(frame, text=tool_name, command=tool_func, style='zc.TButton')
 				button1_1.configure(image=self.icon)
 				button1_1.configure(compound='top')
 				button1_1.pack(side="top", anchor="center")
