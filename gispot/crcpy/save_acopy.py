@@ -85,6 +85,7 @@ class SaveACopyFunction(tooltk.Tooltk):
 		# block2
 		self.block2 = tooltk.blockMXD_out(frame, u"保存路径")
 		self.commu = multication.MuCation()
+		self.name="版本降低"
 		
 	def confirm(self):
 		v = [self.block1.get(), self.block2.get()]

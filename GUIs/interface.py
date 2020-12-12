@@ -46,11 +46,8 @@ class ttknotebook(object):
 	主界面的Notebook
 	"""
 	def __init__(self, master):
-		
-		# 引入toolbar中的图标
-		self.image()
-		self.window = master # 左边
-		# self.window2 = master2 # 右边
+		self.image() # 引入toolbar中的图标
+		self.window = master
 		style = ttk.Style(self.window)
 		style.configure('lefttab.TNotebook', tabposition='wn')
 		
@@ -215,14 +212,15 @@ class ToolSet(object):
 	用于显示工具箱button中的内容
 	点击工具箱启动该类
 	"""
-	
 	def __init__(self, master):
 		self.master = master
 		self.light_white = hyini.light_white
+		self.cav_color=hyini.light_blue3 # canve长条的颜色
+		self.padding2 = 3 #水平 tab 栏
 		# self.notebook_type2() # 自定义notebook tab
 		self.notebok()
-		self.main_widget(self.make_test_dict())  # 工具栏 子部件
-	
+		self.main_widget(self.make_test_dict())  # 工具栏 子部件 依附于 self.notebok()
+		
 	def notebok(self):
 		# para
 		# self.master["pady"] = 4
@@ -334,12 +332,10 @@ class ToolSet(object):
 		
 	
 	def make_canve(self, color):
-		# "#5294e2"
 		# cav = tk.Canvas(self.master,height =20,width =20)
 		width = 100
 		height = 10
-		cav = tk.Canvas(self.tool_notebook, width=width, height=height,
-						background=self.light_white, bd=0)
+		cav = tk.Canvas(self.notebook_1, width=width, height=height, bd=0)
 		cav.pack(fill="x")
 		for i in xrange(hyini.width):
 			# cav.create_line(0, 70, 70, 90, fill="red", ) # dash=(4, 4)
@@ -376,7 +372,7 @@ class ToolSet(object):
 			# font=('Times',10,'bold','italic') # ,bg="#5294e2"
 			# tk.Frame; newidgets.NeewwFrame
 			big_frame = tk.Frame(
-				self.tool_notebook, relief="flat", height=20,
+				self.notebook_1, relief="flat", height=20,
 				borderwidth=4, background=self.light_white,
 			)
 			big_frame.pack(anchor="nw", fill="x")
@@ -399,7 +395,10 @@ class ToolSet(object):
 				# self.PNotebook1 = ttk.Notebook(self.master, style='lefttab.TNotebook')
 				# self.style.configure('lefttab.TNotebook', tabposition='wn')
 				
-				button1_1 = ttk.Button(frame, text=tool_name, command=tool_func, style='zc.TButton')
+				# button1_1 = ttk.Button(frame, text=tool_name, command=tool_func)
+				button1_1 = newGUI.HoverButton(frame, text=tool_name, command=tool_func,
+											   background=self.light_white,
+											   width=80)
 				button1_1.configure(image=self.icon)
 				button1_1.configure(compound='top')
 				button1_1.pack(side="top", anchor="center")
@@ -417,11 +416,54 @@ class ToolSet(object):
 		# name: Excel转shp
 		print "func2"
 	
-	# 主要将国土土地报备坐标txt文本处理生成shp文件
-	def txt2shp_1(self):
-		newGUI.destroy_child(self.master)
-		txt2shp.Funtion(self.master)
 	
+		
+	def make_tab(self,func):
+		
+		tab = ttk.Frame(self.tool_notebook)
+		tab.configure(relief="flat")
+		
+		f = func(tab)
+		name = f.name
+		
+		self.tool_notebook.add(
+			tab, text=name, padding=self.padding2, compound="left",
+			underline="-1")
+		tab_count = self.tool_notebook.index('end')  # tab数量
+		self.tool_notebook.select(tab_count - 1)
+	
+	
+	# 主要将国土土地报备坐标txt文本处理生成shp文件
+	# def txt2shp_1(self):
+	# 	newGUI.destroy_child(self.master)
+	# 	txt2shp.Txt2shp(self.master)
+	
+	
+
+	# def txt2shp_1(self):
+	#
+	# 	# self.tool_notebook = ttk.Notebook(self.master)/
+	# 	# self.tool_notebook.place(relx=0.0, rely=0.0, relheight=1.0,relwidth=1.0)
+	# 	# self.tool_notebook.pack(expand=True, fill="both")
+	#
+	# 	tab = ttk.Frame(self.tool_notebook)
+	# 	tab.configure(relief="flat")
+	# 	# self.tool_notebook.add(tab, padding=self.padding)
+	# 	# self.tool_notebook.tab(1, text="toolbar", compound="left", underline="-1")
+	#
+	# 	self.tool_notebook.add(
+	# 		tab, text="toolbar", padding=self.padding, compound="left", underline="-1")
+	# 	# print self.tool_notebook.select()
+	# 	# print self.tool_notebook.index(self.tool_notebook.select())
+	# 	# print self.tool_notebook.index('current')
+	# 	tab_count = self.tool_notebook.index('end') # tab数量
+	# 	self.tool_notebook.select(tab_count-1)
+	#
+	# 	# self.tool_notebook
+	# 	# newGUI.destroy_child(self.master)
+	# 	ss=txt2shp.Txt2shp(tab)
+		
+		
 	# 将高版本mxd文件转换为低版本的
 	def to_other_version(self):
 		newGUI.destroy_child(self.master)
@@ -444,8 +486,8 @@ class ToolSet(object):
 			u"转换工具": (
 				(self.test_func1, u"坐标系转换"),
 				(self.test_func2, u"Excel转shp"),
-				(self.txt2shp_1, u"TXT转shp"),
-				(self.to_other_version, u"版本降低")
+				(lambda:self.make_tab(txt2shp.Txt2shp), u"TXT转shp"),
+				(lambda:self.make_tab(save_acopy.SaveACopyFunction), u"版本降低")
 			),
 			u"高标准农田": (
 				(self.test_func3, u"坐标系转换2"),

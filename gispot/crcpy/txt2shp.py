@@ -233,14 +233,16 @@ def main(qq,txt_folder, output_folder):
 			del cursor2
 		# qq.append("Done \n")
 
+
 # 连通GUI界面的接口
-class Funtion(tooltk.Tooltk):
+class Txt2shp(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		"""
 		:param master1: self.master, a widget from interface.py
 		"""
-		super(Funtion, self).__init__(master1, "txt2shp.gc", self.confirm)
+		super(Txt2shp, self).__init__(master1, "txt2shp.gc", self.confirm)
+		self.name = "txt转shp"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
 		self.block1 = tooltk.blockDIR_in(frame, u"TXT文件夹")
@@ -251,15 +253,12 @@ class Funtion(tooltk.Tooltk):
 	def confirm(self):
 		v =[self.block1.get(),self.block2.get()]
 		# main(v[0], v[1])
-		p = Process(
-			target=self.commu.decor, args=(main, v[0], v[1])
-		)
+		p = Process(target=self.commu.decor, args=(main, v[0], v[1]))
 		# p.deamon = True
 		p.start()
 		self.commu.process_communication(self.major_msgframe)
-
-
-
+		
+	
 if __name__ == '__main__':
 	"""脚本单独使用"""
 	"""---------------------------------------------------------------"""

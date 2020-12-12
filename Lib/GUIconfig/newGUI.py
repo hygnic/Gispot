@@ -81,7 +81,7 @@ class HoverButton(tk.Button):
 			# self.state = 1 # exist tip bubble but no enought time to show tip bubble
 							 # mouse pointer leaves	button while tip bubble hide.
 		self.defaultBackground = self["background"]
-		self.config(relief="flat", activebackground=ini.yellow)
+		self.config(relief="flat", activebackground=ini.light_yellow2)
 		# print self["state"] # disabled normal
 		if not self["state"] == "disabled":
 			self.bind("<Enter>", self.on_enter)
@@ -96,6 +96,7 @@ class HoverButton(tk.Button):
 		
 	def on_enter(self, event):
 		self['background'] = self['activebackground']
+		self['relief'] = "raised"
 		# ToolTip, set message bubble
 		# self.after(int(self.delay * 1000),
 		# 		   self.show)
@@ -106,6 +107,7 @@ class HoverButton(tk.Button):
 			
 	def on_leave(self, event):
 		self['background'] = self.defaultBackground
+		self['relief'] = "flat"
 		if self.msg:
 			self.state = 1 # 防止鼠标在
 			self.hide_tip(event)

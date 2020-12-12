@@ -9,9 +9,9 @@ from __future__ import  absolute_import
 import Tkinter as tk
 import ttk
 import tkFileDialog
-import ScrolledText as stt
 from PIL import Image, ImageTk
 import os
+import codecs
 
 # 导入配置包、地址包
 from GUIconfig import newGUI
@@ -720,14 +720,16 @@ class SingleFileBlock(object):
 		frame = self.__static
 		# print("msg", msg)
 		# print("msg's type", type(msg))
-		with open(input_log, "r+") as log_file:
+		
+		with codecs.open(input_log, "r+",  "utf8") as log_file:
 			if type(msg) == type("str"):  # unicode
 				msg = msg.decode("utf8")
 				frame.insert("end", "  parameter: " + msg)
 				# 将参数写入记录文本中
 				content = log_file.read()
 				log_file.seek(0, 0)
-				log_file.write(msg+"\n"+content)
+				info2 = msg+"\n"+content
+				log_file.write(info2) # UnicodeDecodeError/
 				# log_file.write(msg.encode("cp936")+"\n")
 				return msg
 			else:
