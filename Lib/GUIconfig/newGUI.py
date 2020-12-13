@@ -96,7 +96,8 @@ class HoverButton(tk.Button):
 		
 	def on_enter(self, event):
 		self['background'] = self['activebackground']
-		self['relief'] = "raised"
+		# self['relief'] = "groove"
+		# self['bd'] = 3
 		# ToolTip, set message bubble
 		# self.after(int(self.delay * 1000),
 		# 		   self.show)

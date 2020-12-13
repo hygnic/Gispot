@@ -175,13 +175,14 @@ def main(qq_pip,folder, excel):
 				# print "\n close application"
 
 
-class AppGUI(tooltk.Tooltk):
+class ZLDJGui(tooltk.Tooltk):
 	commu = multication.MuCation()
 	
 	def __init__(self, master1):
-		super(AppGUI, self).__init__(master1,
+		super(ZLDJGui, self).__init__(master1,
 									"ZLDJ.gc",
-									 self.confirm)
+									  self.confirm)
+		self.name="质量等级"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
 		self.block1 = tooltk.blockDIR_in(frame, u"数据文件地址")

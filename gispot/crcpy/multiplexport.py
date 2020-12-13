@@ -89,6 +89,7 @@ class MultipExp(tooltk.Tooltk):
 		super(MultipExp, self).__init__(master1,
 										"multiplexport.gc",
 										self.confirm_mu)
+		self.name="多进程批量导图"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
 		self.block1 = tooltk.blockDIR_in(frame, u"mxd文档文件夹")

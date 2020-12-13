@@ -28,6 +28,8 @@ import GUIconfig.gispotpath as gpath
 import vitems
 from crcpy import save_acopy
 from crcpy import txt2shp
+from crcpy import multiplexport
+from crcpy import ZLDJ
 
 
 # class MyImG(object):
@@ -217,7 +219,6 @@ class ToolSet(object):
 		self.light_white = hyini.light_white
 		self.cav_color=hyini.light_blue3 # canve长条的颜色
 		self.padding2 = 3 #水平 tab 栏
-		# self.notebook_type2() # 自定义notebook tab
 		self.notebok()
 		self.main_widget(self.make_test_dict())  # 工具栏 子部件 依附于 self.notebok()
 		
@@ -245,92 +246,6 @@ class ToolSet(object):
 		# self.icon = ImageTk.PhotoImage(_img.resize((30, 30)))
 		self.icon = ImageTk.PhotoImage(_img)
 
-		
-	def notebook_type2(self):
-		_bgcolor = '#d9d9d9'  # X11 color: 'gray85'
-		_fgcolor = '#000000'  # X11 color: 'black'
-		_compcolor = '#d9d9d9'  # X11 color: 'gray85'
-		_ana1color = '#d9d9d9'  # X11 color: 'gray85'
-		_ana2color = '#ececec'  # Closest X11 color: 'gray92'
-		global _images
-		_images = (
-			
-			tk.PhotoImage("img_close", data='''R0lGODlhDAAMAIQUADIyMjc3Nzk5OT09PT
-						 8/P0JCQkVFRU1NTU5OTlFRUVZWVmBgYGF hYWlpaXt7e6CgoLm5ucLCwszMzNbW
-						 1v//////////////////////////////////// ///////////yH5BAEKAB8ALA
-						 AAAAAMAAwAAAUt4CeOZGmaA5mSyQCIwhCUSwEIxHHW+ fkxBgPiBDwshCWHQfc5
-						 KkoNUtRHpYYAADs= '''),
-			
-			tk.PhotoImage("img_closeactive", data='''R0lGODlhDAAMAIQcALwuEtIzFL46
-						 INY0Fdk2FsQ8IdhAI9pAIttCJNlKLtpLL9pMMMNTP cVTPdpZQOBbQd60rN+1rf
-						 Czp+zLxPbMxPLX0vHY0/fY0/rm4vvx8Pvy8fzy8P//////// ///////yH5BAEK
-						 AB8ALAAAAAAMAAwAAAVHYLQQZEkukWKuxEgg1EPCcilx24NcHGYWFhx P0zANBE
-						 GOhhFYGSocTsax2imDOdNtiez9JszjpEg4EAaA5jlNUEASLFICEgIAOw== '''),
-			
-			tk.PhotoImage("img_closepressed", data='''R0lGODlhDAAMAIQeAJ8nD64qELE
-						 rELMsEqIyG6cyG7U1HLY2HrY3HrhBKrlCK6pGM7lD LKtHM7pKNL5MNtiViNaon
-						 +GqoNSyq9WzrNyyqtuzq+O0que/t+bIwubJw+vJw+vTz+zT z////////yH5BAE
-						 KAB8ALAAAAAAMAAwAAAVJIMUMZEkylGKuwzgc0kPCcgl123NcHWYW Fs6Gp2mYB
-						 IRgR7MIrAwVDifjWO2WwZzpxkxyfKVCpImMGAeIgQDgVLMHikmCRUpMQgA7 ''')
-		)
-		
-		self.style = ttk.Style()
-		self.style.element_create("close", "image", "img_close",
-								  ("active", "pressed", "!disabled",
-								   "img_closepressed"),
-								  ("active", "alternate", "!disabled",
-								   "img_closeactive"), border=8, sticky='')
-		
-		self.style.layout("ClosetabNotebook", [("ClosetabNotebook.client",
-												{"sticky": "nswe"})])
-		self.style.layout("ClosetabNotebook.Tab", [
-			("ClosetabNotebook.tab",
-			 {"sticky": "nswe",
-			  "children": [
-				  ("ClosetabNotebook.padding", {
-					  "side": "top",
-					  "sticky": "nswe",
-					  "children": [
-						  ("ClosetabNotebook.focus", {
-							  "side": "top",
-							  "sticky": "nswe",
-							  "children": [
-								  ("ClosetabNotebook.label", {"side":
-																  "left",
-															  "sticky": ''}),
-								  ("ClosetabNotebook.close", {"side":
-																  "left",
-															  "sticky": ''}), ]})]})]})])
-		
-		PNOTEBOOK = "ClosetabNotebook"
-		
-		self.style.configure('TNotebook.Tab', background=_bgcolor)
-		self.style.configure('TNotebook.Tab', foreground=_fgcolor)
-		self.style.map('TNotebook.Tab', background=
-		[('selected', _compcolor), ('active', _ana2color)])
-		
-		self.PNotebook1 = ttk.Notebook(self.master)
-		# 设置竖直的tab
-		# self.PNotebook1 = ttk.Notebook(self.master, style='lefttab.TNotebook')
-		# self.style.configure('lefttab.TNotebook', tabposition='wn')
-		
-		self.PNotebook1.place(relx=0, rely=0, relheight=1
-							  , relwidth=1)
-		# self.PNotebook1.configure(takefocus="")
-		self.PNotebook1.configure(style=PNOTEBOOK)
-		self.PNotebook1_t1 = tk.Frame(self.PNotebook1)
-		self.PNotebook1.add(self.PNotebook1_t1, padding=2)
-		self.PNotebook1.tab(0, text="Page 1", compound="left")
-		# self.PNotebook1_t1.configure(highlightbackground="#d9d9d9")
-		self.PNotebook1_t2 = tk.Frame(self.PNotebook1)
-		self.PNotebook1.add(self.PNotebook1_t2, padding=2)
-		self.PNotebook1.tab(1, text="Page 2", compound="left")
-		# self.PNotebook1_t2.configure(highlightbackground="#d9d9d9")
-		self.PNotebook1.bind('<Button-1>', _button_press)
-		self.PNotebook1.bind('<ButtonRelease-1>', _button_release)
-		self.PNotebook1.bind('<Motion>', _mouse_over)
-		
-	
 	def make_canve(self, color):
 		# cav = tk.Canvas(self.master,height =20,width =20)
 		width = 100
@@ -379,8 +294,6 @@ class ToolSet(object):
 			name_label = ttk.Label(
 				big_frame, text =i, background=self.light_white,relief="flat")
 			name_label.configure(font="-family {Microsoft YaHei UI} -size 9 -weight bold")
-			# print name_label.winfo_name()
-			# print name_label.winfo_class() # Label
 			name_label.pack(anchor="nw", fill=None)
 			self.make_canve(hyini.light_blue)
 			
@@ -404,41 +317,38 @@ class ToolSet(object):
 				button1_1.pack(side="top", anchor="center")
 			# *******************************************************************
 	
-	def button1(self):
-		newGUI.destroy_child(self.master)
-		save_acopy.SaveACopy(self.master)
-	
-	def test_func1(self):
-		# name: 坐标系转换
-		print "func1"
-	
-	def test_func2(self):
-		# name: Excel转shp
-		print "func2"
-	
-	
 		
 	def make_tab(self,func):
-		
+		"""
+		点击每一个工具都会生成一个tab
+		:param func: {Class} 工具的类
+		:return: None
+		"""
+		"""_____________________________create tab____________________________"""
 		tab = ttk.Frame(self.tool_notebook)
 		tab.configure(relief="flat")
-		
-		f = func(tab)
-		name = f.name
+		"""________________________place tool gui at tab______________________"""
+		f = func(tab)  # txt2shp.Txt2shp(self.master)
+		name = f.name # tab's name
+		"""________________________place tool gui at tab______________________"""
 		
 		self.tool_notebook.add(
 			tab, text=name, padding=self.padding2, compound="left",
 			underline="-1")
 		tab_count = self.tool_notebook.index('end')  # tab数量
-		self.tool_notebook.select(tab_count - 1)
+		self.tool_notebook.select(tab_count - 1) # focus new tab
 	
 	
-	# 主要将国土土地报备坐标txt文本处理生成shp文件
+	# # 主要将国土土地报备坐标txt文本处理生成shp文件
 	# def txt2shp_1(self):
 	# 	newGUI.destroy_child(self.master)
 	# 	txt2shp.Txt2shp(self.master)
-	
-	
+	#
+	# # 将高版本mxd文件转换为低版本的
+	# def to_other_version(self):
+	# 	newGUI.destroy_child(self.master)
+	# 	save_acopy.SaveACopyFunction(self.master)
+	#
 
 	# def txt2shp_1(self):
 	#
@@ -463,35 +373,26 @@ class ToolSet(object):
 	# 	# newGUI.destroy_child(self.master)
 	# 	ss=txt2shp.Txt2shp(tab)
 		
-		
-	# 将高版本mxd文件转换为低版本的
-	def to_other_version(self):
-		newGUI.destroy_child(self.master)
-		save_acopy.SaveACopyFunction(self.master)
-	
-	def test_func3(self):
-		# name: 坐标系转换
-		print "func1"
-	
-	def test_func4(self):
-		# name: Excel转shp
-		print "func2"
 	
 	def make_test_dict(self):
 		# 工具列的显示顺序
 		func_name = {
 			u"顺序": (
-				u"转换工具", u"高标准农田"
+				u"转换工具", u"高标准农田", "ArcGIS"
 			),
 			u"转换工具": (
-				(self.test_func1, u"坐标系转换"),
-				(self.test_func2, u"Excel转shp"),
+				(None, u"坐标系转换"),
+				(None, u"Excel转shp"),
 				(lambda:self.make_tab(txt2shp.Txt2shp), u"TXT转shp"),
 				(lambda:self.make_tab(save_acopy.SaveACopyFunction), u"版本降低")
 			),
 			u"高标准农田": (
-				(self.test_func3, u"坐标系转换2"),
-				(self.test_func4, u"Excel转shp2")
+				(lambda:self.make_tab(ZLDJ.ZLDJGui), u"质量等级"),
+				(None, u"Excel转shp2")
+			),
+			"ArcGIS": (
+				(lambda:self.make_tab(multiplexport.MultipExp), u"多进程批量导图"),
+				(None, "test")
 			)
 		}
 		return func_name
