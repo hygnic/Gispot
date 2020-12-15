@@ -4,10 +4,14 @@
 # python2
 
 import Tkinter as tk
+import ttk
 
 class AutoScrollbar(tk.Scrollbar):
     # a scrollbar that hides itself if it's not needed.  only
     # works if you use the pack geometry manager.
+    def __init__(self, parent, **kwargs):
+        tk.Scrollbar.__init__(self, parent, **kwargs)
+    
     def set(self, lo, hi):
         if float(lo) <= 0.0 and float(hi) >= 1.0:
             # grid_remove is currently missing from Tkinter!
