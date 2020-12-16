@@ -48,8 +48,8 @@ root.grid_columnconfigure(0, weight=1)
 # create canvas contents
 
 frame = tk.Frame(canvas)
-frame.rowconfigure(1, weight=1)
-frame.columnconfigure(1, weight=1)
+# frame.rowconfigure(1, weight=1)
+# frame.columnconfigure(1, weight=1)
 
 rows = 5
 for i in range(1,rows):
