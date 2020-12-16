@@ -736,9 +736,12 @@ class SingleFileBlock(object):
 				# unicode格式的直接加进去
 				frame.insert("end", "  parameter: " + msg)
 				# 将参数写入记录文本中
-				content = log_file.read()
-				log_file.seek(0, 0)
-				log_file.write(msg.encode("utf8")+"\n"+content)
+				# try:
+				# 	content = log_file.read()
+				# 	log_file.seek(0, 0)
+				# 	log_file.write(msg.encode("utf8")+"\n"+content)
+				# except UnicodeEncodeError:
+				# 	print("tooltk.py error1")
 				return msg
 
 	

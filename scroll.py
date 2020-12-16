@@ -116,8 +116,23 @@ class AutoScroll(object):
         else:
             methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
                   + tk.Place.__dict__.keys()
+            # print methods
+            """
+            ['info', 'forget', '__module__', 'configure', 'pack_configure',
+            'pack_slaves', 'pack_forget', 'pack_propagate', 'propagate', 'slaves',
+            'pack_info', 'config', '__doc__', 'pack', '__module__', 'forget',
+            'grid_propagate', 'grid_columnconfigure', 'grid_slaves', 'grid_bbox',
+            'size', 'location', 'config', '__doc__', 'configure', 'grid_info',
+            'columnconfigure', 'grid_remove', 'grid_configure', 'grid', 'bbox',
+            'grid_rowconfigure', 'info', 'grid_size', 'grid_forget', 'slaves',
+            'grid_location', 'propagate', 'rowconfigure', 'info', '__module__',
+            'configure', 'place_forget', 'place_configure', 'place_info', 'place',
+            'slaves', 'place_slaves', 'config', '__doc__', 'forget']
+             """
         for meth in methods:
+            # print meth
             if meth[0] != '_' and meth not in ('config', 'configure'):
+                print meth
                 setattr(self, meth, getattr(master, meth))
 
     @staticmethod
