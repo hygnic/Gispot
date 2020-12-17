@@ -1,60 +1,62 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# Created on: 2020/12/15 22:14
+# ---------------------------------------------------------------------------
+# Author: LiaoChenchen
+# Created on: 2020/12/6 20:03
+# Reference:
+"""
+Description:
+Usage:
+"""
+# ---------------------------------------------------------------------------
+import Tkinter as tk
 
-try:
-	import Tkinter as tk
-except ImportError:
-	import tkinter as tk
-try:
-	import ttk
-except ImportError:
-	import tkinter.ttk as ttk
 
-class AutoScroll(tk.Scrollbar):
-	# def __init__(self, master):
-	# 	ttk.Scrollbar.__init__(self, master)
-	# 	self.master = master
+class AutoScrollbar(tk.Scrollbar):
+	"""Create a scrollbar that hides iteself if it's not needed. Only
+	works if you use the pack geometry manager from tkinter.
+	"""
 	
-	def __init__(self, master):
-		tk.Scrollbar.__init__(self, master)
-		self.master = master
-	
-
-	def frame(self):
-		_frame = tk.Frame(self.master)
-		_frame.pack(side="right", fill="y")
-		
-		
-		
 	def set(self, lo, hi):
 		if float(lo) <= 0.0 and float(hi) >= 1.0:
-			# grid_remove is currently missing from Tkinter!
 			self.pack_forget()
 		else:
-			if self.cget("orient") == tk.HORIZONTAL:  # 将字符串转变为关键字
-				self.pack(fill=tk.X)
+			if self.cget("orient") == tk.HORIZONTAL:
+				self.pack(fill=tk.X, side=tk.BOTTOM)
 			else:
-				self.pack(side="right", fill="y")
+				self.pack(fill=tk.Y, side=tk.RIGHT)
 		tk.Scrollbar.set(self, lo, hi)
+	
+	def grid(self, **kw):
+		raise tk.TclError("cannot use grid with this widget")
+	
+	def place(self, **kw):
+		raise tk.TclError("cannot use place with this widget")
+
+
+class AutoS(tk.Frame):
+	def __init__(self, master):
+		tk.Frame.__init__(self)
+		vscrollbar = AutoScrollbar(master)
+		canvas = tk.Canvas(master, yscrollcommand=vscrollbar.set)
+		canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+		vscrollbar.config(command=canvas.yview)
+		frame = tk.Frame(canvas)
+		canvas.create_window(0, 0, anchor=tk.NW, window=frame)
 		
-		
+		frame.update_idletasks()
+		canvas.config(scrollregion=canvas.bbox("all"))
 
 
-root = tk.Tk()
-root.geometry("200x300+500+600")
-frame = tk.Frame(root, bg="SystemWindow")
 
-frame.pack(side="right", fill="y")
-hscrollbar = AutoScroll(frame)
-hscrollbar.pack(side=tk.RIGHT, fill="y")
-
-test_text = tk.Text(root, wrap=tk.NONE, yscrollcommand=hscrollbar.set)
-test_text.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-print tk.Pack.__dict__.keys()
-
-hscrollbar.config(command=test_text.xview)
-poem_name = "Do Not Go Gentle into That Good Night.txt"
-msg = "This is tkinter or Tkinter!\n"*50
-test_text.insert(tk.END, msg)
-# frame.update_idletasks()
-root.mainloop()
+if __name__ == '__main__':
+	
+	root = tk.Tk()
+	
+	
+	
+	ss=AutoS(root)
+	label = tk.Label(ss, text="text", font=("Arial", "512"))
+	label.pack()
+	
+	root.mainloop()
