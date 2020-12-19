@@ -48,11 +48,11 @@ def _on_mousewheel(event, widget):
         elif event.num == 5:
             widget.yview_scroll(1, 'units')
 
-class ActiveFrame(tk.Frame):
+class ActiveFrame(tk.Canvas):
     def __init__(self, master):
-        tk.Frame.__init__(self, master)
+        tk.Canvas.__init__(self, master)
     
-        self.bind("<Enter>", self.on_enter)
+        self.bind("<Enter>", self.on_enter2)
         # self.bind("<Enter>", lambda e: self.on_enter(e, ))
         # self.bind("<Leave>", self.on_leave)
     
@@ -63,6 +63,9 @@ class ActiveFrame(tk.Frame):
             child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))
             # child.bind_all('<Shift-MouseWheel>',
             #                lambda e: _on_shiftmouse(e, child))
+
+    def on_enter2(self, event):
+        self.bind("<MouseWheel>", self.yview_scroll(-1*int(event.delta/120),'units'))
 
     # def on_leave(self, event, widget):/
     #     print "leaveing"
