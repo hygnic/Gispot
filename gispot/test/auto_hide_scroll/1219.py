@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------
 # Author: LiaoChenchen
 # Created on: 2020/12/19 21:43
-# Reference:
+# Reference: https://stackoverflow.com/questions/47996265/how-to-scroll-a-gui-with-tkinter-in-python-using-the-mouse-wheel-on-the-center-o
 """
 Description:
 Usage:

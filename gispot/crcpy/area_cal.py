@@ -10,9 +10,13 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 import arcpy
+from shutil import copyfile
 import os
+from multiprocessing import Process
 from hybag import ezarcpy
 from hybag import hybasic
+import tooltk
+from GUIconfig import multication
 
 
 arcpy.env.overwriteOutput =True
@@ -20,7 +24,10 @@ get_value = []
 """———————————————————————————————para———————————————————————————————————————"""
 """———————————————————————————————para———————————————————————————————————————"""
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
-folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
+# 测试路径
+# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
+folder_path = ur"G:\MoveOn\Gispot\Local\test_name\510000高标准农田建设上图入库数据20200114"
+# 测试路径
 dltb_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
 excel_path= ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
 """———————————————————————————————para———————————————————————————————————————"""
@@ -29,24 +36,75 @@ scratch_path = ezarcpy.initialize_environment()[0]
 scratch_gdb = ezarcpy.initialize_environment()[1]
 
 
+
+
+
+def rename(dirnames, rules):
+	
+	"""重命名文件夹中的所有文件，替换文件中的 “ ” 符号
+	rename(gbz_shp, [u'”', "#2#", u'“', "#1#"])
+	:param dirnames: 文件夹
+	:param rules:
+	:return:
+	"""
+	# gbz_shp_rename = []
+	for a_dir in dirnames:
+		# print "a_dir:",a_dir
+		for f in os.listdir(a_dir):
+			print f # XM2015511827GT陇东镇崇兴村“4.20”地震轻微毁损农用地复垦项目YS.shx
+			whole_path = os.path.join(a_dir, f)
+			print whole_path
+			new1 = f.replace(rules[0], rules[1])
+			new2 = new1.replace(rules[2], rules[3])
+			new_path = os.path.join( a_dir, new2)
+			# gbz_shp_rename.append(new_path)
+			# print "new_path:", new_path
+			# print "whole_path", whole_path
+			if new_path!=whole_path:
+				
+				os.rename(whole_path, new_path)  # 重命名
+	
+
+def copy(name_list, new_dir):
+	for name in name_list:
+		dirr = os.path.dirname(name)
+		file_name = os.path.basename(name)
+		sufs = [".dbf", ".prj", ".shx"]
+		copyfile(name, os.path.join(new_dir,file_name)) # 将shp先复制过去
+		print name
+		print "os.path.join(new_dir,file_name):",os.path.join(new_dir,file_name)
+		for suf in sufs:
+			name= name.replace(".shp", suf)
+			copyfile(name, os.path.join(new_dir, file_name.replace(".shp", suf)))
+
+
+# os.rename(i, os.path.join(dirr, new))
+
+
 def handle_shp(inputs, dltb):
 	all_shp = hybasic.getfiles(inputs, "shp")
 	gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
 	
-	for i in gbz_shp:
-		dirr = os.path.dirname(i)
-		old = os.path.basename(i)
-		new = old.replace(u'”',"#2#")
-		new = new.replace(u'“',"#1#")
-		print "new:", new
-		# print "i:", i
-		os.rename(i, os.path.join(dirr,new))
+	
+	# gbz_shp_dir = [os.path.dirname(x) for x in gbz_shp]
+	# gbz_shp_rename = rename(gbz_shp_dir, [u'”', "#2#", u'“', "#1#"])
+	#
+	# copy_to = scratch_path
+	# copy(gbz_shp_rename, copy_to)
+	#
+	
+	# 测试是否可以重命名为 “ ”
+	# arcpy.Rename_management(
+	# 	ur"G:\MoveOn\Gispot\Local\test_name\510000高标准农田建设上图入库数据20200114\510000GT2012511827宝兴县穆坪镇新光村土地开发复垦整理综合项目YS\GBZ2012511827GT宝兴县穆坪镇新光村土地开发复垦整理综合项目Y222S.shp",
+	# 	ur"G:\MoveOn\Gispot\Local\test_name\510000高标准农田建设上图入库数据20200114\510000GT2012511827宝兴县穆坪镇新光村土地开发复垦整理综合项目YS\GBZ2012511827GT宝兴县穆坪镇新光村土地开发“复垦”整理综合项目Y222S.shp")
+	
+	
 	
 	count = len(gbz_shp)
 	get_value.append(count) # 获取项目数量
 	
-	if 1:
-		return 1
+	# if 1:
+	# 	return 1
 	
 	def zldj(raw_list):
 		count1 = 1
@@ -161,6 +219,38 @@ def write_excel(inputs, fill_value):
 		print "\n close application"
 
 # 处理shp数据
-result_values = handle_shp(folder_path, dltb_path)
+# result_values = handle_shp(folder_path, dltb_path)
 # 写出数据到excel
 # write_excel(excel_path, result_values)
+
+
+def main(qq_pip, folder_path2, dltb_path2,excel_path2):
+	# 处理shp数据
+	result_values = handle_shp(folder_path2, dltb_path2)
+	# 写出数据到excel
+	write_excel(excel_path2, result_values)
+
+
+class AreaCalGui(tooltk.Tooltk):
+	commu = multication.MuCation()
+	
+	def __init__(self, master1):
+		super(AreaCalGui, self).__init__(master1,
+									  None,
+									  self.confirm)
+		self.name = "计算面积"
+		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
+		# block1
+		self.block1 = tooltk.blockDIR_in(frame, u"数据文件地址")
+		self.block2 = tooltk.blockShp_in(frame, u"DLTB图层")
+		self.block3 = tooltk.blockSheet(frame, u"复核表")
+	
+	def confirm(self):
+		folder, shp, sheet = [self.block1.get(), self.block2.get(),  self.block3.get()]
+		p = Process(target=self.commu.decor,
+					args=(main, folder, shp, sheet)
+					)
+		# p.deamon = True
+		p.start()
+		# 将信息输出到右下方的动态信息栏
+		self.commu.process_communication(self.major_msgframe)
