@@ -40,9 +40,17 @@ def initialize_environment():
 	2. arcpy.env.overwriteOutput = True
 	return: 默认工作文件夹， 默认工作数据库
 	"""
+	"""_________________________create folder________________________________"""
 	scratch_path = hyini.workspace
-	if not os.path.isdir(scratch_path):
-		os.mkdir(scratch_path)
+	scratch_path2 = hyini.workspace2
+	try:
+		if not os.path.isdir(scratch_path):
+			os.makedirs(scratch_path)
+	except:
+		if not os.path.isdir(scratch_path2):
+			os.makedirs(scratch_path)
+	"""___________________________________________________________________"""
+	
 	# make gdb
 	scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
 	if not arcpy.Exists(scratch_gdb):
@@ -151,6 +159,7 @@ def merger_all(layer):
 	# for f in all_fields:
 	# 	print f.name #Todo  neme 和 aliasName 返回的都一样，为什么
 		# print f.aliasName
+	
 	name = "test1f2lcc"
 	if name not in all_name:
 		arcpy.AddField_management(layer, name, "LONG")
@@ -159,9 +168,9 @@ def merger_all(layer):
 		row[0] = "1"
 		cursor.updateRow(row)
 	del cursor
-	new_ly = "newlayer_945"
+	# new_ly = "newlayer_945"
 	# 使用内存空间
-	# new_ly = "in_memory"
+	new_ly = "in_memory/diss"
 	arcpy.Dissolve_management(layer, new_ly ,name)
 	arcpy.DeleteField_management(new_ly, name)
 	return new_ly

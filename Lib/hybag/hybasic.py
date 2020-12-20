@@ -70,7 +70,7 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
 	recur 使用递归，特别注意，层数不要太多
 	:param recur: bool 是否启用递归
 	:param dirs_p: dir address
-	:param suffix: 后缀 str或者列表
+	:param suffix: 后缀 str或者列表 不包含.
 	:param counter: 计数 用于缩进\t
 	:return: list
 	"""
@@ -137,6 +137,7 @@ def HBfilter(raw_list, matchword, size_limit=None):					# 002.5
 	if size_limit:
 		_bridge_list = []
 		_bridge_list = [x for x in raw_list if os.path.getsize(x) != size_limit]
+	print("after filter:", len(_bridge_list))
 	return _bridge_list
 
 
