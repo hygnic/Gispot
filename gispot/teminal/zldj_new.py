@@ -118,8 +118,9 @@ for a_shp in zldj_layers:
 	new_name = a_shp+"_DLTB"
 	arcpy.Identity_analysis(
 		in_features=a_shp, identity_features=dltb, out_feature_class=new_name)
-	
-	arcpy.SelectLayerByAttribute_management(new_name, "NEW_SELECTION",
+	print "a_shp：", a_shp
+	arcpy.MakeFeatureLayer_management(new_name, "a_shp_2")
+	arcpy.SelectLayerByAttribute_management("a_shp_2", "NEW_SELECTION",
 											name+" LIKE '01%' ")
 	
 	arcpy.CopyFeatures_management(new_name, "a_shp")
