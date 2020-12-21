@@ -34,7 +34,7 @@ excel_path= ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表
 """———————————————————————————————para———————————————————————————————————————"""
 scratch_path = ezarcpy.initialize_environment()[0]
 scratch_gdb = ezarcpy.initialize_environment()[1]
-
+arcpy.env.workspace = scratch_gdb
 
 
 
@@ -83,7 +83,7 @@ def copy(name_list, new_dir):
 
 def handle_shp(inputs, dltb):
 	all_shp = hybasic.getfiles(inputs, "shp")
-	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
+	gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
 	
 	
 	# gbz_shp_dir = [os.path.dirname(x) for x in gbz_shp]
@@ -191,6 +191,7 @@ def handle_shp(inputs, dltb):
 		"""合并图层（非融合）和 耕地进行相交"""
 		arcpy.MakeFeatureLayer_management(dltb_path, "dltb_lyr")
 		arcpy.SelectLayerByAttribute_management("dltb_lyr", "NEW_SELECTION", name+" LIKE '01%' ")
+		arcpy.CopyFeatures_management("dltb_lyr", "dltb_lyr_gd")
 		out_feature_class = scratch_gdb+"/intersect_layer"
 		arcpy.Intersect_analysis([merge_layer, "dltb_lyr"], out_feature_class)
 	
@@ -203,17 +204,14 @@ def handle_shp2(inputs):
 	"""获取第二次复核的矢量图层和国土返回的shp文件"""
 	all_shp = hybasic.getfiles(inputs, "shp")
 	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
-	
 	count = len(gbz_shp)
 	get_value.append(count)  # 获取项目数量
-	
 
 	# 合并图层
-	merge_layer = scratch_gdb + "/merge"
+	merge_layer = scratch_gdb + "/merge2"
 	arcpy.Merge_management(gbz_shp, output=merge_layer)
 	"""______________________________________________________________________"""
 	"""___________________merge all shp, return gross area___________________"""
-	
 	# 返回清查总面积
 	gross_areas = 0
 	with arcpy.da.SearchCursor(merge_layer, ["SHAPE@AREA"]) as cursor:
@@ -222,13 +220,11 @@ def handle_shp2(inputs):
 	gross_areas = round(gross_areas * 0.0015, 4)
 	print u"总面积（亩）：", gross_areas
 	get_value.append(gross_areas)  # 获取清查面积
-	
 	"""___________________merge all shp, return gross area___________________"""
 	"""______________________________________________________________________"""
 	
 	"""______________________________________________________________________"""
 	"""_________________dissolve totally, return overlap area________________"""
-	
 	dissolve_layer = ezarcpy.merger_all(merge_layer)
 	areas_no_dup = 0
 	with arcpy.da.SearchCursor(dissolve_layer, ["SHAPE@AREA"]) as cursor:
@@ -238,11 +234,8 @@ def handle_shp2(inputs):
 	overlap_area = round((gross_areas - areas_no_dup * 0.0015), 4)
 	print "重叠面积（亩）：", overlap_area
 	get_value.append(overlap_area)  # 获取重叠面积
-	
 	"""_________________dissolve totally, return overlap area________________"""
 	"""______________________________________________________________________"""
-
-	
 	
 	return get_value
 
