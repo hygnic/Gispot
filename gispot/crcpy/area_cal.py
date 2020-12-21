@@ -21,17 +21,6 @@ from GUIconfig import multication
 
 arcpy.env.overwriteOutput =True
 get_value = []
-"""———————————————————————————————para———————————————————————————————————————"""
-"""———————————————————————————————para———————————————————————————————————————"""
-# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
-# 测试路径
-# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
-folder_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\510000高标准农田建设上图入库数据20201221"
-# 测试路径
-dltb_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\底图数据\DLTB.shp"
-excel_path= ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
-"""———————————————————————————————para———————————————————————————————————————"""
-"""———————————————————————————————para———————————————————————————————————————"""
 scratch_path = ezarcpy.initialize_environment()[0]
 scratch_gdb = ezarcpy.initialize_environment()[1]
 arcpy.env.workspace = scratch_gdb
@@ -103,17 +92,6 @@ def handle_shp(inputs, dltb):
 	count = len(gbz_shp)
 	get_value.append(count) # 获取项目数量
 	
-	# if 1:
-	# 	return 1
-	
-	def zldj(raw_list):
-		count1 = 1
-		gbz_shp_v = raw_list.reverse()
-		layer = gbz_shp_v.pop()
-		merge_layer = scratch_gdb + "/merge"+str(count1)
-		arcpy.Merge_management(gbz_shp_v, output=merge_layer)
-		
-	
 	# 合并图层
 	merge_layer = scratch_gdb + "/merge"
 	arcpy.Merge_management(gbz_shp, output=merge_layer)
@@ -148,12 +126,10 @@ def handle_shp(inputs, dltb):
 	identity_dltb_name = [i.name for i in identity_dltb_fields]
 	print identity_dltb_name
 	if u"地类编码" in identity_dltb_name:
-		print 1
 		name = u"地类编码"
 	else:
-		print 2
 		name = "DLBM" # 大小写是否有影响？
-		
+	print "DLTB_NAME:", name
 	print u"标识完成"
 	
 	gd_area = 0 # 耕地面积
@@ -187,57 +163,57 @@ def handle_shp(inputs, dltb):
 	get_value.append(round(jsyd_area*0.0015,4)) # 建设用地
 	get_value.append(round(qt_area*0.0015, 4)) # 其它用地
 	
-	def gd_intersect_layer():
-		"""合并图层（非融合）和 耕地进行相交"""
-		arcpy.MakeFeatureLayer_management(dltb_path, "dltb_lyr")
-		arcpy.SelectLayerByAttribute_management("dltb_lyr", "NEW_SELECTION", name+" LIKE '01%' ")
-		arcpy.CopyFeatures_management("dltb_lyr", "dltb_lyr_gd")
-		out_feature_class = scratch_gdb+"/intersect_layer"
-		arcpy.Intersect_analysis([merge_layer, "dltb_lyr"], out_feature_class)
-	
-	gd_intersect_layer()
-	
-	return get_value
-
-
-def handle_shp2(inputs):
-	"""获取第二次复核的矢量图层和国土返回的shp文件"""
-	all_shp = hybasic.getfiles(inputs, "shp")
-	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
-	count = len(gbz_shp)
-	get_value.append(count)  # 获取项目数量
-
-	# 合并图层
-	merge_layer = scratch_gdb + "/merge2"
-	arcpy.Merge_management(gbz_shp, output=merge_layer)
-	"""______________________________________________________________________"""
-	"""___________________merge all shp, return gross area___________________"""
-	# 返回清查总面积
-	gross_areas = 0
-	with arcpy.da.SearchCursor(merge_layer, ["SHAPE@AREA"]) as cursor:
-		for row in cursor:
-			gross_areas += row[0]
-	gross_areas = round(gross_areas * 0.0015, 4)
-	print u"总面积（亩）：", gross_areas
-	get_value.append(gross_areas)  # 获取清查面积
-	"""___________________merge all shp, return gross area___________________"""
-	"""______________________________________________________________________"""
-	
-	"""______________________________________________________________________"""
-	"""_________________dissolve totally, return overlap area________________"""
-	dissolve_layer = ezarcpy.merger_all(merge_layer)
-	areas_no_dup = 0
-	with arcpy.da.SearchCursor(dissolve_layer, ["SHAPE@AREA"]) as cursor:
-		for row in cursor:
-			areas_no_dup += row[0]
-	
-	overlap_area = round((gross_areas - areas_no_dup * 0.0015), 4)
-	print "重叠面积（亩）：", overlap_area
-	get_value.append(overlap_area)  # 获取重叠面积
-	"""_________________dissolve totally, return overlap area________________"""
-	"""______________________________________________________________________"""
+	# def gd_intersect_layer():
+	# 	"""合并图层（非融合）和 耕地进行相交"""
+	# 	arcpy.MakeFeatureLayer_management(dltb_path, "dltb_lyr")
+	# 	arcpy.SelectLayerByAttribute_management("dltb_lyr", "NEW_SELECTION", name+" LIKE '01%' ")
+	# 	arcpy.CopyFeatures_management("dltb_lyr", "dltb_lyr_gd")
+	# 	out_feature_class = scratch_gdb+"/intersect_layer"
+	# 	arcpy.Intersect_analysis([merge_layer, "dltb_lyr"], out_feature_class)
+	#
+	# gd_intersect_layer()
 	
 	return get_value
+
+
+# def handle_shp2(inputs):
+# 	"""获取第二次复核的矢量图层和国土返回的shp文件"""
+# 	all_shp = hybasic.getfiles(inputs, "shp")
+# 	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
+# 	count = len(gbz_shp)
+# 	get_value.append(count)  # 获取项目数量
+#
+# 	# 合并图层
+# 	merge_layer = scratch_gdb + "/merge2"
+# 	arcpy.Merge_management(gbz_shp, output=merge_layer)
+# 	"""______________________________________________________________________"""
+# 	"""___________________merge all shp, return gross area___________________"""
+# 	# 返回清查总面积
+# 	gross_areas = 0
+# 	with arcpy.da.SearchCursor(merge_layer, ["SHAPE@AREA"]) as cursor:
+# 		for row in cursor:
+# 			gross_areas += row[0]
+# 	gross_areas = round(gross_areas * 0.0015, 4)
+# 	print u"总面积（亩）：", gross_areas
+# 	get_value.append(gross_areas)  # 获取清查面积
+# 	"""___________________merge all shp, return gross area___________________"""
+# 	"""______________________________________________________________________"""
+#
+# 	"""______________________________________________________________________"""
+# 	"""_________________dissolve totally, return overlap area________________"""
+# 	dissolve_layer = ezarcpy.merger_all(merge_layer)
+# 	areas_no_dup = 0
+# 	with arcpy.da.SearchCursor(dissolve_layer, ["SHAPE@AREA"]) as cursor:
+# 		for row in cursor:
+# 			areas_no_dup += row[0]
+#
+# 	overlap_area = round((gross_areas - areas_no_dup * 0.0015), 4)
+# 	print "重叠面积（亩）：", overlap_area
+# 	get_value.append(overlap_area)  # 获取重叠面积
+# 	"""_________________dissolve totally, return overlap area________________"""
+# 	"""______________________________________________________________________"""
+#
+# 	return get_value
 
 def write_excel(inputs, fill_value, range_cell):
 	import xlwings as xw
@@ -269,17 +245,14 @@ def write_excel(inputs, fill_value, range_cell):
 		app1.quit()
 		print "\n close application"
 
-# 处理shp数据
-# result_values = handle_shp(folder_path, dltb_path)
-# 写出数据到excel
-# write_excel(excel_path, result_values)
 
 
-def main(qq_pip, folder_path2, dltb_path2,excel_path2):
+
+def run_funtion(qq_pip, folder_path2, dltb_path2,excel_path2):
 	# 处理shp数据
-	result_values = handle_shp(folder_path2, dltb_path2)
+	result = handle_shp(folder_path2, dltb_path2)
 	# 写出数据到excel
-	write_excel(excel_path2, result_values, "J7:R7")
+	write_excel(excel_path2, result, "J7:R7")
 
 
 class AreaCalGui(tooltk.Tooltk):
@@ -287,9 +260,9 @@ class AreaCalGui(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(AreaCalGui, self).__init__(master1,
-									  None,
+									  "area_cal.gc",
 									  self.confirm)
-		self.name = "计算面积"
+		self.name = "计算地类面积"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
 		# block1
 		self.block1 = tooltk.blockDIR_in(frame, u"数据文件地址")
@@ -297,19 +270,33 @@ class AreaCalGui(tooltk.Tooltk):
 		self.block3 = tooltk.blockSheet(frame, u"复核表")
 	
 	def confirm(self):
-		folder, shp, sheet = [self.block1.get(), self.block2.get(),  self.block3.get()]
-		p = Process(target=self.commu.decor,
-					args=(main, folder, shp, sheet)
-					)
+		_folder, _shp, _sheet = [self.block1.get(), self.block2.get(),  self.block3.get()]
+		p = Process(target=self.commu.decor, args=(run_funtion, _folder, _shp, _sheet))
 		# p.deamon = True
 		p.start()
 		# 将信息输出到右下方的动态信息栏
 		self.commu.process_communication(self.major_msgframe)
 
-if __name__ == '__main__':
-	# 处理shp数据
-	result_values = handle_shp(folder_path, dltb_path)
-	# 写出数据到excel
-	print "excel_path:",excel_path
-	print "result_values:",result_values
-	write_excel(excel_path, result_values, "J7:R7")
+# if __name__ == '__main__':
+# 	"""———————————————————————————————para———————————————————————————————————————"""
+# 	"""———————————————————————————————para———————————————————————————————————————"""
+# 	# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
+# 	# 测试路径
+# 	# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
+# 	folder_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\510000高标准农田建设上图入库数据20201221"
+# 	# 测试路径
+# 	dltb_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\底图数据\DLTB.shp"
+# 	excel_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
+# 	"""———————————————————————————————para———————————————————————————————————————"""
+# 	"""———————————————————————————————para———————————————————————————————————————"""
+# 	# 处理shp数据
+# 	result_values = handle_shp(folder_path, dltb_path)
+# 	# 写出数据到excel
+# 	print "excel_path:",excel_path
+# 	print "result_values:",result_values
+# 	write_excel(excel_path, result_values, "J7:R7")
+#
+# 	# 处理shp数据
+# 	# result_values = handle_shp(folder_path, dltb_path)
+# 	# 写出数据到excel
+# 	# write_excel(excel_path, result_values)

@@ -31,6 +31,7 @@ from crcpy import txt2shp
 from crcpy import multiplexport
 from crcpy import ZLDJ
 from crcpy import area_cal
+from crcpy import zldj_cal
 
 
 # class MyImG(object):
@@ -389,7 +390,8 @@ class ToolSet(object):
 			),
 			u"高标准农田": (
 				(lambda:self.make_tab(ZLDJ.ZLDJGui), u"质量等级"),
-				(lambda: self.make_tab(area_cal.AreaCalGui), u"填充复核表")
+				(lambda: self.make_tab(area_cal.AreaCalGui), u"计算地类面积"),
+				(lambda: self.make_tab(zldj_cal.ZLDJCalGui), u"计算质量等级")
 			),
 			"ArcGIS": (
 				(lambda:self.make_tab(multiplexport.MultipExp), u"多进程批量导图"),
