@@ -123,7 +123,7 @@ for a_shp in zldj_layers:
 	arcpy.SelectLayerByAttribute_management("a_shp_2", "NEW_SELECTION",
 											name+" LIKE '01%' ")
 	
-	arcpy.CopyFeatures_management(new_name, "a_shp")
+	arcpy.CopyFeatures_management("a_shp_2", a_shp)
 
 
 layername_area = [] # 将图层名和面积组成的列表放进列表 [["fuhe",3455], ["jibenfuhe", 899.976]]
