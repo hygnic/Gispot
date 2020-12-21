@@ -24,9 +24,9 @@ from GUIconfig import multication
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 # 测试路径
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
-folder_path = ur"G:\MoveOn\Gispot\Local\test_name\510000高标准农田建设上图入库数据20200114"
+folder_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\510000高标准农田建设上图入库数据20201221"
 # 测试路径
-dltb_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
+dltb_path =  ur"F:\李恩东\跑模板\广元\剑阁-肖\底图数据\DLTB.shp"
 excel_path= ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
 """———————————————————————————————para———————————————————————————————————————"""
 """———————————————————————————————para———————————————————————————————————————"""
@@ -135,13 +135,13 @@ print layername_area # [['fuhe', 43179889.3465107], ['jibenfuhe', 28166402.11046
 
 zldj_area = []
 if arcpy.Exists(xytzgz): # 存在需要提质改造的项目
+	area3 = layername_area[-1][1]
 	if len(layername_area) > 2: # 存在前两种情况
 		erase_jibenfuhe = "layer0"
 		erase_fuhe1 = "layer1"
 		erase_fuhe2 = "layer1_2"
 		area1 = layername_area[0][1]
 		area2 = layername_area[1][1]
-		area3 = layername_area[2][1]
 		# 需要提质改造和基本符合擦除
 		arcpy.Erase_analysis(
 			in_features=jibenfuhe, erase_features=xytzgz, out_feature_class=erase_jibenfuhe)
@@ -156,21 +156,17 @@ if arcpy.Exists(xytzgz): # 存在需要提质改造的项目
 		area_fuhe = show_shp_area(erase_fuhe2)  # 符合的面积
 		
 		
-		
 		# zldj_area = [] # 三种质量等级的列表
 		zldj_area.append([u"符合",area_fuhe])
 		zldj_area.append([u"基本符合",area_jibenfuhe])
 		zldj_area.append([u"需要提质改造",area3])
 	elif len(layername_area) == 2:
-		# 只有基本符合或者符合图层
+		# 只有基本符合和提质改造或者符合图层和提质改造
 		erase_ = "layer1"
 		arcpy.Erase_analysis(
 			in_features=layername_area[0][0], erase_features=xytzgz, out_feature_class=erase_)
 		erase_area = show_shp_area(erase_) # 擦除后的面积就是非 提质改造 图层的真实面积
-		area3 = layername_area[1][1] # layername_area表中第二个面积（提质改造）
-		overlap_area = layername_area[0][1] - erase_area
-		xytzgz_area = area3+overlap_area
-		zldj_area = []
+		xytzgz_area = area3
 		zldj_area.append([layername_area[0][0], erase_area])
 		zldj_area.append([u"需要提质改造", xytzgz_area])
 	elif len(layername_area) == 1:
@@ -199,7 +195,6 @@ else: # 不存在需要提质改造的图层
 		
 	else:
 		# 只存在 符合 或者 基本符合 一种图层
-		zldj_area = []
 		zldj_area.append([layername_area[0][0], layername_area[0][1]])
 a=0
 for i in zldj_area:
@@ -209,32 +204,36 @@ for i in zldj_area:
 print a
 
 
-# if arcpy.Exists(fuhe) and arcpy.Exists(jibenfuhe):
-# 	erase_fuhe = "layer1"
-# 	arcpy.Erase_analysis(
-# 		in_features=fuhe, erase_features=jibenfuhe, out_feature_class=erase_fuhe)
-# 	erase_fuhe_area = show_shp_area(erase_fuhe)
-# 	area1 = layer_area[0][1]
-# 	area2 = layer_area[1][1]
-# 	overlap_area_fuhe_jibenfuhe = area1 - erase_fuhe_area  # 符合和基本符合的重叠部分面积
-# 	fuhe_area = area1 - overlap_area_fuhe_jibenfuhe  # 真实的符合面积
-# 	jibenfuhe_area = area2 - overlap_area_fuhe_jibenfuhe  # 真实的基本符合面积
-#
-# 	if arcpy.Exists(xytzgz): # 同时存在需要提质改造的项目
-# 		area3 = layer_area[2][1]
-# 		xytzgz_area = area3 + overlap_area_fuhe_jibenfuhe*2 # # 真实的需要提质改造的面积
-# 	else: # 没有需要提质改造的项目
-# 		xytzgz_area = overlap_area_fuhe_jibenfuhe*2
-#
-# elif arcpy.Exists(fuhe) and not arcpy.Exists(jibenfuhe):
-# 	if arcpy.Exists(xytzgz):
-# 		# 擦除
-# 		erase_fuhe_xytzgz = "layer2"
-# 		arcpy.Erase_analysis(
-# 			in_features=fuhe, erase_features=xytzgz, out_feature_class=erase_fuhe_xytzgz)
-# 		erase_area = show_shp_area(erase_fuhe_xytzgz) # 擦除面积
-# 		fuhe =
+def write_excel(inputs, fill_value, range_cell):
+	import xlwings as xw
+	try:
+		print "\n"
+		app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
+		app1.display_alerts = False  # 关闭Excel的提示和警告信息
+		app1.screen_updating = False  # 不更新屏幕显示
+		# app1.screen_updating = True
+		# 打开清理统计表
+		wb1 = app1.books.open(inputs)
+		ws1 = wb1.sheets[0]
+		# v1 = sheet1.range("a1:a7").value
+		# v1 = sheet1.range("d1:d300").expand().value #TODO 不清楚expand的作用
+		wbs1_rowcount = ws1.api.UsedRange.Rows.count
+		#
+		targe_cells = ws1.range(range_cell)
+		targe_cells.value = fill_value
+		# # 项目名字
+		# XMMC = ws1.range("C1:C" + str(wbs1_rowcount))
+		# ZLDJ = ZLDJ.value
+		# XMMC = XMMC.value
+		# XMMC_ZLDJ= list(zip(XMMC, ZLDJ)) # [(荣县2011年国家农业综合开发高标准农田建设示范工程,需要提质改造),...]
+		# for ii in XMMC_ZLDJ:
+			# for i in ii:
+			# 	print i
+		wb1.save()
+	finally:
+		app1.quit()
+		print "\n close application"
 
 
 		
-
+# write_excel(excel_path, zldj_area, "U7:W7")
