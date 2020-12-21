@@ -26,7 +26,7 @@ get_value = []
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 # 测试路径
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
-folder_path = ur"G:\MoveOn\Gispot\Local\test_name\510000高标准农田建设上图入库数据20200114"
+folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 # 测试路径
 dltb_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
 excel_path= ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
@@ -83,7 +83,7 @@ def copy(name_list, new_dir):
 
 def handle_shp(inputs, dltb):
 	all_shp = hybasic.getfiles(inputs, "shp")
-	gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
+	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
 	
 	
 	# gbz_shp_dir = [os.path.dirname(x) for x in gbz_shp]
@@ -122,9 +122,11 @@ def handle_shp(inputs, dltb):
 	with arcpy.da.SearchCursor(merge_layer, ["SHAPE@AREA"]) as cursor:
 		for row in cursor:
 			gross_areas+=row[0]
-	gross_areas = gross_areas*0.0015
+	gross_areas = round(gross_areas*0.0015, 4)
 	print u"总面积（亩）：", gross_areas
 	get_value.append(gross_areas) # 获取清查面积
+	
+
 	
 	# 完全融合一个图层
 	dissolve_layer=ezarcpy.merger_all(merge_layer)
@@ -133,7 +135,7 @@ def handle_shp(inputs, dltb):
 		for row in cursor:
 			areas_no_dup+=row[0]
 	
-	overlap_area = gross_areas - areas_no_dup*0.0015
+	overlap_area = round((gross_areas - areas_no_dup*0.0015), 4)
 	print "重叠面积（亩）：", overlap_area
 	get_value.append(overlap_area) # 获取重叠面积
 	
@@ -178,17 +180,73 @@ def handle_shp(inputs, dltb):
 			else:
 				jsyd_area += area
 	
-	get_value.append((zzyd_area+ld_area+cd_area+qt_area+jsyd_area)*0.0015) # 获取非耕地面积
-	get_value.append(ld_area*0.0015) # 林地
-	get_value.append(cd_area*0.0015) # 草地
-	get_value.append(zzyd_area*0.0015) # 种植用地面积
-	get_value.append(jsyd_area*0.0015) # 建设用地
-	get_value.append(qt_area*0.0015) # 其它用地
+	get_value.append(round((zzyd_area+ld_area+cd_area+qt_area+jsyd_area)*0.0015, 4)) # 获取非耕地面积
+	get_value.append(round(ld_area*0.0015,4)) # 林地
+	get_value.append(round(cd_area*0.0015, 4)) # 草地
+	get_value.append(round(zzyd_area*0.0015, 4)) # 种植用地面积
+	get_value.append(round(jsyd_area*0.0015,4)) # 建设用地
+	get_value.append(round(qt_area*0.0015, 4)) # 其它用地
+	
+	def gd_intersect_layer():
+		"""合并图层（非融合）和 耕地进行相交"""
+		arcpy.MakeFeatureLayer_management(dltb_path, "dltb_lyr")
+		arcpy.SelectLayerByAttribute_management("dltb_lyr", "NEW_SELECTION", name+" LIKE '01%' ")
+		out_feature_class = scratch_gdb+"/intersect_layer"
+		arcpy.Intersect_analysis([merge_layer, "dltb_lyr"], out_feature_class)
+	
+	gd_intersect_layer()
 	
 	return get_value
 
 
-def write_excel(inputs, fill_value):
+def handle_shp2(inputs):
+	"""获取第二次复核的矢量图层和国土返回的shp文件"""
+	all_shp = hybasic.getfiles(inputs, "shp")
+	gbz_shp = hybasic.HBfilter(all_shp, "GBZ", size_limit=100)
+	
+	count = len(gbz_shp)
+	get_value.append(count)  # 获取项目数量
+	
+
+	# 合并图层
+	merge_layer = scratch_gdb + "/merge"
+	arcpy.Merge_management(gbz_shp, output=merge_layer)
+	"""______________________________________________________________________"""
+	"""___________________merge all shp, return gross area___________________"""
+	
+	# 返回清查总面积
+	gross_areas = 0
+	with arcpy.da.SearchCursor(merge_layer, ["SHAPE@AREA"]) as cursor:
+		for row in cursor:
+			gross_areas += row[0]
+	gross_areas = round(gross_areas * 0.0015, 4)
+	print u"总面积（亩）：", gross_areas
+	get_value.append(gross_areas)  # 获取清查面积
+	
+	"""___________________merge all shp, return gross area___________________"""
+	"""______________________________________________________________________"""
+	
+	"""______________________________________________________________________"""
+	"""_________________dissolve totally, return overlap area________________"""
+	
+	dissolve_layer = ezarcpy.merger_all(merge_layer)
+	areas_no_dup = 0
+	with arcpy.da.SearchCursor(dissolve_layer, ["SHAPE@AREA"]) as cursor:
+		for row in cursor:
+			areas_no_dup += row[0]
+	
+	overlap_area = round((gross_areas - areas_no_dup * 0.0015), 4)
+	print "重叠面积（亩）：", overlap_area
+	get_value.append(overlap_area)  # 获取重叠面积
+	
+	"""_________________dissolve totally, return overlap area________________"""
+	"""______________________________________________________________________"""
+
+	
+	
+	return get_value
+
+def write_excel(inputs, fill_value, range_cell):
 	import xlwings as xw
 	try:
 		print "\n"
@@ -203,7 +261,7 @@ def write_excel(inputs, fill_value):
 		# v1 = sheet1.range("d1:d300").expand().value #TODO 不清楚expand的作用
 		wbs1_rowcount = ws1.api.UsedRange.Rows.count
 		#
-		targe_cells = ws1.range("J7:R7")
+		targe_cells = ws1.range(range_cell)
 		targe_cells.value = fill_value
 		# # 项目名字
 		# XMMC = ws1.range("C1:C" + str(wbs1_rowcount))
@@ -228,7 +286,7 @@ def main(qq_pip, folder_path2, dltb_path2,excel_path2):
 	# 处理shp数据
 	result_values = handle_shp(folder_path2, dltb_path2)
 	# 写出数据到excel
-	write_excel(excel_path2, result_values)
+	write_excel(excel_path2, result_values, "J7:R7")
 
 
 class AreaCalGui(tooltk.Tooltk):
@@ -254,3 +312,11 @@ class AreaCalGui(tooltk.Tooltk):
 		p.start()
 		# 将信息输出到右下方的动态信息栏
 		self.commu.process_communication(self.major_msgframe)
+
+if __name__ == '__main__':
+	# 处理shp数据
+	result_values = handle_shp(folder_path, dltb_path)
+	# 写出数据到excel
+	print "excel_path:",excel_path
+	print "result_values:",result_values
+	write_excel(excel_path, result_values, "J7:R7")
