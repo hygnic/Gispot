@@ -24,9 +24,9 @@ from GUIconfig import multication
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 # 测试路径
 # folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
-folder_path = ur"F:\李恩东\跑模板\广元\剑阁-肖\新建文件夹\510000高标准农田建设上图入库数据20201221"
+folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 # 测试路径
-dltb_path =  ur"F:\李恩东\跑模板\广元\剑阁-肖\底图数据\DLTB.shp"
+dltb_path =  ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
 excel_path= ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
 """———————————————————————————————para———————————————————————————————————————"""
 """———————————————————————————————para———————————————————————————————————————"""
@@ -55,6 +55,10 @@ def show_shp_area(input_file):
 	else:
 		u"待计算的{}图层不存在".format(input_file)
 
+all_shp = hybasic.getfiles(inputs, "shp")
+gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
+merge_layer = scratch_gdb + "/merge"
+arcpy.Merge_management(gbz_shp, output=merge_layer)
 
 # merge_layer = scratch_gdb+ "/merge"
 merge_layer = "merge" # 项目的合并图层
@@ -236,4 +240,4 @@ def write_excel(inputs, fill_value, range_cell):
 
 
 		
-# write_excel(excel_path, zldj_area, "U7:W7")
+write_excel(excel_path, zldj_area, "U7:W7")
