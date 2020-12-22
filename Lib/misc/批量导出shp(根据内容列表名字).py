@@ -9,7 +9,7 @@ Description:已经导入arcgis
 Usage:
 """
 # ---------------------------------------------------------------------------
-import arcpy
+# import arcpy
 
 features_str = arcpy.GetParameterAsText(0)
 out_dir = arcpy.GetParameterAsText(1)

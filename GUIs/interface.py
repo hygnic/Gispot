@@ -393,12 +393,14 @@ class ToolSet(object):
 				(lambda: self.make_tab(area_cal.AreaCalGui), u"计算地类面积"),
 				(lambda: self.make_tab(zldj_cal.ZLDJCalGui), u"计算质量等级")
 			),
+			
 			"ArcGIS": (
 				(lambda:self.make_tab(multiplexport.MultipExp), u"多进程批量导图"),
 				(None, "test")
 			)
 		}
 		return func_name
+	
 
 # The following code is add to handle mouse events with the close icons
 # in PNotebooks widgets.

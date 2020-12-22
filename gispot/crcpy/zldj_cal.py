@@ -250,7 +250,7 @@ class ZLDJCalGui(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(ZLDJCalGui, self).__init__(master1,
-										 None,
+										 "zldj_cal.gc",
 										 self.confirm)
 		self.name = "计算耕地质量等级"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)

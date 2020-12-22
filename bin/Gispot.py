@@ -22,7 +22,7 @@ from xml.etree.ElementTree import ElementTree
 
 # ------------ py2exe
 interpreter = sys.executable
-sitepkg = os.path.dirname(interpreter) + "\\site-packages"
+sitepkg = os.path.dirname(interpreter) + "\site-packages"
 # sitepkg1 = os.path.dirname(interpreter) + "\\Lib\\site-packages"
 print(sitepkg)
 addsitedir(sitepkg)

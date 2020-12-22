@@ -11,7 +11,7 @@ main function: make multiple-parts to single.
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
-import arcpy
+# import arcpy
 from multiprocessing import Process
 from GUIconfig import multication
 import tooltk

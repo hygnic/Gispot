@@ -260,7 +260,7 @@ class AreaCalGui(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(AreaCalGui, self).__init__(master1,
-									  None,
+									  "area_cal.gc",
 									  self.confirm)
 		self.name = "计算地类面积"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)

@@ -9,5 +9,5 @@ Description:
 Usage:
 """
 # ---------------------------------------------------------------------------
-import arcpy
+# import arcpy
 import os
