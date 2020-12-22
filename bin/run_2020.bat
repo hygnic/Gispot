@@ -9,4 +9,4 @@ reg add %rr% /v "WindowPosition" /t REG_DWORD /d 0x00d70548 /f>nul
 mode con cols=45 lines=40
 if not defined ff (set ff=0&start cmd /c %0&exit)
 ::pause
-python Gispot.py
+python2 Gispot.py

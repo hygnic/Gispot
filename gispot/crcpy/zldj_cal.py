@@ -215,11 +215,13 @@ def write_excel(inputs, fill_value, range_cell):
 		gross_area, dup_area, non_gd = value
 		gd_area = gross_area - dup_area - non_gd
 		# print gd_area
-		ws1.range("T7:T7").value = gd_area
+		"""_______________________________________"""
+		# ws1.range("T7:T7").value = gd_area
+		# v1, v2, v3 = fill_value
+		# v3 = gd_area- v1-v2
+		# fill_value = [v1, v2, v3]
+		"""_______________________________________"""
 		
-		v1, v2, v3 = fill_value
-		v3 = gd_area- v1-v2
-		fill_value = [v1, v2, v3]
 		targe_cells = ws1.range(range_cell)
 		targe_cells.value = fill_value
 	
@@ -248,7 +250,7 @@ class ZLDJCalGui(tooltk.Tooltk):
 	
 	def __init__(self, master1):
 		super(ZLDJCalGui, self).__init__(master1,
-										 "zldj_cal.gc",
+										 None,
 										 self.confirm)
 		self.name = "计算耕地质量等级"
 		frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
@@ -277,9 +279,9 @@ if __name__ == '__main__':
 	# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\test"
 	# folder_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
 	folder_path = ur"F:\511403彭山区\成果1\入库成果数据\510000高标准农田建设上图入库数据20201220"
-	# 测试路径
-	path = ur"F:\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
-	excel_path = ur"F:\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
+	# dltb
+	path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\底图数据\DLTB5114002018.shp"
+	excel_path = ur"G:\第三次高标复核\眉山市\511403彭山区\成果1\附表：“十二五”以来高标准农田建设评估复核修正统计表.xlsx"
 	"""———————————————————————————————para———————————————————————————————————————"""
 	"""———————————————————————————————para———————————————————————————————————————"""
 	# 可单独使用

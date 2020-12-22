@@ -75,7 +75,7 @@ for doc in docs:
 
 # windows 独立窗口
 # console 带dos界面
-setup(windows=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
+setup(console=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
 	  options=options,
 	  name = 'LCC',
 	  data_files=[('images',images),("gisdocs",gisdocs)]

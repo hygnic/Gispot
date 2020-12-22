@@ -19,7 +19,10 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
-from ttkthemes import ThemedTk
+try:
+	from ttkthemes import ThemedTk
+except ImportError:
+	print "NO ttkthemes"
 from PIL import Image, ImageTk
 
 # 获取当前的文件位置
