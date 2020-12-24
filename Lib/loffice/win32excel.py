@@ -66,8 +66,6 @@ def recur_search(dirs_p, suffix, recur, counter=0):  # 002.0
 	
 	return _getall_items
 
-
-
 def mian(path_excel):
 	try:
 		xlApp = Dispatch('Excel.Application')

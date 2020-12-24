@@ -788,7 +788,7 @@ def blockValue(frames, name):
 def blockShp_in(frames, name):
 	return SingleFileBlock(
 		frames, name, tkFileDialog.askopenfilename,
-		[(u'shapefile', '*.shp'), ('All Files', '*')],
+		[(u'shapefile', '*.shp')],
 		"shapefile",u"shapefile"
 	)
 

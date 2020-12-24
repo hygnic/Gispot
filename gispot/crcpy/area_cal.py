@@ -172,6 +172,11 @@ def handle_shp(inputs, dltb):
 	# 	arcpy.Intersect_analysis([merge_layer, "dltb_lyr"], out_feature_class)
 	#
 	# gd_intersect_layer()
+	print "______________________________________________"
+	print "______________________________________________"
+	print "______________________________________________"
+	for i in get_value:
+		print i
 	
 	return get_value
 

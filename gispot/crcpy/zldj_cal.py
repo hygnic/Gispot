@@ -55,6 +55,13 @@ def zldj_cal(input_path, dltb_path):
 	arcpy.Merge_management(gbz_shp, output=merge_layer)
 	
 	# out_feature_class = scratch_gdb + "/dissolve_layer"
+	
+	with arcpy.da.UpdateCursor(merge_layer, ["ZLDJ"]) as cursor:
+		for row in cursor:
+			if row[0] == u"需要提质改" or row[0]==u"需要提质":
+				row[0]=u"需要提质改造"
+				cursor.updateRow(row)
+		
 	out_feature_class = "dissolve_layer"
 	arcpy.Dissolve_management(merge_layer, out_feature_class, "ZLDJ")
 	
@@ -67,12 +74,12 @@ def zldj_cal(input_path, dltb_path):
 	jibenfuhe = "jibenfuhe"
 	xytzgz = "xytzgz"
 	
-	# for _ in [fuhe, jibenfuhe, xytzgz]:
-	# 	try:
-	# 		arcpy.Delete_management(_)
-	# 		print "delete:", _
-	# 	except:
-	# 		print 1
+	for _ in [fuhe, jibenfuhe, xytzgz]:
+		try:
+			arcpy.Delete_management(_)
+			print "delete:", _
+		except:
+			print 1
 	
 	arcpy.MakeFeatureLayer_management(out_feature_class, "lyr")
 	print arcpy.Exists("lyr")
@@ -81,9 +88,9 @@ def zldj_cal(input_path, dltb_path):
 	# 加了 U 报错
 	# arcpy.SelectLayerByAttribute_management("lyr", "NEW_SELECTION", " 'ZLDJ' = u'符合' ")
 	arcpy.CopyFeatures_management("lyr", "fuhe")
-	arcpy.SelectLayerByAttribute_management ("lyr", "NEW_SELECTION", " \"ZLDJ\" = '基本符合' ")
+	arcpy.SelectLayerByAttribute_management ("lyr", "NEW_SELECTION", " \"ZLDJ\" LIKE '基本符%' ")
 	arcpy.CopyFeatures_management("lyr", "jibenfuhe")
-	arcpy.SelectLayerByAttribute_management ("lyr", "NEW_SELECTION", " \"ZLDJ\" = '需要提质改造' ")
+	arcpy.SelectLayerByAttribute_management("lyr", "NEW_SELECTION", " \"ZLDJ\" LIKE '需要%' ")
 	arcpy.CopyFeatures_management("lyr", "xytzgz")
 	print u"分离质量等级成功"
 	
@@ -168,7 +175,7 @@ def zldj_cal(input_path, dltb_path):
 		elif len(layername_area) == 1:
 			# 只存在提质改造
 			xytzgz_area = layername_area[0][1]
-			zldj_area.append([u"需要提质改造", area3])
+			zldj_area.append([u"需要提质改造", xytzgz_area])
 	else: # 不存在需要提质改造的图层
 		if len(layername_area) == 2:
 			# 存在符合和基本符合
@@ -191,6 +198,12 @@ def zldj_cal(input_path, dltb_path):
 	print a
 	
 	zldj_area = [round(_[1]*0.0015, 4) for _ in zldj_area]
+	
+	print "____________________________________________________________________"
+	print "____________________________________________________________________"
+	print "____________________________________________________________________"
+	for i in zldj_area:
+		print i
 	
 	return zldj_area
 
