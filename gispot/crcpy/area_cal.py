@@ -94,6 +94,7 @@ def handle_shp(inputs, dltb):
 	
 	# 合并图层
 	merge_layer = scratch_gdb + "/merge"
+	# arcpy.Delete_management(merge_layer)
 	arcpy.Merge_management(gbz_shp, output=merge_layer)
 	# 返回面积
 	gross_areas = 0
