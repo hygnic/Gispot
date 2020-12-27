@@ -125,7 +125,6 @@ def handle_shp(inputs, dltb):
 	
 	identity_dltb_fields = arcpy.ListFields(identity_dltb)
 	identity_dltb_name = [i.name for i in identity_dltb_fields]
-	print identity_dltb_name
 	if u"地类编码" in identity_dltb_name:
 		name = u"地类编码"
 	else:

@@ -19,8 +19,19 @@ except ImportError:
 	print("no xlwings")
 
 class WriteExcel(object):
-	def __init__(self):
-	
+	def __init__(self, inputfile):
+		try:
+			app1 = xw.App(visible=False, add_book=False)  # 只打开不新增工作簿
+			app1.display_alerts = False  # 关闭Excel的提示和警告信息
+			app1.screen_updating = False  # 不更新屏幕显示
+			# app1.screen_updating = True
+			# 打开清理统计表
+			wb1 = app1.books.open(inputfile)
+			ws1 = wb1.sheets[0]
+			wb1.save()
+		finally:
+			app1.quit()
+			print("write done")
 	
 
 def write_excel(inputs, fill_value, range_cell):
@@ -51,3 +62,7 @@ def write_excel(inputs, fill_value, range_cell):
 	finally:
 		app1.quit()
 		print("write done")
+		
+
+if __name__ == '__main__':
+	print(ord("种"))
