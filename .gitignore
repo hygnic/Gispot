@@ -7,7 +7,6 @@
 /.idea
 /Local/
 /bin/dist/
-/bin/build/bdist.win32/winexe/collect-2.7
 /gispot/GDZLPJ/test/
 /gispot/GDZLPJ/scratch.gdb/
 /venv379/
