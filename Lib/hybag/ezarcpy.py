@@ -12,7 +12,7 @@ Description: 快速添加标志牌shp,设置定义查询
 
 
 Python2.7
-	@@initialize_environment():初始化环境，配置默认工作环境
+	@@<Class> InitPath: initialize path, create gdb
 	@@label: 是否显示图层且更改图层的标注
 	@@add_field: 添加相同类型和长度的多个或者单个字段(如果存在相同名字的字段则不
 								会添加字段)
@@ -34,32 +34,39 @@ import os
 from GUIconfig import hyini
 
 
-def initialize_environment():
-	"""
-	1. 初始化工作环境，配置工作空间文件夹和数据库（没有数据库自动建立数据库）
-	2. arcpy.env.overwriteOutput = True
-	return: 默认工作文件夹， 默认工作数据库
-	"""
-	"""_________________________create folder________________________________"""
-	scratch_path = hyini.workspace
-	scratch_path2 = hyini.workspace2
-	try:
-		if not os.path.isdir(scratch_path):
-			os.makedirs(scratch_path)
-	except:
-		if not os.path.isdir(scratch_path2):
-			os.makedirs(scratch_path)
-	"""___________________________________________________________________"""
-	
-	# make gdb
-	scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
-	if not arcpy.Exists(scratch_gdb):
-		arcpy.CreateFileGDB_management(scratch_path, "Scratch")
-	arcpy.env.workspace = scratch_path
-	arcpy.env.overwriteOutput = True
-	return scratch_path, scratch_gdb
-	
+class InitPath(object):
+	"""初始化工作空间，创建gdb数据（如果没有）"""
+	def __new__(cls, *args, **kwargs):
+		if not hasattr(cls, "_instance"):
+		# if not cls._instance:
+			cls._instance = object.__new__(cls)
+		return cls._instance
+	def __init__(self):
+		"""_________________________create folder____________________________"""
+		scratch_path = hyini.workspace
+		try:
+			if not os.path.isdir(scratch_path):
+				os.makedirs(scratch_path)
+		except:
+			scratch_path = hyini.workspace2
+			if not os.path.isdir(scratch_path):
+				os.makedirs(scratch_path)
+		"""_________________________create folder____________________________"""
+		# make gdb
+		scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
+		if not arcpy.Exists(scratch_gdb):
+			arcpy.CreateFileGDB_management(scratch_path, "Scratch")
+		arcpy.env.workspace = scratch_path
+		arcpy.env.overwriteOutput = True
+		
+		self.scratch_path = scratch_path
+		self.scratch_gdb = scratch_gdb
+		
+	def __iter__(self):
+		# 用于拆包
+		return (i for i in (self.scratch_path, self.scratch_gdb))
 
+		
 def label(layer,expression, show=True):
 	"""是否显示图层且更改图层的标注
 	 layer{Layer}: 图层对象

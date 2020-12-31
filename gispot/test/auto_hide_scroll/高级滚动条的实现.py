@@ -75,13 +75,11 @@ class Mousewheel_Support(object):
             return
 
         if xscrollbar is not None:
-
             xscrollbar.onMouseWheel = self._make_mouse_wheel_handler(widget, 'x')
             xscrollbar.bind('<Enter>', lambda event, scrollbar=xscrollbar: self._mousewheel_bind(scrollbar))
             xscrollbar.bind('<Leave>', lambda event: self._mousewheel_unbind())
 
         if yscrollbar is not None:
-
             yscrollbar.onMouseWheel = self._make_mouse_wheel_handler(widget, 'y')
             yscrollbar.bind('<Enter>', lambda event, scrollbar=yscrollbar: self._mousewheel_bind(scrollbar))
             yscrollbar.bind('<Leave>', lambda event: self._mousewheel_unbind())
@@ -104,8 +102,9 @@ class Mousewheel_Support(object):
 
     @staticmethod
     def _make_mouse_wheel_handler(widget, orient):
-        view_command = getattr(widget, orient + 'view')
-
+        # view_command = getattr(widget, orient + 'view_scroll') # TODO 1__1
+        view_command = getattr(widget, orient + 'view') # xview, yview
+        # print(view_command) # <bound method Canvas.xview of <Tkinter.Canvas instance at 0x0303E878>>
         if OS == 'Linux':
             def onMouseWheel(event):
                 if event.num == 4:
@@ -115,7 +114,7 @@ class Mousewheel_Support(object):
 
         elif OS == 'Windows':
             def onMouseWheel(event):
-                # view_command("scroll", (-1) * int((event.delta / 120) * factor), what)
+                # view_command(-1*int(event.delta/120), "units")  # TODO 1__2 对应 TODO 1__1
                 view_command("scroll", -1*int(event.delta/120), "units")
 
         elif OS == 'Darwin':
