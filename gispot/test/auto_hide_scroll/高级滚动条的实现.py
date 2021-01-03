@@ -271,8 +271,9 @@ for i in range(10):
 domande = [("Qual è la prima leva del marketing mix? (prodotto o prezzo?", "prodotto")]
 
 
-for d, r in domande:
-    Question(window.innerframe, d, r)
+# 最后的那个问题
+# for d, r in domande:
+#     Question(window.innerframe, d, r)
 
 
 root.mainloop()
