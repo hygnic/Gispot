@@ -314,251 +314,10 @@ class Tooltk(object):
 		"""
 		"""
 		# ---------------
-		
 		return 1
 	
-	def single_file_block(self, sfb_filetype, sfb_name):
-		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
-		"""
-		__sfb_filetype: tkFileDialog type
-		sfb_name: label name;ues to describe function
-		主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
-		同时可以获取 用户直接在Entry中输入的文件路径
-		"""
-		
-		# 文件选取菜单
-		def select_file():
-			file_path = tkFileDialog.askopenfilename(filetypes=sfb_filetype)
-			# 刷新normal_single_block() 中的Entry
-			input_msg1.set(file_path)
-		
-		label_1 = tk.Label(self.block_frame, text=sfb_name)
-		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 块一
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		
-		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sfb = newGUI.NeewwEntry(frame_one, textvariable=input_msg1, border=0)
-		self.input_sfb.pack(
-			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		self.addfile_button = newGUI.HoverButton(
-			frame_one, text=u"选择",
-			command=select_file,
-			image=self.gif_addfile,
-			width=self._button_size,
-			height=self._button_size)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
-	
-	def save_path_block(self, sfb_filetype, sfb_name):
-		# __sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
-		"""
-		major-Frame中的功能块之一，该模块让用户选择文件的保存位置和名字
-		__sfb_filetype: tkFileDialog type
-		sfb_name: label name;ues to describe function
-		"""
-		
-		# 文件选取菜单
-		def select_file():
-			file_path = tkFileDialog.asksaveasfilename(filetypes=sfb_filetype)
-			# 刷新normal_single_block() 中的Entry
-			# lis = self.file_paths_.append(file_path)
-			# print lis
-			input_msg1.set(file_path)
-		
-		name_label = tk.Label(self.block_frame, text=sfb_name)
-		name_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=16)
-		# 块一
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# 按钮
-		# photo = tk.PhotoImage(file=r"Icons/GenericBlackAdd32.png")
-		self.addfile_button = newGUI.HoverButton(
-			frame_one, image=self.gif_addfile,
-			command=select_file,
-			width=self._button_size,
-			height=self._button_size)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sb = newGUI.NeewwEntry(
-			frame_one, textvariable=input_msg1, border=2, relief=tk.FLAT)
-		self.input_sb.pack(
-			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=15)
-		return 1
-	
-	def single_dir_block(self, sdb_name):
-		"""
-		sdb_name: label name;ues to describe function
-		主Frame中的功能块之一，将通过Filedialog获取的 文件夹  传递更新给Entry,
-		同时可以获取 用户直接在Entry中输入的文件路径
-		"""
-		
-		def select_file():
-			# global file_path
-			file_path = tkFileDialog.askdirectory()
-			# 刷新normal_single_block() 中的Entry
-			input_msg1.set(file_path)
-		
-		label_2 = tk.Label(self.block_frame, text=sdb_name)
-		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sdb = newGUI.NeewwEntry(
-			frame_one, textvariable=input_msg1, bd=0)
-		self.input_sdb.pack(
-			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		# input_msg.set(one_file_path)
-		self.addfile_button = newGUI.HoverButton(
-			frame_one,
-			command=select_file,
-			image=self.gif_folder,
-			width=self._button_size,
-			height=self._button_size)
-		
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
-	
-	def single_dir_block2(self, sdb_name):
-		"""
-		sdb_name: label name;ues to describe function
-		主Frame中的功能块之一，将通过Filedialog获取的 文件夹  传递更新给Entry,
-		同时可以获取 用户直接在Entry中输入的文件路径
-		"""
-		
-		def select_file():
-			# global file_path
-			file_path = tkFileDialog.askdirectory()
-			# 刷新normal_single_block() 中的Entry
-			input_msg1.set(file_path)
-		
-		label_2 = tk.Label(self.block_frame, text=sdb_name)
-		label_2.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sdb2 = newGUI.NeewwEntry(
-			frame_one, textvariable=input_msg1, bd=0)
-		self.input_sdb2.pack(
-			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		# input_msg.set(one_file_path)
-		self.addfile_button = newGUI.HoverButton(
-			frame_one,
-			command=select_file,
-			image=self.gif_folder,
-			width=self._button_size,
-			height=self._button_size)
-		self.addfile_button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
-	
-	def single_vari_block(self, gib_name, input_msg1):
-		"""
-		主Frame中的功能块之一，直接通过Entry获取变量值，
-		其变量类型，可以根据需要灵活指定。
-		:param input_msg1: # input_msg1 = tk.StringVar()
-		:param gib_name: label name;ues to describe function
-		:return:
-		"""
-		label_3 = tk.Label(self.block_frame, text=gib_name)
-		label_3.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 块一
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# Entry
-		# input_msg1 = tk.StringVar()
-		self.input_svb = newGUI.NeewwEntry(
-			frame_one, textvariable=input_msg1, border=0
-		)
-		self.input_svb.pack(
-			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
-		# input_msg.set(one_file_path)
-		# 按钮
-		int_button_1 = newGUI.HoverButton(
-			frame_one, image=self.gif_empty_1,
-			state="disabled",
-			width=self._button_size,
-			height=self._button_size)
-		int_button_1.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		return 1
-	
-	def single_int_block2(self, gib_name):
-		"""
-		主Frame中的功能块之一，直接通过Entry获取Int值
-		:param gib_name: label name;ues to describe function
-		:return:
-		"""
-		_label = tk.Label(self.block_frame, text=gib_name)
-		_label.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-		# 块一
-		# 将Entry和按钮整齐的放到一起
-		frame_one = tk.Frame(self.block_frame)  # , border =1 ,relief = "raised"
-		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
-		# 按钮
-		int_button_2 = newGUI.HoverButton(
-			frame_one, state="disabled",
-			image=self.gif_empty_1,
-			width=self._button_size,
-			height=self._button_size
-		)
-		int_button_2.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
-		# Entry
-		input_msg1 = tk.StringVar()
-		self.input_sib2 = newGUI.NeewwEntry(
-			frame_one,
-			textvariable=input_msg1, border=0
-		)
-		# , state = "readonly"
-		self.input_sib2.pack(
-			side=tk.LEFT, anchor=tk.W,
-			padx=10, expand=True, fill=tk.X
-		)
-		# input_msg.set(one_file_path)
-		return 1
-	
-	def single_text_block(self, stb_name):
-		"""
-		text组件
-		:param stb_name:
-		:return:
-		"""
-		# 块名称
-		tk.Label(self.block_frame, text=stb_name). \
-			pack(side=tk.TOP, anchor=tk.NW, padx=40)
-		frame_one = tk.Frame(self.block_frame)
-		frame_one.pack(side="top", anchor="center", expand=True, fill="both")
-		# 右边障碍要素
-		newGUI.HoverButton(
-			frame_one, state="disabled",
-			image=self.gif_empty_1,
-			width=60,
-			height=self._button_size
-		).pack(side=tk.RIGHT, padx=10)
-		# 左边障碍要素
-		newGUI.HoverButton(
-			frame_one, state="disabled",
-			image=self.gif_empty_1,
-			width=13,
-			height=self._button_size
-		).pack(side=tk.LEFT, padx=10)
-		
-		# frame_one.columnconfigure(0, weight=1)
-		# frame_one.columnconfigure(1, weight=1)
-		self.input_tb = newGUI.NeewwText(frame_one, wrap="none", relief="flat", height=10)
-		self.input_tb.pack(expand=True, fill="both")
-	
-	# text.grid(column = 0,sticky = "nesw")
-	
-	def divider_bar_block(self, master, color11, color22):
+	@staticmethod
+	def divider_bar_block(master, color11, color22):
 		"""
 		最下面的那个分隔栏
 		:return:
@@ -603,18 +362,6 @@ class SingleFileBlock(object):
 									"add_file")"""
 	_button_pixel_size = 24
 	
-	
-	# def __new__(cls, *args, **kwargs):
-	# 	if not hasattr(SingleFileBlock, "_instance"):
-	# 		global focus_flag
-	# 		focus_flag = 1
-	# 	else:
-	# 		# global focus_flag
-	# 		focus_flag = 2
-	# 	SingleFileBlock._instance = object.__new__(cls)
-	# 	return SingleFileBlock._instance
-	
-	
 	def __init__(self, frames, name, tkFileDialogFunc, filetype, image, info):
 		"""
 		:param frames: {Tuple} GUI界面中几个主要框架
@@ -636,19 +383,16 @@ class SingleFileBlock(object):
 		
 		:param image: {String} 按键图片名字，用于反射
 			* "add_file"
+			
+		:param info:
 		"""
-		# 传入参数
-		self.__master = frames[0]  # self.frame_major
-		self.__static = frames[1]
-		self.__dymnic = frames[2]
-		self.__sfb_filetype = filetype
+		# 传入参数 三个frame
+		self._master, self._static, self._dymnic= frames
+		self._sfb_filetype = filetype
 		self.dialoge_type = tkFileDialogFunc
-		self.__info = info
+		self._info = info
 		# self.tkFileDialog.askopenfilename = tkFileDialog.askopenfilename
-		
-		# 内部建立自用
 		self.var = tk.StringVar()
-		
 		self.image(image)
 		self.single_file_block(name)
 	
@@ -666,7 +410,6 @@ class SingleFileBlock(object):
 		raw_p = getattr(PngIcon, image)
 		img = Image.open(raw_p)
 		photo = ImageTk.PhotoImage(img)
-		
 		# tk.PhotoImage需要设置成全局变量才生效，一个bug
 		# global a_gif
 		# a_gif = tk.PhotoImage(file=raw_p)
@@ -674,7 +417,7 @@ class SingleFileBlock(object):
 	
 	# 打开 文件/文件夹 选取窗口
 	def dialog(self):
-		file_path = self.dialoge_type(filetypes=self.__sfb_filetype)
+		file_path = self.dialoge_type(filetypes=self._sfb_filetype)
 		
 		# file_path = tkFileDialog.askopenfilename(
 		# 		[(u'文本文档', '*.txt'), ('All Files', '*')])
@@ -684,15 +427,15 @@ class SingleFileBlock(object):
 	def single_file_block(self, sfb_name):
 		"""主Frame中的功能块之一，将通过Filedialog获取的 文件 传递更新给Entry,
 		同时可以获取 用户直接在Entry中输入的文件路径
-		__sfb_filetype: {List} tkFileDialog
+		_sfb_filetype: {List} tkFileDialog
 		
 		sfb_name: {String} label name;ues to describe function
 		"""
-		label_1 = tk.Label(self.__master, text=sfb_name)
+		label_1 = tk.Label(self._master, text=sfb_name)
 		label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
 		# 块一
 		# 整齐排列Entry和按钮
-		frame_one = tk.Frame(self.__master)  # , border =1 ,relief = "raised"
+		frame_one = tk.Frame(self._master)  # , border =1 ,relief = "raised"
 		frame_one.pack(side="top", anchor="center", expand=False, fill="x")
 		
 		# Entry
@@ -701,7 +444,7 @@ class SingleFileBlock(object):
 		self.__newEntry.pack(
 			side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
 		self.__button = newGUI.HoverButton(
-			frame_one, text=u"选择",msg=self.__info,
+			frame_one, text=u"选择",msg=self._info,
 			command=self.dialog,
 			image=self.but_image,
 			width=self._button_pixel_size,
@@ -717,7 +460,7 @@ class SingleFileBlock(object):
 		# 由于Entry输出纯英文数字时是str格式，为方便后续进行比较等操作
 		# 将str转换为unicode
 		msg = self.__newEntry.get()
-		frame = self.__static
+		frame = self._static
 		# print("msg", msg)
 		# print("msg's type", type(msg))
 		
