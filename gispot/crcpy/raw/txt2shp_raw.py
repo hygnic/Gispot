@@ -163,7 +163,7 @@ def draw_poly(coord_list, sr, y, x):
 def main(info, txt_folder, output_folder):
 	"""
 	功能实现的主函数
-	info(List): 存放信息的列表，作为独立脚本使用时没啥用
+	bubbletip(List): 存放信息的列表，作为独立脚本使用时没啥用
 	txt_folder(Unicode/String): 包含txt文件的文件夹
 	output_folder(Unicode/String): 导出文件夹
 	"""

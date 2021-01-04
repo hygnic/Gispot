@@ -61,7 +61,7 @@ class HoverButton(tk.Button):
 	"""
 	features detail:
 		1.继承Button.实现鼠标悬停时，按键变化的效果
-		2.bind info bubbles to button
+		2.bind bubbletip bubbles to button
 		3.点击可以将信息复制到 win10 粘贴板
 	
 	注意事项：
@@ -118,7 +118,7 @@ class HoverButton(tk.Button):
 		# self.after(1000, self.show_tip)
 	
 	# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	# bind info bubble to a button
+	# bind bubbletip bubble to a button
 	# let tooltip follow you mouse pointer's motion
 	def spawn_tip(self, event):
 		self.tip = tk.Toplevel(self, bg='black', padx=1, pady=1)

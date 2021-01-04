@@ -22,8 +22,6 @@ from GUIconfig import multication
 
 
 scratch_path, scratch_gdb = ezarcpy.InitPath()
-# scratch_path = ezarcpy.initialize_environment()[0]
-# scratch_gdb = ezarcpy.initialize_environment()[1]
 arcpy.env.workspace = scratch_gdb
 arcpy.env.overwriteOutput = True
 

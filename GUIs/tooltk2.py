@@ -711,7 +711,7 @@ class SingleFileBlock(object):
 		self.__button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
 		
 		# if focus_flag ==1:
-		# 	self.__newEntry.focus()
+		# 	self._newEntry.focus()
 		
 	# 点击确认键的时候获取Entry中的值
 	def get(self):
