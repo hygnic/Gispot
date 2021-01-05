@@ -16,7 +16,7 @@ from multiprocessing import Process
 from hybag import ezarcpy
 from hybag import hybasic
 import tooltk
-from GUIconfig import multication
+from gpconfig import multication
 
 
 arcpy.env.overwriteOutput =True

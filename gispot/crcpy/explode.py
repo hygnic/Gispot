@@ -13,7 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 # import arcpy
 from multiprocessing import Process
-from GUIconfig import multication
+from gpconfig import multication
 import tooltk
 
 

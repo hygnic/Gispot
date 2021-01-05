@@ -22,9 +22,9 @@ import ttk
 from PIL import ImageTk, Image
 from os.path import join
 
-from GUIconfig import newGUI, hyini
-from GUIconfig.gispotpath import PngIcon, GifPath
-import GUIconfig.gispotpath as gpath
+from gpconfig import newGUI, hyini
+from gpconfig.gispotpath import PngIcon, GifPath
+import gpconfig.gispotpath as gpath
 import vitems
 from crcpy import save_acopy
 from crcpy import txt2shp

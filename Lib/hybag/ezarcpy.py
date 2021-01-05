@@ -31,7 +31,7 @@ Usage:
 # ---------------------------------------------------------------------------
 import arcpy
 import os
-from GUIconfig import hyini
+from gpconfig import hyini
 
 
 class InitPath(object):
@@ -43,12 +43,12 @@ class InitPath(object):
 		return cls._instance
 	def __init__(self):
 		"""_________________________create folder____________________________"""
-		scratch_path = hyini.workspace
+		scratch_path = hyini.WORKSPACE_GDB
 		try:
 			if not os.path.isdir(scratch_path):
 				os.makedirs(scratch_path)
 		except:
-			scratch_path = hyini.workspace2
+			scratch_path = hyini.WORKSPACE_GDB2
 			if not os.path.isdir(scratch_path):
 				os.makedirs(scratch_path)
 		"""_________________________create folder____________________________"""

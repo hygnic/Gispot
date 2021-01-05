@@ -33,7 +33,7 @@ rbg_Icons = os.path.join(rb_GUIs, "Icons")
 rbdoc = os.path.join(root_base, "docs")
 rb_bin = os.path.join(root_base, "bin")
 rb_libs = os.path.join(root_base, "Lib")
-rb_GUIconfig = os.path.join(rb_libs, "GUIconfig")
+rb_GUIconfig = os.path.join(rb_libs, "gpconfig")
 
 giscat_paths = [root_base,
 				rb_GisCat,

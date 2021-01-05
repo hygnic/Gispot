@@ -15,10 +15,12 @@ import os
 import codecs
 
 # 导入配置包、地址包
-from GUIconfig import newGUI
-from GUIconfig import gispotpath
-from GUIconfig import hyini
-from GUIconfig.gispotpath import PngIcon
+from gpconfig import newGUI
+from gpconfig import gispotpath
+from gpconfig import hyini
+from gpconfig.hyini import *
+from gpconfig.gispotpath import PngIcon
+
 
 #----------------------para-------------------------------
 # 将 input_log.log 文件中保存的输入地址等输入信息框
@@ -81,7 +83,7 @@ class Tooltk(object):
         self.initial_icon()  # 配置图片
         self.initial_frames()  # 配置框架
         self.initial_buttons()  # 配置按钮
-        # color   "SystemHighlight","SystemMenuText"
+        # color  "SystemHighlight","SystemMenuText"
         self.read_help()
     
     @property
@@ -104,7 +106,6 @@ class Tooltk(object):
         self.color3 = "#F1F1F1"  # 主框的上半部分颜色 侧栏颜色
         # self.color4 = "Cornsilk" # 侧栏颜色
         self.color2 = "#E1E1E1"  # 茶色 较深
-        self.color6 = '#EBEEEE'  # 底栏颜色
     
     def initial_icon(self):
         # 必须加file参数，不然不显示图片（arcgis10.6）
@@ -139,17 +140,17 @@ class Tooltk(object):
     def initial_frames(self):
         # 1192/2 = 596
         #______________________________right-frame_______________________________
-        self.frame_right_side = tk.Frame(self.window, width=496, border=0, relief="flat")
+        self.frame_right_side = ttk.Frame(self.window, width=496, border=0)
         self.frame_right_side.pack(side="right", expand=True, fill="both")
         #______________________________left-frame_______________________________
-        self.frame_left_side = tk.Frame(self.window, width=696, border=0, relief="flat")
+        self.frame_left_side = ttk.Frame(self.window, width=696, border=0)
         self.frame_left_side.pack(side="left", expand=True, fill="both")
         #______________________upper part of left-frame_________________________
-        self.block_frame = tk.Frame(self.frame_left_side, width=600, relief="flat")
+        self.block_frame = ttk.Frame(self.frame_left_side, width=600)
         self.block_frame.pack(expand=True, fill="both")
         #______________________bottom part of left-frame________________________
         # use for contain botton: comfirmed button; cancel button; bubbletip button
-        self.frame_bottom_bar = tk.Frame(self.frame_left_side, height="60", bg=self.color6)
+        self.frame_bottom_bar = ttk.Frame(self.frame_left_side, height="60")
         self.frame_bottom_bar.pack(expand=False, fill="both")
         #_______________________________________________________________________
         # expand=False, fill ="x" 表示不会随着界面变大而变大，但是在
@@ -357,8 +358,6 @@ class SingleFileBlock(object):
     ss = tooltk.SingleFileBlock(frame, "添加文件",
                                     tkFileDialog.askopenfilename，[(u'文本文档', '*.txt'), ('All Files', '*')],
                                     "add_file")"""
-    _button_pixel_size = 24
-    
     def __init__(self, frames, name, tkFileDialogFunc, filetype, image, bubbletip):
         """
         :param frames: {Tuple} GUI界面中几个主要框架
@@ -428,24 +427,25 @@ class SingleFileBlock(object):
         
         sfb_name: {String} label name;ues to describe function
         """
-        label_1 = tk.Label(self._master, text=sfb_name)
+        label_1 = ttk.Label(self._master, text=sfb_name)
         label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
         # 块一
         # 整齐排列Entry和按钮
-        frame_one = tk.Frame(self._master)  # , border =1 ,relief = "raised"
+        frame_one = ttk.Frame(self._master)  # , border =1 ,relief = "raised"
         frame_one.pack(side="top", anchor="center", expand=False, fill="x")
         
         # Entry
-        self._newEntry = newGUI.NeewwEntry(
-            frame_one, textvariable=self.var, border=0)
-        self._newEntry.pack(
-            side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
+        self._newEntry = newGUI.NeewwEntry(frame_one)
+        self._newEntry.pack(side=tk.LEFT, anchor=tk.W, expand=True, fill=tk.X, padx=10)
+        self._newEntry.configure(textvariable=self.var)
+        # self._newEntry.configure(border=0)
+        
         self._button = newGUI.HoverButton(
-            frame_one, text=u"选择", msg=self._tip,
+            frame_one, msg=self._tip,
             command=self.dialog,
             image=self.but_image,
-            width=self._button_pixel_size,
-            height=self._button_pixel_size)
+            width=hyini.BUTTON_PIXEL_SIZE,
+            height=hyini.BUTTON_PIXEL_SIZE)
         self._button.pack(side=tk.RIGHT, anchor=tk.CENTER, padx=10)
         
         # if focus_flag ==1:
@@ -521,9 +521,8 @@ def blockValue(frames, name):
     inner.button.close()  # state = "disabled",  normal,active
     return inner
 
-"""------------------------------shp-file-----------------------------------"""
-"""-------------------------------------------------------------------------"""
-"""-------------------------------------------------------------------------"""
+"""______________________________shp_file___________________________________"""
+"""_________________________________________________________________________"""
 def blockShp_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
@@ -536,9 +535,8 @@ def blockShp_out(frames, name):
         [(u'shapefile', '*.shp'), ('All Files', '*')],
         "shapefile",u"shapefile"
     )
-"""------------------------------mxd-file-----------------------------------"""
-"""-------------------------------------------------------------------------"""
-"""-------------------------------------------------------------------------"""
+"""______________________________mxd_file___________________________________"""
+"""_________________________________________________________________________"""
 def blockMXD_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
@@ -552,9 +550,8 @@ def blockMXD_out(frames, name):
         [('地图文档', '*.mxd'), ('All Files', '*')],
         "mxd",u"mxd"
     )
-"""-----------------------------text-file-----------------------------------"""
-"""-------------------------------------------------------------------------"""
-"""-------------------------------------------------------------------------"""
+"""_____________________________text_file___________________________________"""
+"""_________________________________________________________________________"""
 def blockTEXT_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
@@ -575,20 +572,18 @@ def blockTEXT_out(frames, name):
 if __name__ == '__main__':
     class TstApp(Tooltk):
         def __init__(self):
-            master = tk.Tk()
-            # master = ThemedTk(theme="arc")
-            super(TstApp, self).__init__(master, None, self.confirm_method)
-            self.button_confirm["command"] = self.confirm_method
-            # block 1
-            self.single_file_block(
-                [('文本文档', '*.txt'), ('All Files', '*')], "文本文档")
-            # block2
-            self.single_dir_block("图片文件夹")
-            frame = (self.block_frame, self.msgframe, self.major_msgframe)
-            SingleFileBlock(
-                frame, u"TEST", tkFileDialog.askopenfilename,
-                [('文本文档', '*.txt'), ('All Files', '*')], "add_file"
-            )
+            # master = tk.Tk()
+            from ttkthemes import ThemedTk
+            master = ThemedTk(theme="arc")
+            super(TstApp, self).__init__(master,
+                                             "area_cal.gc",
+                                             None)
+            self.name = "计算地类面积"
+            frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
+            # block1
+            self.block1 = blockDIR_in(frame, u"数据文件地址")
+            self.block2 = blockShp_in(frame, u"DLTB图层")
+            self.block3 = blockSheet(frame, u"复核表")
         
         # self.addfile_button["state"] = "disabled"
         # self.addfile_button.pack_forget() # 隐藏模块

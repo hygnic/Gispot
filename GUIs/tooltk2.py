@@ -14,10 +14,10 @@ from PIL import Image, ImageTk
 import os
 
 # 导入配置包、地址包
-from GUIconfig import newGUI
-from GUIconfig import gispotpath
-from GUIconfig import hyini
-from GUIconfig.gispotpath import PngIcon
+from gpconfig import newGUI
+from gpconfig import gispotpath
+from gpconfig import hyini
+from gpconfig.gispotpath import PngIcon
 
 #----------------------para-------------------------------
 # 将 input_log.log 文件中保存的输入地址等输入信息框

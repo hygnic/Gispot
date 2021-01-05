@@ -24,7 +24,7 @@ from multiprocessing import Process
 
 import tooltk
 from hybag import hybasic
-from GUIconfig import multication
+from gpconfig import multication
 
 # import sys,codecs
 # sys.stdout = codecs.getwriter('utf-8')(sys.stdout)

@@ -5,8 +5,8 @@
 
 import os
 import Tkinter as tk
-from GUIconfig import newGUI
-from GUIconfig import gispotpath
+from gpconfig import newGUI
+from gpconfig import gispotpath
 from teminal import export
 
 

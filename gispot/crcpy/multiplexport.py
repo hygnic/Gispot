@@ -20,7 +20,7 @@ import os
 import time
 from multiprocessing import Process
 
-from GUIconfig import multication
+from gpconfig import multication
 # from hybag import time
 import tooltk
 from hybag import hybasic

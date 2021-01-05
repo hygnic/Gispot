@@ -17,7 +17,7 @@ from multiprocessing import Process
 
 from hybag import hybasic
 import tooltk
-from GUIconfig import multication
+from gpconfig import multication
 
 def main(dir_p, new_dir, version=None):
 	"""

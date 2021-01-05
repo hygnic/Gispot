@@ -15,7 +15,7 @@ import crcpy.multiplexport
 import crcpy.explode
 import crcpy.task_dispatch
 import crcpy.ZLDJ
-from GUIconfig import newGUI,hyini
+from gpconfig import newGUI,hyini
 
 class MenuBar(object):
 	def __init__(self, master):

@@ -72,7 +72,7 @@ import re
 import os
 from multiprocessing import Process
 
-from GUIconfig import multication
+from gpconfig import multication
 import tooltk
 
 

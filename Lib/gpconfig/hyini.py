@@ -10,12 +10,35 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 
-"""--------------------------------GUI initial size--------------------------"""
-"""--------------------------------GUI initial size--------------------------"""
-"""--------------------------------GUI initial size--------------------------"""
+"""--------------------------------用于设置常量的类--------------------------"""
+# 设置常量 1.常量一旦确定就不可变 2.常量使用大写和 '_'
+# class Const(object):
+#     class ConstError(TypeError):pass
+#     class ConstCaseError(ConstError):pass
+#
+#     def __new__(cls, *args, **kwargs):
+#         if not hasattr(cls, "_instance"):
+#             if not hasattr(cls, "_instance"):
+#                 cls._instance = object.__new__(cls)
+#         return cls._instance
+#
+#     def __setattr__(self, name, value):
+#         if self.__dict__.has_key(name):
+#             raise self.ConstError, "Can't change const {}".format(name)
+#         self.__dict__[name] = value
+#         if not name.isupper():
+#             raise self.ConstCaseError, 'const name {} is not all uppercase'.format(
+#                 name)
+# ct = Const()
+# ct.CONT = 60
+"""--------------------------------用于设置常量的类--------------------------"""
+
+"""--------------------------------GUI--------------------------"""
+"""--------------------------------GUI--------------------------"""
 width = 1192
 height = 650
-
+# GUI中各项功能的主操作块的大小
+BUTTON_PIXEL_SIZE = 24
 # width = 1600
 # height = 800
 
@@ -42,5 +65,6 @@ light_yellow2 = "#FFE09E"
 """--------------------------------------GDB-------------------------------"""
 """--------------------------------------GDB-------------------------------"""
 """--------------------------------------GDB-------------------------------"""
-workspace = u"D:\doc\Scratch"
-workspace2 = u"E:\doc\Scratch"
+WORKSPACE_GDB = "D:\doc\Scratch"
+WORKSPACE_GDB2 = "E:\doc\Scratch"
+
