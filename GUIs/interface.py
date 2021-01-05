@@ -23,8 +23,8 @@ from PIL import ImageTk, Image
 from os.path import join
 
 from gpconfig import newGUI, hyini
-from gpconfig.gispotpath import PngIcon, GifPath
-import gpconfig.gispotpath as gpath
+from gpconfig.gppath import PngIcon, GifPath
+import gpconfig.gppath as gpath
 import vitems
 from crcpy import save_acopy
 from crcpy import txt2shp

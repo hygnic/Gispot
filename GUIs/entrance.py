@@ -74,10 +74,10 @@ for giscat_path in giscat_paths:
 import interface
 # 配置包导入
 from gpconfig import newGUI,hyini
-from gpconfig import gispotpath
+from gpconfig import gppath
 
 # Gispot图标
-icon = gispotpath.PngIcon.icon
+icon = gppath.PngIcon.icon
 
 
 def kill_pid(pid):
@@ -108,8 +108,8 @@ class AppEntrance(object):
     
     def __init__(self):
         if exist_ttkthemes:
-            self.rootwindow = tk.Tk()
-            # self.rootwindow = ThemedTk(theme="arc")
+            # self.rootwindow = tk.Tk()
+            self.rootwindow = ThemedTk(theme="arc")
         else:
             self.rootwindow = tk.Tk()
         self.rootwindow.title("")
@@ -156,7 +156,7 @@ class AppEntrance(object):
             weberopen(update_url, new=0, autoraise=True)
         # self.image_octacat = tk.PhotoImage(file=gispotpath.PngIcon.github)
         self.image_octacat = ImageTk.PhotoImage(
-            Image.open(gispotpath.PngIcon.github))
+            Image.open(gppath.PngIcon.github))
         ap_button = newGUI.HoverButton(master=self.gradient_canv,
                                        command=open_u, bd=2,
                                        image=self.image_octacat,

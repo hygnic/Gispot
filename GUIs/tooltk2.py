@@ -15,27 +15,27 @@ import os
 
 # 导入配置包、地址包
 from gpconfig import newGUI
-from gpconfig import gispotpath
+from gpconfig import gppath
 from gpconfig import hyini
-from gpconfig.gispotpath import PngIcon
+from gpconfig.gppath import PngIcon
 
 #----------------------para-------------------------------
 # 将 input_log.log 文件中保存的输入地址等输入信息框
-input_log = os.path.join(gispotpath.Docs_p, "input_log.log")
+input_log = os.path.join(gppath.Docs_p, "input_log.log")
 
 
 class GIF(object):
 	
 	def __init__(self):
-		self.text = tk.PhotoImage(file=gispotpath.GifPath.textfile)
-		self.addfile = tk.PhotoImage(file=gispotpath.GifPath.add_file)
+		self.text = tk.PhotoImage(file=gppath.GifPath.textfile)
+		self.addfile = tk.PhotoImage(file=gppath.GifPath.add_file)
 		
-		self.folder = tk.PhotoImage(file=gispotpath.GifPath.folder)
-		self.close = tk.PhotoImage(file=gispotpath.GifPath.close)
-		self.quit = tk.PhotoImage(file=gispotpath.GifPath.close)
-		self.help = tk.PhotoImage(file=gispotpath.GifPath.info)
-		self.confirm = tk.PhotoImage(file=gispotpath.GifPath.confirm)
-		self.empty_1 = tk.PhotoImage(file=gispotpath.GifPath.empty1)
+		self.folder = tk.PhotoImage(file=gppath.GifPath.folder)
+		self.close = tk.PhotoImage(file=gppath.GifPath.close)
+		self.quit = tk.PhotoImage(file=gppath.GifPath.close)
+		self.help = tk.PhotoImage(file=gppath.GifPath.info)
+		self.confirm = tk.PhotoImage(file=gppath.GifPath.confirm)
+		self.empty_1 = tk.PhotoImage(file=gppath.GifPath.empty1)
 
 
 # @staticmethod
@@ -107,19 +107,19 @@ class Tooltk(object):
 	
 	def initial_icon(self):
 		# 必须加file参数，不然不显示图片（arcgis10.6）
-		self.gif_addfile = tk.PhotoImage(file=gispotpath.GifPath.add_file)
+		self.gif_addfile = tk.PhotoImage(file=gppath.GifPath.add_file)
 		
-		self.gif_folder = tk.PhotoImage(file=gispotpath.GifPath.folder)
-		self.gif_close = tk.PhotoImage(file=gispotpath.GifPath.close)
-		self.gif_quit = tk.PhotoImage(file=gispotpath.GifPath.close)
-		self.gif_help = tk.PhotoImage(file=gispotpath.GifPath.info)
-		self.gif_confirm = tk.PhotoImage(file=gispotpath.GifPath.confirm) # gif
+		self.gif_folder = tk.PhotoImage(file=gppath.GifPath.folder)
+		self.gif_close = tk.PhotoImage(file=gppath.GifPath.close)
+		self.gif_quit = tk.PhotoImage(file=gppath.GifPath.close)
+		self.gif_help = tk.PhotoImage(file=gppath.GifPath.info)
+		self.gif_confirm = tk.PhotoImage(file=gppath.GifPath.confirm) # gif
 		
 		self.png_quit = ImageTk.PhotoImage(Image.open(PngIcon.cancel))  # png
 		self.png_help = ImageTk.PhotoImage(Image.open(PngIcon.help_info))  # png
 		self.png_confirm = ImageTk.PhotoImage(Image.open(PngIcon.OK))  # png
 		
-		self.gif_empty_1 = tk.PhotoImage(file=gispotpath.GifPath.empty1)
+		self.gif_empty_1 = tk.PhotoImage(file=gppath.GifPath.empty1)
 		# self.gif_empty_2 = tk.PhotoImage(file=gispotpath.GifPath.gif_empty2)
 		
 		# ph = tk.PhotoImage(file=gispotpath.GifPath.gif_confirm)
@@ -241,7 +241,7 @@ class Tooltk(object):
 	# Read help information and insert in help box
 	def read_help(self):
 		if self.helppath is not None:
-			filename = os.path.join(gispotpath.Docs_p, self.helppath)
+			filename = os.path.join(gppath.Docs_p, self.helppath)
 			with open(filename, "r") as read_msgs:
 				for read_line in read_msgs.readlines():
 					self.help_text.insert(tk.END, read_line)

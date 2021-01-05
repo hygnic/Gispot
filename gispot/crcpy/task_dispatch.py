@@ -15,7 +15,7 @@ import Tkinter as tk
 import os
 
 from multiprocessing import Process
-from gpconfig import multication,gispotpath
+from gpconfig import multication,gppath
 from ccutility import databutcher
 import tooltk
 
