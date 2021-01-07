@@ -6,7 +6,7 @@
 GUI  所用工具和脚本用GUI"""
 from __future__ import  print_function
 from __future__ import  absolute_import
-from __future__ import  unicode_literals
+# from __future__ import  unicode_literals
 import Tkinter as tk
 import ttk
 import tkFileDialog
@@ -140,7 +140,7 @@ class Tooltk(object):
     def initial_frames(self):
         # 1192/2 = 596
         #______________________________right-frame_______________________________
-        self.frame_right_side = ttk.Frame(self.window, width=496, border=0)
+        self.frame_right_side = ttk.Frame(self.window, width=496, border=0, relief="flat")
         self.frame_right_side.pack(side="right", expand=True, fill="both")
         #______________________________left-frame_______________________________
         self.frame_left_side = ttk.Frame(self.window, width=696, border=0)
@@ -157,7 +157,7 @@ class Tooltk(object):
         # x轴（左右）方向上会拉伸
         # 左边主框中的帮助信息
         #_____________________info-frame within left-frame______________________
-        help_f = tk.Frame(self.block_frame, relief=tk.GROOVE, bd=2, padx=3)
+        help_f = ttk.Frame(self.block_frame, relief=tk.GROOVE) # bd=2, padx=3
         help_f.pack(side=tk.BOTTOM, anchor="s", expand=True, fill="both")
         # help_f.pack_propagate(0)
         # 设置带滚动条的text
@@ -179,7 +179,7 @@ class Tooltk(object):
         """----------------------------------------------------------------"""
         #_____________________________upper block_______________________________
         # wrap="word" 如果大段的文字超过容纳限制，就会强制换一行输出
-        self.msgframe = tk.Text(self.frame_right_side)  # width="50"
+        self.msgframe = tk.Text(self.frame_right_side, relief="flat", bd=0)  # width="50"
         
         # 将所用txt都标记了
         # self.text.tag_add("tag1","1.end","2.end")
@@ -204,7 +204,7 @@ class Tooltk(object):
                 # self.msgframe.insert(tk.END, "  "+line_msg)
                 # 创建历史输入记录的按钮
                 msgb = newGUI.clipboardButton(
-                    self.msgframe, text=line_msg, msg="复制到剪贴板"
+                    self.msgframe, text=line_msg, msg=u"复制到剪贴板"
                     )
                 self.msgframe.window_create("end", window=msgb)
                 # self.msgframe.window_create("2.0", window=msgb) # 第二行，第一列
@@ -222,7 +222,7 @@ class Tooltk(object):
         s_bar = ttk.Scrollbar(self.frame_right_side)
         s_bar.pack(side="right", fill="y")
         self.major_msgframe = newGUI.NeewwText(
-            self.frame_right_side, yscrollcommand=s_bar.set, height=30)
+            self.frame_right_side, yscrollcommand=s_bar.set, height=28, relief = "groove")
         # choose font color
         self.major_msgframe.tag_config(
             "tag_warn", backgroun="yellow", foreground="red")
@@ -429,7 +429,7 @@ class SingleFileBlock(object):
         """
         label_1 = ttk.Label(self._master, text=sfb_name)
         label_1.pack(side=tk.TOP, expand=tk.NO, anchor=tk.NW, padx=10)
-        # 块一
+
         # 整齐排列Entry和按钮
         frame_one = ttk.Frame(self._master)  # , border =1 ,relief = "raised"
         frame_one.pack(side="top", anchor="center", expand=False, fill="x")
@@ -498,25 +498,25 @@ class SingleFileBlock(object):
 
 # 文件夹模块
 def blockDIR_in(frames, name):
-    return SingleFileBlock(frames, name, tkFileDialog.askdirectory, None, "folder1", "文件夹")
+    return SingleFileBlock(frames, name, tkFileDialog.askdirectory, None, "folder1", u"文件夹")
 
 
 def blockSheet(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
-        [('工作簿', '*.xlsx'), ('工作簿', '*.xls'), ('All Files', '*')],
-        "sheet", "工作簿")
+        [(u'工作簿', '*.xlsx'), (u'工作簿', '*.xls'), ('All Files', '*')],
+        "sheet", u"工作簿")
 
 
 def blockDIR_out(frames, name):
     return SingleFileBlock(
-        frames, name, tkFileDialog.askdirectory, None, "folder2", "文件夹")
+        frames, name, tkFileDialog.askdirectory, None, "folder2", u"文件夹")
 
 
 # 数字输入模块（没有button）
 def blockValue(frames, name):
     inner = SingleFileBlock(
-        frames, name, tkFileDialog.askdirectory, None, "empty", "输入值")
+        frames, name, tkFileDialog.askdirectory, None, "empty", u"输入值")
     # inner.block_button["state"] ="disabled"  #不行
     # inner.block_button.config(state ="disabled") # 不行
     # 解除绑定
@@ -528,29 +528,29 @@ def blockValue(frames, name):
 def blockShp_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
-        [(u'shapefile', '*.shp')],
-        "shapefile",u"shapefile"
+        [('shapefile', '*.shp')],
+        "shapefile","shapefile"
     )
 def blockShp_out(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.asksaveasfilename,
-        [(u'shapefile', '*.shp'), ('All Files', '*')],
-        "shapefile",u"shapefile"
+        [('shapefile', '*.shp'), ('All Files', '*')],
+        "shapefile","shapefile"
     )
 """______________________________mxd_file___________________________________"""
 """_________________________________________________________________________"""
 def blockMXD_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
-        [('地图文档', '*.mxd'), ('All Files', '*')],
-        "mxd",u"mxd"
+        [(u'地图文档', '*.mxd'), ('All Files', '*')],
+        "mxd","mxd"
     )
 
 def blockMXD_out(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.asksaveasfilename,
-        [('地图文档', '*.mxd'), ('All Files', '*')],
-        "mxd",u"mxd"
+        [(u'地图文档', '*.mxd'), ('All Files', '*')],
+        "mxd","mxd"
     )
 """_____________________________text_file___________________________________"""
 """_________________________________________________________________________"""
@@ -569,18 +569,16 @@ def blockTEXT_out(frames, name):
     )
 
 
-
-
 if __name__ == '__main__':
     class TstApp(Tooltk):
         def __init__(self):
-            master = tk.Tk()
-            # from ttkthemes import ThemedTk
-            # master = ThemedTk(theme="arc")
+            # master = tk.Tk()
+            from ttkthemes import ThemedTk
+            master = ThemedTk(theme="arc")
             super(TstApp, self).__init__(master,
                                              "area_cal.gc",
                                              None)
-            self.name = "计算地类面积"
+            self.name = u"计算地类面积"
             frame = (self.Frame, self.FrameStatic, self.FrameDynamic)
             # block1
             self.block1 = blockDIR_in(frame, u"数据文件地址")
