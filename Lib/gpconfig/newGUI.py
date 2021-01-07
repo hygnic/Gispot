@@ -93,6 +93,7 @@ class HoverButton(tk.Button):
     def close(self):
         self.unbind("<Enter>")
         self.unbind("<Leave>")
+        self.unbind("<Motion>")
     
     def on_enter(self, event):
         self['background'] = self['activebackground']

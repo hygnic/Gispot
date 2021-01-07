@@ -146,7 +146,7 @@ class Tooltk(object):
         self.frame_left_side = ttk.Frame(self.window, width=696, border=0)
         self.frame_left_side.pack(side="left", expand=True, fill="both")
         #______________________upper part of left-frame_________________________
-        self.block_frame = ttk.Frame(self.frame_left_side, width=600)
+        self.block_frame = ttk.Frame(self.frame_left_side)
         self.block_frame.pack(expand=True, fill="both")
         #______________________bottom part of left-frame________________________
         # use for contain botton: comfirmed button; cancel button; bubbletip button
@@ -358,7 +358,7 @@ class SingleFileBlock(object):
     ss = tooltk.SingleFileBlock(frame, "添加文件",
                                     tkFileDialog.askopenfilename，[(u'文本文档', '*.txt'), ('All Files', '*')],
                                     "add_file")"""
-    def __init__(self, frames, name, tkFileDialogFunc, filetype, image, bubbletip):
+    def __init__(self, frames, name, tkFileDialogFunc, filetype, image, tip):
         """
         :param frames: {Tuple} GUI界面中几个主要框架
             *self.block_frame,self.msgframe,self.major_msgframe
@@ -377,16 +377,16 @@ class SingleFileBlock(object):
         :param filetype: tkFileDialog {List} 文件选择类型
             *__sfb_filetype = [(u'文本文档', '*.txt'), ('All Files', '*')]
         
-        :param image: {String} 按键图片名字，用于反射
+        :param image: {String} 按键图片名字，使用了反射
             * "add_file"
             
-        :param bubbletip:
+        :param tip:
         """
         # 传入参数 三个frame
         self._master, self._static, self._dymnic= frames
         self._sfb_filetype = filetype
         self.dialoge_type = tkFileDialogFunc
-        self._tip = bubbletip
+        self._tip = tip
         # self.tkFileDialog.askopenfilename = tkFileDialog.askopenfilename
         self.var = tk.StringVar()
         self.image(image)
@@ -542,14 +542,14 @@ def blockShp_out(frames, name):
 def blockMXD_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
-        [(u'地图文档', '*.mxd'), ('All Files', '*')],
+        [('地图文档', '*.mxd'), ('All Files', '*')],
         "mxd","mxd"
     )
 
 def blockMXD_out(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.asksaveasfilename,
-        [(u'地图文档', '*.mxd'), ('All Files', '*')],
+        [('地图文档', '*.mxd'), ('All Files', '*')],
         "mxd","mxd"
     )
 """_____________________________text_file___________________________________"""
@@ -557,15 +557,15 @@ def blockMXD_out(frames, name):
 def blockTEXT_in(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.askopenfilename,
-        [(u'txt', '*.txt'), ('All Files', '*')],
-        "text",u"txt"
+        [('txt', '*.txt'), ('All Files', '*')],
+        "text","txt"
     )
 
 def blockTEXT_out(frames, name):
     return SingleFileBlock(
         frames, name, tkFileDialog.asksaveasfilename,
-        [(u'txt', '*.txt'), ('All Files', '*')],
-        "text",u"txt"
+        [('txt', '*.txt'), ('All Files', '*')],
+        "text","txt"
     )
 
 
@@ -584,6 +584,7 @@ if __name__ == '__main__':
             self.block1 = blockDIR_in(frame, u"数据文件地址")
             self.block2 = blockShp_in(frame, u"DLTB图层")
             self.block3 = blockSheet(frame, u"复核表")
+            self.block4 = blockValue(frame, u"进程数")
         
         # self.addfile_button["state"] = "disabled"
         # self.addfile_button.pack_forget() # 隐藏模块
