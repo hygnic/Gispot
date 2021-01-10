@@ -15,7 +15,6 @@ class AutoScrollbar(Scrollbar):
         else:
             self.grid()
         Scrollbar.set(self, lo, hi)
-        
     def pack(self, **kw):
         raise TclError, "cannot use pack with this widget"
     def place(self, **kw):

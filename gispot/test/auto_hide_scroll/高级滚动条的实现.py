@@ -5,11 +5,14 @@
 # Created on: 2020/12/19 22:04
 # Reference:
 """
-Description: 希望实现非点击状态下的移动滚动条和内容
-目前只实现了移动滚动条
+Description: 实现在非点击状态下的移动滚动条和内容
+
 Usage:
 """
 # ---------------------------------------------------------------------------
+from __future__ import absolute_import
+from __future__ import print_function
+import platform
 try:
     import Tkinter as tk
     import ttk
@@ -17,11 +20,9 @@ except ImportError:
     import tkinter as tk
     from tkinter import ttk
 
-import platform
+
+
 OS = platform.system()
-
-
-
 
 class ScrollWidget(ttk.Frame):
 
@@ -57,7 +58,7 @@ class ScrollWidget(ttk.Frame):
         # self.innerframe.pack(anchor=N)
         
         self.canvas.create_window(0, 0, window=self.innerframe, anchor='nw', tags="inner_frame")
-        self.canvas.bind('<Configure>', self.updata_scrollarea) #  '<Configure>' 改变组件大小
+        self.canvas.bind('<Configure>', self.updata_scrollarea) #  '<Configure>' 改变组件大小、
         # self.canvas.configure(scrollregion="0 0 %s %s" % (100, 600))
         
         self.on_enter()
@@ -66,7 +67,6 @@ class ScrollWidget(ttk.Frame):
     @property
     def box(self):
         return self.innerframe
-    
     
     def updata_scrollarea(self, event):
         # 更新scrollarea, 如果scrollarea大小不对会导致滚动条显示不出来
@@ -110,21 +110,21 @@ class ScrollWidget(ttk.Frame):
 
 # --- main ---
 
-
-root = tk.Tk()
-root.title("Quiz")
-# root.geometry()
-upper = tk.Frame(root, height=400)
-upper.pack()
-bottom = tk.Frame(root, bg="blue")
-bottom.pack(side="bottom", fill="x")
-tk.Button(bottom, text="test").pack()
-
-window = ScrollWidget(bottom)
-window.pack(expand=True, fill='both')
-for i in xrange(20):
-    tk.Entry(window.box, width=100).pack(fill="x")
-
-
-root.mainloop()
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.title("Quiz")
+    # root.geometry()
+    upper = tk.Frame(root, height=400)
+    upper.pack()
+    bottom = tk.Frame(root, bg="blue")
+    bottom.pack(side="bottom", fill="x")
+    tk.Button(bottom, text="test").pack()
+    
+    window = ScrollWidget(bottom)
+    window.pack(expand=True, fill='both')
+    for i in xrange(20):
+        tk.Entry(window.box, width=100).pack(fill="x")
+    
+    
+    root.mainloop()
 
