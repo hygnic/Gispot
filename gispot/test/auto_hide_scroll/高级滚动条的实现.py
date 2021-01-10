@@ -2,278 +2,129 @@
 # -*- coding:utf-8 -*-
 # ---------------------------------------------------------------------------
 # Author: LiaoChenchen
-# Created on: 2020/12/19 21:43
-# Reference: https://stackoverflow.com/questions/47996265/how-to-scroll-a-gui-with-tkinter-in-python-using-the-mouse-wheel-on-the-center-o
+# Created on: 2020/12/19 22:04
+# Reference:
 """
-Description:
+Description: 希望实现非点击状态下的移动滚动条和内容
+目前只实现了移动滚动条
 Usage:
 """
 # ---------------------------------------------------------------------------
-import Tkinter as tk
-from random import randint
-
-# --- classes ---
 try:
-    from Tkinter import Canvas, Frame
-    from ttk import Scrollbar
-    
-    from Tkconstants import *
+    import Tkinter as tk
+    import ttk
 except ImportError:
-    from tkinter import Canvas, Frame
-    from tkinter.ttk import Scrollbar
-    
-    from tkinter.constants import *
+    import tkinter as tk
+    from tkinter import ttk
 
 import platform
-
 OS = platform.system()
 
 
-class Mousewheel_Support(object):
-    
-    # implemetation of singleton pattern
-    _instance = None
-    
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = object.__new__(cls)
-        return cls._instance
-    
-    def __init__(self, root, horizontal_factor=2, vertical_factor=2):
-        
-        self._active_area = None
-        
-        if isinstance(horizontal_factor, int):
-            self.horizontal_factor = horizontal_factor
-        else:
-            raise Exception("Vertical factor must be an integer.")
-        
-        if isinstance(vertical_factor, int):
-            self.vertical_factor = vertical_factor
-        else:
-            raise Exception("Horizontal factor must be an integer.")
-        
-        if OS == "Linux":
-            root.bind_all('<4>', self._on_mousewheel, add='+')
-            root.bind_all('<5>', self._on_mousewheel, add='+')
-        else:
-            # Windows and MacOS
-            root.bind_all("<MouseWheel>", self._on_mousewheel, add='+')
-    
-    def _on_mousewheel(self, event):
-        if self._active_area: # default None
-            self._active_area.onMouseWheel(event)
-    
-    def _mousewheel_bind(self, widget):
-        self._active_area = widget
-    
-    def _mousewheel_unbind(self):
-        self._active_area = None
-    
-    def add_support_to(self, widget=None, xscrollbar=None, yscrollbar=None):
-        if xscrollbar is None and yscrollbar is None:
-            return
-        
-        if xscrollbar is not None:
-            xscrollbar.onMouseWheel = self._make_mouse_wheel_handler(widget, 'x')
-            xscrollbar.bind('<Enter>', lambda event, scrollbar=xscrollbar: self._mousewheel_bind(scrollbar))
-            xscrollbar.bind('<Leave>', lambda event: self._mousewheel_unbind())
-        
-        if yscrollbar is not None:
-            yscrollbar.onMouseWheel = self._make_mouse_wheel_handler(widget, 'y')
-            yscrollbar.bind('<Enter>', lambda event, scrollbar=yscrollbar: self._mousewheel_bind(scrollbar))
-            yscrollbar.bind('<Leave>', lambda event: self._mousewheel_unbind())
-        
-        main_scrollbar = yscrollbar if yscrollbar is not None else xscrollbar
-        
-        if widget is not None:
-            if isinstance(widget, list) or isinstance(widget, tuple):
-                list_of_widgets = widget
-                for widget in list_of_widgets:
-                    widget.bind('<Enter>', lambda event: self._mousewheel_bind(widget))
-                    widget.bind('<Leave>', lambda event: self._mousewheel_unbind())
-                    
-                    widget.onMouseWheel = main_scrollbar.onMouseWheel
-            else:
-                widget.bind('<Enter>', lambda event: self._mousewheel_bind(widget))
-                widget.bind('<Leave>', lambda event: self._mousewheel_unbind())
-                
-                widget.onMouseWheel = main_scrollbar.onMouseWheel
-    
-    @staticmethod
-    def _make_mouse_wheel_handler(widget, orient):
-        # view_command = getattr(widget, orient + 'view_scroll') # TODO 1__1
-        view_command = getattr(widget, orient + 'view') # xview, yview
-        # print(view_command) # <bound method Canvas.xview of <Tkinter.Canvas instance at 0x0303E878>>
-        if OS == 'Linux':
-            def onMouseWheel(event):
-                if event.num == 4:
-                    view_command("scroll", (-1), "units")
-                elif event.num == 5:
-                    view_command("scroll", 1, "units")
-        
-        elif OS == 'Windows':
-            def onMouseWheel(event):
-                # view_command(-1*int(event.delta/120), "units")  # TODO 1__2 对应 TODO 1__1
-                view_command("scroll", -1*int(event.delta/120), "units")
-        
-        elif OS == 'Darwin':
-            def onMouseWheel(event):
-                view_command("scroll", event.delta, "units")
-        
-        return onMouseWheel
 
 
-class Scrolling_Area(Frame, object):
-    
-    def __init__(self, master, width=None, anchor=N, height=None, mousewheel_speed=2, scroll_horizontally=True, xscrollbar=None, scroll_vertically=True, yscrollbar=None, background=None, inner_frame=Frame, **kw):
-        Frame.__init__(self, master, class_="Scrolling_Area", background=background)
+class ScrollWidget(ttk.Frame):
+
+    def __init__(self, master, **kw):
+        # frame{
+        #   canvas{
+        #       frame{create_window{}
+        #           }
+        #       }
+        #   }
         
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+        ttk.Frame.__init__(self, master, **kw)
+        # self.grid_columnconfigure(0, weight=1)
+        # self.grid_rowconfigure(0, weight=1)
+        # 放置滚动条 垂直方向
+        self.yscrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL)
+        self.yscrollbar.pack(side="right", fill="y")
+        # 放置滚动条 水平方向
+        self.xscrollbar = ttk.Scrollbar(self, orient=tk.HORIZONTAL)
+        self.xscrollbar.pack(side="bottom", fill="x")
         
-        self._width = width
-        self._height = height
+        self.canvas = tk.Canvas(self, highlightthickness=0, bg="red")
+        # self.canvas.grid(row=0, column=0, sticky=N + E + W + S)   # self.canvas.pack()
+        self.canvas.pack(fill="x")
+       
+        self.canvas.configure(xscrollcommand=self.xscrollbar.set)
+        self.xscrollbar['command'] = self.canvas.xview
+        self.canvas.configure(yscrollcommand=self.yscrollbar.set)
+        self.yscrollbar['command'] = self.canvas.yview
         
-        self.canvas = Canvas(self, background=background, highlightthickness=0, width=width, height=height)
-        self.canvas.grid(row=0, column=0, sticky=N + E + W + S)
-        
-        if scroll_vertically:
-            if yscrollbar is not None:
-                self.yscrollbar = yscrollbar
-            else:
-                self.yscrollbar = Scrollbar(self, orient=VERTICAL)
-                self.yscrollbar.grid(row=0, column=1, sticky=N + S)
-            
-            self.canvas.configure(yscrollcommand=self.yscrollbar.set)
-            self.yscrollbar['command'] = self.canvas.yview
-        else:
-            self.yscrollbar = None
-        
-        if scroll_horizontally:
-            if xscrollbar is not None:
-                self.xscrollbar = xscrollbar
-            else:
-                self.xscrollbar = Scrollbar(self, orient=HORIZONTAL)
-                self.xscrollbar.grid(row=1, column=0, sticky=E + W)
-            
-            self.canvas.configure(xscrollcommand=self.xscrollbar.set)
-            self.xscrollbar['command'] = self.canvas.xview
-        else:
-            self.xscrollbar = None
-        
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
-        
-        self.innerframe = inner_frame(self.canvas, **kw)
-        self.innerframe.pack(anchor=anchor)
+        self.innerframe = ttk.Frame(self.canvas)
+        self.innerframe.pack(anchor="n", fill="x", expand=True)
+        # self.innerframe.pack(anchor=N)
         
         self.canvas.create_window(0, 0, window=self.innerframe, anchor='nw', tags="inner_frame")
+        self.canvas.bind('<Configure>', self.updata_scrollarea) #  '<Configure>' 改变组件大小
+        # self.canvas.configure(scrollregion="0 0 %s %s" % (100, 600))
         
-        self.canvas.bind('<Configure>', self._on_canvas_configure)
-        
-        Mousewheel_Support(self).add_support_to(self.canvas, xscrollbar=self.xscrollbar, yscrollbar=self.yscrollbar)
+        self.on_enter()
+        self.on_leave()
     
     @property
-    def width(self):
-        return self.canvas.winfo_width()
+    def box(self):
+        return self.innerframe
     
-    @width.setter
-    def width(self, width):
-        self.canvas.configure(width=width)
     
-    @property
-    def height(self):
-        return self.canvas.winfo_height()
-    
-    @height.setter
-    def height(self, height):
-        self.canvas.configure(height=height)
-    
-    def set_size(self, width, height):
-        self.canvas.configure(width=width, height=height)
-    
-    def _on_canvas_configure(self, event):
+    def updata_scrollarea(self, event):
+        # 更新scrollarea, 如果scrollarea大小不对会导致滚动条显示不出来
+        # self.canvas.configure(scrollregion="0 0 %s %s" % (100, 600)) 比如这样
+        # 会导致横向的滚动条显示不出来
         width = max(self.innerframe.winfo_reqwidth(), event.width)
         height = max(self.innerframe.winfo_reqheight(), event.height)
-        
         self.canvas.configure(scrollregion="0 0 %s %s" % (width, height))
-        self.canvas.itemconfigure("inner_frame", width=width, height=height)
+        # self.canvas.itemconfigure("inner_frame", width=width, height=height)
     
-    def update_viewport(self):
-        self.update()
-        
-        window_width = self.innerframe.winfo_reqwidth()
-        window_height = self.innerframe.winfo_reqheight()
-        
-        if self._width is None:
-            canvas_width = window_width
-        else:
-            canvas_width = min(self._width, window_width)
-        
-        if self._height is None:
-            canvas_height = window_height
-        else:
-            canvas_height = min(self._height, window_height)
-        
-        self.canvas.configure(scrollregion="0 0 %s %s" % (window_width, window_height), width=canvas_width, height=canvas_height)
-        self.canvas.itemconfigure("inner_frame", width=window_width, height=window_height)
+    def on_enter(self):
+        # 鼠标进入canvas区域时，激活方法self.mouse_move
+        # def inner(event):
+        #     print "enter"
+        #     print event.y
+        self.canvas.bind("<Enter>", self.mouse_move)
 
+    def on_leave(self):
+        # def inner(event):
+        #     print "leave"
+        #     print event.delta
+        # 鼠标离开canvas区域时，激活方法sself.unbind_mouse
+        self.canvas.bind("<Leave>", self.unbind_mouse)
 
-class Question:
-    
-    def __init__(self, parent, question, answer):
-        self.parent = parent
-        self.question = question
-        self.answer = answer
-        self.create_widgets()
-    
-    def get_input(self):
-        value = self.entry.get()
-        print('value:', value)
-        if value == self.answer:
-            print("Right it's " + self.answer)
-            self.label['text'] = self.question + "Right it's " + self.answer
-        else:
-            self.label['text'] = "Sorry, it was " + self.answer
-    
-    def create_widgets(self):
-        self.labelframe = tk.LabelFrame(self.parent, text="Domanda:")
-        self.labelframe.pack(fill="both", expand=True)
-        
-        self.label = tk.Label(self.labelframe, text=self.question)
-        self.label.pack(expand=True, fill='both')
-        
-        self.entry = tk.Entry(self.labelframe)
-        self.entry.pack()
-        self.entry.bind("<Return>", lambda x: self.get_input())
-    
-    # self.button = tk.Button(self.labelframe, text="Click", command=self.get_input)
-    # self.button.pack()
+    def mouse_move(self, event):
+        # def inner(event):
+        #     print "move"
+        #     print event.delta # 向上滑是120，向下是-120
+        # 滚动鼠标滑轮时，激活方法self.y_move（该方法用于移动界面）
+        self.canvas.bind_all("<MouseWheel>", self.y_move)
+        # 同时将滚动条和滚动区域界面互相绑定（避免出现滚动区域成功移动但是滚动条不动的状况）
+        self.canvas.configure(yscrollcommand=self.yscrollbar.set)
+
+    def unbind_mouse(self, event):
+        # 离开滚动区域时，取消绑定，不然鼠标在外面也能滚动界面
+        self.canvas.unbind_all("<MouseWheel>")
+
+    def y_move(self, event):
+        # 使可滚动界面根据鼠标滑轮滚动
+        self.canvas.yview_scroll(-1 * int(event.delta / 120), 'units')
 
 # --- main ---
 
 
 root = tk.Tk()
 root.title("Quiz")
-root.geometry("400x300")
+# root.geometry()
+upper = tk.Frame(root, height=400)
+upper.pack()
+bottom = tk.Frame(root, bg="blue")
+bottom.pack(side="bottom", fill="x")
+tk.Button(bottom, text="test").pack()
 
-
-window = Scrolling_Area(root)
+window = ScrollWidget(bottom)
 window.pack(expand=True, fill='both')
-
-
-for i in range(10):
-    one = randint(1, 10)
-    two = randint(1, 10)
-    Question(window.innerframe, "How is the result of {} + {} ?".format(one, two), str(one + two))
-
-domande = [("Qual è la prima leva del marketing mix? (prodotto o prezzo?", "prodotto")]
-
-
-# 最后的那个问题
-# for d, r in domande:
-#     Question(window.innerframe, d, r)
+for i in xrange(20):
+    tk.Entry(window.box, width=100).pack(fill="x")
 
 
 root.mainloop()
+

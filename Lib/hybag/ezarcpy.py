@@ -150,7 +150,7 @@ def setZWMC(layer, reference_field, target_field1, target_field2):
 					pass
 
 
-def merger_all(layer):
+def merger_all(layer, outputclass= "in_memory/diss_all"):
 	"""
 	一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，最后删除
 	该字段)
@@ -177,7 +177,7 @@ def merger_all(layer):
 	del cursor
 	# new_ly = "newlayer_945"
 	# 使用内存空间
-	new_ly = "in_memory/diss"
+	new_ly = outputclass
 	arcpy.Dissolve_management(layer, new_ly ,name)
 	arcpy.DeleteField_management(new_ly, name)
 	return new_ly
