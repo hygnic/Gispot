@@ -36,8 +36,8 @@ class AutoScrollbar(ttk.Scrollbar):
 
 root = tk.Tk()
 
-hscrollbar = ttk.Scrollbar(root)
-vscrollbar = ttk.Scrollbar(root, orient='horizontal')
+hscrollbar = AutoScrollbar(root)
+vscrollbar = AutoScrollbar(root, orient='horizontal')
 hscrollbar.pack(side=tk.RIGHT, fill="y")
 vscrollbar.pack(side=tk.BOTTOM, fill="x")
 
@@ -52,7 +52,7 @@ vscrollbar.config(command=test_text.yview)
 
 # canvas.create_window(0, 0, anchor=tk.NW, window=frame)
 
-# test_text.update_idletasks()
+test_text.update_idletasks()
 
 # test_text.config(scrollregion=test_text.bbox("all"))
 
