@@ -5,7 +5,7 @@
 # Created on: 2020/12/19 22:04
 # Reference:
 """
-Description: 实现在非点击状态下的移动滚动条和内容
+Description: 实现在非点击状态下的移动滚动条和内容；实现自动隐藏滚动条
 
 Usage:
 """
