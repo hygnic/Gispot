@@ -516,7 +516,7 @@ def blockDIR_out(frames, name):
 # 数字输入模块（没有button）
 def blockValue(frames, name):
     inner = SingleFileBlock(
-        frames, name, tkFileDialog.askdirectory, None, "empty", u"输入值")
+        frames, name, None, None, "empty2", u"输入值")
     # inner.block_button["state"] ="disabled"  #不行
     # inner.block_button.config(state ="disabled") # 不行
     # 解除绑定

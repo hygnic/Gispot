@@ -6,7 +6,8 @@
 # Reference:
 """
 Description: 复杂的多边形（内部环岛孔洞等）在显示轮廓线时显得非常的乱和臃肿；本工具的作用就是仅仅在
-复杂多边形的外部生成轮廓。
+            复杂多边形的外部生成轮廓。
+            该方法生成的轮廓线较原始的美观
 Usage:
 """
 # ---------------------------------------------------------------------------
@@ -34,7 +35,10 @@ def better_contour(inputclass, outputclass):
     arcpy.SimplifyPolygon_cartography ("in_memory/after_eli", outputclass, algorithm="POINT_REMOVE", tolerance = 1, error_option="NO_CHECK" , collapsed_point_option="NO_KEEP")
     print("complete")
     
-better_contour(["G:\MoveOn\mapping/v103/base.gdb/GBZ", "G:\MoveOn\mapping/v103/base.gdb/GBZ1920"], "lyr22")
+better_contour(
+    ["G:\高标准分布图\彭山区分布图数据\彭山区分布图数据/v103/base.gdb/GBZ1920"
+        ,"G:\高标准分布图\彭山区分布图数据\彭山区分布图数据/v103/base.gdb/GBZ"
+     ], "lyr22")
 
 # if __name__ == '__main__':
 #     gdb_path = "G:\MoveOn\mapping/v103/base.gdb"
