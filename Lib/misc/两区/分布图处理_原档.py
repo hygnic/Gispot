@@ -69,7 +69,7 @@ for row in cursor:
     for onelayerlist in layerlist1:
         layer = arcpy.mapping.ListLayers(mxd1,onelayerlist,dataframe1)[0]
         # 有时候标志牌暂时没有
-        if layer.isBroken == False:
+        if not layer.isBroken:
             # layer.definitionQuery = ''
             layer.definitionQuery = '"' + 'CJQYDM' + '"' + ' like' \
             + " '" + getvalue_XJQYDM[:9] + "%'"

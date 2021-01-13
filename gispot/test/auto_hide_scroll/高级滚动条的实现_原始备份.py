@@ -266,16 +266,24 @@ window = Scrolling_Area(root)
 window.pack(expand=True, fill='both')
 
 
-for i in range(10):
-    one = randint(1, 10)
-    two = randint(1, 10)
-    Question(window.innerframe, "How is the result of {} + {} ?".format(one, two), str(one + two))
+text = tk.Text(window.innerframe, width=10, height=20)
+text.pack(expand=1, fill="both")
 
-domande = [("Qual è la prima leva del marketing mix? (prodotto o prezzo?", "prodotto")]
+with open("Do Not Go Gentle into That Good Night.txt", "r") as f:
+    for i in f.readlines():
+        text.insert("end",i)
+        text.see("end")
 
-
-for d, r in domande:
-    Question(window.innerframe, d, r)
+# for i in range(10):
+#     one = randint(1, 10)
+#     two = randint(1, 10)
+#     Question(window.innerframe, "How is the result of {} + {} ?".format(one, two), str(one + two))
+#
+# domande = [("Qual è la prima leva del marketing mix? (prodotto o prezzo?", "prodotto")]
+#
+#
+# for d, r in domande:
+#     Question(window.innerframe, d, r)
 
 
 root.mainloop()

@@ -21,58 +21,16 @@ except ImportError:
 
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = Toplevel1 (root)
 
-    root.mainloop()
-
-w = None
-def create_Toplevel1(rt, *args, **kwargs):
-    '''Starting point when module is imported by another module.
-       Correct form of call: 'create_Toplevel1(root, *args, **kwargs)' .'''
-    global w, w_win, root
-    #rt = root
-    root = rt
-    w = tk.Toplevel (root)
-    top = Toplevel1 (w)
-
-    return (w, top)
-
-def destroy_Toplevel1():
-    global w
-    w.destroy()
-    w = None
 
 class Toplevel1:
     def __init__(self, top=None):
-        '''This class configures and populates the toplevel window.
-           top is the toplevel containing window.'''
-        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
-        _fgcolor = '#000000'  # X11 color: 'black'
-        _compcolor = '#d9d9d9' # X11 color: 'gray85'
-        _ana1color = '#d9d9d9' # X11 color: 'gray85'
-        _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        top.geometry("600x300+374+246")
         self.style = ttk.Style()
-        if sys.platform == "win32":
-            self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
-
-        top.geometry("600x450+374+246")
-        top.minsize(120, 1)
-        top.maxsize(1924, 1061)
-        top.resizable(1,  1)
-        top.title("New Toplevel")
-        top.configure(background="#d9d9d9")
 
         self.Scrolledtext1 = ScrolledText(top)
-        self.Scrolledtext1.place(relx=0.25, rely=0.267, relheight=0.553
-                , relwidth=0.558)
+        self.Scrolledtext1.pack(expand=1)
+        
         self.Scrolledtext1.configure(background="white")
         self.Scrolledtext1.insert("end","woshiyigeresddddddddddddddddddddddd的士速递dddn\n"*20)
         self.Scrolledtext1.configure(font="TkTextFont")
@@ -98,10 +56,10 @@ class AutoScroll(object):
             pass
         hsb = ttk.Scrollbar(master, orient='horizontal', command=self.xview)
         try:
-            self.configure(yscrollcommand=self._autoscroll(vsb))
+            self.configure(yscrollcommand=vsb.set)
         except:
             pass
-        self.configure(xscrollcommand=self._autoscroll(hsb))
+        self.configure(xscrollcommand=hsb.set)
         self.grid(column=0, row=0, sticky='nsew')
         try:
             vsb.grid(column=1, row=0, sticky='ns')
@@ -111,24 +69,20 @@ class AutoScroll(object):
         master.grid_columnconfigure(0, weight=1)
         master.grid_rowconfigure(0, weight=1)
         # Copy geometry methods of master  (taken from ScrolledText.py)
-        if py3:
-            methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() \
-                  | tk.Place.__dict__.keys()
-        else:
-            methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
-                  + tk.Place.__dict__.keys()
-            # print methods
-            """
-            ['bubbletip', 'forget', '__module__', 'configure', 'pack_configure',
-            'pack_slaves', 'pack_forget', 'pack_propagate', 'propagate', 'slaves',
-            'pack_info', 'config', '__doc__', 'pack', '__module__', 'forget',
-            'grid_propagate', 'grid_columnconfigure', 'grid_slaves', 'grid_bbox',
-            'size', 'location', 'config', '__doc__', 'configure', 'grid_info',
-            'columnconfigure', 'grid_remove', 'grid_configure', 'grid', 'bbox',
-            'grid_rowconfigure', 'bubbletip', 'grid_size', 'grid_forget', 'slaves',
-            'grid_location', 'propagate', 'rowconfigure', 'bubbletip', '__module__',
-            'configure', 'place_forget', 'place_configure', 'place_info', 'place',
-            'slaves', 'place_slaves', 'config', '__doc__', 'forget']
+        methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
+              + tk.Place.__dict__.keys()
+        # print methods
+        """
+        ['bubbletip', 'forget', '__module__', 'configure', 'pack_configure',
+        'pack_slaves', 'pack_forget', 'pack_propagate', 'propagate', 'slaves',
+        'pack_info', 'config', '__doc__', 'pack', '__module__', 'forget',
+        'grid_propagate', 'grid_columnconfigure', 'grid_slaves', 'grid_bbox',
+        'size', 'location', 'config', '__doc__', 'configure', 'grid_info',
+        'columnconfigure', 'grid_remove', 'grid_configure', 'grid', 'bbox',
+        'grid_rowconfigure', 'bubbletip', 'grid_size', 'grid_forget', 'slaves',
+        'grid_location', 'propagate', 'rowconfigure', 'bubbletip', '__module__',
+        'configure', 'place_forget', 'place_configure', 'place_info', 'place',
+        'slaves', 'place_slaves', 'config', '__doc__', 'forget']
              """
         for meth in methods:
             # print meth
@@ -136,87 +90,46 @@ class AutoScroll(object):
                 print meth
                 setattr(self, meth, getattr(master, meth))
 
-    @staticmethod
-    def _autoscroll(sbar):
-        '''Hide and show scrollbar as needed.'''
-        def wrapped(first, last):
-            first, last = float(first), float(last)
-            if first <= 0 and last >= 1:
-                sbar.grid_remove()
-            else:
-                sbar.grid()
-            sbar.set(first, last)
-        return wrapped
-
     def __str__(self):
         return str(self.master)
 
-def _create_container(func):
-    '''Creates a ttk Frame with a given master, and use this new frame to
-    place the scrollbars and the widget.'''
-    def wrapped(cls, master, **kw):
-        container = ttk.Frame(master)
-        container.bind('<Enter>', lambda e: _bound_to_mousewheel(e, container))
-        container.bind('<Leave>', lambda e: _unbound_to_mousewheel(e, container))
-        return func(cls, container, **kw)
-    return wrapped
 
 class ScrolledText(AutoScroll, tk.Text):
     '''A standard Tkinter Text widget with scrollbars that will
     automatically show/hide as needed.'''
-    @_create_container
-    def __init__(self, master, **kw):
-        tk.Text.__init__(self, master, **kw)
-        AutoScroll.__init__(self, master)
+    # @_create_container # 自动添加了一层frame组件，且frame变成了master
+    def __init__(self, master, **kw): # return func(cls, container, **kw)
+        innerframe = tk.Frame(master)
+        innerframe.bind('<Enter>', lambda e: _bound_to_mousewheel(e, innerframe))
+        innerframe.bind('<Leave>', lambda e: _unbound_to_mousewheel(e, innerframe))
+        innerframe.pack() # 有没有都一样
+        
+        tk.Text.__init__(self, innerframe, **kw)
+        AutoScroll.__init__(self, innerframe)
 
 import platform
 def _bound_to_mousewheel(event, widget):
     child = widget.winfo_children()[0]
     print "child",widget.winfo_children()
-    if platform.system() == 'Windows' or platform.system() == 'Darwin':
-        child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Shift-MouseWheel>', lambda e: _on_shiftmouse(e, child))
-    else:
-        child.bind_all('<Button-4>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Button-5>', lambda e: _on_mousewheel(e, child))
-        child.bind_all('<Shift-Button-4>', lambda e: _on_shiftmouse(e, child))
-        child.bind_all('<Shift-Button-5>', lambda e: _on_shiftmouse(e, child))
+    child.bind_all('<MouseWheel>', lambda e: _on_mousewheel(e, child))
+    child.bind_all('<Shift-MouseWheel>', lambda e: _on_shiftmouse(e, child))
+
 
 def _unbound_to_mousewheel(event, widget):
-    if platform.system() == 'Windows' or platform.system() == 'Darwin':
-        widget.unbind_all('<MouseWheel>')
-        widget.unbind_all('<Shift-MouseWheel>')
-    else:
-        widget.unbind_all('<Button-4>')
-        widget.unbind_all('<Button-5>')
-        widget.unbind_all('<Shift-Button-4>')
-        widget.unbind_all('<Shift-Button-5>')
+    widget.unbind_all('<MouseWheel>')
+    widget.unbind_all('<Shift-MouseWheel>')
 
 def _on_mousewheel(event, widget):
-    if platform.system() == 'Windows':
-        widget.yview_scroll(-1*int(event.delta/120),'units')
-    elif platform.system() == 'Darwin':
-        widget.yview_scroll(-1*int(event.delta),'units')
-    else:
-        if event.num == 4:
-            widget.yview_scroll(-1, 'units')
-        elif event.num == 5:
-            widget.yview_scroll(1, 'units')
-
+    widget.yview_scroll(-1*int(event.delta/120),'units')
+  
 def _on_shiftmouse(event, widget):
-    if platform.system() == 'Windows':
-        widget.xview_scroll(-1*int(event.delta/120), 'units')
-    elif platform.system() == 'Darwin':
-        widget.xview_scroll(-1*int(event.delta), 'units')
-    else:
-        if event.num == 4:
-            widget.xview_scroll(-1, 'units')
-        elif event.num == 5:
-            widget.xview_scroll(1, 'units')
+    widget.xview_scroll(-1*int(event.delta/120), 'units')
+
 
 if __name__ == '__main__':
-    vp_start_gui()
-
+    root = tk.Tk()
+    top = Toplevel1(root)
+    root.mainloop()
 
 
 

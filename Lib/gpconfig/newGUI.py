@@ -399,7 +399,7 @@ class ToolTip(tk.Toplevel):
           event: The event that called this function
         """
         self.lastMotion = time()
-        if self.follow == False:  # If the follow flag is not set, motion within the widget will make the ToolTip dissapear
+        if not self.follow:  # If the follow flag is not set, motion within the widget will make the ToolTip dissapear
             self.withdraw()
             self.visible = 1
         self.geometry('+%i+%i' % (event.x_root + 10,

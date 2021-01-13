@@ -12,6 +12,8 @@ Usage:
 # ---------------------------------------------------------------------------
 from __future__ import absolute_import
 from __future__ import print_function
+from ttkthemes import ThemedTk
+
 import platform
 try:
     import Tkinter as tk
@@ -23,6 +25,13 @@ except ImportError:
 
 
 OS = platform.system()
+
+def print_widt(widget22):
+    print("{} {} {} {}".format(
+        widget22.winfo_reqwidth(), widget22.winfo_reqheight(), widget22.winfo_width(), widget22.winfo_height()))
+
+
+
 
 
 class AutoScrollbar(ttk.Scrollbar):
@@ -44,8 +53,7 @@ class AutoScrollbar(ttk.Scrollbar):
         raise tk.TclError, "cannot use place with this widget"
 
 
-
-class ScrollWidget(ttk.Frame):
+class ScrollWidget(tk.Frame):
 
     def __init__(self, master, **kw):
         # frame{
@@ -55,9 +63,7 @@ class ScrollWidget(ttk.Frame):
         #       }
         #   }
         
-        ttk.Frame.__init__(self, master, **kw)
-        # self.grid_columnconfigure(0, weight=1)
-        # self.grid_rowconfigure(0, weight=1)
+        tk.Frame.__init__(self, master, **kw)
         # # 放置滚动条 垂直方向
         # self.yscrollbar = AutoScrollbar(self, orient=tk.VERTICAL)
         # self.yscrollbar.pack(side="right", fill="y")
@@ -65,24 +71,28 @@ class ScrollWidget(ttk.Frame):
         # self.xscrollbar = AutoScrollbar(self, orient=tk.HORIZONTAL)
         # self.xscrollbar.pack(side="bottom", fill="x")
         
-        self.canvas = tk.Canvas(self, highlightthickness=0,) #  bg="red"
+        self.canvas = tk.Canvas(self, highlightthickness=0,bg="red") #  bg="red"
         self.canvas.grid(row=0, column=0, sticky=tk.N + tk.E + tk.W + tk.S)   # self.canvas.pack()
         # self.canvas.pack(fill="x")
 
-        self.make_scroll(AutoScrollbar)
+        self.make_scroll(tk.Scrollbar)
        
         # self.canvas.configure(xscrollcommand=self.xscrollbar.set)
         # self.xscrollbar['command'] = self.canvas.xview
         # self.canvas.configure(yscrollcommand=self.yscrollbar.set)
         # self.yscrollbar['command'] = self.canvas.yview
         
-        self.innerframe = ttk.Frame(self.canvas)
-        self.innerframe.pack(anchor="n", fill="x", expand=True)
+        self.innerframe = tk.Frame(self.canvas, bg="blue", relief="sunken", bd=10) #  bg="blue", relief="sunken", bd=10
+        self.innerframe.grid(row=0, column=0, sticky=tk.N + tk.E + tk.W + tk.S)
+        # self.innerframe.pack(anchor="n", fill="x", expand=True)
         # self.innerframe.pack(anchor=N)
         
         self.canvas.create_window(0, 0, window=self.innerframe, anchor='nw', tags="inner_frame")
+        # self.canvas.create_window(0, 0, window=self.innerframe, anchor='nw', tags="inner_frame")
+        self.update_idletasks()
         self.canvas.bind('<Configure>', self.updata_scrollarea) #  '<Configure>' 改变组件大小
-        # self.canvas.configure(scrollregion="0 0 %s %s" % (200, 600))
+        # self.canvas.configure(scrollregion="0 0 %s %s" % (378, 265))
+        # self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         
         self.on_enter()
         self.on_leave()
@@ -102,6 +112,7 @@ class ScrollWidget(ttk.Frame):
         self.canvas.configure(xscrollcommand=self.xscrollbar.set)
         self.xscrollbar['command'] = self.canvas.xview
     
+    
     @property
     def box(self):
         return self.innerframe
@@ -110,11 +121,16 @@ class ScrollWidget(ttk.Frame):
         # 更新scrollarea, 如果scrollarea大小不对会导致滚动条显示不出来
         # self.canvas.configure(scrollregion="0 0 %s %s" % (100, 600)) 比如这样
         # 会导致横向的滚动条显示不出来
+        print("2")
+        print(self.innerframe.winfo_reqwidth())
+        print(event.width)
+        
         width = max(self.innerframe.winfo_reqwidth(), event.width)
         height = max(self.innerframe.winfo_reqheight(), event.height)
         self.canvas.configure(scrollregion="0 0 %s %s" % (width, height))
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        # self.canvas.itemconfigure("inner_frame", width=width, height=height)
+        # self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        # canvas.create_window会创建一个"inner_frame"的窗口
+        self.canvas.itemconfigure("inner_frame", width=width, height=height)
     
     def on_enter(self):
         # 鼠标进入canvas区域时，激活方法self.mouse_move
@@ -156,10 +172,11 @@ class ScrollWidget(ttk.Frame):
             elif event.num == 5:
                 self.canvas.yview_scroll(1, 'units')
 
-# --- main ---
+
 
 if __name__ == '__main__':
-    root = tk.Tk()
+    root = ThemedTk(theme="arc")
+    # root = tk.Tk()
     root.title("adv scrollbar")
     # root.geometry()
     # upper = tk.Frame(root, height=400)
@@ -170,15 +187,15 @@ if __name__ == '__main__':
     
     window = ScrollWidget(root)
     window.pack(expand=True, fill='both')
-    
-    text = tk.Text(window.box)
-    text.pack(fill="x")
-    import time
+    print_widt(window.innerframe)
+    print_widt(window.canvas)
+    text = tk.Text(window.box) # width=600, height=800
+    text.pack(expand=1, fill="both") # expand=1, fill="both"
+    print_widt(text)
     with open("Do Not Go Gentle into That Good Night.txt", "r") as f:
         for i in f.readlines():
-            # root.after(2,lambda :text.insert("end",i))
             text.insert("end",i)
+            text.see("end")
     
     
     root.mainloop()
-

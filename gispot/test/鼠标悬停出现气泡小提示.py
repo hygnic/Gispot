@@ -41,7 +41,7 @@ class ToolTip(tk.Toplevel):
 			True)  # The ToolTip Toplevel should have no frame or title bar
 		
 		self.msgVar = tk.StringVar()  # The msgVar will contain the text displayed by the ToolTip
-		if msg == None:
+		if msg is None:
 			self.msgVar.set('No message provided')
 		else:
 			self.msgVar.set(msg)
@@ -87,7 +87,7 @@ class ToolTip(tk.Toplevel):
 		  event: The event that called this function
 		"""
 		self.lastMotion = time()
-		if self.follow == False:  # If the follow flag is not set, motion within the widget will make the ToolTip dissapear
+		if not self.follow:  # If the follow flag is not set, motion within the widget will make the ToolTip dissapear
 			self.withdraw()
 			self.visible = 1
 		self.geometry('+%i+%i' % (event.x_root + 10,

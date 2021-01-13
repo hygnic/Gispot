@@ -75,6 +75,7 @@ class Toplevel1:
                 , relwidth=0.558)
         self.Scrolledtext1.configure(background="white")
         self.Scrolledtext1.configure(font="TkTextFont")
+        self.Scrolledtext1.insert("end","woshiyigeresddddddddddddddddddddddd的士速递dddn\n"*20)
         self.Scrolledtext1.configure(foreground="black")
         self.Scrolledtext1.configure(highlightbackground="#d9d9d9")
         self.Scrolledtext1.configure(highlightcolor="black")
