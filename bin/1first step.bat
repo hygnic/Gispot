@@ -1,0 +1,1 @@
+python2 mysetup.py py2exe

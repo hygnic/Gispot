@@ -1,0 +1,7 @@
+环境变量
+arcgis10.X版本
+    TCL_LIBRARY
+    C:\Python27\ArcGIS10.X\tcl\tcl8.5
+
+    Path
+    C:\Python27\ArcGIS10.X

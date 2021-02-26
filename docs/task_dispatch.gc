@@ -1,0 +1,17 @@
+分组示例demo：
+
+mxd文档地址：E:\move on move on\Gispot\docs\demo\gs_demo.mxd
+
+选取字段：XJQYDM
+
+保存地址：E:\move on move on\Gispot\docs\demo
+
+分组信息：
+group1
+888999001,888999008
+group2
+888999004,888999009,888999005
+小明
+888999012
+
+最终结果存放于mxd文档所在的文件夹中
