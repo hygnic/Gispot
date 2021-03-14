@@ -83,7 +83,7 @@ template = [join(rb_tempalte, _) for _ in listdir(rb_tempalte) if isfile(join(rb
 # windows 独立窗口
 # console 带dos界面
 setup(
-	console=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
+	windows=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
 	options=options,
 	name = 'LCC',
 	data_files=[('images',images), ("gisdocs",gisdocs),("template",template),
