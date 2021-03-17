@@ -20,12 +20,12 @@ import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
 
-exist_ttkthemes = 0
-try:
-    from ttkthemes import ThemedTk
-except ImportError:
-    print "NO ttkthemes"
-    exist_ttkthemes = 0
+# exist_ttkthemes = 0
+# try:
+#     from ttkthemes import ThemedTk
+# except ImportError:
+#     print "NO ttkthemes"
+#     exist_ttkthemes = 0
 from PIL import Image, ImageTk
 
 # 获取当前的文件位置
@@ -107,11 +107,21 @@ class AppEntrance(object):
     prograss_int = 0
     
     def __init__(self):
-        if exist_ttkthemes:
+        """
+         if exist_ttkthemes:
             # self.rootwindow = tk.Tk()
             self.rootwindow = ThemedTk(theme="arc")
         else:
             self.rootwindow = tk.Tk()
+        self.rootwindow.title("")
+        
+        """
+        
+        # if exist_ttkthemes:
+        #     # self.rootwindow = tk.Tk()
+        #     self.rootwindow = ThemedTk(theme="arc")
+        # else:
+        self.rootwindow = tk.Tk()
         self.rootwindow.title("")
         # self.rootwindow.title("GISPOT")
         # self.rootwindow.update_idletasks()
