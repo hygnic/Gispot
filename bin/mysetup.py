@@ -51,8 +51,7 @@ giscat_paths = [root_base,
 for giscat_path in giscat_paths:
 	sys.path.append(giscat_path)
 """_____________________________________________________________________________
-info:
-can't compress when skipping archive
+info: can't compress when skipping archive
 """
 options = {
 	"py2exe":{
