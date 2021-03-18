@@ -34,7 +34,7 @@ def screen_cetre(master, width=None, height=None):
     if width is None:
         width, height = 800, 660
     geometry_size = "{}x{}+{}+{}".format(
-        width, height, (screenwidth - width) / 2-200,
+        width, height, (screenwidth - width) / 2, #         width, height, (screenwidth - width) / 2-200,
                        (screenheight - height) / 2)
     master.geometry(geometry_size)
 # geometry = '%dx%d+%d+%d' % (
