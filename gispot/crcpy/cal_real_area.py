@@ -77,7 +77,7 @@ class RealArea(object):
     def merge_target_lyr(self):
         # 合并所有高标准农田图层，如果输入了1920年的，一并合并
         gbz1 = hybasic.getfiles(self.gbz_f, "shp")
-        gbzs = hybasic.HBfilter(gbz1, "GBZ")
+        gbzs = hybasic.filter_file(gbz1,"GBZ")
         merge_gbzs = "meger_gbzs"
         # 处理19-20年的数据
         if self.gbz_f1920:

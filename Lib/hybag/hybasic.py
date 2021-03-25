@@ -117,7 +117,7 @@ def getfiles(dirs_p, suffix, recur=True, counter=0): 				 # 002.0
     return _getall_items
 
 
-def HBfilter(raw_list, matchword, size_limit=None):					# 002.5
+def filter_file(raw_list,matchword,size_limit=None):					# 002.5
     """
     使用字符匹配和文件大小（如果列表元素是地址的话）对列表中进行筛选
     import os

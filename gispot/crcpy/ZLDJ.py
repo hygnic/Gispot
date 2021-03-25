@@ -68,7 +68,7 @@ def main(qq_pip,folder, excel):
 	# eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 	shpfiles = hybasic.getfiles(db_path,"shp",True)
 	# shpfiles = [os.path.basename(i) for i in shpfiles]
-	GBZ_shpfiles=hybasic.HBfilter(shpfiles,"GBZ",100)
+	GBZ_shpfiles=hybasic.filter_file(shpfiles,"GBZ",100)
 	print "GBZ_shpfiles's len:",len(GBZ_shpfiles)
 	for path in GBZ_shpfiles:
 		print path
@@ -90,7 +90,7 @@ def main(qq_pip,folder, excel):
 					print "shpfiles done:",path
 	
 	hybasic._getall_items=[] # 清空列表，递归中不便设置清空操作
-	XM_shpfiles=hybasic.HBfilter(shpfiles,"XM",100)
+	XM_shpfiles=hybasic.filter_file(shpfiles,"XM",100)
 	print "XM_shpfiles's len:",len(XM_shpfiles)
 	for path in XM_shpfiles:
 		for ii in XMMC_ZLDJ:

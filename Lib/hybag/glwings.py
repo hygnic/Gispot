@@ -49,6 +49,10 @@ def open_xlwings(input_file, output=None):
     sheet = wb.sheets[0]  # sheet = wb.sheets["sheet1"]
     # sheet.range("a1").value = [1,2,3,4,5,6]
     
+    # 行数计算
+    # rows_count = sheet.api.UsedRange.Rows.count
+	# year = sheet.range("A1:A"+str(rows_count)).value
+    
     try:
         yield sheet # 返回 sheet
     except Exception as e:
@@ -60,6 +64,7 @@ def open_xlwings(input_file, output=None):
         else:
             wb.save()
     finally:
+        print "Quit Xlwings"
         app.quit()
 
 # test

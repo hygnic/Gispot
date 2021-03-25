@@ -52,7 +52,7 @@ finally:
 # eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 shpfiles = hybasic.getfiles(db_path,"shp",True)
 # shpfiles = [os.path.basename(i) for i in shpfiles]
-GBZ_shpfiles=hybasic.HBfilter(shpfiles,"GBZ",100)
+GBZ_shpfiles=hybasic.filter_file(shpfiles,"GBZ",100)
 print "GBZ_shpfiles's len:",len(GBZ_shpfiles)
 for path in GBZ_shpfiles:
 	for ii in XMMC_ZLDJ:
@@ -67,7 +67,7 @@ for path in GBZ_shpfiles:
 					cursor.updateRow(row)
 
 hybasic._getall_items=[]
-XM_shpfiles=hybasic.HBfilter(shpfiles,"XM",100)
+XM_shpfiles=hybasic.filter_file(shpfiles,"XM",100)
 print "XM_shpfiles's len:",len(XM_shpfiles)
 for path in XM_shpfiles:
 	for ii in XMMC_ZLDJ:

@@ -5,7 +5,12 @@
 # Created on: 2020/12/20 16:50
 # Reference:
 """
-Description: 快速处理 “十二五”以来高标准农田建设评估复核修正统计表
+Description:
+名称：第三次复核计算地类面积
+创建时间：2020年12月22日
+主要功能描述和说明：
+根据 导出数据库和DLTB计算清查面积、重叠面积、各地类面积
+
 Usage:
 """
 # ---------------------------------------------------------------------------
@@ -72,8 +77,9 @@ def copy(name_list, new_dir):
 
 
 def handle_shp(inputs, dltb):
+	# 根据地类图斑图层，计算出各地类的面积
 	all_shp = hybasic.getfiles(inputs, "shp")
-	gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
+	gbz_shp = hybasic.filter_file(all_shp,"GBZ")
 	hybasic._getall_items = []
 	
 	

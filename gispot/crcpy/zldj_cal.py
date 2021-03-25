@@ -48,7 +48,7 @@ def show_shp_area(input_file):
 
 def zldj_cal(input_path, dltb_path):
 	all_shp = hybasic.getfiles(input_path, "shp")
-	gbz_shp = hybasic.HBfilter(all_shp, "GBZ")
+	gbz_shp = hybasic.filter_file(all_shp,"GBZ")
 	merge_layer = scratch_gdb + "/merge23"
 	arcpy.Merge_management(gbz_shp, output=merge_layer)
 	
