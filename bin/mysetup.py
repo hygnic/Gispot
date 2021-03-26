@@ -40,31 +40,31 @@ rb_libs = join(root_base, "Lib")
 rb_GUIconfig = join(rb_libs, "gpconfig")
 
 giscat_paths = [root_base,
-				rb_GisCat,
-				rb_GUIs,
-				rbg_Icons,
-				rbdoc,
-				rb_tempalte,
-				rb_bin,
-				rb_libs,
-				rb_GUIconfig]
+                rb_GisCat,
+                rb_GUIs,
+                rbg_Icons,
+                rbdoc,
+                rb_tempalte,
+                rb_bin,
+                rb_libs,
+                rb_GUIconfig]
 for giscat_path in giscat_paths:
-	sys.path.append(giscat_path)
+    sys.path.append(giscat_path)
 """_____________________________________________________________________________
 info: can't compress when skipping archive
 """
 options = {
-	"py2exe":{
-		"includes": ["matplotlib","Tkinter", "ttk"],
-		# "includes": ["matplotlib","Tkinter", "ttk", "ttkthemes"],
-		"excludes": ["arcpy"],
-		"dll_excludes": ["MSVCP90.dll"],
-		# "skip_archive": False,# 跳过压缩的话，不会将大部分的py包放进libray.zip压缩文件（使用ttktheme时请取消注释）
-		# "bundle_files":1, # 无法成功
-		# "compressed": True, # 压缩
-		# "optimize": 2,
-		
-	}
+    "py2exe":{
+        "includes": ["matplotlib","Tkinter", "ttk"],
+        # "includes": ["matplotlib","Tkinter", "ttk", "ttkthemes"],
+        "excludes": ["arcpy"],
+        "dll_excludes": ["MSVCP90.dll"],
+        # "skip_archive": False,# 跳过压缩的话，不会将大部分的py包放进libray.zip压缩文件（使用ttktheme时请取消注释）
+        # "bundle_files":1, # 无法成功
+        # "compressed": True, # 压缩
+        # "optimize": 2,
+        
+    }
 }
 # py2exe打包过程中遇到该问题 Could not find the matplotlib data files
 import matplotlib
@@ -86,13 +86,13 @@ template = [join(rb_tempalte, _) for _ in listdir(rb_tempalte) if isfile(join(rb
 # windows 独立窗口
 # console 带dos界面
 setup(
-	windows=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
-	options=options,
-	name = 'LCC',
-	data_files=[('images',images), ("gisdocs",gisdocs),("template",template),
-				("site-packages",site_packages), ("ttkthemes", ttkthemes_patch)],
-	zipfile = None, # If zipfile is set to None, the files will be bundle within the executable instead of library.zip.
-	  )
+    windows=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
+    options=options,
+    name = 'LCC',
+    data_files=[('images',images), ("gisdocs",gisdocs),("template",template),
+                ("site-packages",site_packages), ("ttkthemes", ttkthemes_patch)],
+    zipfile = None, # If zipfile is set to None, the files will be bundle within the executable instead of library.zip.
+)
 
 # data_files=[('images', ['..\GUIs\Icons\close30_4.gif','..\GUIs\Icons\GitHub_32.gif'])]
 # setup(console=["Gispot.py"], options=options)

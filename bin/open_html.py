@@ -9,10 +9,10 @@
 
 counter = 0
 def do_job():
-	global counter
-	# counter = 0
-	print "ok"
-	counter += 1
-	
+    global counter
+    # counter = 0
+    print "ok"
+    counter += 1
+
 do_job()
 print counter
