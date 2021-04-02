@@ -129,10 +129,13 @@ if __name__ == '__main__':
     
     
     
-    path_shapefile = ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\入库成果数据\510000高标准农田建设上图入库数据20201227"
-    path_sheet =  ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\高标评估项目清单详细分解表.xlsx"
+    # path_shapefile = ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\入库成果数据\510000高标准农田建设上图入库数据20201227"
+    # path_sheet =  ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\高标评估项目清单详细分解表.xlsx"
     dltb = ur"D:\文档\高标准农田\CPT第三次收件\吴英\511402东坡区\底图数据\DLTB5114022018.shp"
-    
+
+    # 测试用地址
+    path_shapefile = ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\入库成果数据\510000高标准农田建设上图入库数据20201227"
+    path_sheet =  ur"D:\文档\高标准农田\第三次最终\眉山市\511402东坡区\test.xlsx" # 测试用
     
     
     merge, nams = check_name(path_shapefile, path_sheet)
@@ -146,9 +149,11 @@ if __name__ == '__main__':
             count_flag +=1
             print "XMMC = '{}'".format(a_shp.encode("utf8"))
             arcpy.MakeFeatureLayer_management(merge, "merge_layer")
+            # sba("merge_layer", "NEW_SELECTION", "XMMC = '{}'".format(a_shp.encode("utf8")))
             sba("merge_layer", "NEW_SELECTION", "XMMC = '{}'".format(a_shp.encode("utf8")))
-            arcpy.CopyFeatures_management("merge_layer", "merge_layer12312")
-            arcpy.Identity_analysis("merge_layer12312", dltb, identity_dltb)
+            # arcpy.CopyFeatures_management("merge_layer", "merge_layer12312")
+            # arcpy.Identity_analysis("merge_layer12312", dltb, identity_dltb)
+            arcpy.Identity_analysis("merge_layer", dltb, identity_dltb)
             print 'OK'
             area_value = cal_other(identity_dltb)
             f.range("G{0}:L{0}".format(str(count_flag))).value = area_value
