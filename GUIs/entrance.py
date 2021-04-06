@@ -19,14 +19,15 @@ import sys
 import ttk
 import tkMessageBox
 from webbrowser import open as weberopen
-
-# exist_ttkthemes = 0
-# try:
-#     from ttkthemes import ThemedTk
-# except ImportError:
-#     print "NO ttkthemes"
-#     exist_ttkthemes = 0
 from PIL import Image, ImageTk
+
+exist_ttkthemes = 0
+try:
+    from ttkthemes import ThemedTk
+    exist_ttkthemes = 1
+except ImportError:
+    print "NO ttkthemes"
+    exist_ttkthemes = 0
 
 # 获取当前的文件位置
 # E:\move on move on\gispot\GUIs\entrance.py
@@ -116,13 +117,16 @@ class AppEntrance(object):
         self.rootwindow.title("")
         
         """
+
+        if exist_ttkthemes:
+            # self.rootwindow = tk.Tk()
+            self.rootwindow = ThemedTk(theme="arc")
+        else:
+            self.rootwindow = tk.Tk()
+            self.rootwindow.title("")
         
-        # if exist_ttkthemes:
-        #     # self.rootwindow = tk.Tk()
-        #     self.rootwindow = ThemedTk(theme="arc")
-        # else:
-        self.rootwindow = tk.Tk()
-        self.rootwindow.title("")
+        # self.rootwindow = tk.Tk()
+        # self.rootwindow.title("")
         # self.rootwindow.title("GISPOT")
         # self.rootwindow.update_idletasks()
         # self.rootwindow.overrideredirect(True)

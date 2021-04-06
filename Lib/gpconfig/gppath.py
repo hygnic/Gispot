@@ -54,7 +54,7 @@ def code2exe():
     base_icons_path = "images"
     Docs_p = "gisdocs"
 # 不封装时关闭该函数
-code2exe()
+# code2exe()
 
 
 class GifPath(object):
