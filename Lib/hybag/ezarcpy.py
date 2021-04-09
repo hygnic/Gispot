@@ -66,7 +66,9 @@ class InitPath(object):
     def __iter__(self):
         # 用于拆包
         return (i for i in (self.scratch_path, self.scratch_gdb))
-
+    
+    def __getitem__(self, item):
+        return [self.scratch_path, self.scratch_gdb][item]
 
 def label(layer,expression, show=True):
     """是否显示图层且更改图层的标注
