@@ -68,8 +68,13 @@ class RealArea(object):
         
         _dltb_lyr = "dltb"
         arcpy.MakeFeatureLayer_management(self.input_dltb, _dltb_lyr)
+        # arcpy.SelectLayerByAttribute_management(_dltb_lyr, "NEW_SELECTION",
+        #                                         self.dlbm_name + " LIKE '01%' ")
+        
+        # 适用于mdb
         arcpy.SelectLayerByAttribute_management(_dltb_lyr, "NEW_SELECTION",
-                                                self.dlbm_name + " LIKE '01%' ")
+                                                "[{}] LIKE '01*'".format(self.dlbm_name))
+        
         print "Query success"
         return _dltb_lyr
 
@@ -213,13 +218,12 @@ if __name__ == '__main__':
     # gbz_folder = ur"D:\文档\高标准农田\CPT第三次收件\吴英\510921蓬溪县\入库数据成果\510000高标准农田建设上图入库数据20201219"
     # xzq = ur"D:\文档\高标准农田\CPT第三次收件\吴英\510921蓬溪县\底图数据\XZQ5109212018.shp"
     # dltb_path = ur"D:\文档\高标准农田\CPT第三次收件\吴英\510921蓬溪县\底图数据\DLTB5109212018.shp"
-
-    # 顺庆区
-    xzq_name = u"顺庆区"
-    gbz_folder = ur"D:\文档\高标准农田\CPT第三次收件\吴英\511302顺庆区\入库成果数据\510000高标准农田建设上图入库数据20201225"
-    gbz_19_20 = None
-    xzq = ur"D:\文档\高标准农田\CPT第三次收件\吴英\511302顺庆区\底图数据\511302XZQ.shp"
-    dltb_path = ur"D:\文档\高标准农田\CPT第三次收件\吴英\511302顺庆区\底图数据\DLTB5113022018.shp"
+    # 乡城县
+    xzq_name = u"丹巴县"
+    gbz_folder = ur"D:\文档\高标准农田\第三次最终\甘孜州\513323丹巴县\入库成果数据\510000高标准农田建设上图入库数据20200112"
+    gbz_19_20 = 0
+    xzq = ur"F:\甘孜州\513323丹巴县.mdb\XZQ"
+    dltb_path = ur"F:\甘孜州\513323丹巴县.mdb\DLTB"
 
     # laptop 顺庆区
     # result_name = u"顺庆区"
