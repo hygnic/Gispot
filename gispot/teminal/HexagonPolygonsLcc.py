@@ -11,7 +11,6 @@ Python Version:    2.6.1
 Usage:             HexagonPolygons: <AOI> <Output_Hexagonal_Polygons> <Height_of_Hexagon>
 ---------------------------------------------------------------------------------------'''
 # Import system modules
-import collections
 import sys, os, arcpy, traceback
 from arcpy import env
 import math
@@ -19,7 +18,7 @@ from hybag import ezarcpy
 
 
 # overwrite setting
-env.overwriteOutput = 1
+arcpy.env.overwriteOutput = True
 
 def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
 
@@ -111,6 +110,7 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
         # Process: Create Thiessen Polygons...
         fullTheissen = arcpy.CreateThiessenPolygons_analysis(hexPoints, (os.path.join(outputWorkspace, "FullTheissen")), "ONLY_FID")
         arcpy.AddMessage("Creating hexagonal polygons.")
+        arcpy.CopyFeatures_management(fullTheissen, output_theissen)
 
         # Process: Minimum Bounding Geometry...
         # AOIEnvelope = arcpy.MinimumBoundingGeometry_management(inputAreaOfInterest, (os.path.join(outputWorkspace, "AOIEnvelope")), "ENVELOPE", "ALL" )
@@ -148,36 +148,36 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
             #     cur.updateRow(row)
 
             # Process: Add Spatial Index...
-            arcpy.AddSpatialIndex_management(output_theissen)
-            arcpy.AddMessage("Adding Hexagon Id to clip polygons.")
+            # arcpy.AddSpatialIndex_management(output_theissen)
+            # arcpy.AddMessage("Adding Hexagon Id to clip polygons.")
 
 
 
-        else:
+        # else:
             #Calculate Hexagon Polygon ID(hexLayer)
-            cur = arcpy.UpdateCursor(hexLayer, "", "", "", "y_coord A; x_coord A")
+            # cur = arcpy.UpdateCursor(hexLayer, "", "", "", "y_coord A; x_coord A")
 
 
-            for ID, row in enumerate(cur, 1):
-                row.hexagonID = ID
-                cur.updateRow(row)
+            # for ID, row in enumerate(cur, 1):
+            #     row.hexagonID = ID
+            #     cur.updateRow(row)
 
 
             # Process: Add Spatial Index...
-            arcpy.AddSpatialIndex_management(hexLayer)
-            arcpy.AddMessage("Adding Hexagon Id to polygons.")
-            arcpy.CopyFeatures_management(hexLayer, output_theissen)
+            # arcpy.AddSpatialIndex_management(hexLayer)
+        # arcpy.AddMessage("Adding Hexagon Id to polygons.")
+        
 
         # Delete all intermediate data
-        arcpy.Delete_management(fishnet1)
-        arcpy.Delete_management(fishnet2)
-        arcpy.Delete_management(fishnetLabel1)
-        arcpy.Delete_management(fishnetLabel2)
-        arcpy.Delete_management(hexPoints)
-        arcpy.Delete_management(fullTheissen)
-        arcpy.Delete_management(AOIEnvelope)
+        # arcpy.Delete_management(fishnet1)
+        # arcpy.Delete_management(fishnet2)
+        # arcpy.Delete_management(fishnetLabel1)
+        # arcpy.Delete_management(fishnetLabel2)
+        # arcpy.Delete_management(hexPoints)
+        # arcpy.Delete_management(fullTheissen)
+        # arcpy.Delete_management(AOIEnvelope)
 
-        arcpy.AddMessage("Congratulations! You have created the most beautiful polygons ever :)")
+        # arcpy.AddMessage("Congratulations! You have created the most beautiful polygons ever :)")
 
     except:
         # get the traceback object
@@ -207,4 +207,4 @@ if __name__ == '__main__':
     from hybag import ezarcpy
     # arcpy.env.workspace = ezarcpy.InitPath()[-1]
     arcpy.env.overwriteOutput = True
-    hexagon_polygon("Hexagon_test.shp",ur"G:\MoveOn\Gispot\gispot\teminal\test11","300", clip=True)
+    hexagon_polygon("Hexagon_test.shp",ur"G:\MoveOn\Gispot\gispot\teminal\test1122","300", clip=True)
