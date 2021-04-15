@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 '''--------------------------------------------------------------------------------------
 Name:              HexagonalPolygons
 Purpose:           The tool creates a hexagonal polygon feature class and gives the
@@ -26,7 +27,7 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
 
     descinput = arcpy.Describe(inputfeature)
     if descinput.dataType == 'FeatureLayer':
-        inputAreaOfInterest = descinput.CatalogPath
+        inputAreaOfInterest = descinput.CatalogPath # TODO CatalogPath的含义是什么
     else:
         inputAreaOfInterest = inputfeature
 
@@ -41,9 +42,7 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
     height = float(width) * math.sqrt(3)
 
     # Invert the height and width so that the flat side of the hexagon is on the bottom and top
-    tempWidth = width
-    width = height
-    height = tempWidth
+    width, height = height, width
 
     # Calculate new offset origin, opposite corner and Y axis point coordinates
     factor1 = -2.0
@@ -114,39 +113,39 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
         arcpy.AddMessage("Creating hexagonal polygons.")
 
         # Process: Minimum Bounding Geometry...
-        AOIEnvelope = arcpy.MinimumBoundingGeometry_management(inputAreaOfInterest, (os.path.join(outputWorkspace, "AOIEnvelope")), "ENVELOPE", "ALL" )
+        # AOIEnvelope = arcpy.MinimumBoundingGeometry_management(inputAreaOfInterest, (os.path.join(outputWorkspace, "AOIEnvelope")), "ENVELOPE", "ALL" )
 
         # Process: Make Feature Layer...
-        hexLayer = arcpy.MakeFeatureLayer_management(fullTheissen, "Hex_Layer", "", "", "")
+        # hexLayer = arcpy.MakeFeatureLayer_management(fullTheissen, "Hex_Layer", "", "", "")
 
         # Process: Select Layer By Location...
-        arcpy.SelectLayerByLocation_management(hexLayer, "INTERSECT", AOIEnvelope)
+        # arcpy.SelectLayerByLocation_management(hexLayer, "INTERSECT", AOIEnvelope)
 
         # Process: Add Field (1)...
-        arcpy.AddField_management(hexLayer, "X_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
+        # arcpy.AddField_management(hexLayer, "X_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
 
         # Process: Add Field (2)...
-        arcpy.AddField_management(hexLayer, "Y_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
+        # arcpy.AddField_management(hexLayer, "Y_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
 
         # Process: Calculate X Value...
-        arcpy.CalculateField_management(hexLayer, "X_Coord", "GetXValue(!shape.centroid!)", "PYTHON", "def GetXValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[0]),2)")
+        # arcpy.CalculateField_management(hexLayer, "X_Coord", "GetXValue(!shape.centroid!)", "PYTHON", "def GetXValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[0]),2)")
 
         # Process: Calculate Y Value...
-        arcpy.CalculateField_management(hexLayer, "Y_Coord", "GetYValue(!shape.centroid!)", "PYTHON", "def GetYValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[1]),2)")
+        # arcpy.CalculateField_management(hexLayer, "Y_Coord", "GetYValue(!shape.centroid!)", "PYTHON", "def GetYValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[1]),2)")
 
         # Process: Add Field (3)...
-        arcpy.AddField_management(hexLayer, "hexagonID", "LONG", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
+        # arcpy.AddField_management(hexLayer, "hexagonID", "LONG", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
 
-        if clip == "true":
-            arcpy.Clip_analysis(hexLayer, inputfeature, output_theissen)
+        # if clip == "true":
+        #     arcpy.Clip_analysis(hexLayer, inputfeature, output_theissen)
 
             #Calculate Hexagon Polygon ID(hexLayer)
-            cur = arcpy.UpdateCursor(output_theissen, "", "", "", "y_coord A; x_coord A")
+            # cur = arcpy.UpdateCursor(output_theissen, "", "", "", "y_coord A; x_coord A")
 
 
-            for ID, row in enumerate(cur, 1):
-                row.hexagonID = ID
-                cur.updateRow(row)
+            # for ID, row in enumerate(cur, 1):
+            #     row.hexagonID = ID
+            #     cur.updateRow(row)
 
             # Process: Add Spatial Index...
             arcpy.AddSpatialIndex_management(output_theissen)
