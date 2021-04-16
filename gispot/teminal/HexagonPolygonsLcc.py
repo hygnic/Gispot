@@ -12,7 +12,6 @@ Usage:             HexagonPolygons: <AOI> <Output_Hexagonal_Polygons> <Height_of
 ---------------------------------------------------------------------------------------'''
 # Import system modules
 import sys, os, arcpy, traceback
-from arcpy import env
 import math
 from hybag import ezarcpy
 
@@ -34,140 +33,106 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
     # Describe the Input and get its extent properties
     desc = arcpy.Describe(inputAreaOfInterest)
     ext = desc.extent
-    xcoord = ext.XMin
-    ycoord = ext.YMin
-    urxcoord = ext.XMax
-    urycoord = ext.YMax
+    
+    x_min = ext.XMin
+    x_max = ext.XMax
+    
+    y_min = ext.YMin
+    y_max = ext.YMax
+    
     height = float(width) * math.sqrt(3)
 
     # Invert the height and width so that the flat side of the hexagon is on the bottom and top
-    width, height = height, width
+    width, height = float(height), float(width)
 
     # Calculate new offset origin, opposite corner and Y axis point coordinates
     factor1 = -2.0
-    origin = str(xcoord + float(width) * factor1) + " " + str(ycoord + float(height) * factor1)
-    originX = str(xcoord + float(width) * factor1)
-    originY = str(ycoord + float(height) * factor1)
+    originX = str(x_min + width * factor1)
+    originY = str(y_min + height * factor1)
+    origin = originX + " " + originY
 
     factor2 = 2.0
-    oppositeCorner = str(urxcoord + float(width) * factor2) + " " + str(urycoord + float(height) * factor2)
-    oppositeCornerX = str(urxcoord + float(width) * factor2)
-    oppositeCornerY = str(urycoord + float(height) * factor2)
+    oppositeCornerX = str(x_max + width * factor2)
+    oppositeCornerY = str(y_max + height * factor2)
+    oppositeCorner = oppositeCornerX + " " + oppositeCornerY
 
     factor3 = 0.5
-    newOrigin = str(float(originX) + float(width) * factor3) + " " + str(float(originY) + float(height) * factor3)
     newOriginX = str(float(originX) + float(width) * factor3)
     newOriginY = str(float(originY) + float(height) * factor3)
+    newOrigin = newOriginX + " " + newOriginY
 
-    newOppositeCorner = str(float(oppositeCornerX) + float(width) * factor3) + " " + str(float(oppositeCornerY) + float(height) * factor3)
     newOppositeCornerX = str(float(oppositeCornerX) + float(width) * factor3)
     newOppositeCornerY = str(float(oppositeCornerY) + float(height) * factor3)
+    newOppositeCorner = newOppositeCornerX + " " + newOppositeCornerY
 
     yAxisCoordinates1 = str(float(originX)) + " " + str(float(oppositeCornerY))
     yAxisCoordinates2 = str(float(newOriginX)) + " " + str(float(newOppositeCornerY))
 
     # Calculate Length, hexagonal area and number of columns
-    sideLength =  float(height) / math.sqrt(3)
-    hexagonArea = 2.598076211 * pow(sideLength, 2)
-    numberOfColumns = int((urxcoord - xcoord)  / int(width))
+    hexg_len =  float(height) / math.sqrt(3)
+    # 等边六边形面积计算公式：根号3 * 3 / 2 * 边长 * 边长
+    hexg_area = math.sqrt(3)*3/2*pow(hexg_len, 2)
 
     # Add Messages
-    arcpy.AddMessage("------------------------")
     arcpy.AddMessage("Width: " + str(height))
     arcpy.AddMessage("Height: " + str(width))
-    arcpy.AddMessage("Hexagon Area: " + str(hexagonArea))
-    arcpy.AddMessage("Number of Columns: " + str(numberOfColumns))
-    arcpy.AddMessage("------------------------")
+    arcpy.AddMessage("Hexagon Area: " + str(hexg_area))
 
     try:
-        outputWorkspace = os.path.dirname(output_theissen)
+        cfm = arcpy.CreateFishnet_management
+        ctpa = arcpy.CreateThiessenPolygons_analysis
+        cfcm = arcpy.CreateFeatureclass_management
+        
+        workspace = os.path.dirname(output_theissen)
         arcpy.env.scratchWorkspace = os.path.dirname(output_theissen)
 
-        # Process: Create Fishnet...
-        fishnetPath1 = (os.path.join(outputWorkspace, "Fishnet_1"))
-        fishnet1 = arcpy.CreateFishnet_management(fishnetPath1, origin, yAxisCoordinates1, width, height, "0", "0", oppositeCorner, "LABELS", "")
-
-        # Process: Create Fishnet (2)...
-        fishnetPath2 = (os.path.join(outputWorkspace, "Fishnet_2"))
-        fishnet2 = arcpy.CreateFishnet_management(fishnetPath2, newOrigin, yAxisCoordinates2, width, height, "0", "0", newOppositeCorner, "LABELS")
-
+        
+        #------ first fishnet ------
+        # fishnet1_point -> fishnet1_p point
+        # fishnet1_result -> fishnet1_res
+        # fishnet1_label -> fishnet1_lb
+        
+        fishnet1_p = (os.path.join(workspace, "Fishnet_1"))
+        fishnet1_res = cfm(fishnet1_p, origin, yAxisCoordinates1,
+                       width, height, "0", "0", oppositeCorner,
+                       "LABELS")
+        fishnet1_lb = fishnet1_res.getOutput(1)
+        
+        #------ second fishnet ------
+        fishnet2_p = (os.path.join(workspace, "Fishnet_2"))
+        fishnet2_res = cfm(
+            fishnet2_p, newOrigin, yAxisCoordinates2,
+            width, height, "0", "0", newOppositeCorner, "LABELS")
+        fishnet2_lb = fishnet2_res.getOutput(1)
+        
+        
         # Process: Create Feature Class...
-        spatialRef = arcpy.Describe(inputAreaOfInterest).spatialReference
-        hexPoints = arcpy.CreateFeatureclass_management(outputWorkspace, "hex_points", "POINT", "", "", "", spatialRef)
+        ref = arcpy.Describe(inputAreaOfInterest).spatialReference
+        hexPoints = cfcm(
+            workspace, "hex_points", "POINT", "", "", "", ref)
 
         # Get fishnet labels from the results of the fishnet tool...
-        fishnetLabel1 = fishnet1.getOutput(1)
-        fishnetLabel2 = fishnet2.getOutput(1)
+        # fishnetLabel1 = fishnet1_res.getOutput(1)
+        # fishnetLabel2 = fishnet2_res.getOutput(1)
 
         # Define projection for the fishnet labels
-        arcpy.DefineProjection_management(fishnetLabel1, spatialRef)
-        arcpy.DefineProjection_management(fishnetLabel2, spatialRef)
+        arcpy.DefineProjection_management(fishnet1_lb, ref)
+        arcpy.DefineProjection_management(fishnet2_lb, ref)
 
         # Process: Append...
-        inputForAppend = "{0};{1}".format(fishnetLabel1, fishnetLabel2)
+        inputForAppend = "{0};{1}".format(fishnet1_lb, fishnet2_lb)
         arcpy.Append_management(inputForAppend, hexPoints, "NO_TEST", "", "")
 
         # Process: Create Thiessen Polygons...
-        fullTheissen = arcpy.CreateThiessenPolygons_analysis(hexPoints, (os.path.join(outputWorkspace, "FullTheissen")), "ONLY_FID")
+        fullTheissen = ctpa(
+            hexPoints,
+            (os.path.join(workspace, "FullTheissen")),
+            "ONLY_FID")
+        
         arcpy.AddMessage("Creating hexagonal polygons.")
         arcpy.CopyFeatures_management(fullTheissen, output_theissen)
 
-        # Process: Minimum Bounding Geometry...
-        # AOIEnvelope = arcpy.MinimumBoundingGeometry_management(inputAreaOfInterest, (os.path.join(outputWorkspace, "AOIEnvelope")), "ENVELOPE", "ALL" )
-
-        # Process: Make Feature Layer...
-        # hexLayer = arcpy.MakeFeatureLayer_management(fullTheissen, "Hex_Layer", "", "", "")
-
-        # Process: Select Layer By Location...
-        # arcpy.SelectLayerByLocation_management(hexLayer, "INTERSECT", AOIEnvelope)
-
-        # Process: Add Field (1)...
-        # arcpy.AddField_management(hexLayer, "X_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-
-        # Process: Add Field (2)...
-        # arcpy.AddField_management(hexLayer, "Y_Coord", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-
-        # Process: Calculate X Value...
-        # arcpy.CalculateField_management(hexLayer, "X_Coord", "GetXValue(!shape.centroid!)", "PYTHON", "def GetXValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[0]),2)")
-
-        # Process: Calculate Y Value...
-        # arcpy.CalculateField_management(hexLayer, "Y_Coord", "GetYValue(!shape.centroid!)", "PYTHON", "def GetYValue(centroid):\\n    coords = centroid.split(\" \")\\n    return round(float(coords[1]),2)")
-
-        # Process: Add Field (3)...
-        # arcpy.AddField_management(hexLayer, "hexagonID", "LONG", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-
-        # if clip == "true":
-        #     arcpy.Clip_analysis(hexLayer, inputfeature, output_theissen)
-
-            #Calculate Hexagon Polygon ID(hexLayer)
-            # cur = arcpy.UpdateCursor(output_theissen, "", "", "", "y_coord A; x_coord A")
-
-
-            # for ID, row in enumerate(cur, 1):
-            #     row.hexagonID = ID
-            #     cur.updateRow(row)
-
-            # Process: Add Spatial Index...
-            # arcpy.AddSpatialIndex_management(output_theissen)
-            # arcpy.AddMessage("Adding Hexagon Id to clip polygons.")
-
-
-
-        # else:
-            #Calculate Hexagon Polygon ID(hexLayer)
-            # cur = arcpy.UpdateCursor(hexLayer, "", "", "", "y_coord A; x_coord A")
-
-
-            # for ID, row in enumerate(cur, 1):
-            #     row.hexagonID = ID
-            #     cur.updateRow(row)
-
-
-            # Process: Add Spatial Index...
-            # arcpy.AddSpatialIndex_management(hexLayer)
-        # arcpy.AddMessage("Adding Hexagon Id to polygons.")
         
-
         # Delete all intermediate data
         # arcpy.Delete_management(fishnet1)
         # arcpy.Delete_management(fishnet2)
@@ -175,7 +140,6 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', clip=True, *args):
         # arcpy.Delete_management(fishnetLabel2)
         # arcpy.Delete_management(hexPoints)
         # arcpy.Delete_management(fullTheissen)
-        # arcpy.Delete_management(AOIEnvelope)
 
         # arcpy.AddMessage("Congratulations! You have created the most beautiful polygons ever :)")
 
@@ -208,3 +172,4 @@ if __name__ == '__main__':
     # arcpy.env.workspace = ezarcpy.InitPath()[-1]
     arcpy.env.overwriteOutput = True
     hexagon_polygon("Hexagon_test.shp",ur"G:\MoveOn\Gispot\gispot\teminal\test1122","300", clip=True)
+    # hexagon_polygon(r"C:\Users\Administrator\Documents\ArcGIS\Default.gdb\CJQY519090", ur"G:\MoveOn\Gispot\gispot\teminal\test1122", "300", clip=True)
