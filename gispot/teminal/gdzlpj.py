@@ -19,8 +19,8 @@ from arcpy.sa import Kriging
 from arcpy.sa import ZonalStatisticsAsTable as ZonalTable
 
 from hybag import ezarcpy
-
-arcpy.env.workspace = ezarcpy.InitPath()[1]
+workdir, workgdb = ezarcpy.InitPath()
+arcpy.env.workspace = workgdb
 arcpy.env.overwriteOutput = True
 
 class GDZLPJ(object):
@@ -31,9 +31,7 @@ class GDZLPJ(object):
         self.aoi = aoi # 范围
         self.field = field # 字段 参数 有机质 有效磷
         
-        # 设置栅格范围和掩膜
-        arcpy.env.extent = self.aoi
-        arcpy.env.mask = self.aoi
+        
         
         # function
         self.krigingraster()
@@ -44,6 +42,11 @@ class GDZLPJ(object):
         创建克里金栅格
         :return:
         """
+        
+        # 设置栅格范围和掩膜
+        # arcpy.env.extent = self.aoi
+        # arcpy.env.mask = self.aoi
+        
         #______output kriging raster_____
         para = self.field
         k_model = KModel("SPHERICAL")
@@ -70,73 +73,77 @@ class GDZLPJ(object):
         :return:
         """
         
-        if nullunit is None:
-            nullunit = self.unit
-            
-        #___zonalStatisticsAsTable___
+        # if nullunit is None:
+        #     nullunit = self.unit
+        # print nullunit
+        
+        #___ZonalStatisticsAsTable___
         # 内部用于连接的唯一标识码
         bsm = "ORIG_FID"
         out_table = "table_" + self.field # table_有效土层厚
+        # arcpy.MakeFeatureLayer_management(nullunit1, nullunit)
         ZonalTable(nullunit, bsm, self.kriging, out_table, "DATA", "MEAN")
         print "Output Table:", out_table
         
-        #___connect table with lyr___
-        f_lyr = "AOIFeatureLayer"
-        arcpy.MakeFeatureLayer_management(nullunit, f_lyr)
-
+        #___Join Table Into Lyr___
+        # f_lyr = "AOIFeatureLayer"
+        # arcpy.MakeFeatureLayer_management(nullunit, f_lyr)
         # connect
         # 可能会因为表中没有该字段而报错
-        arcpy.JoinField_management() # TODO 重新梳理
-        # arcpy.AddJoin_management(f_lyr, bsm, out_table, bsm)
-        aoi_lyr = "aoi"
-        
-        arcpy.CopyFeatures_management(f_lyr, aoi_lyr)
+        arcpy.JoinField_management(nullunit, bsm, out_table, bsm, "MEAN")
         # 添加字段
-        expression0 = "!{}_{}!".format(out_table,"MEAN") # !table_有效土层厚_MEAN!
-        print expression0
+        ezarcpy.add_field(nullunit, [self.field], "DOUBLE", delete=1)
         # 将连接过来的字段值赋予我们新建字段
-        arcpy.CalculateField_management(aoi_lyr, self.field, expression0, "PYTHON_9.3")
+        expression0 = "!{}!".format("MEAN") # !MEAN!
+        arcpy.CalculateField_management(nullunit, self.field, expression0, "PYTHON_9.3")
+        print "Join Table"
+
+        #___Output AOI Layer___
+        aoi_lyr = "aoi"
+        arcpy.MakeFeatureLayer_management(nullunit, aoi_lyr)
         # 筛选出空值的要素
-        expression = "{}.{} is NULL".format(out_table,"MEAN") # TODO 这里可能报错
-        arcpy.SelectLayerByAttribute_management(f_lyr, "NEW_SELECTION", expression)
-        
+        expression = "MEAN is NULL"
+        arcpy.SelectLayerByAttribute_management(aoi_lyr, "NEW_SELECTION", expression)
         # 创建空 AOI 和有值的 AOI 的唯一名称
         aoi_false = arcpy.CreateScratchName(
             "aoi_false", "", "featureclass", arcpy.env.workspace)
         aoi_true = arcpy.CreateScratchName(
             "aoi_true", "", "featureclass", arcpy.env.workspace)
-        
         # 输出为空值的 AOI
-        arcpy.CopyFeatures_management(f_lyr, aoi_false)
+        arcpy.CopyFeatures_management(aoi_lyr, aoi_false)
         print "Output FeatureClass:", aoi_false
         # 反选，输出有值的 AOI
-        arcpy.SelectLayerByAttribute_management(f_lyr, "SWITCH_SELECTION")
-        arcpy.CopyFeatures_management(f_lyr, aoi_true)
+        arcpy.SelectLayerByAttribute_management(aoi_lyr, "SWITCH_SELECTION")
+        arcpy.CopyFeatures_management(aoi_lyr, aoi_true)
         print "Output FeatureClass:", aoi_true
+        print "\n"
 
-        #___handle filed with two featureclass___
-
-
-        arcpy.Delete_management("not_exits")
+        #___handle lyr filed___
+        arcpy.DeleteField_management(aoi_false, ["MEAN", self.field])
+        arcpy.DeleteField_management(nullunit, ["MEAN", self.field])
+        
+        arcpy.Delete_management(out_table)
         # arcpy.Delete_management(kriging)
-        # ezarcpy.add_field(f_lyr, [self.field], "DOUBLE")
-        
-        
         return aoi_true, aoi_false
     
     
-    def loop_f(self, times):
-        """
-        loop function
-        :param times: {Int} 循环次数
-        :return:
-        """
+    def loop_f(self):
+
         result = []
         # flag = True
         # while flag:
         #     times -= 1
-        res, nullaoi = self.zonalStatisticsAsTable()
-        result.append(res)
+        aoi_true1, aoi_false1 = self.zonalStatisticsAsTable(self.unit)
+        # aoi_true1, aoi_false1 = self.zonalStatisticsAsTable(aoi_false1)
+        # new=os.path.join(workdir, "aoi")
+        # arcpy.CopyFeatures_management(aoi_false1, new)
+        # result.append(aoi_true1)
+        # aoi_true2, aoi_false2 = self.zonalStatisticsAsTable(new)
+        # result.append(aoi_true2)
+        # aoi_true3, aoi_false3 = self.zonalStatisticsAsTable(aoi_true2)
+        # result.append(aoi_true3)
+
+        
         # arcpy.DeleteField_management(nullaoi, [])
         # nullaoi.
             
@@ -157,5 +164,20 @@ if __name__ == '__main__':
     test_unit = os.path.join(gdb_p, "test_unit")
     test_point = os.path.join(gdb_p, "test_point")
     
+    # gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
+    # gdzlpj.loop_f()
+    
+    # 测试
     gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
-    gdzlpj.loop_f(3)
+    gdzlpj.zonalStatisticsAsTable("aoi_false2")
+    # gdzlpj.zonalStatisticsAsTable(os.path.join(workdir, "aoi.shp"))
+    
+    # result = []
+    # aoi_true1, aoi_false1 = gdzlpj.zonalStatisticsAsTable()
+    # result.append(aoi_true1)
+    # # aoi_true2, aoi_false2 = gdzlpj.zonalStatisticsAsTable(nullunit=os.path.join(arcpy.env.workspace, aoi_false1))
+    # print arcpy.Exists(aoi_false1)
+    # aoi_true2, aoi_false2 = gdzlpj.zonalStatisticsAsTable(aoi_false1)
+    # result.append(aoi_true2)
+    # aoi_true3, aoi_false3 = gdzlpj.zonalStatisticsAsTable(aoi_true2)
+    # result.append(aoi_true3)
