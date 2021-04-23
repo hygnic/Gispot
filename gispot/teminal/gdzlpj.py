@@ -44,9 +44,8 @@ class GDZLPJ(object):
         """
         
         # 设置栅格范围和掩膜
-        # arcpy.env.extent = self.aoi
-        # arcpy.env.mask = self.aoi
-        
+        arcpy.env.extent = self.aoi
+        arcpy.env.mask = self.aoi
         #______output kriging raster_____
         para = self.field
         k_model = KModel("SPHERICAL")
@@ -62,6 +61,8 @@ class GDZLPJ(object):
         sill  = 603.953
         '''
         self.kriging = kriging_name
+        arcpy.env.extent = None
+        arcpy.env.mask = None
         
 
     def zonalStatisticsAsTable(self, nullunit=None):
@@ -128,29 +129,30 @@ class GDZLPJ(object):
     
     
     def loop_f(self):
-
-        result = []
-        # flag = True
-        # while flag:
-        #     times -= 1
-        aoi_true1, aoi_false1 = self.zonalStatisticsAsTable(self.unit)
-        # aoi_true1, aoi_false1 = self.zonalStatisticsAsTable(aoi_false1)
-        # new=os.path.join(workdir, "aoi")
-        # arcpy.CopyFeatures_management(aoi_false1, new)
-        # result.append(aoi_true1)
-        # aoi_true2, aoi_false2 = self.zonalStatisticsAsTable(new)
-        # result.append(aoi_true2)
-        # aoi_true3, aoi_false3 = self.zonalStatisticsAsTable(aoi_true2)
-        # result.append(aoi_true3)
-
         
-        # arcpy.DeleteField_management(nullaoi, [])
-        # nullaoi.
-            
-            
-            # if times == 0:
-            #     flag = False
-    
+        result = []
+        # aoi_true1, aoi_false1 = self.zonalStatisticsAsTable(self.unit)
+        # result.append(aoi_true1)
+        # aoi_true2, aoi_false2 = self.zonalStatisticsAsTable(aoi_false1)
+        # result.append(aoi_true2)
+        # aoi_true3, aoi_false3 = self.zonalStatisticsAsTable(aoi_false2)
+        # result.append(aoi_true3)
+        # arcpy.Append_management([aoi_true3, aoi_true2], aoi_true1)
+        false = self.unit
+        flag = 1
+        count = 0
+        while flag:
+            count+=1
+            print "loop count:", count
+            aoi_true_, aoi_false_ = self.zonalStatisticsAsTable(false)
+            result.append(aoi_true_)
+            print arcpy.GetCount_management(aoi_false_)[0]
+            false = aoi_false_
+            if arcpy.GetCount_management(aoi_false_)[0] == "0":
+                flag = False
+        arcpy.Merge_management(result, output="merge_"+self.field)
+
+
 
 if __name__ == '__main__':
     # 公司
@@ -164,13 +166,13 @@ if __name__ == '__main__':
     test_unit = os.path.join(gdb_p, "test_unit")
     test_point = os.path.join(gdb_p, "test_point")
     
-    # gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
-    # gdzlpj.loop_f()
+    gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
+    gdzlpj.loop_f()
     
     # 测试
-    gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
-    gdzlpj.zonalStatisticsAsTable("aoi_false2")
-    # gdzlpj.zonalStatisticsAsTable(os.path.join(workdir, "aoi.shp"))
+    # gdzlpj = GDZLPJ(test_point, test_unit, test_aoi, "有效土层厚")
+    # gdzlpj.zonalStatisticsAsTable(test_unit)
+    
     
     # result = []
     # aoi_true1, aoi_false1 = gdzlpj.zonalStatisticsAsTable()
@@ -181,3 +183,8 @@ if __name__ == '__main__':
     # result.append(aoi_true2)
     # aoi_true3, aoi_false3 = gdzlpj.zonalStatisticsAsTable(aoi_true2)
     # result.append(aoi_true3)
+
+    # shapefiles = [r"c:\data.shp", r"c:\data2.shp", r"c:\data3.shp"]
+    # for file in shapefiles:
+    #     if arcpy.management.GetCount(file)[0] == "0":
+    #         print file
