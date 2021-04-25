@@ -18,7 +18,7 @@ import math
 
 
 # overwrite setting
-arcpy.env.overwriteOutput = True
+
 
 def hexagon_polygon(inputfeature, output_theissen, width='5', *args):
     """
@@ -34,7 +34,7 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', *args):
     descinput = arcpy.Describe(inputfeature)
     if descinput.dataType == "FeatureLayer":
         print "FeatureLayer"
-        inputAreaOfInterest = descinput.CatalogPath # TODO CatalogPath的含义是什么
+        inputAreaOfInterest = descinput.CatalogPath # 数据路径
     else:
         print "Not FeatureLayer"
         inputAreaOfInterest = inputfeature
@@ -91,7 +91,6 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', *args):
     arcpy.AddMessage("Height: " + str(width))
     arcpy.AddMessage("Hexagon Area: " + str(hexg_area))
 
-    # try:
         
     workspace = os.path.dirname(output_theissen)
     arcpy.env.scratchWorkspace = workspace
@@ -130,40 +129,21 @@ def hexagon_polygon(inputfeature, output_theissen, width='5', *args):
     # 3.导出要素图层
     f_lyr = "_lyr"
     arcpy.MakeFeatureLayer_management(full_theissen,f_lyr)
-    # arcpy.SelectLayerByLocation_management(
-    #     f_lyr,"INTERSECT",inputfeature)
+    arcpy.SelectLayerByLocation_management(
+        f_lyr,"INTERSECT",inputfeature)
     arcpy.CopyFeatures_management(f_lyr, output_theissen)
 
     
     # Delete intermediate data
-    arcpy.Delete_management(fishnet1)
-    arcpy.Delete_management(fishnet2)
-    arcpy.Delete_management(fishnet1_lb)
-    arcpy.Delete_management(fishnet2_lb)
-    arcpy.Delete_management(full_theissen)
-    arcpy.Delete_management(f_lyr)
+    # arcpy.Delete_management(fishnet1)
+    # arcpy.Delete_management(fishnet2)
+    # arcpy.Delete_management(fishnet1_lb)
+    # arcpy.Delete_management(fishnet2_lb)
+    # arcpy.Delete_management(full_theissen)
+    # arcpy.Delete_management(f_lyr)
 
 
     arcpy.AddMessage("Completed hexagonal polygons.")
-
-    # except:
-    #     # get the traceback object
-    #     tb = sys.exc_info()[2]
-    #     # tbinfo contains the line number that the code failed on and the code from that line
-    #     tbinfo = traceback.format_tb(tb)[0]
-    #     # concatenate information together concerning the error into a message string
-    #     pymsg = "PYTHON ERRORS:\nTraceback Info:\n" + tbinfo + "\nError Info:\n    " + \
-    #             str(sys.exc_type)+ ": " + str(sys.exc_value) + "\n"
-    #     # generate a message string for any geoprocessing tool errors
-    #     msgs = "GP ERRORS:\n" + arcpy.GetMessages(2) + "\n"
-    #
-    #     # return gp messages for use with a script tool
-    #     arcpy.AddError(msgs)
-    #     arcpy.AddError(pymsg)
-    #
-    #     # print messages for use in Python/PythonWin
-    #     print msgs
-    #     print pymsg
 
 
 
@@ -175,6 +155,6 @@ if __name__ == '__main__':
 
 
     arcpy.env.overwriteOutput = True
-    output = r"G:\MoveOn\Gispot\gispot\teminal\test50"
+    output = r"G:\MoveOn\Gispot\gispot\teminal\test501"
     hexagon_polygon("Hexagon_test.shp", output, "300")
     # hexagon_polygon(r"C:\Users\Administrator\Documents\ArcGIS\Default.gdb\CJQY519090", ur"G:\MoveOn\Gispot\gispot\teminal\test1122", "300", clip=True)
