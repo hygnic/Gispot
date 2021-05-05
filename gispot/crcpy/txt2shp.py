@@ -68,7 +68,7 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 import re
-# import arcpy
+import arcpy
 import os
 from multiprocessing import Process
 
