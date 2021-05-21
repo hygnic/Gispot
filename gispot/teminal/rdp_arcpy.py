@@ -187,12 +187,20 @@ def rdp(M, epsilon=0, dist=pldist, algo="iter", return_mask=False):
 if __name__ == '__main__':
     import arcpy
     import os
+    arcpy.env.overwriteOutput = True
     
-    arcpy.env.workspace = os.getcwd()
+    print os.getcwd()
+    arcpy.env.scratchWorkspace = os.getcwd()
+    # print(arcpy.env.scratchFolder)
+    # arcpy.env.workspace = os.getcwd()
+    # arcpy.env.workspace = os.getcwd()
+    # arcpy.env.workspace = os.getcwd()
     
     lyr_p = "a_river.shp"
     with arcpy.da.UpdateCursor(lyr_p, "SHAPE@") as cursor:
         for row in cursor:
             print row[0]
+            
+    arcpy.CopyFeatures_management(lyr_p, "out.shp")
     
     
