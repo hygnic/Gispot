@@ -23,7 +23,7 @@ arcpy.AddMessage("CURRENT: {}".format(os.getcwd()))
 # 返回工具箱的完整名称
 toolbox = os.path.abspath(sys.argv[0])
 arcpy.AddMessage(toolbox)
-# G:\MoveOn\Gispot\gispot\styletool\StyleTool\StyleToolBox.tbx
+# G:\MoveOn\Gispot\gispot\StyleTool\StyleTool\StyleToolBox.tbx
 
 #       Setting
 tool_dir = os.path.abspath(os.path.dirname(toolbox))
