@@ -15,7 +15,6 @@ Usage:
 import arcpy
 import os
 import sys
-from random import randint
 
 
 #------------------------------
