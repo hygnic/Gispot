@@ -10,7 +10,10 @@ Usage:
 """
 # ---------------------------------------------------------------------------
 from contextlib import contextmanager
-import xlwings as xw
+try:
+    import xlwings as xw
+except ImportError as e:
+    print "No module named xlwings"
 
 
 """--------------------------------------------------------------------------"""

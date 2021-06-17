@@ -16,6 +16,7 @@ import arcpy
 import os
 
 cws = os.getcwd()
+new_path = os.path.join(cws, "temp")
 mxds = [x for x in os.listdir(cws) if x[-3:] == "mxd"]
 
 for item in mxds:
@@ -23,5 +24,6 @@ for item in mxds:
     print name
     name = name.decode("cp936")
     mxd = arcpy.mapping.MapDocument(os.path.join(cws, item))
-    mxd.saveACopy(name+"9.3.mxd", version="9.3")
+    # mxd.saveACopy(name+"9.3.mxd", version="9.3")
+    mxd.saveACopy(os.path.join(new_path,item), version="10.3")
     del mxd

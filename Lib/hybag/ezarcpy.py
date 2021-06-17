@@ -108,7 +108,7 @@ def add_field(layer, names, f_type, f_length=None, delete=True):
     for name in names:
         if not check_field_exit(the_fields, name):
             arcpy.AddField_management(layer, name, f_type, field_length=f_length)
-            msg = "Created {0} field success".format(name)
+            msg = "Created {0} field success".format(name.encode("utf8"))
             print msg
         else: # 存在该字段
             if delete:
