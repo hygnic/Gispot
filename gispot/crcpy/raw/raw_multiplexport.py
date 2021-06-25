@@ -107,30 +107,39 @@ def address_clip(mxds, process_core):
 	return slices_set  # 包含多个 地址列表的切片包 的列表（列表的列表）
 
 
-def export_jpeg(path_slice_set, res):
+def export_jpeg(path_slice_set, res, f_type):
 	"""
 	主要的出图功能函数
 	获取地址列表切片进行出图处理
 	:param path_slice_set: 地址列表 的 一个切片包（列表）
 	:param res: 分辨率 int
+	:param f_type: 图片格式
 	:return:
 	"""
 	arcpy.env.overwriteOutput = True
 	for one_path in path_slice_set:
 		mxd1 = arcpy.mapping.MapDocument(one_path)
-		arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
-								   resolution=res)
+		f_type = f_type.lower()
+		if f_type == "jpeg" or f_type == "jpg":
+			arcpy.mapping.ExportToJPEG(mxd1, one_path[:-3] + 'jpg',
+									   resolution=res)
+		elif f_type == "png":
+			arcpy.mapping.ExportToPNG(mxd1, one_path[:-3] + 'png',
+									   resolution=res)
+		else:
+			raise NameError("Can't recogize {}".format(f_type))
+		
 		del mxd1
 		info = "{} Done! pid:{}\n".format(os.path.basename(one_path),os.getpid())
 		print(info)
 
 
-def main_funtion(path,core,res):
+def main_funtion(path, core, res, f_type):
 	"""
+	脚本运行的主函数
 	path: 包含mxd的文件夹
-	study_book{Int}:  开启的多进程数 推荐3~4，新电脑或者高性能CPU可以选7甚至更高
-	res{Int}: 出图分辨率
-	:return: NONE
+	study_book: {Int} 开启的多进程数
+	res{Int}: {Int} 出图分辨率
 	"""
 	sets_lists, msg = address_clip(path, core)
 	for a_msg in msg:  # 读取分组信息
@@ -139,9 +148,14 @@ def main_funtion(path,core,res):
 		time.sleep(0.5)
 		# 开启多进程
 		p = Process(
-			target=export_jpeg, args=(set_li, res))
+			target=export_jpeg, args=(set_li, res, f_type,))
 		p.deamon = True
 		p.start()
 
 if __name__ == '__main__':
-	main_funtion(ur"H:\WORKing\test\2019",4,20)
+	mxd_path = ur"D:\共享文件夹\基础数据\自用备份\MapFile"
+	core_use = 4
+	image_res = 300
+	image_type = "png"
+	
+	main_funtion(mxd_path, core_use, image_res, image_type)
