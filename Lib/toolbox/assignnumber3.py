@@ -19,7 +19,7 @@ def assign_number(input_feature, field, start_number, new_field):
     # field_name = u"标号{}".format(random.randint())
 
     # start_number = "（1）"
-    
+    value_dict = {}
     # 新建字段
     arcpy.AddField_management(input_feature, new_field, "TEXT")
     with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
@@ -36,6 +36,7 @@ def assign_number(input_feature, field, start_number, new_field):
                 first_value = row[0]
                 # row[1] = str(count)
                 row[1] = start_number
+                value_dict[first_value] = start_number
             
             # 第二行会到这里
             
@@ -44,11 +45,21 @@ def assign_number(input_feature, field, start_number, new_field):
                 row[1] = start_number
             
             elif first_value != row[0]:
-                first_value = row[0]
-                start_number = start_number.replace(str(count),str(count+1))
-                count+=1
-                # row[1] = str(count)
-                row[1] = start_number
+                arcpy.AddMessage("1mee")
+                if first_value not in value_dict:
+                    arcpy.AddMessage("mee")
+        
+                    first_value = row[0]
+                    start_number = start_number.replace(str(count),str(count+1))
+                    count+=1
+                    # row[1] = str(count)
+                    row[1] = start_number
+                    value_dict[first_value] = start_number
+    
+                else:
+                    row[1] = value_dict[first_value]
+                
+                
             cursor.updateRow(row)
 
 
