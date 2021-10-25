@@ -23,45 +23,36 @@ def assign_number(input_feature, field, start_number, new_field):
     # 新建字段
     arcpy.AddField_management(input_feature, new_field, "TEXT")
     with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
-        count = 1
-        first_value = "Start"
+        count = 0
         for row in cursor:
             if row[0] is None or row[0]== " " or row[0]== "":
                 # arcpy.AddMessage("None value here!")
                 continue
-                
-            # 处理第一行的情况
             
-            if first_value == "Start":
-                first_value = row[0]
-                # row[1] = str(count)
-                row[1] = start_number
-                value_dict[first_value] = start_number
-            
-            # 第二行会到这里
-            
-            elif first_value == row[0]:
-                # row[1] = str(count)
-                row[1] = start_number
-            
-            elif first_value != row[0]:
-                arcpy.AddMessage("1mee")
-                if first_value not in value_dict:
-                    arcpy.AddMessage("mee")
-        
-                    first_value = row[0]
-                    start_number = start_number.replace(str(count),str(count+1))
-                    count+=1
-                    # row[1] = str(count)
-                    row[1] = start_number
-                    value_dict[first_value] = start_number
+            if row[0] not in value_dict:
+                start_number = start_number.replace(str(count),str(count+1))
+                value_dict[row[0]] = start_number
+                count += 1
+
+    for k,v in value_dict.items():
+        arcpy.AddMessage(k)
+        arcpy.AddMessage(v)
     
-                else:
-                    row[1] = value_dict[first_value]
-                
+    del cursor
+    
+    
+    with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
+        for row in cursor:
+            # if row[0] is None or row[0]== " " or row[0]== "":
+            #     continue
+            
+            if row[0] in value_dict:
+                row[1] = value_dict[row[0]]
                 
             cursor.updateRow(row)
-
+            
+        
+    # arcpy.AddMessage(value_dict)
 
 if __name__ == '__main__':
     arcpy.env.overwriteOutput = True
