@@ -53,7 +53,10 @@ def assign_number(input_feature, field, start_number, new_field):
             
         
     # arcpy.AddMessage(value_dict)
-
+    arcpy.RefreshActiveView()  # 刷新地图和布局窗口
+    arcpy.RefreshTOC()  # 刷新内容列表
+    
+    
 if __name__ == '__main__':
     arcpy.env.overwriteOutput = True
     argv = tuple(arcpy.GetParameterAsText(i)
