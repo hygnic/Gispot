@@ -40,6 +40,8 @@ def assign_number(input_feature, field, start_number, new_field):
     
     del cursor
     
+    # 先创建一个字典，将遍历后获得的数据存进去；
+    # 然后使用字典遍历更新字段。
     
     with arcpy.da.UpdateCursor(input_feature, [field,new_field]) as cursor:
         for row in cursor:
