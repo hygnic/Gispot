@@ -34,14 +34,15 @@ arcpy.env.overwriteOutput= True
 
 def export_by_filed(layer, field, folder, output_featurecalss, update_cursor=False):
     """
+    :param update_cursor: 更新地块编码
     :param folder:
     :param output_featurecalss: 输出文件夹
     :param layer: 图层对象
     :param field: 字段
     :return:
     """
-    if update_cursor ==True:
-        update_BSM(layer, "BSM")
+    if update_cursor:
+        update_BSM(layer, u"地块编码")
     
     field_values = ezarcpy2.field_value_shower(layer, field)
     
@@ -68,15 +69,15 @@ def export_by_filed(layer, field, folder, output_featurecalss, update_cursor=Fal
 
 
 def update_BSM(layer, field):
-    with arcpy.da.UpdateCursor(layer, [field,"OID@","CJQYDM"]) as cursor:
+    with arcpy.da.UpdateCursor(layer, [field,"OID@",u"村级区域代"]) as cursor:
         for row in cursor:
             xjqydm = row[2][:9]
             bsm = xjqydm+str(row[1])
-            row[0] = int(bsm)
+            row[0] = bsm
             cursor.updateRow(row)
-
-
-
+    
+    arcpy.DeleteField_management(layer,u"村级区域代")
+    # arcpy.DeleteField_management(layer,"XJQYMC")
 
 
 if __name__ == '__main__':
@@ -84,24 +85,19 @@ if __name__ == '__main__':
     # in_lyr = arcpy.mapping.Layer(lyr_path)
     # ouput_path = ur"E:\中江LQDK\成果数据\柏树乡"
     #
-    #
     # export_by_filed(in_lyr, "CJQYMC", True, ouput_path)
 
 
     
     # 导出乡镇
-    lyr_path = ur"E:\中江LQDK\工作数据库.gdb\两区合并"
+    lyr_path = ur"D:\中江LQDK\fme处理数据.gdb\fme处理成果四"
     in_lyr = arcpy.mapping.Layer(lyr_path)
-    ouput_path = ur"E:\中江LQDK\成果"
+    ouput_path = ur"D:\中江LQDK\成果"
 
     export_by_filed(in_lyr, "XJQYMC", True, ouput_path)
 
-
-    
     # 导出村
     # 先获得乡镇矢量列表
-    # arcpy.env.workspace = ouput_path
-    # xjqy_shps = arcpy.ListFeatureClasses() # 返回完整地址的列表 [u'\u4e07\u798f\u9547.shp', u'\u4e1c\u5317\u9547.shp', u'\u4ed3\u5c71\u9547.shp',
     hybasic2._getall_items =[]
     xjqy_shps = hybasic2.getfiles(ouput_path, "shp")
     print xjqy_shps
