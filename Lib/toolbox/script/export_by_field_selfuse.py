@@ -69,14 +69,14 @@ def export_by_filed(layer, field, folder, output_featurecalss, update_cursor=Fal
 
 
 def update_BSM(layer, field):
-    with arcpy.da.UpdateCursor(layer, [field,"OID@",u"村级区域代"]) as cursor:
+    with arcpy.da.UpdateCursor(layer, [field,"OID@","CJQYDM"]) as cursor:
         for row in cursor:
             xjqydm = row[2][:9]
             bsm = xjqydm+str(row[1])
             row[0] = bsm
             cursor.updateRow(row)
     
-    arcpy.DeleteField_management(layer,u"村级区域代")
+    arcpy.DeleteField_management(layer,"CJQYDM")
     # arcpy.DeleteField_management(layer,"XJQYMC")
 
 
@@ -90,9 +90,11 @@ if __name__ == '__main__':
 
     
     # 导出乡镇
-    lyr_path = ur"D:\中江LQDK\fme处理数据.gdb\fme处理成果四"
+    # lyr_path = ur"D:\中江LQDK\fme处理数据.gdb\fme处理成果四"
+    lyr_path = ur"E:\中江LQDK\fmec处理结果2.gdb\处理结果"
     in_lyr = arcpy.mapping.Layer(lyr_path)
-    ouput_path = ur"D:\中江LQDK\成果"
+    # ouput_path = ur"D:\中江LQDK\成果"
+    ouput_path = ur"E:\中江LQDK\成果lcc"
 
     export_by_filed(in_lyr, "XJQYMC", True, ouput_path)
 
