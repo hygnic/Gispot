@@ -33,43 +33,43 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 import arcpy
 import os
-from gpconfig import hyini
+# from gpconfig import hyini
 
 
-class InitPath(object):
-    """初始化工作空间，创建gdb数据（如果没有）"""
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, "_instance"):
-            # if not cls._instance:
-            cls._instance = object.__new__(cls)
-        return cls._instance
-    def __init__(self):
-        """_________________________create folder____________________________"""
-        scratch_path = hyini.WORKSPACE_GDB
-        try:
-            if not os.path.isdir(scratch_path):
-                os.makedirs(scratch_path)
-        except:
-            scratch_path = hyini.WORKSPACE_GDB2
-            if not os.path.isdir(scratch_path):
-                os.makedirs(scratch_path)
-        """_________________________create folder____________________________"""
-        # make gdb
-        scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
-        if not arcpy.Exists(scratch_gdb):
-            arcpy.CreateFileGDB_management(scratch_path, "Scratch")
-        arcpy.env.workspace = scratch_path
-        arcpy.env.overwriteOutput = True
-        
-        self.scratch_path = scratch_path
-        self.scratch_gdb = scratch_gdb
-    
-    def __iter__(self):
-        # 用于拆包
-        return (i for i in (self.scratch_path, self.scratch_gdb))
-    
-    def __getitem__(self, item):
-        return [self.scratch_path, self.scratch_gdb][item]
+# class InitPath(object):
+#     """初始化工作空间，创建gdb数据（如果没有）"""
+#     def __new__(cls, *args, **kwargs):
+#         if not hasattr(cls, "_instance"):
+#             # if not cls._instance:
+#             cls._instance = object.__new__(cls)
+#         return cls._instance
+#     def __init__(self):
+#         """_________________________create folder____________________________"""
+#         scratch_path = hyini.WORKSPACE_GDB
+#         try:
+#             if not os.path.isdir(scratch_path):
+#                 os.makedirs(scratch_path)
+#         except:
+#             scratch_path = hyini.WORKSPACE_GDB2
+#             if not os.path.isdir(scratch_path):
+#                 os.makedirs(scratch_path)
+#         """_________________________create folder____________________________"""
+#         # make gdb
+#         scratch_gdb = os.path.join(scratch_path, "Scratch.gdb")
+#         if not arcpy.Exists(scratch_gdb):
+#             arcpy.CreateFileGDB_management(scratch_path, "Scratch")
+#         arcpy.env.workspace = scratch_path
+#         arcpy.env.overwriteOutput = True
+#
+#         self.scratch_path = scratch_path
+#         self.scratch_gdb = scratch_gdb
+#
+#     def __iter__(self):
+#         # 用于拆包
+#         return (i for i in (self.scratch_path, self.scratch_gdb))
+#
+#     def __getitem__(self, item):
+#         return [self.scratch_path, self.scratch_gdb][item]
 
 def label(layer,expression, show=True):
     """是否显示图层且更改图层的标注

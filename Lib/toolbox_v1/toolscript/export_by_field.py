@@ -25,11 +25,7 @@ sys.path.append(Libs_dir)
 #------------
 
 import ezarcpy2
-import hybasic2
 #<<<<<<<<<<<<<<<IMPORT SETTING>>>>>>>>>>>>>>
-
-arcpy.env.overwriteOutput= True
-
 
 
 def export_by_filed(layer, field, output_featurecalss, folder):
@@ -65,13 +61,34 @@ def export_by_filed(layer, field, output_featurecalss, folder):
 
 
 
-
-
 if __name__ == '__main__':
-    pass
-    # lyr_path = ur"E:\中江LQDK\成果数据\柏树乡\Export_Output.shp"
-    # in_lyr = arcpy.mapping.Layer(lyr_path)
-    # ouput_path = ur"E:\中江LQDK\成果数据\柏树乡"
-    #
-    #
-    # export_by_filed(in_lyr, "CJQYMC", True, ouput_path)
+    # 一
+    arcpy.env.overwriteOutput = True
+    argv = tuple(arcpy.GetParameterAsText(i)
+                 for i in range(arcpy.GetArgumentCount()))
+    for i in argv:
+        arcpy.AddMessage(i)
+    
+    # export_by_filed(*argv)
+
+
+    # arcpy.env.overwriteOutput = True
+    para1 = arcpy.GetParameterAsText(0)
+    para2 = arcpy.GetParameterAsText(1)
+    para3 = arcpy.GetParameterAsText(2)
+    para4 = arcpy.GetParameterAsText(3)
+    arcpy.AddMessage(">>>")
+    arcpy.AddMessage(para1)
+    arcpy.AddMessage(type(para1))
+    
+    arcpy.AddMessage(">>>")
+    arcpy.AddMessage(para2)
+    arcpy.AddMessage(type(para2))
+    
+    arcpy.AddMessage(">>>")
+    arcpy.AddMessage(para3)
+    arcpy.AddMessage(type(para3))
+    
+    arcpy.AddMessage(">>>")
+    arcpy.AddMessage(para4)
+    arcpy.AddMessage(type(para4))
