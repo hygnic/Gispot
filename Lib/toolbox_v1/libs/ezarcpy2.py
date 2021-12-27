@@ -17,8 +17,9 @@ Python2.7
 	@@add_field: 添加相同类型和长度的多个或者单个字段(如果存在相同名字的字段则不
 								会添加字段)
 	@@setZWMC: 根据LQDK图层中的LQLX字段赋予ZZMC1和ZZMC2
-	@@merger: 一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，
+	@@merger_all: 一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，
 								最后删除该字段)
+	@@merger_all_layers:在merger_all的基础上，先合并所有图层，然后融合所有要素。
 	@@add_shp2mxd: 加载shp文件到mxd
 	@@field_shower:获取图层中某单个字段的所有值(没多大价值，暂时留着)
 	
@@ -32,6 +33,7 @@ Usage:
 from __future__ import absolute_import
 from __future__ import unicode_literals
 import arcpy
+import random
 import os
 # from gpconfig import hyini
 
@@ -186,7 +188,7 @@ def setZWMC(layer, reference_field, target_field1, target_field2):
                     pass
 
 
-def merger_all(layer, outputclass= "in_memory/diss_all"):
+def merger_all(layer, outputclass= "dissolve_all"):
     """
     一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，最后删除
     该字段)
@@ -203,53 +205,38 @@ def merger_all(layer, outputclass= "in_memory/diss_all"):
     # 	print f.name #Todo  neme 和 aliasName 返回的都一样，为什么
     # print f.aliasName
     
-    name = "test1f2lcc"
-    if name not in all_name:
-        arcpy.AddField_management(layer, name, "LONG")
-    cursor = arcpy.da.UpdateCursor(layer, name)
+    field_name = "test1f2lcc"
+    if field_name not in all_name:
+        arcpy.AddField_management(layer, field_name, "LONG")
+    cursor = arcpy.da.UpdateCursor(layer, field_name)
     for row in cursor:
         row[0] = "1"
         cursor.updateRow(row)
     del cursor
-    # new_ly = "newlayer_945"
-    # 使用内存空间
     new_ly = outputclass
-    arcpy.Dissolve_management(layer, new_ly ,name)
-    arcpy.DeleteField_management(new_ly, name)
+    arcpy.Dissolve_management(layer, new_ly ,field_name)
+    arcpy.DeleteField_management(new_ly, field_name)
     return new_ly
 
 
-def merger_all2(layer, outputclass="diss_all"):
+def merger_all_layers(layers, result_lyr):
     """
-    一键快速合并一个图层的所有要素(添加一个字段，全部赋值为1，然后融合，最后删除
-    该字段)
-        <特别注意新合成的图层名称，是否会覆盖>
-    layer(String): shp或者lyr文件地址，或者图层对象
-    return: 合并后的新图层 默认返回图层名字为 newlayer_945
+    将多个图层合并，然后再完全融合，这样可以快速消除重叠
+    :param layers: {Str} 多个要素类组成的地址 ; 分隔
+    :param result_lyr: {Layer} 最后的输出要素类
+    :return:
     """
-    arcpy.env.addOutputsToMap = True
-    arcpy.env.overwriteOutput = True
-    # 判断是否有这个字段
-    all_fields = arcpy.ListFields(layer)
-    all_name = [i.name for i in all_fields]
-    # for f in all_fields:
-    # 	print f.name #Todo  neme 和 aliasName 返回的都一样，为什么
-    # print f.aliasName
-    
-    name = "test1f2lcc"
-    if name not in all_name:
-        arcpy.AddField_management(layer, name, "LONG")
-    cursor = arcpy.da.UpdateCursor(layer, name)
-    for row in cursor:
-        row[0] = "1"
-        cursor.updateRow(row)
-    del cursor
-    # new_ly = "newlayer_945"
-    # 使用内存空间
-    new_ly = outputclass
-    arcpy.Dissolve_management(layer, new_ly, name)
-    arcpy.DeleteField_management(new_ly, name)
-    return new_ly
+    arcpy.env.workspace = arcpy.env.scratchGDB
+    # separate layers each
+    # arcpy.AddMessage(type(layers))
+    # arcpy.AddMessage(layers)
+    layers_list = layers.split(";")
+    mergered_lyr = "mergered_lyr"
+    arcpy.Merge_management(layers_list, mergered_lyr)
+    mergered_dissolved_lyr = result_lyr
+    merger_all(mergered_lyr, mergered_dissolved_lyr)
+    arcpy.Delete_management(mergered_lyr)
+    return mergered_dissolved_lyr
 
 
 def add_shp2mxd(mapdocument, shp_path, df_name=None, fresh=True):
