@@ -32,8 +32,8 @@ def export_by_filed(layer, field, output_featurecalss, folder):
     """
     :param layer: {Strings} 图层对象
     :param field: {Strings} 字段
-    :param folder:{Boolean} 是否给每个导出的shp创建文件夹
     :param output_featurecalss: {Strings} 输出文件夹
+    :param folder:{Boolean} 是否给每个导出的shp创建文件夹
     :return:
     """
     field_values = ezarcpy2.field_value_shower(layer, field)
@@ -47,7 +47,7 @@ def export_by_filed(layer, field, output_featurecalss, folder):
         where_clause =  field + "=" + "'" + value + "'"
         arcpy.SelectLayerByAttribute_management(featurea_lyr, "NEW_SELECTION", where_clause)
         
-        if folder:
+        if folder == "true":
             new_folder = os.path.join(output_featurecalss,value)
             if not os.path.exists(new_folder):
                 os.makedirs(new_folder)
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     for i in argv:
         arcpy.AddMessage(i)
     
-    # export_by_filed(*argv)
+    export_by_filed(*argv)
 
 
     # arcpy.env.overwriteOutput = True
