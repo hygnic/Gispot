@@ -232,20 +232,25 @@ def merger_all_layers(layers, result_lyr):
     # arcpy.AddMessage(type(layers))
     # arcpy.AddMessage(layers)
     layers_list = layers.split(";")
+    # layers_list = layers
     # mergered_lyr = "in_memory/mergered_lyr"
     mergered_lyr = "mergered_lyr"
-    # layers_list = [arcpy.mapping.Layer(xxx) for xxx in layers_list]
-    # for aa_layer in layers_list:
-    #     aa_layer.name = aa_layer.name.strip()
-
-
-    arcpy.AddMessage("oooooooooo")
-    for aa_layer in layers_list:
-        arcpy.AddMessage(aa_layer)
-        arcpy.AddMessage(type(aa_layer))
     
-    arcpy.AddMessage("oooooooooo")
-    return 1
+    # 当图层名称出现空格时，分割后的单个名称如下 “‘NAME '",
+    # 所以需要去除两个单引号
+    layers_list = [xxx.strip("'") if " " in xxx and "'" in xxx else xxx for xxx in layers_list]
+
+    # arcpy.AddMessage("oooooooooo")
+    # for aa_layer in layers_list:
+    #     if " " in aa_layer and "'" in aa_layer:
+    #         aa_layer = aa_layer.strip("'")
+    #         arcpy.AddMessage(aa_layer)
+    # #     arcpy.AddMessage(aa_layer)
+    # #     arcpy.AddMessage(type(aa_layer))
+    # # arcpy.AddMessage(layers_list)
+    # arcpy.AddMessage("oooooooooo")
+    # return 1
+    
     arcpy.Merge_management(layers_list, mergered_lyr)
     mergered_dissolved_lyr = result_lyr
     merger_all(mergered_lyr, mergered_dissolved_lyr)
