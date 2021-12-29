@@ -227,11 +227,25 @@ def merger_all_layers(layers, result_lyr):
     :return:
     """
     arcpy.env.workspace = arcpy.env.scratchGDB
+    arcpy.env.overwriteOutput = True
     # separate layers each
     # arcpy.AddMessage(type(layers))
     # arcpy.AddMessage(layers)
     layers_list = layers.split(";")
+    # mergered_lyr = "in_memory/mergered_lyr"
     mergered_lyr = "mergered_lyr"
+    # layers_list = [arcpy.mapping.Layer(xxx) for xxx in layers_list]
+    # for aa_layer in layers_list:
+    #     aa_layer.name = aa_layer.name.strip()
+
+
+    arcpy.AddMessage("oooooooooo")
+    for aa_layer in layers_list:
+        arcpy.AddMessage(aa_layer)
+        arcpy.AddMessage(type(aa_layer))
+    
+    arcpy.AddMessage("oooooooooo")
+    return 1
     arcpy.Merge_management(layers_list, mergered_lyr)
     mergered_dissolved_lyr = result_lyr
     merger_all(mergered_lyr, mergered_dissolved_lyr)

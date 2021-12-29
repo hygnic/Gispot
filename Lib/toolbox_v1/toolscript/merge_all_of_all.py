@@ -29,5 +29,5 @@ import ezarcpy2
 layers = arcpy.GetParameterAsText(0)
 output = arcpy.GetParameterAsText(1)
 
-
+arcpy.env.overwriteOutput = True
 ezarcpy2.merger_all_layers(layers, output)
