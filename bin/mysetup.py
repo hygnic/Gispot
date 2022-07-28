@@ -56,7 +56,7 @@ info: can't compress when skipping archive
 options = {
     "py2exe":{
         "includes": ["matplotlib","Tkinter", "ttk"],
-        # "includes": ["matplotlib","Tkinter", "ttk", "ttkthemes"],
+        # "includes": ["matplotlib","Tkinter", "ttk", "ttkthemes"], # 如果打包没有添加 ttkthemes 的话，就不进行打包的第二步骤 2second step.bat
         "excludes": ["arcpy"],
         "dll_excludes": ["MSVCP90.dll"],
         # "skip_archive": False,# 跳过压缩的话，不会将大部分的py包放进libray.zip压缩文件（使用ttktheme时请取消注释）
@@ -86,7 +86,7 @@ template = [join(rb_tempalte, _) for _ in listdir(rb_tempalte) if isfile(join(rb
 # windows 独立窗口
 # console 带dos界面
 setup(
-    windows=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
+    console=[{'script':'Gispot.py', 'icon_resources': [(1, u'icon_black.ico')]}],
     options=options,
     name = 'LCC',
     data_files=[('images',images), ("gisdocs",gisdocs),("template",template),
