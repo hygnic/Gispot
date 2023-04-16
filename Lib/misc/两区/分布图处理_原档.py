@@ -262,3 +262,7 @@ arcpy.MultipleRingBuffer_analysis(inFeatures,outFeatureClass,distance,bufferunit
 
 
 # mxd1.save()
+replaceDataSource(workspace_path="C:/test.gdb/Dataset",
+                  workspace_type="FILEGDB_WORKSPACE",
+                  dataset_name="Dataset/DLTB",
+                  validate=True)
